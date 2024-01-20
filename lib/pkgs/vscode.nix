@@ -43,6 +43,11 @@
         };
       };
 
+      doppler = {
+        autocomplete.enable = true;
+        hover.enable = true;
+      };
+
       "isort.args" = ["--profile" "black"];
 
       "[nix]" = {
