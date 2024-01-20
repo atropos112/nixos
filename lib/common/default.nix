@@ -84,7 +84,6 @@ in {
   };
 
   environment.sessionVariables = {
-    "ATRO_NIX_DIR" = "/home/atropos/nixos-config";
     "WLR_NO_HARDWARE_CURSORS" = "1";
     "GOPATH" = "${homeDirectory}/.go";
   };

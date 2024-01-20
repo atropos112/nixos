@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 websites_dir="$HOME/media/websites"
-links_file="$ATRO_NIX_DIR/home/atropos/media/websites.txt"
+links_file="$HOME/nixos/lib/pkgs/zsh/kiwix-links.txt"
 update_interval=1 # Months
 
 function kiwix-download-with-docker {
