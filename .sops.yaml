@@ -1,0 +1,23 @@
+keys:
+  - &admin_atropos age174kjg9ld2nc5tryd6qactvt9sn5gxke5dsjkegeq305lq9z5acjsans0vh
+  - &node_giant age1rmkhd9zsr9grlzgrlm2ff3wl3kr7fs6nx38m4snt9cpnmys8w32qqfnz3y
+  - &node_rzr age1tq8v7hmt8cp0r5kqyjahjz93dhr5wqd78dkjsqfeq65sr78s43zqgcmhpv
+  - &node_smol age1fduwkftwg0e9vzdslt58r0a62nlr0ncz7wvpjx0vy38lrmateshsjthslp
+  - &node_a21 age10v4ljkg3563xn2vw93gjvkmvt5e4l2r60a8v72fc9r2s5e20yf4qffjrx3
+  - &node_opi1 age1xcpx3f3ggtw2ayt00pvf2nyf2x4rmqk8vzzmfnxy6hy4z27tkyyq8l2l0t
+  - &node_opi2 age1aexpww0x800hauh53gyzy955evmnnmphezzh80wmuxzruy6dfugqpmq4hr
+  - &node_opi3 age16ynqhd75q8cvhckqjkk5757r0zcl06cqy2qgs66klgjh503pv5us4aufs8
+  - &node_opi4 age1zpfnev7lwkgd78kmfeufp3yt49eh5jxkwx6xwpkgx4c4h9jgsspshv8u3p
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_atropos
+          - *node_giant
+          - *node_rzr
+          - *node_smol
+          - *node_a21
+          - *node_opi1
+          - *node_opi2
+          - *node_opi3
+          - *node_opi4
