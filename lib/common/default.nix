@@ -21,7 +21,7 @@ in {
   imports = [
     ../pkgs/sopsnix.nix
     inputs.nix-colors.homeManagerModules.default
-    ../pkgs/nixvim.nix
+    ../pkgs/nixvim
     ../pkgs/atuin.nix
     ../pkgs/git.nix
     ../pkgs/zsh
@@ -152,6 +152,9 @@ in {
 
       # Allows fancy terminal directory jumping (with memory of where you have been)
       zoxide
+
+      # json diff
+      python312Packages.jsondiff
     ];
   };
 

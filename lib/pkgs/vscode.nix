@@ -56,6 +56,9 @@
         "editor.formatOnSave" = true;
         "editor.formatOnType" = false;
       };
+      "[dockerfile]" = {
+        "editor.defaultFormatter" = "ms-azuretools.vscode-docker";
+      };
       "alejandra.program" = "alejandra";
       "testing.alwaysRevealTestOnStateChange" = true;
       "window.titleBarStyle" = "custom";

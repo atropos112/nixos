@@ -61,7 +61,6 @@
       ".idea/"
       ".gradle"
       "build/"
-      "repos/"
       "*.class"
       "target"
       "target/"

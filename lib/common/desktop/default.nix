@@ -394,6 +394,7 @@ in {
     colmena
 
     #WIP
+    hadolint
     czkawka
     gum
     ginkgo

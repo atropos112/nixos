@@ -44,6 +44,11 @@
         key = "<Leader>b";
         action = ":DapToggleBreakpoint<CR>";
       }
+      {
+        mode = "n";
+        key = "<Leader>q";
+        action = ":DapTerminate<CR>";
+      }
     ];
 
     colorschemes.onedark.enable = true;
