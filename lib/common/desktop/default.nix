@@ -215,10 +215,14 @@ in {
     pavucontrol
 
     # Python
-    python311Full
+    python311Full.withPackages
+    (with python311Packages; [
+      poetry
+      pip
 
-    # Python package manager (PIP)
-    python311Packages.pip
+      # debuger for python
+      python311Packages.debugpy
+    ])
 
     # Python package manager (Poetry)
     poetry
