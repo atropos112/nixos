@@ -1,0 +1,5 @@
+origin: git@github.com:atropos112/nixos.git
+copyToRepo:
+  - sourcePath: "."
+    destinationRepo: "git@github.com:atropos112/docs"
+    destinationPath: "repos/nixos"
