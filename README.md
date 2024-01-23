@@ -1,5 +1,6 @@
 # Atro NixOS Setup
 
+
 The following are a work in progress:
 - Documentation is lacking in general, it should have way more comments, way more readme's and ideally (time permitting) some guides how it was done
 - Nixvim setup (learining to be a vim man at the same time so this may take a while)
