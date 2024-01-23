@@ -10,16 +10,7 @@ _: {
       exec-once = [
         # Autostart
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-
-        # Priority app not not look weird when it changes wallpaper 5 seconds later..
-        # "wpaperd"
         "swww init"
-
-        # To adjust the bus so that screen sharing work with pipewire
-        "sleep 3 && systemctl restart --user xdg-desktop-portal-hyprland.service pipewire.service wireplumber.service" # hack to make screen sharing work with nvidia
-        "swww img /home/atropos/media/wallpapers/right.jpg  -o DP-4"
-        "swww img /home/atropos/media/wallpapers/middle.jpg  -o DP-5"
-        "swww img /home/atropos/media/wallpapers/left.jpg  -o HDMI-A-5"
 
         # Start services
         "systemctl start --user waybar.service && sleep 2 && systemctl restart --user waybar.service"

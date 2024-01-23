@@ -52,6 +52,8 @@ in {
 
   config = {
     # Duplicating config in both home-manager and nixos programs is not ideal, but it works.
+    # Need to use both because home-manager doesn't let me input portalPackage while
+    # nixos doesn't let me input settings.
 
     programs = {
       # Desktop environment (DE), this is provides the GUI post login.
@@ -67,8 +69,8 @@ in {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       settings = lib.mkMerge [
-        cfg.deviceSpecificSettings
         cfg.baseSettings
+        cfg.deviceSpecificSettings
       ];
     };
   };

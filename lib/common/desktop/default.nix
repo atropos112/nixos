@@ -44,6 +44,9 @@ in {
   };
 
   environment.sessionVariables = {
+    # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
+    # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+
     # hint XDG to use wayland
     XDG_SESSION_TYPE = "wayland";
 
@@ -215,14 +218,9 @@ in {
     pavucontrol
 
     # Python
-    python311Full.withPackages
-    (with python311Packages; [
-      poetry
-      pip
-
-      # debuger for python
-      python311Packages.debugpy
-    ])
+    python311Full
+    #(python311Full.withPackages packages)
+    python312Full
 
     # Python package manager (Poetry)
     poetry

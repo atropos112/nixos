@@ -27,13 +27,8 @@
       ms-python.isort
     ];
     userSettings = {
-      "editor" = {
-        "fontFamily" = "'Comic Code Ligatures', 'Comic Code Ligatures', Comic Code Ligatures";
-        "detectIndentation" = false;
-        "minimap.enabled" = false;
-        "tabSize" = 2;
-        "formatOnSave" = true;
-      };
+      "editor.tabSize" = 2;
+      "editor.minimap.enabled" = false;
 
       "[python]" = {
         "editor.defaultFormatter" = "ms-python.black-formatter";

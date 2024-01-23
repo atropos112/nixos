@@ -21,6 +21,14 @@
   };
 
   atro.hyprland.deviceSpecificSettings = {
+    exec-once = [
+      # To adjust the bus so that screen sharing work with pipewire
+      "sleep 3 && systemctl restart --user xdg-desktop-portal-hyprland.service pipewire.service wireplumber.service" # hack to make screen sharing work with nvidia
+      "swww img /home/atropos/media/wallpapers/right.jpg  -o DP-4"
+      "swww img /home/atropos/media/wallpapers/middle.jpg  -o DP-5"
+      "swww img /home/atropos/media/wallpapers/left.jpg  -o HDMI-A-5"
+    ];
+
     monitor = [
       "HDMI-A-5,1920x1080@75,0x0,1,transform,1,bitdepth,10"
       "DP-5,2560x1440@240,1080x480,1,bitdepth,10"
