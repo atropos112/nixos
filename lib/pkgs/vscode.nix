@@ -38,10 +38,8 @@
         };
       };
 
-      doppler = {
-        autocomplete.enable = true;
-        hover.enable = true;
-      };
+      "doppler.autocomplete.enable" = true;
+      "doppler.hover.enable" = true;
 
       "isort.args" = ["--profile" "black"];
 
@@ -62,15 +60,10 @@
       "window.zoomLevel" = 1;
       "nix.enableLanguageServer" = true;
       "nix.serverPath" = "nil";
-      "python.testing.cwd" = ".tests";
       "vs-kubernetes" = {
         "vs-kubernetes.crd-code-completion" = "enabled";
       };
-      "python.venvPath" = "\$\{workspaceFolder\}/.venv";
       "terminal.integrated.cwd" = "\$\{workspaceFolder\}";
-      "terminal.integrated.env.linux" = {
-        "PYTHONPATH" = "\$\{workspaceFolder\}";
-      };
       "update.mode" = "none";
       "terminal.integrated.sendKeybindingsToShell" = true;
       "terminal.explorerKind" = "external";
@@ -78,7 +71,19 @@
       "gopls" = {
         "ui.semanticTokens" = true;
       };
+
+      # PYTHON
+      "python.testing.cwd" = ".tests";
+      "terminal.integrated.env.linux" = {
+        "PYTHONPATH" = "\$\{workspaceFolder\}";
+      };
+      "python.venvPath" = "\$\{workspaceFolder\}/.venv";
       "python.languageServer" = "Pylance";
+      "python.analysis.inlayHints.functionReturnTypes" = true;
+      "python.analysis.inlayHints.pytestParameters" = true;
+      "python.analysis.inlayHints.variableTypes" = true;
+
+      # COPILOT
       "github.copilot.enable" = {
         "*" = true;
         "plaintext" = false;

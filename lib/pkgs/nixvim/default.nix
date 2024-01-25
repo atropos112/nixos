@@ -22,6 +22,12 @@
       luasnip.enable = true;
       treesitter.enable = true;
 
+      markdown-preview = {
+        enable = true;
+        autoClose = false; # It closes entire browser not just one tab...
+        autoStart = true;
+      };
+
       telescope = {
         enable = true;
         extensions = {

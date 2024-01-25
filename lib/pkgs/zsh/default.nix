@@ -96,7 +96,7 @@ in {
           # if not running interactively do nothing.
           [[ $- != *i* ]] && return
 
-          neofetch
+          fastfetch
 
           set -o vi
           set -o emacs

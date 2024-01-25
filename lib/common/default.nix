@@ -26,7 +26,6 @@ in {
     ../pkgs/git.nix
     ../pkgs/zsh
     ../pkgs/htop.nix
-    ../pkgs/neofetch
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
@@ -155,6 +154,12 @@ in {
 
       # json diff
       python312Packages.jsondiff
+
+      # simple apps to show resources
+      fastfetch
+      onefetch
+      cpufetch
+      ramfetch
     ];
   };
 
