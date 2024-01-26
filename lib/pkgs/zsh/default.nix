@@ -31,6 +31,7 @@ in {
           # which is where the non-oh-my-zsh plugins come in (look at plugins below), less overhead, and less fuss to do them separately.
           plugins = [
             "git"
+            "extract"
             "kubectl"
             "docker-compose"
           ];
