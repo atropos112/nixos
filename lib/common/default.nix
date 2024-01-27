@@ -160,6 +160,9 @@ in {
       onefetch
       cpufetch
       ramfetch
+
+      # zip and unzip
+      unzip
     ];
   };
 
