@@ -1,32 +1,32 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     hyprland.url = "github:hyprwm/Hyprland";
     xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
     nix-colors.url = "github:misterio77/nix-colors";
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
   outputs = {self, ...} @ inputs: let
     mkHost = hostName: system: (
       (_:
-        inputs.nixpkgs.lib.nixosSystem {
+        inputs.nixpkgs-unstable.lib.nixosSystem {
           inherit system;
           specialArgs = {
             inherit inputs self;
             inherit (inputs) nix-colors;
-            pkgs = import inputs.nixpkgs {
+            pkgs = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
             };
@@ -75,7 +75,7 @@
       {
         meta = {
           description = "my personal machines";
-          nixpkgs = import inputs.nixpkgs {system = "x86_64-linux";}; # Gets overriden by the host-specific nixpkgs.
+          nixpkgs = import inputs.nixpkgs-unstable {system = "x86_64-linux";}; # Gets overriden by the host-specific nixpkgs.
           nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
         };
       }

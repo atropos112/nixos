@@ -5,7 +5,7 @@
   config,
   ...
 }: let
-  inherit (inputs) nixpkgs;
+  nixpkgs = inputs.nixpkgs-unstable;
   inherit (config.networking) hostName;
 
   homeUser = "atropos";

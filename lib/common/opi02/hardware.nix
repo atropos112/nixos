@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) nixpkgs;
+  nixpkgs = inputs.nixpkgs-unstable;
   pkgs = nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform;
 
   bootloaderSubpath = "/u-boot-sunxi-with-spl.bin";
