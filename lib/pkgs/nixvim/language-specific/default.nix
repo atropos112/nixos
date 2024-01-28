@@ -1,6 +1,6 @@
 _: {
   imports = [
-    # ./go.nix
+    ./go.nix
     ./python.nix
   ];
 }

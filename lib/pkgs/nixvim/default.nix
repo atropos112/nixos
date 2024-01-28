@@ -21,6 +21,7 @@
       lightline.enable = true;
       luasnip.enable = true;
       treesitter.enable = true;
+      lsp-format.enable = true;
 
       markdown-preview = {
         enable = true;

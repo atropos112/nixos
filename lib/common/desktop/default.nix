@@ -341,7 +341,7 @@ in {
     kiwix-tools
 
     # Golang package
-    go_1_21
+    go_1_22
 
     # Torrent client
     transmission-gtk
