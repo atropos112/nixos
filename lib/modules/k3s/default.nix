@@ -30,7 +30,7 @@ in {
     services.k3s = {
       enable = true;
       inherit (cfg) role serverAddr;
-      configPath = ./config.yaml;
+      configPath = mkIf (cfg.role == "server") ./config.yaml;
       tokenFile = config.sops.secrets."k3s/token".path;
       package = pkgs.k3s_1_28;
       extraFlags = "--node-name=${

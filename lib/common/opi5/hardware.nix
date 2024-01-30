@@ -5,9 +5,10 @@
   pkgs,
   config,
   inputs,
+  lib,
   ...
 }: let
-  inherit (inputs) nixpkgs lib;
+  nixpkgs = inputs.nixpkgs-unstable;
   boardName = "orangepi5";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
 in {

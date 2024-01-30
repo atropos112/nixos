@@ -6,13 +6,13 @@
   ...
 }: let
   nixpkgs = inputs.nixpkgs-unstable;
-  inherit (config.networking) hostName;
 
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
   rootHomeUser = "root";
   rootHomeDirectory = "/root";
 
+  inherit (config.networking) hostName;
   shortHostName =
     if builtins.substring 0 4 hostName == "atro"
     then builtins.substring 4 (builtins.stringLength hostName) hostName
@@ -26,6 +26,7 @@ in {
     ../pkgs/git.nix
     ../pkgs/zsh
     ../pkgs/htop.nix
+    ./multi-device
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
@@ -49,9 +50,12 @@ in {
     enableIPv6 = true;
   };
 
+  sops.secrets."nix/${shortHostName}/privateKey.pem" = {};
+
   # Basic Nix configuration
   nix = {
     settings = {
+      secret-key-files = config.sops.secrets."nix/${shortHostName}/privateKey.pem".path;
       auto-optimise-store = true;
       builders-use-substitutes = true;
       experimental-features = [
