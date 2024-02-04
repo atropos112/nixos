@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
 in {
@@ -45,7 +49,7 @@ in {
 
   environment.sessionVariables = {
     # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
-    # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+    LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
 
     # hint XDG to use wayland
     XDG_SESSION_TYPE = "wayland";
@@ -351,6 +355,9 @@ in {
 
     # Go LSP server
     gopls
+
+    # Rust debbug server
+    vscode-extensions.vadimcn.vscode-lldb.adapter
 
     # Multiplexer for terminal
     tmux

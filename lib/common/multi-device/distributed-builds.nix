@@ -10,18 +10,20 @@
   supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
   mandatoryFeatures = [];
 
-  armSsh = [
-    "ssh-ng://opi1"
-    "ssh-ng://opi2"
-    "ssh-ng://opi3"
-    "ssh-ng://opi4"
-  ];
-  amdSsh = [
-    "ssh-ng://rzr"
-    "ssh-ng://giant"
-    "ssh-ng://smol"
-    "ssh-ng://a21"
-  ];
+  armSsh = [];
+  # [
+  #   "ssh-ng://opi1"
+  #   "ssh-ng://opi2"
+  #   "ssh-ng://opi3"
+  #   "ssh-ng://opi4"
+  # ];
+  amdSsh = [];
+  # [
+  #   "ssh-ng://rzr"
+  #   "ssh-ng://giant"
+  #   "ssh-ng://smol"
+  #   "ssh-ng://a21"
+  # ];
   inherit (config.networking) hostName;
   shortHostName =
     if builtins.substring 0 4 hostName == "atro"
