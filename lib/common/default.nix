@@ -6,6 +6,7 @@
   ...
 }: let
   nixpkgs = inputs.nixpkgs-unstable;
+  attic_pkgs = inputs.attic.packages.${pkgs.system};
 
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
@@ -25,7 +26,8 @@ in {
     ../pkgs/git.nix
     ../pkgs/zsh
     ../pkgs/htop.nix
-    ./multi-device
+    ../pkgs/attic-client.nix
+    ./authorized-keys.nix
     ./devices.nix
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
@@ -50,13 +52,18 @@ in {
     enableIPv6 = true;
   };
 
-  sops.secrets."nix/${shortHostName}/privateKey.pem" = {};
-
   # Basic Nix configuration
   nix = {
     settings = {
-      secret-key-files = config.sops.secrets."nix/${shortHostName}/privateKey.pem".path;
       auto-optimise-store = true;
+      substituters = [
+        "http://rzr:8099/atro"
+      ];
+
+      trusted-public-keys = [
+        "atro:HEm1RhnPVzZI/fxjJaqVZDunIRVYlSrm01NvnQMpwiw="
+      ];
+
       builders-use-substitutes = true;
       experimental-features = [
         "nix-command"
@@ -100,77 +107,79 @@ in {
   environment = {
     etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
     variables.EDITOR = "nvim";
-    systemPackages = with pkgs; [
-      # network bandwith monitoring
-      bandwhich
+    systemPackages = with pkgs;
+      [
+        # network bandwith monitoring
+        bandwhich
 
-      # storage control
-      duf
-      ncdu
+        # storage control
+        duf
+        ncdu
 
-      # nfs utils (mounting etc.)
-      nfs-utils
+        # nfs utils (mounting etc.)
+        nfs-utils
 
-      # "cat" with syntax highlighting and other fancy stuff, slower than cat though
-      bat
+        # "cat" with syntax highlighting and other fancy stuff, slower than cat though
+        bat
 
-      # VPN mesh network
-      tailscale
+        # VPN mesh network
+        tailscale
 
-      # Allows conterinization of applications and whole OS's
-      docker
+        # Allows conterinization of applications and whole OS's
+        docker
 
-      # Allows yaml defined docker container for easier reproducability and editability
-      docker-compose
+        # Allows yaml defined docker container for easier reproducability and editability
+        docker-compose
 
-      # Resilient SSH alternative
-      mosh
+        # Resilient SSH alternative
+        mosh
 
-      # better find
-      fd
+        # better find
+        fd
 
-      # fuzzy finder used by bunch of apps (e.g. telescope in nvim)
-      fzf
+        # fuzzy finder used by bunch of apps (e.g. telescope in nvim)
+        fzf
 
-      # Nice git diff
-      delta
+        # Nice git diff
+        delta
 
-      # grep but faster
-      ripgrep
+        # grep but faster
+        ripgrep
 
-      # Basic CLI downloader
-      wget
+        # Basic CLI downloader
+        wget
 
-      # Useful for CLI based json processing
-      jq
+        # Useful for CLI based json processing
+        jq
 
-      # Setting POSIX commands
-      libcap
+        # Setting POSIX commands
+        libcap
 
-      # Internet interface testing
-      iperf
+        # Internet interface testing
+        iperf
 
-      # bunch of network rules
-      iptables
+        # bunch of network rules
+        iptables
 
-      # controling network interface
-      ethtool
+        # controling network interface
+        ethtool
 
-      # Allows fancy terminal directory jumping (with memory of where you have been)
-      zoxide
+        # Allows fancy terminal directory jumping (with memory of where you have been)
+        zoxide
 
-      # json diff
-      python312Packages.jsondiff
+        # json diff
+        python312Packages.jsondiff
 
-      # simple apps to show resources
-      fastfetch
-      onefetch
-      cpufetch
-      ramfetch
+        # simple apps to show resources
+        fastfetch
+        onefetch
+        cpufetch
+        ramfetch
 
-      # zip and unzip
-      unzip
-    ];
+        # zip and unzip
+        unzip
+      ]
+      ++ [attic_pkgs.attic];
   };
 
   services = {

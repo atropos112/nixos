@@ -9,8 +9,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    attic = {
+      url = "https://flakehub.com/f/zhaofengli/attic/0.1.191.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     sops-nix = {
