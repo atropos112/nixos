@@ -203,6 +203,9 @@ in {
     vivaldi-ffmpeg-codecs
     widevine-cdm
 
+    # Backup solution
+    kopia
+
     # Wallpaper setter
     swww
 

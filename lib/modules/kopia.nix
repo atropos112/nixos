@@ -14,15 +14,15 @@ with lib; let
       then "/root"
       else "/home/" + cfg.runAs;
   };
-  execCmd = "${pkgs.writeShellScript "kopia-backup" ''
-    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/backblaze/keyId".path})
-    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/backblaze/key".path})
+  execCmd = "${pkgs.writeShellScript "kopia-script" ''
+    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/linode/keyId".path})
+    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/linode/key".path})
     KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
     KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
     KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
 
     ${pkgs.coreutils}/bin/echo "Generating config file if it doesn't exist..."
-    ${pkgs.kopia}/bin/kopia --log-level=debug repository connect b2 --bucket=atrokopia --key-id="$KOPIA_KEY_ID" --key="$KOPIA_KEY" --password="$KOPIA_PASSWORD"
+    ${pkgs.kopia}/bin/kopia --log-level=debug repository connect s3 --bucket=kopiabackup --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="eu-central-1.linodeobjects.com"
     ${pkgs.coreutils}/bin/echo "Starting Kopia server..."
     ${pkgs.kopia}/bin/kopia --log-level=debug server start --insecure --address="http://0.0.0.0:51515" --server-username=atropos --server-password="$KOPIA_GUI_PASSWORD" --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
   ''}";
@@ -51,10 +51,10 @@ in {
       "kopia/password" = {
         owner = cfg.runAs;
       };
-      "kopia/backblaze/keyId" = {
+      "kopia/linode/keyId" = {
         owner = cfg.runAs;
       };
-      "kopia/backblaze/key" = {
+      "kopia/linode/key" = {
         owner = cfg.runAs;
       };
       "kopia/gui/password" = {
@@ -62,11 +62,11 @@ in {
       };
     };
 
-    systemd.services.kopia-backup = mkIf (cfg.runAs
+    systemd.services.kopia-svc = mkIf (cfg.runAs
       == "root")
     kopiaService;
 
-    systemd.user.services.kopia-backup = mkIf (cfg.runAs
+    systemd.user.services.kopia-svc = mkIf (cfg.runAs
       != "root")
     kopiaService;
   };

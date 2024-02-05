@@ -26,6 +26,7 @@ in {
     ../pkgs/zsh
     ../pkgs/htop.nix
     ./multi-device
+    ./devices.nix
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
