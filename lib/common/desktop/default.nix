@@ -257,9 +257,6 @@ in {
     dotnet-runtime_7
     dotnet-runtime # this is 6
 
-    # IDE for C#
-    (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
-
     # Get CPU temps etc.
     lm_sensors
 
