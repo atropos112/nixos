@@ -1,16 +1,22 @@
 {
   inputs = {
+    # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+
+    # Hyprland packages
+    # Do not override the nixpkgs input in them as it will be built with different nxipkgs than it was tested with and
+    # it will bust the cache on the hyprland cachix server.
     hyprland.url = "github:hyprwm/Hyprland";
     xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
+
     nix-colors.url = "github:misterio77/nix-colors";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     attic = {
-      url = "https://flakehub.com/f/zhaofengli/attic/0.1.191.tar.gz";
+      url = "github:zhaofengli/attic";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     sops-nix = {
