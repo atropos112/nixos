@@ -25,7 +25,7 @@
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = true;
-    package = lib.mkDefault config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   environment.systemPackages = with pkgs-stable; [
