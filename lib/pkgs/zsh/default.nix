@@ -82,9 +82,10 @@ in {
           # git
           rebasebr = "git checkout $(git_main_branch) && git pull && git switch - && git rebase $(git_main_branch)";
 
-          # ls
-          ll = "ls -l";
-          la = "ls -la";
+          # ls -> eza
+          ls = "eza";
+          ll = "eza -l";
+          la = "eza -la";
 
           # kitty based
           s = "kitten ssh";

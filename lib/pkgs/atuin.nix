@@ -12,7 +12,7 @@
     settings = {
       sync_address = "http://atuin:8888";
       auto_sync = true;
-      sync_frequency = "2m";
+      sync_frequency = "10s";
       search_mode = "fuzzy";
       key_path = config.sops.secrets."atuin/key".path;
     };

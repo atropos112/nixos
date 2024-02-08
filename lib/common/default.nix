@@ -110,6 +110,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # pretty ls
+        eza
+
         # network bandwith monitoring
         bandwhich
 
