@@ -49,7 +49,7 @@ in {
 
   environment.sessionVariables = {
     # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
-    LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+    # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
 
     # hint XDG to use wayland
     XDG_SESSION_TYPE = "wayland";
@@ -192,6 +192,15 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
+    # lua package manager
+    lua54Packages.luarocks
+
+    # csharp lsp
+    csharp-ls
+
+    # graphically supported neovim
+    neovide
+
     # Vivaldi is a web browser
     (vivaldi.override {
       proprietaryCodecs = true;
@@ -209,9 +218,6 @@ in {
     # Wallpaper setter
     swww
 
-    # Terminal
-    # kitty
-
     # Interacts with the service to provide power usage information, e.g. how much battery is left.
     upower
 
@@ -226,8 +232,8 @@ in {
 
     # Python
     python311Full
-    #(python311Full.withPackages packages)
     python312Full
+    python311Packages.python-lsp-server
 
     # Python package manager (Poetry)
     poetry

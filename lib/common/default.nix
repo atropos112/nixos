@@ -27,6 +27,7 @@ in {
     ../pkgs/zsh
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
+    ../pkgs/nvim.nix
     ./authorized-keys.nix
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
@@ -208,13 +209,6 @@ in {
   };
 
   programs = {
-    # Modern VIM
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-    };
-
     # Version control application.
     git.enable = true;
   };

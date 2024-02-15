@@ -20,6 +20,12 @@
     };
   };
 
+  # Cuda support
+  environment.systemPackages = with pkgs.cudaPackages; [
+    cudatoolkit
+    cudnn
+  ];
+
   atro.hyprland.deviceSpecificSettings = {
     exec-once = [
       # To adjust the bus so that screen sharing work with pipewire
