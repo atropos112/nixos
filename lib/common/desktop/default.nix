@@ -192,12 +192,6 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    # lua package manager
-    lua54Packages.luarocks
-
-    # csharp lsp
-    csharp-ls
-
     # graphically supported neovim
     neovide
 
@@ -233,7 +227,6 @@ in {
     # Python
     python311Full
     python312Full
-    python311Packages.python-lsp-server
 
     # Python package manager (Poetry)
     poetry

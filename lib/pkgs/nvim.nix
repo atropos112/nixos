@@ -1,6 +1,5 @@
-_: {
+{pkgs, ...}: {
   programs = {
-    # Modern VIM
     neovim = {
       enable = true;
       viAlias = true;
@@ -16,9 +15,18 @@ _: {
     csharp-ls
 
     # python lsp
-    python311Packages.python-lsp-server
+    pylint
+
+    # markdown preview needs it
+    yarn
 
     # lua lang server
     lua-language-server
+
+    # yaml lang server
+    yaml-language-server
+
+    # go implem
+    impl
   ];
 }

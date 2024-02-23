@@ -31,8 +31,20 @@ in {
       device = "/dev/disk/by-uuid/D200-23B4";
       fsType = "vfat";
     };
-    "/mnt" = {
-      device = "hdd-pool";
+    "/mnt/media" = {
+      device = "hdd-pool/media";
+      fsType = "zfs";
+      options = ["X-mount.mkdir" "noatime"];
+      neededForBoot = true;
+    };
+    "/mnt/media-yi" = {
+      device = "hdd-pool/media-yi";
+      fsType = "zfs";
+      options = ["X-mount.mkdir" "noatime"];
+      neededForBoot = true;
+    };
+    "/mnt/other" = {
+      device = "hdd-pool/other";
       fsType = "zfs";
       options = ["X-mount.mkdir" "noatime"];
       neededForBoot = true;
