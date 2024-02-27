@@ -28,7 +28,7 @@ in {
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
     ../pkgs/nvim.nix
-    ./authorized-keys.nix
+    ./users.nix
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
@@ -39,6 +39,25 @@ in {
       if (self ? rev)
       then self.rev
       else null; #throw "refuse to build: git tree is dirty";
+
+    # Provides diff to current system and what it was upgraded to.
+    activationScripts.diff = {
+      supportsDryActivation = true;
+      text = ''
+        if [[ -e /run/current-system ]]; then
+          echo "--- diff to current-system"
+          ${pkgs.nvd}/bin/nvd --nix-bin-dir=${config.nix.package}/bin diff /run/current-system "$systemConfig"
+          echo "---"
+        fi
+      '';
+    };
+  };
+
+  # The notion of "online" is a broken concept
+  # https://github.com/systemd/systemd/blob/e1b45a756f71deac8c1aa9a008bd0dab47f64777/NEWS#L13
+  systemd = {
+    services.NetworkManager-wait-online.enable = false;
+    network.wait-online.enable = false;
   };
 
   time.timeZone = "Europe/London";
@@ -237,37 +256,6 @@ in {
           groups = ["wheel"];
         }
       ];
-    };
-  };
-
-  users = {
-    groups = {
-      plugdev = {};
-    };
-
-    groups.atropos = {};
-
-    users = {
-      root = {
-        initialHashedPassword = "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILgtcKNMhw2C8xpbIVaOPfLBr9f93JXxLgp2LVr7CPlJ root@giant"
-        ];
-      };
-      atropos = {
-        isNormalUser = true;
-        useDefaultShell = true;
-        home = "/home/atropos";
-        group = "atropos";
-        createHome = true;
-        extraGroups = ["wheel" "audio" "networkmanager" "docker" "input" "plugdev"];
-        initialHashedPassword = "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGqRdI3cwDuF/x1Hdr2AGmnNjTiU7hfXePqzlEMVn7F AtroGiant"
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFXzyzsV64asxyikHArB1HNNMg2R9YGoepmpBnGzZjkE atropos@AtroSurface"
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKLyjGaUMq7SWWUXdew/+E213/KCUDB1D59iEOhE6gyB atropos@giant"
-        ];
-      };
     };
   };
 
