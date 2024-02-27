@@ -22,4 +22,18 @@
   sops.secrets."atuin/key" = {
     owner = config.users.users.atropos.name;
   };
+
+  # In preparation when atuin has a daemon mode
+  # systemd.user.services.atuind = {
+  #   description = "Atuin Daemon";
+  #   after = ["network.target"];
+  #   wantedBy = ["default.target"];
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.writeShellScript "atuind" ''
+  #       ${pkgs.atuin}/bin/atuin daemon
+  #     ''}";
+  #     Restart = "on-failure";
+  #     RestartSec = "5s";
+  #   };
+  # };
 }

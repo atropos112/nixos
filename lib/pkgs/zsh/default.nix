@@ -18,7 +18,7 @@ in {
   home-manager.users.atropos = {
     programs = {
       direnv.enableZshIntegration = true;
-      atuin.enableZshIntegration = true;
+      # atuin.enableZshIntegration = true; # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
       kitty.shellIntegration.enableZshIntegration = true;
 
       zsh = {
@@ -32,6 +32,7 @@ in {
           plugins = [
             "git"
             "extract"
+            "fzf" # WARN: This is temporary solution until atuin works again.
             "kubectl"
             "docker-compose"
           ];

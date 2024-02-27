@@ -22,7 +22,7 @@ in {
   imports = [
     ../pkgs/sopsnix.nix
     inputs.nix-colors.homeManagerModules.default
-    ../pkgs/atuin.nix
+    # ../pkgs/atuin.nix # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
     ../pkgs/git.nix
     ../pkgs/zsh
     ../pkgs/htop.nix
