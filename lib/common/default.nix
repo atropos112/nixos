@@ -28,7 +28,7 @@ in {
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
     ../pkgs/nvim.nix
-    ./users.nix
+    ./identities/users.nix
   ];
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
