@@ -14,6 +14,9 @@
 
     # ArgoCD
     argocd
+
+    # Fission (FaaS)
+    fission
   ];
 
   home-manager.users.atropos = {
