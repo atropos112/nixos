@@ -36,9 +36,9 @@
     ];
 
     monitor = [
-      "HDMI-A-5,1920x1080@75,0x0,1,transform,1,bitdepth,10"
-      "DP-5,2560x1440@240,1080x480,1,bitdepth,10"
-      "DP-4,2560x1440@144,3640x0,1,transform,3,bitdepth,10"
+      "HDMI-A-5,1920x1080@75,0x0,1,transform,1"
+      "DP-5,2560x1440@240,1080x480,1"
+      "DP-4,2560x1440@144,3640x0,1,transform,3"
     ];
 
     workspace = [
