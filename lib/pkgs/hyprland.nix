@@ -28,7 +28,7 @@ _: {
         "$mainMod, o, togglefloating"
         "$mainMod, j, fullscreen"
         "$mainMod, b, exec, systemctl --user is-active waybar.service &> /dev/null && systemctl --user stop waybar.service || systemctl --user start waybar.service"
-        "$mainMod, RETURN, exec, foot "
+        "$mainMod, RETURN, exec, kitty"
         "$mainMod, Y, exec, element-desktop --disable-gpu"
         "$mainMod, Q, killactive,"
         "$mainMod, M, exit,"
@@ -39,7 +39,7 @@ _: {
         "$mainMod, C, exec, blueman-manager"
         "$mainMod, P, exec, grimshot --notify --cursor copy area"
         "$mainMod, W, exec, vivaldi  --force-dark-mode --enable-features=WebUIDarkMode --use-gl=egl"
-        "$mainMod, T, exec, neovide"
+        "$mainMod, T, exec, kitty nvim"
         "$mainMod, L, exec, systemctl suspend"
         "$mainMod, F, exec, thunar"
         "$mainMod, R, exec, tofi-drun --drun-launch=true --font=/home/atropos/media/fonts/ComicCodeLigatures-Regular.ttf --late-keyboard-init=true --ascii-input=true"
@@ -128,10 +128,6 @@ _: {
         shadow_render_power = 3;
         "col.shadow" = "rgba(1a1a1aee)";
       };
-
-      windowrule = [
-        "fullscreen,^(neovide)$"
-      ];
 
       animations = {
         enabled = true;

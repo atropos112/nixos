@@ -32,7 +32,7 @@
 
       ### Theme settings (using NixColors)
       # General
-      background_opacity = "0.8";
+      background_opacity = "0.95";
       window_padding_width = 0;
 
       # General colours

@@ -9,7 +9,7 @@ in {
   imports = [
     ../default.nix
     ../kubernetes/user.nix
-    ../../pkgs/foot.nix
+    ../../pkgs/kitty.nix
     ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix
@@ -192,9 +192,6 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    # graphically supported neovim
-    neovide
-
     # Vivaldi is a web browser
     (vivaldi.override {
       proprietaryCodecs = true;
@@ -230,6 +227,9 @@ in {
 
     # Python package manager (Poetry)
     poetry
+
+    # Zig
+    zig
 
     # Polkit authentication for KDE based apps.
     # Authentication agents are the things that pop up a window asking you for a
@@ -351,9 +351,6 @@ in {
 
     # Font viewer (have to open twice for some reason)
     gnome.gnome-font-viewer
-
-    # Go LSP server
-    gopls
 
     # Rust debbug server
     vscode-extensions.vadimcn.vscode-lldb.adapter

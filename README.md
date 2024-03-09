@@ -26,7 +26,7 @@ My home infrastructure is composed of two types of devices, ones which are part 
 >
 > - **Window Manager:** Hyprland
 > - **Shell:** ZSH
-> - **Terminal:** Foot
+> - **Terminal:** Kitty
 > - **Editor:** Neovim (external for now)
 
 Kubernetes nodes are a cut down version that do not come with a WM of any kind. I do however have a pikvm with ezCoo 4x1 HDMI switch that allows me to access the 3 master nodes in case something was to go wrong with them, look for details [here](https://docs.pikvm.org/multiport/), this is in case I can't connect to the machines via SSH directly.
