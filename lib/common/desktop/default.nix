@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   inputs,
   ...
 }: let
@@ -195,18 +196,6 @@ in {
 
   environment.systemPackages = with pkgs;
     [
-      # Vivaldi is a web browser
-      (vivaldi.override {
-        proprietaryCodecs = true;
-        enableWidevine = false;
-        inherit vivaldi-ffmpeg-codecs;
-        commandLineArgs = [
-          "--ozone-platform-hint=auto" # autodetect wayland or x11
-        ];
-      })
-      vivaldi-ffmpeg-codecs
-      widevine-cdm
-
       # Backup solution
       kopia
 
@@ -419,6 +408,19 @@ in {
       nvd # diff for nixos deploys
       iamb # terminal client for matix
     ]
+    ++ (with pkgs-stable; [
+      # Vivaldi is a web browser
+      (vivaldi.override {
+        proprietaryCodecs = true;
+        enableWidevine = false;
+        inherit vivaldi-ffmpeg-codecs;
+        commandLineArgs = [
+          "--ozone-platform-hint=auto" # autodetect wayland or x11
+        ];
+      })
+      vivaldi-ffmpeg-codecs
+      widevine-cdm
+    ])
     ++ [inputs.devenv.packages.${pkgs.system}.default];
 
   systemd = {
