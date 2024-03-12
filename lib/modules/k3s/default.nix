@@ -58,7 +58,7 @@ in {
           local dest="$2"
           [[ -e "$src" ]] && {
               [[ -e $dest ]] && {
-                  echo "****** OK: $dest exists"
+                  rm -f "$dest"
               } || {
                   ln -s "$src" "$dest" || {
                       echo "****** ERROR: could not symlink $src to $dest"
