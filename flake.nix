@@ -23,6 +23,9 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    devenv = {
+      url = "github:cachix/devenv";
+    };
   };
   outputs = {self, ...} @ inputs: let
     mkHost = hostName: system: (

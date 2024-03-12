@@ -15,8 +15,11 @@
     # ArgoCD
     argocd
 
-    # Fission (FaaS)
-    fission
+    # knative
+    kn
+
+    # local cluster testing
+    kind
   ];
 
   home-manager.users.atropos = {
