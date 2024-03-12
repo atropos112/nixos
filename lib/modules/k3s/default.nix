@@ -7,7 +7,6 @@
 with lib; let
   cfg = config.atro.k3s;
   inherit (config.networking) hostName;
-  isNvidiaEnabled = config.virtualisation.docker.enableNvidia;
 in {
   options.atro.k3s = {
     enable = mkEnableOption "boot basics";
@@ -17,11 +16,15 @@ in {
     serverAddr = mkOption {
       type = types.str;
     };
+    isNvidiaEnabled = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages =
-      if isNvidiaEnabled
+      if cfg.isNvidiaEnabled
       then [pkgs.k3s_1_28 pkgs.runc]
       else [pkgs.k3s_1_28];
 
@@ -42,7 +45,7 @@ in {
 
     # NVIDIA SUPPORT BELOW
     # A hack...
-    system.activationScripts.symlinks = mkIf isNvidiaEnabled {
+    system.activationScripts.symlinks = mkIf cfg.isNvidiaEnabled {
       text = ''
         echo "-------------------------------------------------------------"
         echo "--------------- START MANUAL SECTION ------------------------"

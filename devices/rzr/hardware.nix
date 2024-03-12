@@ -12,6 +12,8 @@ in {
     ../../lib/pkgs/zfs.nix
   ];
 
+  atro.k3s.isNvidiaEnabled = true;
+
   hardware.nvidia.powerManagement.enable = false;
 
   networking.hostId = "8f3bb97f";
