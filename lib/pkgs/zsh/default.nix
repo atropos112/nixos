@@ -70,6 +70,7 @@ in {
           getip = "curl -s 'https://api.ipify.org'";
           cdi = "zi";
           rscp = "rsync --ignore-existing -raz --progress ";
+          rssh = "/run/current-system/sw/bin/ssh";
 
           # cat
           cat = "bat --paging never --theme DarkNeon";
@@ -120,6 +121,15 @@ in {
 
           function cd () {
               __zoxide_z "$@"
+          }
+
+          function ssh () {
+            # check if $TERM = "xterm-kitty"
+            if [ "$TERM" = "xterm-kitty" ]; then
+              kitty +kitten ssh $@
+            else
+              /run/current-system/sw/bin/mosh $@
+            fi
           }
 
           function grih {

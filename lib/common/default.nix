@@ -176,6 +176,9 @@ in {
         # Useful for CLI based json processing
         jq
 
+        # checking temps and basics
+        lm_sensors
+
         # Setting POSIX commands
         libcap
 
