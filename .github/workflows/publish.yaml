@@ -25,20 +25,20 @@ jobs:
           /usr/bin/qemu-aarch64-static --version
       - name: Build and Publish SD Image for opi1
         run: |
-          nix build .#sdImage-opi1 --verbose --option sandbox false --argstr system aarch64-linux
+          nix build .#sdImage-opi1 --verbose --option sandbox false
           mkdir -p ./published-images
           mv ./result/sd-image/*.img.zst ./published-images/opi1.img.zst
       - name: Build and Publish SD Image for opi2
         run: |
-          nix build .#sdImage-opi2 --verbose --option sandbox false --argstr system aarch64-linux
+          nix build .#sdImage-opi2 --verbose --option sandbox false
           mv ./result/sd-image/*.img.zst ./published-images/opi2.img.zst
       - name: Build and Publish SD Image for opi3
         run: |
-          nix build .#sdImage-opi3 --verbose --option sandbox false --argstr system aarch64-linux
+          nix build .#sdImage-opi3 --verbose --option sandbox false
           mv ./result/sd-image/*.img.zst ./published-images/opi3.img.zst
       - name: Build and Publish SD Image for opi4
         run: |
-          nix build .#sdImage-opi4 --verbose --option sandbox false --argstr system aarch64-linux
+          nix build .#sdImage-opi4 --verbose --option sandbox false
           mv ./result/sd-image/*.img.zst ./published-images/opi4.img.zst
       - name: Create release
         env:
