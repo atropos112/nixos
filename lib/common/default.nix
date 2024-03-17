@@ -205,6 +205,7 @@ in {
 
         # zip and unzip
         unzip
+        p7zip
       ]
       ++ [attic_pkgs.attic];
   };
