@@ -14,22 +14,31 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           enable_kvm: true
+          extra_nix_config: |
+            extra-platforms = aarch64-linux
+      - name: Check nix.conf
+        run: cat /etc/nix/nix.conf
+      - run: sudo apt -y install qemu-user-static
+      - name: Test binfmt availability
+        run: |
+          cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+          /usr/bin/qemu-aarch64-static --version
       - name: Build and Publish SD Image for opi1
         run: |
-          nix build .#sdImage-opi1 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi1 --verbose --option sandbox false --argstr system aarch64-linux
           mkdir -p ./published-images
           mv ./result/sd-image/*.img.zst ./published-images/opi1.img.zst
       - name: Build and Publish SD Image for opi2
         run: |
-          nix build .#sdImage-opi2 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi2 --verbose --option sandbox false --argstr system aarch64-linux
           mv ./result/sd-image/*.img.zst ./published-images/opi2.img.zst
       - name: Build and Publish SD Image for opi3
         run: |
-          nix build .#sdImage-opi3 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi3 --verbose --option sandbox false --argstr system aarch64-linux
           mv ./result/sd-image/*.img.zst ./published-images/opi3.img.zst
       - name: Build and Publish SD Image for opi4
         run: |
-          nix build .#sdImage-opi4 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi4 --verbose --option sandbox false --argstr system aarch64-linux
           mv ./result/sd-image/*.img.zst ./published-images/opi4.img.zst
       - name: Create release
         env:
