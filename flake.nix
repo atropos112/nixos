@@ -72,7 +72,7 @@
       opi2 = mkHost "opi2" "aarch64-linux";
       opi3 = mkHost "opi3" "aarch64-linux";
       opi4 = mkHost "opi4" "aarch64-linux";
-      # opi021 = mkHost "opi021" "aarch64-linux"; # BROKEN at the moment, memory issues
+      opi021 = mkHost "opi021" "aarch64-linux"; # BROKEN at the moment, memory issues
     };
 
     packages.x86_64-linux = {
@@ -91,12 +91,12 @@
           nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
         };
       }
-      // builtins.mapAttrs (_name: value: {
+      // builtins.mapAttrs (name: value: {
         deployment = {
           allowLocalDeployment = true;
           targetUser = "root";
           buildOnTarget = true;
-          targetHost = "9.0.0.8"; # name;
+          targetHost = name;
         };
         # Change arch to aarch64 if the system is aarch64-linux
         nixpkgs.system =
