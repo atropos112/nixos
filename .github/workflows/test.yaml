@@ -1,0 +1,52 @@
+name: Test
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches:
+      - "main"
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - run: nix-env -i statix -f '<nixpkgs>'
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --all-files
+  # test:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       python-version: ["3.11", "3.12"]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Set up Python ${{ matrix.python-version }}
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #     - name: Install poetry
+  #       uses: abatilo/actions-poetry@v3
+  #     - name: Setup a local virtual environment (if no poetry.toml file)
+  #       run: |
+  #         poetry config virtualenvs.create true --local
+  #         poetry config virtualenvs.in-project true --local
+  #     - uses: actions/cache@v4
+  #       name: Define a cache for the virtual environment based on the dependencies lock file
+  #       with:
+  #         path: ./.venv
+  #         key: venv-${{ hashFiles('poetry.lock') }}
+  #     - name: Install Just
+  #       uses: extractions/setup-just@v2
+  #     - name: Run tests
+  #       run: just test
+  #     - name: Upload coverage reports to Codecov
+  #       uses: codecov/codecov-action@v4.1.0
+  #       with:
+  #         token: ${{ secrets.CODECOV_TOKEN }}
+  #         slug: atropos112/atro-args
