@@ -27,6 +27,7 @@ in {
     # Some filesystems (e.g. zfs) have some trouble with cross (or with BSP kernels?) here.
     supportedFilesystems = lib.mkForce [
       "vfat"
+      "nfs"
       "fat32"
       "exfat"
       "ext4"
@@ -38,8 +39,10 @@ in {
       generic-extlinux-compatible.enable = true;
     };
 
-    initrd.includeDefaultModules = false;
-    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys"];
+    initrd = {
+      includeDefaultModules = false;
+      availableKernelModules = lib.mkForce [];
+    };
 
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/legacy.nix {});
 
