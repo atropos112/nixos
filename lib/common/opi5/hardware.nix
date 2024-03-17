@@ -16,12 +16,35 @@ in {
     "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
 
+  # NVME SECTION START
+  # You will likely have to comment out this section if your nvme is not prepared so you can boot and preapre it.
+  # Read the README.md for more information.
+  fileSystems."/var/lib" = {
+    device = "/dev/nvme0n1p1";
+    fsType = "ext4";
+    depends = [
+      "/"
+    ];
+    # Without "nofail" it will not boot.
+    options = [
+      "nofail" # Do not fail to boot if this filesystem is not present
+      "users" # Allow any user to mount
+    ];
+  };
+  home-manager.users.root = {
+    home = {
+      sessionPath = [
+        "/var/lib/rancher/k3s/data/current/bin"
+      ];
+    };
+  };
+
   swapDevices = [
     {
-      device = "/var/lib/swapfile";
-      size = 16 * 1024;
+      device = "/dev/nvme0n1p2";
     }
   ];
+  # NVME SECTION END
 
   boot = {
     # Some filesystems (e.g. zfs) have some trouble with cross (or with BSP kernels?) here.
@@ -40,91 +63,13 @@ in {
 
     initrd.includeDefaultModules = false;
     initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys"];
+    kernelPackages = pkgs.linuxPackages_latest;
 
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/legacy.nix {});
-
-    # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
-      "root=UUID=${rootPartitionUUID}"
-      "rootwait"
-      "rootfstype=ext4"
-
-      "earlycon" # enable early console, so we can see the boot messages via serial port / HDMI
-      "consoleblank=0" # disable console blanking(screen saver)
-      "console=ttyS2,1500000" # serial port
-      "console=tty1" # HDMI
-
-      # docker optimizations
       "cgroup_enable=cpuset"
       "cgroup_memory=1"
       "cgroup_enable=memory"
       "swapaccount=1"
-    ];
-  };
-
-  # add some missing deviceTree in armbian/linux-rockchip:
-  # orange pi 5's deviceTree in armbian/linux-rockchip:
-  #    https://github.com/armbian/linux-rockchip/blob/rk-5.10-rkr4/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dts
-  hardware = {
-    deviceTree = {
-      name = "rockchip/rk3588s-orangepi-5.dtb";
-      overlays = [
-        {
-          # enable pcie2x1l2 (NVMe), disable sata0
-          name = "orangepi5-sata-overlay";
-          dtsText = ''
-            // Orange Pi 5 Pcie M.2 to sata
-            /dts-v1/;
-            /plugin/;
-
-            / {
-              compatible = "rockchip,rk3588s-orangepi-5";
-
-              fragment@0 {
-                target = <&sata0>;
-
-                __overlay__ {
-                  status = "disabled";
-                };
-              };
-
-              fragment@1 {
-                target = <&pcie2x1l2>;
-
-                __overlay__ {
-                  status = "okay";
-                };
-              };
-            };
-          '';
-        }
-
-        # enable i2c1
-        {
-          name = "orangepi5-i2c-overlay";
-          dtsText = ''
-            /dts-v1/;
-            /plugin/;
-
-            / {
-              compatible = "rockchip,rk3588s-orangepi-5";
-
-              fragment@0 {
-                target = <&i2c1>;
-
-                __overlay__ {
-                  status = "okay";
-                  pinctrl-names = "default";
-                  pinctrl-0 = <&i2c1m2_xfer>;
-                };
-              };
-            };
-          '';
-        }
-      ];
-    };
-
-    firmware = [
     ];
   };
 
@@ -140,7 +85,7 @@ in {
     '';
     firmwarePartitionOffset = 32;
     firmwarePartitionName = "BOOT";
-    firmwareSize = 200; # MiB
+    firmwareSize = 1000; # MiB
 
     populateRootCommands = ''
       mkdir -p ./files/boot

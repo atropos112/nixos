@@ -37,6 +37,28 @@ I am able to deploy from both giant and surface machines to all machines, I do t
 sudo colmena apply --on "opi-*"
 ```
 
+# Building image for Orange Pi 5
+
+There are very small differences between my Orange Pi 5's, I have 4 of them and other than hostnames the setups are effectively the same. To build an image, head to root directory of this repo and run
+
+```bash
+nix build .#sdImage-opi4
+```
+
+to build image for opi4 (Orange Pi 5 number 4), analogous commands to build for opi1, opi2 and opi3. This will take couple minutes and eventually produce a file in `result/sd-image` that ends with `.img.zst`.
+
+At this point plug in the SD card, check `lsblk` to see where it is. Suppose its at `/dev/sda` then to flash you will have to run
+
+```bash
+zstdcat orangepi5-sd-image-24.05.20240314.d691274-aarch64-linux.img.zst | sudo dd status=progress bs=8M of=/dev/sda
+```
+
+where `orangepi5-sd-image-24.05.20240314.d691274-aarch64-linux.img.zst` is the name of the file that was generated with `nix build` command.
+
+To flash onto nvme, yyou must first flash your SPI flash, to do this install official Orange Pi 5 os first and run `orangepi-config` and flash SPI there.
+
+To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, copy over (using scp/rsync) the `.img.zst` file over SSH to the running Orange Pi 5 and then run the same command as above but instead of `/dev/sda` target the nvme drive. If you have flashed your SPI flash correctly, turning off Orange Pi and removing SD card should be all you need to do after that to force it to boot off nvme.
+
 # Work to be done
 
 - Orange Pi Zero 2W setup is not working it needs fixing.
