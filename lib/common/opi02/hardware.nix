@@ -1,7 +1,10 @@
-{inputs, ...}: let
+{
+  inputs,
+  pkgs,
+  ...
+}: let
   nixpkgs = inputs.nixpkgs-unstable;
-  pkgs = nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform;
-
+  #pkgs = nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform;
   bootloaderSubpath = "/u-boot-sunxi-with-spl.bin";
   filesystems = pkgs.lib.mkForce [
     "btrfs"
@@ -19,27 +22,28 @@
   ];
   bootloaderPackage = pkgs.ubootOrangePiZero2;
   # Build unstable kernel
-  kernel = with pkgs;
-  with lib;
-    buildLinux rec {
-      kernelPatches = [
-        linuxKernel.kernelPatches.bridge_stp_helper
-        linuxKernel.kernelPatches.request_key_helper
-      ];
-      src = fetchGit {
-        url = "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git";
-        rev = "33cc938e65a98f1d29d0a18403dbbee050dcad9a";
-      };
-      version = "6.7.0-rc4";
-      modDirVersion = version;
-      extraMeta.branch = versions.majorMinor version;
-    };
+  # kernel = with pkgs;
+  # with lib;
+  #   buildLinux rec {
+  #     kernelPatches = [
+  #       linuxKernel.kernelPatches.bridge_stp_helper
+  #       linuxKernel.kernelPatches.request_key_helper
+  #     ];
+  #     src = fetchGit {
+  #       url = "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git";
+  #       rev = "33cc938e65a98f1d29d0a18403dbbee050dcad9a";
+  #     };
+  #     version = "6.7.0-rc4";
+  #     modDirVersion = version;
+  #     extraMeta.branch = versions.majorMinor version;
+  #   };
 in {
   imports = [
     "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor kernel;
+    kernelPackages = pkgs.linuxPackages_latest;
+    # pkgs.linuxPackagesFor kernel;
     supportedFilesystems = filesystems;
     initrd.supportedFilesystems = filesystems;
     kernelParams = [
