@@ -16,20 +16,20 @@ jobs:
           enable_kvm: true
       - name: Build and Publish SD Image for opi1
         run: |
-          nix build .#sdImage-opi1 --verbose -j4 --option system aarch64-linux --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi1 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
           mkdir -p ./published-images
           mv ./result/sd-image/*.img.zst ./published-images/opi1.img.zst
       - name: Build and Publish SD Image for opi2
         run: |
-          nix build .#sdImage-opi2 --verbose -j4 --option system aarch64-linux --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi2 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
           mv ./result/sd-image/*.img.zst ./published-images/opi2.img.zst
       - name: Build and Publish SD Image for opi3
         run: |
-          nix build .#sdImage-opi3 --verbose -j4 --option system aarch64-linux --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi3 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
           mv ./result/sd-image/*.img.zst ./published-images/opi3.img.zst
       - name: Build and Publish SD Image for opi4
         run: |
-          nix build .#sdImage-opi4 --verbose -j4 --option system aarch64-linux --option sandbox false --extra-platforms aarch64-linux
+          nix build .#sdImage-opi4 --verbose -j4 --option sandbox false --extra-platforms aarch64-linux
           mv ./result/sd-image/*.img.zst ./published-images/opi4.img.zst
       - name: Create release
         env:
