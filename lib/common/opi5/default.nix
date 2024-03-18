@@ -12,5 +12,9 @@
 
   boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/socle.nix {}));
 
+  environment.systemPackages = with pkgs; [
+    cilium-cli
+  ];
+
   # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 }
