@@ -10,6 +10,11 @@
     hyprland.url = "github:hyprwm/Hyprland";
     xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
+    socle = {
+      url = "github:dvdjv/socle";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nix-colors.url = "github:misterio77/nix-colors";
     home-manager = {
       url = "github:nix-community/home-manager";

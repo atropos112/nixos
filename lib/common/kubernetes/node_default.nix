@@ -23,7 +23,7 @@ _: {
 
   boot = {
     kernel.sysctl = {
-      "vm.swappiness" = 15;
+      "vm.swappiness" = 10;
     };
   };
 }

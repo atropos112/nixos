@@ -614,8 +614,29 @@
         "nix-colors": "nix-colors",
         "nixpkgs-stable": "nixpkgs-stable_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "socle": "socle",
         "sops-nix": "sops-nix",
         "xdg-desktop-portal-hyprland": "xdg-desktop-portal-hyprland"
+      }
+    },
+    "socle": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1710631737,
+        "narHash": "sha256-h1E3Srd8+itPX0Lw37jCappp0ZhiiRRbno7HY3vS5jc=",
+        "owner": "dvdjv",
+        "repo": "socle",
+        "rev": "642c05287bfa0a336160f59487140f7312405b9a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dvdjv",
+        "repo": "socle",
+        "type": "github"
       }
     },
     "sops-nix": {
