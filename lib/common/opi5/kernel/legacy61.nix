@@ -14,8 +14,7 @@
   version = "6.1.43-xunlong-rk35xx";
   modDirVersion = "6.1.43";
   extraMeta.branch = "6.1";
-  configfile = ./rk35xx_legacy_config;
-  # configfile = ./linux-6.1.43-xunlong-rk35xx.config;
+  configfile = ./linux-6.1.43-xunlong-rk35xx.config;
   allowImportFromDerivation = true;
 })
 .overrideAttrs (old: {
