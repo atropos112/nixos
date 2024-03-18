@@ -158,6 +158,9 @@ in {
         # Resilient SSH alternative
         mosh
 
+        # speed testing
+        speedtest-cli
+
         # better find
         fd
 

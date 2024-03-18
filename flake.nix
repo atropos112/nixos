@@ -91,12 +91,12 @@
           nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
         };
       }
-      // builtins.mapAttrs (name: value: {
+      // builtins.mapAttrs (_name: value: {
         deployment = {
           allowLocalDeployment = true;
           targetUser = "root";
           buildOnTarget = true;
-          targetHost = name;
+          targetHost = "9.0.0.8"; #name;
         };
         # Change arch to aarch64 if the system is aarch64-linux
         nixpkgs.system =
