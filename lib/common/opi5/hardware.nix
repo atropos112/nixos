@@ -44,7 +44,7 @@ in {
       availableKernelModules = lib.mkForce [];
     };
 
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/mainline.nix {});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/legacy61.nix {});
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
