@@ -16,18 +16,10 @@ in {
     serverAddr = mkOption {
       type = types.str;
     };
-    isNvidiaEnabled = mkOption {
-      type = types.bool;
-      default = false;
-    };
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages =
-      if cfg.isNvidiaEnabled
-      then [pkgs.k3s_1_28 pkgs.runc]
-      else [pkgs.k3s_1_28];
-
+    environment.systemPackages = [pkgs.k3s_1_28];
     sops.secrets."k3s/token" = {};
 
     services.k3s = {
@@ -41,45 +33,6 @@ in {
         then "atro21"
         else hostName
       }";
-    };
-
-    # NVIDIA SUPPORT BELOW
-    # A hack...
-    system.activationScripts.symlinks = mkIf cfg.isNvidiaEnabled {
-      text = ''
-        echo "-------------------------------------------------------------"
-        echo "--------------- START MANUAL SECTION ------------------------"
-        echo "-------------------------------------------------------------"
-        homedir="/root"
-        echo "****** homedir=$homedir"
-
-        echo
-        echo "------ symlinks ----"
-
-        symlink() {
-          local src="$1"
-          local dest="$2"
-          [[ -e "$src" ]] && {
-              [[ -e $dest ]] && {
-                  rm -f "$dest"
-              } || {
-                  ln -s "$src" "$dest" || {
-                      echo "****** ERROR: could not symlink $src to $dest"
-                  }
-                  echo "****** CHANGED: $dest updated"
-              }
-          } || {
-              echo "****** ERROR: source $src does not exist"
-          }
-        }
-
-        symlink "${./nvidia_containerd_config.toml}" \
-                "/var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl"
-
-        echo "-------------------------------------------------------------"
-        echo "--------------- END MANUAL SECTION --------------------------"
-        echo "-------------------------------------------------------------"
-      '';
     };
   };
 }

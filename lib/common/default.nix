@@ -76,12 +76,12 @@ in {
     settings = {
       auto-optimise-store = true;
       substituters = [
-        "http://rzr:8099/atro" # My attic server
+        "http://atticd:8080/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
       ];
 
       trusted-public-keys = [
-        "atro:HEm1RhnPVzZI/fxjJaqVZDunIRVYlSrm01NvnQMpwiw=" # My attic server
+        "atro:JL9AwHJxCrQkOhRexSt+RFtwtlOrnQ9c0x2J8omSylI=" # My attic server
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server
       ];
 
