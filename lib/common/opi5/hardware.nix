@@ -16,18 +16,17 @@ in {
     "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
 
-  # swapDevices = [
-  #   {
-  #     device = "/var/lib/swapfile";
-  #     size = 16 * 1024;
-  #   }
-  # ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
+  ];
 
   boot = {
     # Some filesystems (e.g. zfs) have some trouble with cross (or with BSP kernels?) here.
     supportedFilesystems = lib.mkForce [
       "vfat"
-      "nfs"
       "fat32"
       "exfat"
       "ext4"
@@ -39,12 +38,10 @@ in {
       generic-extlinux-compatible.enable = true;
     };
 
-    initrd = {
-      includeDefaultModules = false;
-      availableKernelModules = lib.mkForce [];
-    };
+    initrd.includeDefaultModules = false;
+    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys"];
 
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/legacy61.nix {});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/legacy.nix {});
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
@@ -143,7 +140,7 @@ in {
     '';
     firmwarePartitionOffset = 32;
     firmwarePartitionName = "BOOT";
-    firmwareSize = 1000; # MiB
+    firmwareSize = 200; # MiB
 
     populateRootCommands = ''
       mkdir -p ./files/boot
