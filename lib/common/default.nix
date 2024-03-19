@@ -85,7 +85,7 @@ in {
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server
       ];
 
-      builders-use-substitutes = true;
+      builders-use-substitutes = false;
       experimental-features = [
         "nix-command"
         "flakes"
@@ -94,7 +94,7 @@ in {
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 60d";
+      options = "--delete-older-than 30d";
     };
     registry.nixpkgs.flake = nixpkgs;
     nixPath = ["/etc/nix/inputs"];
