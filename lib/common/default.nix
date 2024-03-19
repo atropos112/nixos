@@ -81,7 +81,7 @@ in {
       ];
 
       trusted-public-keys = [
-        "atro:JL9AwHJxCrQkOhRexSt+RFtwtlOrnQ9c0x2J8omSylI=" # My attic server
+        "atro:R7GFHBzb+86ECFOkCCTX3omPBbXCp6uTdtf5whXWI6o=" # My attic server
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server
       ];
 
