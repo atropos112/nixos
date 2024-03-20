@@ -38,7 +38,7 @@ in {
           ];
         };
 
-        enableAutosuggestions = true;
+        autosuggestion.enable = true;
         enableCompletion = true;
         enableVteIntegration = true;
         plugins = [

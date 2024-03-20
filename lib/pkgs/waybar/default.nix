@@ -1,6 +1,7 @@
-_: {
+{pkgs-stable, ...}: {
   home-manager.users.atropos.programs.waybar = {
     enable = true;
+    package = pkgs-stable.waybar;
     style = builtins.readFile ./style.css;
     systemd = {
       enable = true;
