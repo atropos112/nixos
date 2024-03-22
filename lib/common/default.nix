@@ -130,6 +130,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # allows to kill apps
+        killall
+
         # pretty ls
         eza
 

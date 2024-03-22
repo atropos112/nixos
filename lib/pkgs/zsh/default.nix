@@ -65,6 +65,7 @@ in {
           "..." = "cd ../..";
           "...." = "cd ../../..";
 
+          pi = "uv pip";
           j = "just";
           c = "clear";
           getip = "curl -s 'https://api.ipify.org'";

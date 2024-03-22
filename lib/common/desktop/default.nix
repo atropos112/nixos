@@ -222,6 +222,9 @@ in {
       # Python package manager (Poetry)
       poetry
 
+      # Pip but faster
+      uv
+
       # Zig
       zig
 
