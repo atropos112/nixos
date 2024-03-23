@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   pkgs-stable,
   lib,
@@ -9,6 +10,7 @@
 in {
   imports = [
     ../default.nix
+    inputs.stylix.nixosModules.stylix
     ../kubernetes/user.nix
     ../../pkgs/kitty.nix
     ../../pkgs/vscode.nix
@@ -21,6 +23,14 @@ in {
     ../../pkgs/mako.nix
     ../../pkgs/tofi
   ];
+
+  stylix = {
+    image = ../../../assets/middle.jpg;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+    opacity = {
+      terminal = 0.95;
+    };
+  };
 
   # Linking fonts. This is a hack to get around the fact that the fonts are in a different place than the system expects.
   # system.activationScripts.usrlocalbin = ''

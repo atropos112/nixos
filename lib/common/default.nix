@@ -18,13 +18,9 @@
     if builtins.substring 0 4 hostName == "atro"
     then builtins.substring 4 (builtins.stringLength hostName) hostName
     else hostName;
-
-  # Stylix theme
-  theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
 in {
   imports = [
     ../pkgs/sopsnix.nix
-    inputs.stylix.nixosModules.stylix
     # ../pkgs/atuin.nix # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
     ../pkgs/git.nix
     ../pkgs/zsh
@@ -33,15 +29,6 @@ in {
     ../pkgs/nvim.nix
     ./identities/users.nix
   ];
-
-  stylix = {
-    image = ../../assets/middle.jpg;
-    base16Scheme = theme;
-    opacity = {
-      terminal = 0.95;
-    };
-  };
-
   # Basic system configuration
   system = {
     stateVersion = "unstable";
