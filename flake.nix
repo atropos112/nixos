@@ -59,7 +59,6 @@
     # Little hack to get colmena to work with nixos-rebuild switch interoperably.
     conf = self.nixosConfigurations;
   in {
-    inherit inputs;
     nixosConfigurations = {
       surface = mkHost "surface" "x86_64-linux";
       giant = mkHost "giant" "x86_64-linux";
