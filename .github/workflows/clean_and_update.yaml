@@ -68,5 +68,4 @@ jobs:
         with:
           channel-id: 'C06RDK6G4M7'
           slack-message: "Ran NixOs Clean and Update action, check for PRs."
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          webhookUrl: ${{ secrets.SLACK_BOT_TOKEN }}
