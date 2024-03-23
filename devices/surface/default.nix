@@ -87,10 +87,10 @@
 
     # IX Server does a lot, used for keyboard settings here and to select the display manager (Login screen)
     # Note, the keyboard settings are for stuff it controls like GDM, onced logged in, DE (e.g. HyprLand) takes over and that can dictate the keyboard.
-    xserver = {
+    xserver.xkb = {
       layout = "us,us";
-      xkbVariant = "colemak,intl";
-      xkbOptions = "grp:win_space_toggle";
+      variant = "colemak,intl";
+      options = "grp:win_space_toggle";
     };
   };
 

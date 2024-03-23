@@ -42,8 +42,8 @@ repos:
       - id: gitleaks
   - repo: local
     hooks:
-      - id: statix warnings
-        name: statix warnings
+      - id: statix
+        name: statix
         entry: statix check .
         pass_filenames: false
         language: system
