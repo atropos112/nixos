@@ -2,7 +2,6 @@
   pkgs,
   pkgs-stable,
   lib,
-  inputs,
   ...
 }: let
   homeUser = "atropos";
@@ -73,7 +72,6 @@ in {
 
     # Hyprland scaling
     GDK_SCALE = "1";
-    XCURSOR_SIZE = "24";
   };
 
   security = {
@@ -424,8 +422,7 @@ in {
       })
       vivaldi-ffmpeg-codecs
       widevine-cdm
-    ])
-    ++ [inputs.devenv.packages.${pkgs.system}.default];
+    ]);
 
   systemd = {
     # This is a service that allows you to control with bluetooth headphones (e.g. volume play/stop)
@@ -518,30 +515,9 @@ in {
           "screenshot" = true;
           "effect-blur" = "9x5";
           "effect-vignette" = "0.5:0.5";
-          "color" = "1f1d2e80";
           "indicator" = true;
           "indicator-radius" = "200";
           "indicator-thickness" = "20";
-          "line-color" = "1f1d2e";
-          "ring-color" = "191724";
-          "inside-color" = "1f1d2e";
-          "key-hl-color" = "075870";
-          "separator-color" = "00000000";
-          "text-color" = "e0def4";
-          "text-caps-lock-color" = "";
-          "line-ver-color" = "075870";
-          "ring-ver-color" = "075870";
-          "inside-ver-color" = "1f1d2e";
-          "text-ver-color" = "e0def4";
-          "ring-wrong-color" = "31748f";
-          "text-wrong-color" = "31748f";
-          "inside-wrong-color" = "1f1d2e";
-          "inside-clear-color" = "1f1d2e";
-          "text-clear-color" = "e0def4";
-          "ring-clear-color" = "9ccfd8";
-          "line-clear-color" = "1f1d2e";
-          "line-wrong-color" = "1f1d2e";
-          "bs-hl-color" = "31748f";
           "datestr" = "%a %B %e";
           "timestr" = "%I:%M %p";
           "fade-in" = 0.2;
@@ -554,40 +530,6 @@ in {
         enable = true;
         package = pkgs.zathura;
         options = {
-          notification-error-bg = "#ff5555"; # Red
-          notification-error-fg = "#f8f8f2"; # Foreground
-          notification-warning-bg = "#ffb86c"; # Orange
-          notification-warning-fg = "#44475a"; # Selection
-          notification-bg = "#282a36"; # Background
-          notification-fg = "#f8f8f2"; # Foreground
-
-          completion-bg = "#282a36"; # Background
-          completion-fg = "#6272a4"; # Comment
-          completion-group-bg = "#282a36"; # Background
-          completion-group-fg = "#6272a4"; # Comment
-          completion-highlight-bg = "#44475a"; # Selection
-          completion-highlight-fg = "#f8f8f2"; # Foreground
-
-          index-bg = "#282a36"; # Background
-          index-fg = "#f8f8f2"; # Foreground
-          index-active-bg = "#44475a"; # Current Line
-          index-active-fg = "#f8f8f2"; # Foreground
-
-          inputbar-bg = "#282a36"; # Background
-          inputbar-fg = "#f8f8f2"; # Foreground
-          statusbar-bg = "#282a36"; # Background
-          statusbar-fg = "#f8f8f2"; # Foreground
-
-          highlight-color = "#ffb86c"; # Orange
-          highlight-active-color = "#ff79c6"; # Pink
-
-          default-bg = "#282a36"; # Background
-          default-fg = "#f8f8f2"; # Foreground
-
-          render-loading = "true";
-          render-loading-fg = "#282a36"; # Background
-          render-loading-bg = "#f8f8f2"; # Foreground
-
           recolor = "true";
           adjust-open = "width";
           selection-clipboard = "clipboard";
@@ -608,11 +550,11 @@ in {
       };
 
       theme = {
-        name = "Qogir-Dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
+        name = lib.mkForce "Qogir-Dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
         # Corresponding pacakge is installed in configuration.nix
       };
       iconTheme = {
-        name = "Qogir-dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
+        name = lib.mkForce "Qogir-dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
         # Corresponding pacakge is installed in configuration.nix
       };
     };
@@ -621,7 +563,7 @@ in {
       enable = true;
       settings = {
         "org/gnome/desktop/interface" = {
-          color-scheme = "prefer-dark";
+          color-scheme = lib.mkForce "prefer-dark";
         };
       };
     };

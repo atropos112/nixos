@@ -1,14 +1,17 @@
 {
   config,
+  lib,
   pkgs,
   ...
-}: {
+}: let
+  inherit (config.lib.stylix) colors;
+in {
   home-manager.users.atropos.programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;
     package = pkgs.kitty;
     font = {
-      name = "Comic Code Ligatures";
+      name = lib.mkForce "Comic Code Ligatures";
       size = 12;
     };
     keybindings = {
@@ -32,43 +35,43 @@
 
       ### Theme settings (using NixColors)
       # General
-      background_opacity = "0.95";
+      # background_opacity = "0.95";
       window_padding_width = 0;
 
       # General colours
-      background = "#${config.colorScheme.colors.base00}";
-      foreground = "#${config.colorScheme.colors.base05}";
-      selection_background = "#${config.colorScheme.colors.base05}";
-      selection_foreground = "#${config.colorScheme.colors.base00}";
-      url_color = "#${config.colorScheme.colors.base04}";
-      cursor = "#${config.colorScheme.colors.base05}";
-      active_border_color = "#${config.colorScheme.colors.base03}";
-      inactive_border_color = "#${config.colorScheme.colors.base01}";
-      active_tab_background = "#${config.colorScheme.colors.base00}";
-      active_tab_foreground = "#${config.colorScheme.colors.base05}";
-      inactive_tab_background = "#${config.colorScheme.colors.base01}";
-      inactive_tab_foreground = "#${config.colorScheme.colors.base04}";
-      tab_bar_background = "#${config.colorScheme.colors.base01}";
+      background = "#${colors.base00}";
+      foreground = "#${colors.base05}";
+      selection_background = "#${colors.base05}";
+      selection_foreground = "#${colors.base00}";
+      url_color = "#${colors.base04}";
+      cursor = "#${colors.base05}";
+      active_border_color = "#${colors.base03}";
+      inactive_border_color = "#${colors.base01}";
+      active_tab_background = "#${colors.base00}";
+      active_tab_foreground = "#${colors.base05}";
+      inactive_tab_background = "#${colors.base01}";
+      inactive_tab_foreground = "#${colors.base04}";
+      tab_bar_background = "#${colors.base01}";
 
       # normal colours
-      color0 = "#${config.colorScheme.colors.base00}";
-      color1 = "#${config.colorScheme.colors.base08}";
-      color2 = "#${config.colorScheme.colors.base0B}";
-      color3 = "#${config.colorScheme.colors.base0A}";
-      color4 = "#${config.colorScheme.colors.base0D}";
-      color5 = "#${config.colorScheme.colors.base0E}";
-      color6 = "#${config.colorScheme.colors.base0C}";
-      color7 = "#${config.colorScheme.colors.base05}";
+      color0 = "#${colors.base00}";
+      color1 = "#${colors.base08}";
+      color2 = "#${colors.base0B}";
+      color3 = "#${colors.base0A}";
+      color4 = "#${colors.base0D}";
+      color5 = "#${colors.base0E}";
+      color6 = "#${colors.base0C}";
+      color7 = "#${colors.base05}";
 
       # bright colours
-      color8 = "#${config.colorScheme.colors.base03}";
-      color9 = "#${config.colorScheme.colors.base09}";
-      color10 = "#${config.colorScheme.colors.base01}";
-      color11 = "#${config.colorScheme.colors.base02}";
-      color12 = "#${config.colorScheme.colors.base04}";
-      color13 = "#${config.colorScheme.colors.base06}";
-      color14 = "#${config.colorScheme.colors.base0F}";
-      color15 = "#${config.colorScheme.colors.base07}";
+      color8 = "#${colors.base03}";
+      color9 = "#${colors.base09}";
+      color10 = "#${colors.base01}";
+      color11 = "#${colors.base02}";
+      color12 = "#${colors.base04}";
+      color13 = "#${colors.base06}";
+      color14 = "#${colors.base0F}";
+      color15 = "#${colors.base07}";
     };
   };
 }

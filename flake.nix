@@ -10,12 +10,8 @@
     hyprland.url = "github:hyprwm/Hyprland";
     xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
-    socle = {
-      url = "github:dvdjv/socle";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    stylix.url = "github:danth/stylix";
 
-    nix-colors.url = "github:misterio77/nix-colors";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -36,7 +32,7 @@
           inherit system;
           specialArgs = {
             inherit inputs self;
-            inherit (inputs) nix-colors;
+            inherit (inputs) stylix;
             pkgs = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;

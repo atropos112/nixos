@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   home-manager.users.atropos.programs.vscode = {
     enable = true;
     enableExtensionUpdateCheck = true;
@@ -91,7 +95,7 @@
         "scminput" = false;
       };
       "go.toolsManagement.autoUpdate" = true;
-      "workbench.colorTheme" = "GitHub Dark";
+      "workbench.colorTheme" = lib.mkForce "GitHub Dark";
     };
   };
 }
