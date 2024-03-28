@@ -2,7 +2,7 @@
 
 websites_dir="$HOME/media/websites"
 links_file="$HOME/nixos/lib/pkgs/zsh/kiwix-links.txt"
-update_interval=1 # Months
+update_interval=3 # Months
 
 function kiwix-download-with-docker {
   docker run -v "$websites_dir":/output --shm-size=1gb ghcr.io/openzim/zimit zimit --url "$1" --name "$2" --workers 24 --waitUntil domcontentloaded

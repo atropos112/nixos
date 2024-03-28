@@ -27,6 +27,7 @@ in {
   stylix = {
     image = ../../../assets/middle.jpg;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+    cursor.size = 24;
     opacity = {
       terminal = 0.95;
     };
@@ -40,7 +41,7 @@ in {
 
   atro.kopia.enable = true;
 
-  # Enabled by default, but is needed if you are a purist so puting it here to make it explicit.
+  # Enabled by default, but is needed if you are a purist so putting it here to make it explicit.
   nix.settings.sandbox = true;
   # Networking basics (hostname excluded)
   networking = {
@@ -85,7 +86,7 @@ in {
   };
 
   security = {
-    rtkit.enable = true; # Recomended for pipewire
+    rtkit.enable = true; # Recommended for pipewire
     pam.services = {
       gdm.enableGnomeKeyring = true; # To make the keyring work, for things like github copilot
       swaylock = {}; # To make swaylock respect my password
