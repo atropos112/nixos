@@ -22,6 +22,7 @@
       alias = "!git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort";
     };
     extraConfig = {
+      absorb.autoStageIfNothingStaged = true;
       core.pager = "delta";
       interactive.diffFilter = "delta --color-only";
       delta = {

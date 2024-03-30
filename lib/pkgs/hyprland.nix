@@ -41,7 +41,7 @@ _: {
         "$mainMod, W, exec, vivaldi  --force-dark-mode --enable-features=WebUIDarkMode --use-gl=egl"
         "$mainMod, T, exec, kitty nvim"
         "$mainMod, L, exec, systemctl suspend"
-        "$mainMod, F, exec, thunar"
+        "$mainMod, F, exec, nautilus"
         "$mainMod, R, exec, tofi-drun --drun-launch=true --font=/home/atropos/media/fonts/ComicCodeLigatures-Regular.ttf --late-keyboard-init=true --ascii-input=true"
         "$mainMod, J, togglesplit,"
 
@@ -64,16 +64,16 @@ _: {
         "$mainMod, 0, workspace, 10"
 
         # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "$mainMod SHIFT, 1, movetoworkspace, 1"
-        "$mainMod SHIFT, 2, movetoworkspace, 2"
-        "$mainMod SHIFT, 3, movetoworkspace, 3"
-        "$mainMod SHIFT, 4, movetoworkspace, 4"
-        "$mainMod SHIFT, 5, movetoworkspace, 5"
-        "$mainMod SHIFT, 6, movetoworkspace, 6"
-        "$mainMod SHIFT, 7, movetoworkspace, 7"
-        "$mainMod SHIFT, 8, movetoworkspace, 8"
-        "$mainMod SHIFT, 9, movetoworkspace, 9"
-        "$mainMod SHIFT, 0, movetoworkspace, 10"
+        "CTRL_SHIFT_ALT, 1, movetoworkspace, 1"
+        "CTRL_SHIFT_ALT, 2, movetoworkspace, 2"
+        "CTRL_SHIFT_ALT, 3, movetoworkspace, 3"
+        "CTRL_SHIFT_ALT, 4, movetoworkspace, 4"
+        "CTRL_SHIFT_ALT, 5, movetoworkspace, 5"
+        "CTRL_SHIFT_ALT, 6, movetoworkspace, 6"
+        "CTRL_SHIFT_ALT, 7, movetoworkspace, 7"
+        "CTRL_SHIFT_ALT, 8, movetoworkspace, 8"
+        "CTRL_SHIFT_ALT, 9, movetoworkspace, 9"
+        "CTRL_SHIFT_ALT, 10, movetoworkspace, 10"
 
         # Scroll through existing workspaces with mainMod + scroll
         "$mainMod, mouse_down, workspace, e+1"

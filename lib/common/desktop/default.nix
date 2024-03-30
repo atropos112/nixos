@@ -193,19 +193,16 @@ in {
         libgcc # sqlalchemy
       ];
     };
-
-    # File manager, this is the GUI for file management.
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
-    };
   };
 
   environment.systemPackages = with pkgs;
     [
+      # Git absorb
+      git-absorb
+
+      # File manager
+      gnome.nautilus
+
       # Backup solution
       kopia
 
@@ -218,7 +215,7 @@ in {
       # To set/get screen brightness
       brightnessctl
 
-      # Provide a "shutdown" window for GUI convinience
+      # Provide a "shutdown" window for GUI convenience
       wlogout
 
       # Provides controls for sound related matters
