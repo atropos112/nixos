@@ -197,8 +197,8 @@ in {
 
   environment.systemPackages = with pkgs;
     [
-      # Git absorb
-      git-absorb
+      # devenv
+      devenv
 
       # File manager
       gnome.nautilus
@@ -355,7 +355,7 @@ in {
       # Font viewer (have to open twice for some reason)
       gnome.gnome-font-viewer
 
-      # Rust debbug server
+      # Rust debug server
       vscode-extensions.vadimcn.vscode-lldb.adapter
 
       # Multiplexer for terminal
@@ -392,7 +392,7 @@ in {
       # database client
       dbeaver
 
-      # debuger for golang
+      # debbuger for golang
       delve
 
       # Cllium eBPF client tool for kubernetes cluster
@@ -416,7 +416,7 @@ in {
       alejandra
       usbimager # etcher equiv
       nvd # diff for nixos deploys
-      iamb # terminal client for matix
+      iamb # terminal client for matrix
     ]
     ++ (with pkgs-stable; [
       # Vivaldi is a web browser
@@ -559,11 +559,11 @@ in {
 
       theme = {
         name = lib.mkForce "Qogir-Dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
-        # Corresponding pacakge is installed in configuration.nix
+        # Corresponding package is installed in configuration.nix
       };
       iconTheme = {
         name = lib.mkForce "Qogir-dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
-        # Corresponding pacakge is installed in configuration.nix
+        # Corresponding package is installed in configuration.nix
       };
     };
 

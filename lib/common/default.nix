@@ -71,6 +71,7 @@ in {
   # Basic Nix configuration
   nix = {
     settings = {
+      trusted-users = ["root" "atropos"];
       auto-optimise-store = true;
       substituters = [
         "http://atticd:8080/atro" # My attic server
