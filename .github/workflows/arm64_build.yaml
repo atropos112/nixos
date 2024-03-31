@@ -25,6 +25,8 @@ jobs:
           enable_kvm: true
           extra_nix_config: |
             extra-platforms = aarch64-linux
+      - name: Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Prepare host for ARM64 emulation
         run: |
           sudo apt -y install qemu-user-static
