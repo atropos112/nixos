@@ -2,9 +2,9 @@ name: ARM64-Build
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: '0 5 * * 6' # every Saturday at 05:00 UTC
+    - cron: '0 3 * * 6' # every Saturday at 03:00 UTC
 jobs:
-  lockfile:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Free Disk Space
@@ -36,20 +36,20 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:gh
-      - name: Connect to Attic cache
+      - name: Attic cache
         uses: ryanccn/attic-action@v0
         with:
           endpoint: "http://atticd:8080"
           cache: atro
           token: ${{ secrets.ATTIC_TOKEN }}
-      - name: Run build
+      - name: Build
         run: |
           # Updating flake lock
           nix flake update
 
           # Adding substituters and keys
-          export SUBS="$(nix show-config substituters) https://hyprland.cachix.org"
-          export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+          export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
+          export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
 
           # Building
           nix build .#nixosConfigurations.opi1.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
