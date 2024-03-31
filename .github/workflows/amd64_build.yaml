@@ -1,0 +1,49 @@
+name: AMD64-Build
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule:
+    - cron: '0 19 * * 6' # every Saturday at 19:00 UTC
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          swap-storage: true
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v26
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:gh
+      - name: Setup Attic cache
+        uses: ryanccn/attic-action@v0
+        with:
+          endpoint: "http://atticd:8080"
+          cache: atro
+          token: ${{ secrets.ATTIC_TOKEN }}
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update flake.lock" # Title of PR to be created
+          pr-labels: | # Labels to be set on the PR
+            dependencies
+            automated
+      - name: Run build
+        run: |
+          nix flake update
+          export SUBS="${nix show-config substituters} https://hyprland.cachix.org"
+          export SUBSKEYS="${nix show-config trusted-public-keys} hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+          nix build .#nixosConfigurations.giant.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"

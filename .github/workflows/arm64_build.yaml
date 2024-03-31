@@ -1,4 +1,4 @@
-name: Clean and Update
+name: ARM64-Build
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
