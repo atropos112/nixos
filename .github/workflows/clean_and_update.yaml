@@ -32,7 +32,6 @@ jobs:
         run: |
           cat /proc/sys/fs/binfmt_misc/qemu-aarch64
           /usr/bin/qemu-aarch64-static --version
-        uses: actions/checkout@v4
       - name: Tailscale
         uses: tailscale/github-action@v2
         with:
