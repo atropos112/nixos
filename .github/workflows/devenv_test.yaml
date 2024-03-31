@@ -35,6 +35,7 @@ jobs:
           endpoint: "http://atticd:8080"
           cache: atro
           token: ${{ secrets.ATTIC_TOKEN }}
+          skip-push: true
       - uses: cachix/cachix-action@v14
         with:
           name: devenv
