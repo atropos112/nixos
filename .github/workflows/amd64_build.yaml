@@ -43,6 +43,9 @@ jobs:
           export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
           export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
 
+          # Faking media directory 
+          sudo mkdir -p /home/atropos/media/fonts && sudo mkdir -p /home/atropos/media/bins
+
           # Building
           nix build .#nixosConfigurations.giant.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
           nix build .#nixosConfigurations.surface.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
