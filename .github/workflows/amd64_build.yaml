@@ -45,3 +45,7 @@ jobs:
 
           # Building
           nix build .#nixosConfigurations.giant.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.surface.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.rzr.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.a21.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.smol.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"

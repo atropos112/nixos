@@ -2,12 +2,12 @@ name: ARM64-Build
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: '0 19 * * 6' # every Saturday at 19:00 UTC
+    - cron: '0 5 * * 6' # every Saturday at 05:00 UTC
 jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
-      - name: Free Disk Space (Ubuntu)
+      - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: true
@@ -25,33 +25,34 @@ jobs:
           enable_kvm: true
           extra_nix_config: |
             extra-platforms = aarch64-linux
-      - name: Check nix.conf
-        run: cat /etc/nix/nix.conf
-      - run: sudo apt -y install qemu-user-static
-      - name: Test binfmt availability
+      - name: Prepare host for ARM64 emulation
         run: |
+          sudo apt -y install qemu-user-static
           cat /proc/sys/fs/binfmt_misc/qemu-aarch64
           /usr/bin/qemu-aarch64-static --version
-      - name: Tailscale
+      - name: Connect to Tailscale network
         uses: tailscale/github-action@v2
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:gh
-      - name: Setup Attic cache
+      - name: Connect to Attic cache
         uses: ryanccn/attic-action@v0
         with:
           endpoint: "http://atticd:8080"
           cache: atro
           token: ${{ secrets.ATTIC_TOKEN }}
-      - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@main
-        with:
-          pr-title: "Update flake.lock" # Title of PR to be created
-          pr-labels: | # Labels to be set on the PR
-            dependencies
-            automated
       - name: Run build
         run: |
+          # Updating flake lock
           nix flake update
-          nix build .#nixosConfigurations.giant.config.system.build.toplevel -L
+
+          # Adding substituters and keys
+          export SUBS="$(nix show-config substituters) https://hyprland.cachix.org"
+          export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+
+          # Building
+          nix build .#nixosConfigurations.opi1.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.opi2.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.opi3.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+          nix build .#nixosConfigurations.opi4.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
