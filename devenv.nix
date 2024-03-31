@@ -1,8 +1,8 @@
 {pkgs, ...}: {
-  packages = [
-    pkgs.alejandra
-    pkgs.deadnix
-  ];
+  languages.nix = {
+    enable = true;
+    lsp.package = pkgs.nil;
+  };
 
   pre-commit.hooks = {
     deadnix.enable = true;
@@ -12,6 +12,12 @@
       enable = true;
       package = pkgs.gitleaks;
       entry = "${pkgs.gitleaks}/bin/gitleaks detect --verbose";
+      pass_filenames = false;
+    };
+    statix = {
+      enable = true;
+      package = pkgs.statix;
+      entry = "${pkgs.statix}/bin/statix check";
       pass_filenames = false;
     };
   };
