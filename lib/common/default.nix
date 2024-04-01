@@ -77,11 +77,13 @@ in {
       substituters = [
         "http://atticd:8080/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
+        "https://staging.attic.rs/attic-ci" # Attic staging server
       ];
 
       trusted-public-keys = [
         "atro:R7GFHBzb+86ECFOkCCTX3omPBbXCp6uTdtf5whXWI6o=" # My attic server
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server
+        "attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo=" # Attic staging server
       ];
 
       builders-use-substitutes = false;
