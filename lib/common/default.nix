@@ -292,33 +292,11 @@ in {
     };
 
     programs = {
-      # Execute scripts on directory entry, convinient for setups etc.
+      # Execute scripts on directory entry, convenient for setups etc.
       direnv = {
         enable = true;
         nix-direnv.enable = true;
         package = pkgs.direnv;
-      };
-
-      tmux = {
-        enable = true;
-        package = pkgs.tmux;
-        plugins = with pkgs.tmuxPlugins; [
-          onedark-theme
-          cpu
-          yank
-          tmux-fzf
-          net-speed
-          prefix-highlight
-          open
-          copycat
-        ];
-        # extraConfig = ''
-        #   set -g @open 'C-o'
-        #   set-option -g default-shell /usr/bin/env zsh
-        #   set -g @open-editor 'o'
-        #   set -g @onedark_widgets "#{prefix_highlight} CPU: #{cpu_percentage} | NET: #{net_speed}"
-        #   set -g mouse on
-        # '';
       };
     };
   };

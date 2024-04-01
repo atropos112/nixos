@@ -63,7 +63,10 @@ in {
 
   environment.sessionVariables = {
     # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
-    LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+    # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+
+    # For direnv to not show the log
+    DIRENV_LOG_FORMAT = "";
 
     # hint XDG to use wayland
     XDG_SESSION_TYPE = "wayland";

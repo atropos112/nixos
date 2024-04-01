@@ -5,6 +5,9 @@
     plugins = with pkgs.tmuxPlugins; [
       catppuccin
     ];
+    extraConfig = ''
+      set -g @catppuccin_flavour 'macchiato'
+    '';
     # extraConfig = ''
     #   set -g @open 'C-o'
     #   set-option -g default-shell /usr/bin/env zsh
