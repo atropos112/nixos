@@ -131,6 +131,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # devenv
+        devenv
+
         # allows to kill apps
         killall
 

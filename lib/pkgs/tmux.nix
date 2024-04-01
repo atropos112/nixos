@@ -29,15 +29,20 @@
 
       # Vim
       set-window-option -g mode-keys vi
+
       ## Pane navigation
       bind h select-pane -L
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
+
       ## Selection
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
       bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+      ## Thumbs
+      set -g @thumbs-alphabet colemak
     '';
   };
 }

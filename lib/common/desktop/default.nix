@@ -200,8 +200,8 @@ in {
 
   environment.systemPackages = with pkgs;
     [
-      # devenv
-      devenv
+      # So that i can call xrandr to instruct xwayland which screen is primary
+      wlr-randr
 
       # File manager
       gnome.nautilus

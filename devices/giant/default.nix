@@ -20,10 +20,10 @@
     };
   };
 
-  # Cuda support
-  environment.systemPackages = with pkgs.cudaPackages; [
-    cudatoolkit
-    cudnn
+  environment.systemPackages = with pkgs; [
+    cudaPackages.cudatoolkit
+    cudaPackages.cudnn
+    lutris
   ];
 
   atro.hyprland.deviceSpecificSettings = {
@@ -33,12 +33,13 @@
       "swww img /home/atropos/media/wallpapers/right.jpg  -o DP-4"
       "swww img /home/atropos/media/wallpapers/middle.jpg  -o DP-5"
       "swww img /home/atropos/media/wallpapers/left.jpg  -o HDMI-A-5"
+      "xrandr --output DP-5 --primary" # Letting lutris and other xwayland apps know this is primary
     ];
 
     monitor = [
-      "HDMI-A-5,1920x1080@75,0x0,1,transform,1"
       "DP-5,2560x1440@240,1080x480,1"
       "DP-4,2560x1440@144,3640x0,1,transform,3"
+      "HDMI-A-5,1920x1080@75,0x0,1,transform,1"
     ];
 
     workspace = [
