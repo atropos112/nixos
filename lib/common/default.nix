@@ -27,6 +27,7 @@ in {
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
     ../pkgs/nvim.nix
+    ../pkgs/tmux.nix
     ./identities/users.nix
   ];
   # Basic system configuration
