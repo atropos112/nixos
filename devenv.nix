@@ -4,6 +4,11 @@
   config,
   ...
 }: {
+  packages = with pkgs; [
+    nix-search-cli
+    nix-melt
+  ];
+
   languages.nix = {
     enable = true;
     lsp.package = pkgs.nil;
@@ -28,6 +33,18 @@
   };
 
   scripts = {
+    browse-flake-lock = {
+      exec = ''
+        ${pkgs.nix-melt}/bin/nix-melt
+      '';
+      description = "Browse the flake.lock contents";
+    };
+    search = {
+      exec = ''
+        ${pkgs.nix-search-cli}/bin/nix-search "$@"
+      '';
+      description = "Search for a package";
+    };
     rebuild = {
       exec = ''
         sudo nixos-rebuild switch
