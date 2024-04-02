@@ -131,6 +131,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # Cached nix-shell calls.
+        cached-nix-shell
+
         # devenv
         devenv
 

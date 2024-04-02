@@ -11,15 +11,6 @@
 
     # Kubernetes kubebuilder, a tool for building kubernetes operators
     kubebuilder
-
-    # ArgoCD
-    argocd
-
-    # knative
-    kn
-
-    # local cluster testing
-    kind
   ];
 
   home-manager.users.atropos = {

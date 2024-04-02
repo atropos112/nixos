@@ -92,6 +92,9 @@ in {
 
           # kitty based
           s = "kitten ssh";
+
+          # Nix based
+          nxsh = "cached-nix-shell --command zsh -p ";
         };
         initExtra = ''
           for file in ${thisDir}/*.zsh; do

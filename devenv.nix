@@ -6,6 +6,7 @@
 }: {
   packages = with pkgs; [
     nix-search-cli
+    nix-output-monitor
     nix-melt
   ];
 
@@ -45,11 +46,17 @@
       '';
       description = "Search for a package";
     };
-    rebuild = {
+    apply = {
       exec = ''
-        sudo nixos-rebuild switch
+        build && sudo nixos-rebuild switch || exit 1
       '';
       description = "Rebuild the system";
+    };
+    build = {
+      exec = ''
+        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel -L
+      '';
+      description = "Build the system";
     };
     edit-secrets = {
       exec = ''
@@ -59,21 +66,27 @@
     };
     update = {
       exec = ''
-        sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && sudo nixos-rubuild switch --upgrade-all
+        sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && rebuild
       '';
       description = "Update the system";
     };
-    apply = {
+    colmena-apply = {
       exec = ''
         sudo colmena apply --on "$@" --verbose
       '';
-      description = "Apply the configuration using colmena";
+      description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,a21,smol')";
     };
     build-on-apply-on = {
       exec = ''
         sudo nixos-rebuild --flake ".#$2" --target-host "$2" --verbose --build-host "$1" switch
       '';
       description = "Builds configuration on $/1 and applies it on $/2";
+    };
+    diff = {
+      exec = ''
+        echo -e "---------- Building... ----------\n" && build && echo -e "---------- Build finished. Computing diff... ---------- \n\n\n" && nvd diff /run/current-system result
+      '';
+      description = "Diff the current system with current configuration files";
     };
   };
 
