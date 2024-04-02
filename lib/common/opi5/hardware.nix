@@ -34,8 +34,8 @@ in {
     ];
 
     loader = {
-      grub.enable = false;
-      generic-extlinux-compatible.enable = true;
+      grub.enable = lib.mkForce false;
+      generic-extlinux-compatible.enable = lib.mkForce true;
     };
 
     initrd.includeDefaultModules = lib.mkForce false;
@@ -140,10 +140,33 @@ in {
       ];
     };
 
+    opengl.package =
+      (
+        (pkgs.mesa.override {
+          galliumDrivers = ["panfrost" "swrast"];
+          vulkanDrivers = ["swrast"];
+        })
+        .overrideAttrs (_: {
+          pname = "mesa-panfork";
+          version = "23.0.0-panfork";
+          src = pkgs.fetchFromGitLab {
+            owner = "panfork";
+            repo = "mesa";
+            rev = "120202c675749c5ef81ae4c8cdc30019b4de08f4"; # branch: csf
+            hash = "sha256-4eZHMiYS+sRDHNBtLZTA8ELZnLns7yT3USU5YQswxQ0=";
+          };
+        })
+      )
+      .drivers;
+
+    enableRedistributableFirmware = lib.mkForce true;
+
     firmware = [
       (pkgs.callPackage ./firmware.nix {})
+      (pkgs.callPackage ./mali-firmware.nix {})
     ];
   };
+  powerManagement.cpuFreqGovernor = "ondemand";
 
   sdImage = {
     inherit rootPartitionUUID;
@@ -162,14 +185,5 @@ in {
     populateRootCommands = ''
       mkdir -p ./files/boot
     '';
-  };
-
-  powerManagement.cpuFreqGovernor = "ondemand";
-
-  hardware = {
-    opengl = {
-      enable = true;
-    };
-    enableRedistributableFirmware = true;
   };
 }
