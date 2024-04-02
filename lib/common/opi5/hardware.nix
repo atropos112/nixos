@@ -38,10 +38,26 @@ in {
       generic-extlinux-compatible.enable = true;
     };
 
-    initrd.includeDefaultModules = false;
-    initrd.availableKernelModules = lib.mkForce ["dm_mod" "dm_crypt" "encrypted_keys"];
+    initrd.includeDefaultModules = lib.mkForce false;
+    initrd.availableKernelModules = lib.mkForce [
+      # NVMe
+      "nvme"
 
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel/legacy.nix {});
+      # SD cards and internal eMMC drives.
+      "mmc_block"
+
+      # Support USB keyboards, in case the boot fails and we only have
+      # a USB keyboard, or for LUKS passphrase prompt.
+      "hid"
+
+      # For LUKS encrypted root partition.
+      # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/system/boot/luksroot.nix#L985
+      "dm_mod" # for LVM & LUKS
+      "dm_crypt" # for LUKS
+      "input_leds"
+    ];
+
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./vendor_kernel.nix {});
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
@@ -125,6 +141,7 @@ in {
     };
 
     firmware = [
+      (pkgs.callPackage ./firmware.nix {})
     ];
   };
 
