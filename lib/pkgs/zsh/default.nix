@@ -94,7 +94,7 @@ in {
           s = "kitten ssh";
 
           # Nix based
-          nxsh = "cached-nix-shell --command zsh -p ";
+          nxsh = ''cached-nix-shell --command zsh -p '';
         };
         initExtra = ''
           for file in ${thisDir}/*.zsh; do
@@ -117,6 +117,10 @@ in {
           # functions
           function sssh {
               /run/current-system/sw/bin/mosh $@ -- tmux new -As atropos
+          }
+
+          function nxrn {
+            cached-nix-shell --command "$1" -p "$1"
           }
 
           function upload {
