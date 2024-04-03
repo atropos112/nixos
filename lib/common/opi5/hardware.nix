@@ -2,15 +2,16 @@
 #      Orange Pi 5 Specific Configuration
 # =========================================================================
 {
-  pkgs,
+  pkgs-stable,
   config,
   inputs,
   lib,
   ...
 }: let
-  nixpkgs = inputs.nixpkgs-unstable;
+  nixpkgs = inputs.nixpkgs-stable;
   boardName = "orangepi5";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
+  pkgs = pkgs-stable;
 in {
   imports = [
     "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"

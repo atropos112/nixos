@@ -26,6 +26,12 @@
     lutris
   ];
 
+  services.ollama = {
+    enable = true;
+    listenAddress = "0.0.0.0:11434";
+    acceleration = "cuda";
+  };
+
   atro.hyprland.deviceSpecificSettings = {
     exec-once = [
       # To adjust the bus so that screen sharing work with pipewire
