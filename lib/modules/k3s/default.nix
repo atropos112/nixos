@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.atro.k3s;
+  inherit (pkgs) k3s;
   inherit (config.networking) hostName;
 in {
   options.atro.k3s = {
@@ -19,7 +20,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [pkgs.k3s];
+    environment.systemPackages = [k3s];
     sops.secrets."k3s/token" = {};
 
     services.k3s = {
@@ -27,7 +28,7 @@ in {
       inherit (cfg) role serverAddr;
       configPath = mkIf (cfg.role == "server") ./config.yaml;
       tokenFile = config.sops.secrets."k3s/token".path;
-      package = pkgs.k3s_1_28;
+      package = k3s;
       extraFlags = "--node-name=${
         if hostName == "atroa21" # Special case... I know, I have regrets.
         then "atro21"
