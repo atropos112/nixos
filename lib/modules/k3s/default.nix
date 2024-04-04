@@ -19,7 +19,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [pkgs.k3s_1_28];
+    environment.systemPackages = [pkgs.k3s];
     sops.secrets."k3s/token" = {};
 
     services.k3s = {
