@@ -119,7 +119,7 @@
       "10, monitor:DP-2, default:true"
     ];
     bind = [
-      # Move active window to a workspace with mainMod + shift + [0-9] 
+      # Move active window to a workspace with mainMod + shift + [0-9]
       "SUPER_SHIFT, 1, movetoworkspace, 1"
       "SUPER_SHIFT, 2, movetoworkspace, 2"
       "SUPER_SHIFT, 3, movetoworkspace, 3"
