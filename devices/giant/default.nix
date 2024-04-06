@@ -54,5 +54,19 @@
       "9, monitor:DP-4, default:true"
       "10, monitor:DP-4, default:true"
     ];
+
+    bind = [
+      # Move active window to a workspace with mainMod + SHIFT + [0-9]
+      "CTRL_SHIFT_ALT, 1, movetoworkspace, 1"
+      "CTRL_SHIFT_ALT, 2, movetoworkspace, 2"
+      "CTRL_SHIFT_ALT, 3, movetoworkspace, 3"
+      "CTRL_SHIFT_ALT, 4, movetoworkspace, 4"
+      "CTRL_SHIFT_ALT, 5, movetoworkspace, 5"
+      "CTRL_SHIFT_ALT, 6, movetoworkspace, 6"
+      "CTRL_SHIFT_ALT, 7, movetoworkspace, 7"
+      "CTRL_SHIFT_ALT, 8, movetoworkspace, 8"
+      "CTRL_SHIFT_ALT, 9, movetoworkspace, 9"
+      "CTRL_SHIFT_ALT, 0, movetoworkspace, 10"
+    ];
   };
 }

@@ -63,18 +63,6 @@ _: {
         "$mainMod, 9, workspace, 9"
         "$mainMod, 0, workspace, 10"
 
-        # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "CTRL_SHIFT_ALT, 1, movetoworkspace, 1"
-        "CTRL_SHIFT_ALT, 2, movetoworkspace, 2"
-        "CTRL_SHIFT_ALT, 3, movetoworkspace, 3"
-        "CTRL_SHIFT_ALT, 4, movetoworkspace, 4"
-        "CTRL_SHIFT_ALT, 5, movetoworkspace, 5"
-        "CTRL_SHIFT_ALT, 6, movetoworkspace, 6"
-        "CTRL_SHIFT_ALT, 7, movetoworkspace, 7"
-        "CTRL_SHIFT_ALT, 8, movetoworkspace, 8"
-        "CTRL_SHIFT_ALT, 9, movetoworkspace, 9"
-        "CTRL_SHIFT_ALT, 10, movetoworkspace, 10"
-
         # Scroll through existing workspaces with mainMod + scroll
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
