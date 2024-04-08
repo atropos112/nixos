@@ -228,6 +228,9 @@ in {
       python311Full
       python312Full
 
+      # Python LSP serves
+      python311Packages.python-lsp-server
+
       # Python package manager (Poetry)
       poetry
 

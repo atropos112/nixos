@@ -25,10 +25,10 @@
       entry = "${pkgs.gitleaks}/bin/gitleaks detect --verbose";
       pass_filenames = false;
     };
-    statix = {
+    lint = {
       enable = true;
       package = pkgs.statix;
-      entry = "${pkgs.statix}/bin/statix check";
+      entry = "lint";
       pass_filenames = false;
     };
   };
@@ -39,6 +39,13 @@
         ${pkgs.nix-melt}/bin/nix-melt
       '';
       description = "Browse the flake.lock contents";
+    };
+    lint = {
+      exec = ''
+        ${pkgs.coreutils}/bin/rm -rf "$DEVENV_ROOT/result"
+        ${pkgs.statix}/bin/statix check
+      '';
+      description = "Lint the configuration";
     };
     search = {
       exec = ''
