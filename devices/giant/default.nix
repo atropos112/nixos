@@ -3,6 +3,10 @@
     ./hardware.nix
     ../../lib/common/desktop
   ];
+  topology.self = {
+    interfaces.eth0.network = "GIANT";
+    hardware.info = "CPU: i9-12900K, RAM: 64GB (DDR5), GPU: RTX3090";
+  };
 
   networking.hostName = "giant";
 

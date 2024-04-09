@@ -3,6 +3,7 @@
     ./hardware.nix
     ../../lib/common/desktop
   ];
+  topology.self.hardware.info = "Travel-use laptop";
 
   networking.hostName = "surface";
 
