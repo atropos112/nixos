@@ -16,4 +16,10 @@ _: {
     kernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
     kernelParams = ["ip=dhcp"];
   };
+
+  # Use RAM for /tmp
+  boot = {
+    tmpOnTmpfs = true;
+    tmpOnTmpfsSize = "50%";
+  };
 }

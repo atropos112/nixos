@@ -3,6 +3,7 @@
     # Python
     python311Full
     python312Full
+    python313Full
 
     # python lsp
     pylint
