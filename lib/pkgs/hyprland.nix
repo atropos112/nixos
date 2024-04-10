@@ -10,8 +10,6 @@ _: {
       exec-once = [
         # Autostart
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-        "swww init"
-
         # Start services
         "systemctl start --user waybar.service && sleep 2 && systemctl restart --user waybar.service"
         "systemctl start --user swayidle.service"

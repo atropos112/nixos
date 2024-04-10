@@ -22,7 +22,7 @@ in {
 
   nodes = {
     internet = mkInternet {
-      interfaces."*".network = "WAN";
+      connections = mkConnection "router" "WAN";
     };
 
     op8p = {

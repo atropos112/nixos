@@ -11,12 +11,6 @@
     # lua package manager
     lua54Packages.luarocks
 
-    # csharp lsp
-    csharp-ls
-
-    # python lsp
-    pylint
-
     # markdown preview needs it
     yarn
 

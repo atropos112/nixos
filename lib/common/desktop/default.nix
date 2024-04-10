@@ -22,6 +22,8 @@ in {
     ../../pkgs/copyq
     ../../pkgs/mako.nix
     ../../pkgs/tofi
+    ../../pkgs/python.nix
+    ../../pkgs/csharp.nix
   ];
 
   stylix = {
@@ -209,9 +211,6 @@ in {
       # Backup solution
       kopia
 
-      # Wallpaper setter
-      swww
-
       # Interacts with the service to provide power usage information, e.g. how much battery is left.
       upower
 
@@ -223,19 +222,6 @@ in {
 
       # Provides controls for sound related matters
       pavucontrol
-
-      # Python
-      python311Full
-      python312Full
-
-      # Python LSP serves
-      python311Packages.python-lsp-server
-
-      # Python package manager (Poetry)
-      poetry
-
-      # Pip but faster
-      uv
 
       # Zig
       zig
@@ -254,16 +240,6 @@ in {
       # Javascript runtimes
       bun
       nodejs_20
-
-      # Dotnet SDK
-      dotnet-sdk_8
-      dotnet-sdk_7
-      dotnet-sdk # this is 6
-
-      # Dotnet runtime
-      dotnet-runtime_8
-      dotnet-runtime_7
-      dotnet-runtime # this is 6
 
       # Get CPU temps etc.
       lm_sensors

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/AtroLogo.png" width="350" />
+  <img src="./logo.png" width="350" />
 </p>
 
 # Devices
