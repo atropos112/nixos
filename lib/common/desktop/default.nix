@@ -69,6 +69,7 @@ in {
   environment.sessionVariables = {
     # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
     # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+    FZF_BASE = "${pkgs.fzf}/bin/fzf";
 
     # For direnv to not show the log
     DIRENV_LOG_FORMAT = "";
@@ -352,9 +353,6 @@ in {
       # connect to k8s external secret source
       doppler
 
-      # password manager
-      bitwarden
-
       # dns resolving tool (for testing)
       dig
 
@@ -377,7 +375,7 @@ in {
       # database client
       dbeaver
 
-      # debbuger for golang
+      # debuger for golang
       delve
 
       # Cllium eBPF client tool for kubernetes cluster

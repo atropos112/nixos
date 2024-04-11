@@ -32,7 +32,6 @@ in {
           plugins = [
             "git"
             "extract"
-            "fzf" # WARN: This is temporary solution until atuin works again.
             "kubectl"
             "docker-compose"
           ];
@@ -144,7 +143,23 @@ in {
             git rebase -i HEAD~$1
           }
 
+          # Found this cool function here: https://news.ycombinator.com/item?id=38471822
+          function frg {
+            result=$(rg --ignore-case --color=always --line-number --no-heading "$@" |
+                fzf --ansi \
+                    --color 'hl:-1:underline,hl+:-1:underline:reverse' \
+                    --delimiter ':' \
+                    --preview "bat --color=always {1} --theme='Solarized (light)' --highlight-line {2}" \
+                    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')
+              file=''${result%%:*}
+              linenumber=$(echo "''${result}" | cut -d: -f2)
+              if [[ -n "$file" ]]; then
+                      $EDITOR +"''${linenumber}" "$file"
+              fi
+          }
+
           eval "$(zoxide init zsh)"
+          eval "$(fzf --zsh)"
         '';
       };
     };

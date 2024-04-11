@@ -55,7 +55,7 @@
     };
     apply = {
       exec = ''
-        build && sudo nixos-rebuild switch || exit 1
+        build && sudo nixos-rebuild switch --fast || exit 1
       '';
       description = "Rebuild the system";
     };
@@ -73,7 +73,7 @@
     };
     update = {
       exec = ''
-        sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && rebuild
+        sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && apply
       '';
       description = "Update the system";
     };
