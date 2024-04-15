@@ -29,6 +29,10 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     flake-utils.url = "github:numtide/flake-utils";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
   outputs = {self, ...} @ inputs: let
     mkHost = hostName: system: (

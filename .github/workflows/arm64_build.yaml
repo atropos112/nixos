@@ -1,8 +1,9 @@
+---
 name: ARM64-Build
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: '0 3 * * 6' # every Saturday at 03:00 UTC
+    - cron: '0 1,7 * * 6' # every Saturday at 01:00 UTC and 07:00 UT
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -46,14 +47,12 @@ jobs:
           token: ${{ secrets.ATTIC_TOKEN }}
       - name: Build
         run: |
-          # Updating flake lock
+          # Updating flake lock, then adding substituters and keys, then fake media directory, then building
           nix flake update
 
-          # Adding substituters and keys
           export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
           export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
 
-          # Building
           nix build .#nixosConfigurations.opi1.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
           nix build .#nixosConfigurations.opi2.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
           nix build .#nixosConfigurations.opi3.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"

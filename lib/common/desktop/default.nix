@@ -11,6 +11,7 @@ in {
   imports = [
     ../default.nix
     inputs.stylix.nixosModules.stylix
+    inputs.nix-index-database.nixosModules.nix-index
     ../kubernetes/user.nix
     ../../pkgs/kitty.nix
     ../../pkgs/vscode.nix
@@ -182,6 +183,11 @@ in {
   };
 
   programs = {
+    # nix-locate "bin/firefox" will show where the firefox binary is located
+    nix-index = {
+      enableZshIntegration = false;
+      enableBashIntegration = false;
+    };
     # Helps with libc problems with sqlalchemy, https://discourse.nixos.org/t/sqlalchemy-python-fails-to-find-libstdc-so-6-in-virtualenv/38153
     # Have to add the following to shell.nix to make it work:
     # with import <nixpkgs> {};

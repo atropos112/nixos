@@ -53,7 +53,7 @@
       '';
       description = "Search for a package";
     };
-    apply = {
+    apply-local = {
       exec = ''
         build && sudo nixos-rebuild switch --fast || exit 1
       '';
@@ -81,7 +81,13 @@
       exec = ''
         sudo colmena apply --on "$@" --verbose
       '';
-      description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,a21,smol')";
+      description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,surface')";
+    };
+    colmena-apply-k8s = {
+      exec = ''
+        colmena-apply "opi*,rzr,smol,a21"
+      '';
+      description = "Apply the configuration using colmena to all Kubernetes nodes.";
     };
     build-on-apply-on = {
       exec = ''

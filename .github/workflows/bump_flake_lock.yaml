@@ -2,7 +2,7 @@ name: Bump Flake Lock
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: '0 3 * * 6' # every Saturday at 03:00 UTC
+    - cron: '0 1 * * 6' # every Saturday at 01:00 UTC
 jobs:
   lockfile:
     runs-on: ubuntu-latest
