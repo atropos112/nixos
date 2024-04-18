@@ -3,7 +3,16 @@
     ./hardware.nix
     ../../lib/common/desktop
   ];
-  topology.self.hardware.info = "Travel-use laptop";
+  topology.self = {
+    interfaces = {
+      wifi = {
+        network = "WLAN";
+        type = "wifi";
+      };
+      tailscale0.addresses = ["100.69.192.50" "surface"];
+    };
+    hardware.info = "i7-8650U, 16GB, GTX1060";
+  };
 
   networking.hostName = "surface";
 

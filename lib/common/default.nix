@@ -30,6 +30,17 @@ in {
     ../pkgs/tmux.nix
     ./identities/users.nix
   ];
+
+  topology.self = {
+    interfaces = {
+      tailscale0 = {
+        network = "TAILSCALE";
+        virtual = true;
+        type = "wireguard";
+      };
+    };
+  };
+
   # Basic system configuration
   system = {
     stateVersion = "unstable";

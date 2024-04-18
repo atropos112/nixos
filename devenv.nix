@@ -73,7 +73,7 @@
     };
     update = {
       exec = ''
-        sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && apply
+        sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && apply-local
       '';
       description = "Update the system";
     };

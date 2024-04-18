@@ -6,6 +6,6 @@ _: {
 
   topology.self = {
     interfaces.eth0.network = "LAN";
-    hardware.info = "CPU: RK3588S, RAM: 16GB (DDR4), Make: Orange Pi 5, K8s: Worker";
+    hardware.info = "RK3588S, 16GB (DDR4), Orange Pi 5, K8s Worker";
   };
 }

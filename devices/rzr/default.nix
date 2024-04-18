@@ -6,8 +6,11 @@ _: {
 
   topology.self = {
     name = "rzr";
-    interfaces.eth0.network = "LAN";
-    hardware.info = "CPU: i7-6900K, RAM: 32GB (DDR4), GPU: GTX1080Ti, K8s: Master";
+    interfaces = {
+      tailscale0.addresses = ["100.120.250.58" "rzr"];
+      eth0.addresses = ["9.0.0.2"];
+    };
+    hardware.info = "i7-6900K, 32GB (DDR4), GTX1080Ti, K8s Master";
   };
 
   networking.hostName = "atrorzr";

@@ -6,8 +6,11 @@ _: {
 
   topology.self = {
     name = "a21";
-    interfaces.eth0.network = "LAN";
-    hardware.info = "CPU: i3-10100F, RAM: 32GB (DDR4), K8s: Master";
+    interfaces = {
+      tailscale0.addresses = ["100.93.148.41" "a21"];
+      eth0.addresses = ["9.0.0.3"];
+    };
+    hardware.info = "i3-10100F, 32GB (DDR4), K8s Master";
   };
 
   networking.hostName = "atroa21";

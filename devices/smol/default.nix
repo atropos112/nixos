@@ -6,8 +6,11 @@ _: {
 
   topology.self = {
     name = "smol";
-    interfaces.eth0.network = "LAN";
-    hardware.info = "CPU: i5-10210U, RAM: 16GB (DDR4), K8s: Master";
+    interfaces = {
+      tailscale0.addresses = ["100.121.127.11" "smol"];
+      eth0.addresses = ["9.0.0.4"];
+    };
+    hardware.info = "i5-10210U, 16GB (DDR4), K8s Master";
   };
 
   networking.hostName = "atrosmol";
