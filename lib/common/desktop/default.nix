@@ -167,14 +167,16 @@ in {
       enable = true;
       # Display manager (Login screen)
       displayManager = {
-        autoLogin = {
-          enable = false; # I want to type my password as I may come remotely.
-          user = "atropos";
-        };
         gdm = {
           enable = true;
           wayland = true;
         };
+      };
+    };
+    displayManager = {
+      autoLogin = {
+        enable = false; # I want to type my password as I may come remotely.
+        user = "atropos";
       };
     };
 
@@ -212,6 +214,17 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # Music player
+      feishin
+
+      vscode-langservers-extracted
+
+      # Project template generator
+      copier
+
+      # Basic gpg encryption stuff
+      gnupg
+
       # So that i can call xrandr to instruct xwayland which screen is primary
       wlr-randr
 

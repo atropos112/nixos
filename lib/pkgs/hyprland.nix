@@ -29,7 +29,7 @@ _: {
         "$mainMod, RETURN, exec, kitty"
         "$mainMod, Y, exec, element-desktop --disable-gpu"
         "$mainMod, Q, killactive,"
-        "$mainMod, M, exit,"
+        "$mainMod, M, exec, feishin --help" # Surprisingly any -- makes it work idk why, --help makes it work without it breaks because nvidia driver is not nouvou, weird af.
         "Alt_L, Z, exec, copyq show"
         "$mainMod, Z, exec, copyq show"
         "$mainMod, X, exec, wlogout"

@@ -1,20 +1,24 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # Python
-    python311Full
-    python312Full
-    python313Full
+    (python311Full.withPackages (ps:
+      with ps; [
+        python-lsp-server
+        pylsp-rope
+        python-lsp-ruff
+        pydocstyle
+        vulture
+        mccabe
+        pylint
+        debugpy
+      ]))
 
-    # python lsp
+    # Linters
     pylint
+    ruff
 
-    # Python LSP serves
-    python311Packages.python-lsp-server
-
-    # Python package manager (Poetry)
+    # Python package managers
     poetry
-
-    # Pip but faster
-    uv
+    uv # pip but faster.
   ];
 }

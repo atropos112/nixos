@@ -18,8 +18,8 @@ _: {
   };
 
   # Use RAM for /tmp
-  boot = {
-    tmpOnTmpfs = true;
-    tmpOnTmpfsSize = "50%";
+  boot.tmp = {
+    useTmpfs = true;
+    tmpfsSize = "50%";
   };
 }
