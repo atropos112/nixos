@@ -8,7 +8,7 @@ _: let
 in {
   imports = [
     ../../lib/common/nvidia.nix
-    ../../lib/common/kubernetes/amd64_hardware.nix
+    ../../lib/common/server/amd64_hardware.nix
     ../../lib/pkgs/zfs.nix
   ];
   hardware.nvidia.powerManagement.enable = false;

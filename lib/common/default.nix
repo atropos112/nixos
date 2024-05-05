@@ -31,6 +31,7 @@ in {
     ./nix.nix
     ./identities/users.nix
     ./identities/known_hosts.nix
+    ./networking.nix
   ];
 
   topology.self = {
@@ -84,6 +85,8 @@ in {
       then ["aarch64-linux"]
       else ["x86_64-linux"];
     kernel.sysctl = {
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
       "fs.inotify.max_user_instances" = 8192;
     };
   };

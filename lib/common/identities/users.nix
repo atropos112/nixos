@@ -13,6 +13,8 @@ _: let
   };
 in {
   users = {
+    mutableUsers = false;
+
     groups = {
       plugdev = {};
     };

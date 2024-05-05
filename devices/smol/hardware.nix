@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ../../lib/common/kubernetes/amd64_hardware.nix
+    ../../lib/common/server/amd64_hardware.nix
   ];
 
   fileSystems = {
