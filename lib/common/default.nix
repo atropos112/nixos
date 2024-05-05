@@ -29,6 +29,7 @@ in {
     ../pkgs/nvim.nix
     ../pkgs/tmux.nix
     ./identities/users.nix
+    ./identities/known_hosts.nix
   ];
 
   topology.self = {
