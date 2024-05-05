@@ -33,6 +33,11 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    waybar = {
+      url = "github:Alexays/Waybar";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
   outputs = {self, ...} @ inputs: let
     mkHost = hostName: system: (
