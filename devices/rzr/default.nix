@@ -2,7 +2,13 @@ _: {
   imports = [
     ./hardware.nix
     ../../lib/common/kubernetes/node_master.nix
+    ../../lib/modules/kopia.nix
   ];
+
+  atro.kopia = {
+    enable = true;
+    runAs = "root";
+  };
 
   topology.self = {
     name = "rzr";

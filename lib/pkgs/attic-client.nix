@@ -21,7 +21,7 @@ in {
       ExecStart = "${pkgs.writeShellScript "watch-store" ''
         #!/run/current-system/sw/bin/bash
         ATTIC_TOKEN=$(cat ${attic_atropos_token})
-        ${attic_pkgs.attic}/bin/attic login atticd http://atticd:8080 $ATTIC_TOKEN
+        ${attic_pkgs.attic}/bin/attic login atticd http://atticd $ATTIC_TOKEN
         ${attic_pkgs.attic}/bin/attic watch-store atticd:atro
       ''}";
       Restart = "on-failure";

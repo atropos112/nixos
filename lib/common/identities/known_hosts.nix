@@ -2,6 +2,11 @@
   inherit (builtins) mapAttrs;
   inherit (config.networking) hostName;
 
+  shortHostName =
+    if builtins.substring 0 4 hostName == "atro"
+    then builtins.substring 4 (builtins.stringLength hostName) hostName
+    else hostName;
+
   secretKeyString = name: "hostKeys/${name}/privateKey";
   publicKeyString = name: "hostKeys/${name}/publicKey";
 
@@ -12,15 +17,15 @@ in {
   # This will allow us to statically define known hosts below.
 
   sops.secrets = {
-    "${secretKeyString hostName}" = {};
-    "${publicKeyString hostName}" = {};
+    "${secretKeyString shortHostName}" = {};
+    "${publicKeyString shortHostName}" = {};
   };
 
   environment.etc = {
     "private-host-key" = {
       enable = true;
       target = "ssh/ssh_host_ed25519_key";
-      source = secretKeyPath hostName;
+      source = secretKeyPath shortHostName;
       uid = 0;
       gid = 0;
       mode = "0600";
@@ -28,7 +33,7 @@ in {
     "public-host-key" = {
       enable = true;
       target = "ssh/ssh_host_ed25519_key.pub";
-      source = publicKeyPath hostName;
+      source = publicKeyPath shortHostName;
       uid = 0;
       gid = 0;
       mode = "0644";
