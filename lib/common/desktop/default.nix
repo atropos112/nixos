@@ -82,7 +82,7 @@ in {
     NIXOS_OZONE_WL = "1";
 
     # Inform all GDK apps its wayland env
-    GDK_BACKEND = "wayland";
+    GDK_BACKEND = lib.mkDefault "wayland, x11";
 
     # Inform QT apps of the version
     QT_QPA_PLATFORMTHEME = "qt6ct";
