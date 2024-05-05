@@ -82,7 +82,8 @@ in {
           vi = "nvim";
 
           # git
-          rebasebr = "git checkout $(git_main_branch) && git pull && git switch - && git rebase $(git_main_branch)";
+          rbr = "git checkout $(git_main_branch) && git pull && git switch - && git rebase $(git_main_branch)";
+          gmerg = "git add --all && git commit --amend --no-edit";
 
           # ls -> eza
           ls = "eza";

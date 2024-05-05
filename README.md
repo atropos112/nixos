@@ -63,3 +63,7 @@ To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, co
 
 - Orange Pi Zero 2W setup is not working it needs fixing.
 - My neovim setup should be ingested.
+
+# Acknowledgements
+
+- I have shamelessly copied a lot from [Srvos](https://github.com/nix-community/srvos), I am grateful for the work they have done.
