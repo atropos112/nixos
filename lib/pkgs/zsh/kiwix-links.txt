@@ -31,3 +31,4 @@ https://docs.pytest.org/en/latest pytest-docs
 https://doc.rust-lang.org/stable/book rust-lang-doc
 https://doc.rust-lang.org/stable/rust-by-example rust-by-example-doc
 https://dhghomon.github.io/easy_rust easy-rust
+https://www.cosmicpython.com/book/introduction.html cosmicpython

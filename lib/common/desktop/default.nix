@@ -69,7 +69,7 @@ in {
 
   environment.sessionVariables = {
     # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
-    # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
+    LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
     FZF_BASE = "${pkgs.fzf}/bin/fzf";
 
     # For direnv to not show the log
