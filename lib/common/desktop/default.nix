@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  pkgs-stable,
   lib,
   ...
 }: let
@@ -211,224 +212,227 @@ in {
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    # Music player
-    feishin
+  environment.systemPackages = with pkgs;
+    [
+      # Music player
+      feishin
 
-    vscode-langservers-extracted
+      vscode-langservers-extracted
 
-    # Project template generator
-    copier
+      # Project template generator
+      copier
 
-    # Basic gpg encryption stuff
-    gnupg
+      # Basic gpg encryption stuff
+      gnupg
 
-    # So that i can call xrandr to instruct xwayland which screen is primary
-    wlr-randr
+      # So that i can call xrandr to instruct xwayland which screen is primary
+      wlr-randr
 
-    # File manager
-    gnome.nautilus
+      # File manager
+      gnome.nautilus
 
-    # Backup solution
-    kopia
+      # Backup solution
+      kopia
 
-    # Interacts with the service to provide power usage information, e.g. how much battery is left.
-    upower
+      # Interacts with the service to provide power usage information, e.g. how much battery is left.
+      upower
 
-    # To set/get screen brightness
-    brightnessctl
+      # To set/get screen brightness
+      brightnessctl
 
-    # Provide a "shutdown" window for GUI convenience
-    wlogout
+      # Provide a "shutdown" window for GUI convenience
+      wlogout
 
-    # Provides controls for sound related matters
-    pavucontrol
+      # Provides controls for sound related matters
+      pavucontrol
 
-    # Zig
-    zig
+      # Zig
+      zig
 
-    # Polkit authentication for KDE based apps.
-    # Authentication agents are the things that pop up a window asking you for a
-    # password whenever an app wants to elevate its privileges.
-    polkit-kde-agent
+      # Polkit authentication for KDE based apps.
+      # Authentication agents are the things that pop up a window asking you for a
+      # password whenever an app wants to elevate its privileges.
+      polkit-kde-agent
 
-    # Application killer
-    killall
+      # Application killer
+      killall
 
-    # Keyring needed for some applications (e.g. github copilot)
-    libgnome-keyring
+      # Keyring needed for some applications (e.g. github copilot)
+      libgnome-keyring
 
-    # Javascript runtimes
-    bun
-    nodejs_20
+      # Javascript runtimes
+      bun
+      nodejs_20
 
-    # Get CPU temps etc.
-    lm_sensors
+      # Get CPU temps etc.
+      lm_sensors
 
-    # perf testing of a bash call or multiple functions
-    hyperfine
+      # perf testing of a bash call or multiple functions
+      hyperfine
 
-    # Qogir theme
-    qogir-theme
-    qogir-icon-theme
+      # Qogir theme
+      qogir-theme
+      qogir-icon-theme
 
-    # GTK theme gui manager
-    lxappearance # To run it use: GDK_BACKEND=x11 lxappearance
+      # GTK theme gui manager
+      lxappearance # To run it use: GDK_BACKEND=x11 lxappearance
 
-    # ProtonMail suite
-    electron-mail
+      # ProtonMail suite
+      electron-mail
 
-    # Music player
-    spotify
+      # Music player
+      spotify
 
-    # Matrix client
-    element-desktop-wayland
+      # Matrix client
+      element-desktop-wayland
 
-    # For better bluetooth controls
-    bluez
+      # For better bluetooth controls
+      bluez
 
-    # QT provides a lot of the GUI stuff
-    libsForQt5.qt5.qtwayland
-    libsForQt5.qt5ct
-    qt6.qtwayland
+      # QT provides a lot of the GUI stuff
+      libsForQt5.qt5.qtwayland
+      libsForQt5.qt5ct
+      qt6.qtwayland
 
-    # Screenshoting tools
-    # Need grim and slurp to use grimshot which does the screenshoting
-    grim
-    slurp
-    sway-contrib.grimshot
+      # Screenshoting tools
+      # Need grim and slurp to use grimshot which does the screenshoting
+      grim
+      slurp
+      sway-contrib.grimshot
 
-    # Sound control via cli (used in bar, and for keyboard shortcuts)
-    pamixer
+      # Sound control via cli (used in bar, and for keyboard shortcuts)
+      pamixer
 
-    # CLI status of storage usage
-    duf
+      # CLI status of storage usage
+      duf
 
-    # Useful tool for finding large files to cut down on storage usage
-    ncdu
+      # Useful tool for finding large files to cut down on storage usage
+      ncdu
 
-    # Hack to deal with some apps not working on X
-    xwayland
+      # Hack to deal with some apps not working on X
+      xwayland
 
-    # Lock screen
-    swaylock-effects
+      # Lock screen
+      swaylock-effects
 
-    # Manages locking when suspending, timeout or other events happen.
-    swayidle
+      # Manages locking when suspending, timeout or other events happen.
+      swayidle
 
-    # Interacts with some apps to do correct copy n paste
-    wl-clipboard
+      # Interacts with some apps to do correct copy n paste
+      wl-clipboard
 
-    # psql to connect to postgres databases
-    postgresql
+      # psql to connect to postgres databases
+      postgresql
 
-    # NIX LSP
-    nil
+      # NIX LSP
+      nil
 
-    # Allows setting some global flags for applications to interpret, for example dark mode.
-    dconf
+      # Allows setting some global flags for applications to interpret, for example dark mode.
+      dconf
 
-    # Nice sys-tray for tailscale
-    tailscale-systray
+      # Nice sys-tray for tailscale
+      tailscale-systray
 
-    # Provides power usage stats and some toggles
-    powertop
+      # Provides power usage stats and some toggles
+      powertop
 
-    # Basic utils like echo and tee. Are available by default but stating it here explicitly to refer it in systemd services (like wakeonusb).
-    coreutils
+      # Basic utils like echo and tee. Are available by default but stating it here explicitly to refer it in systemd services (like wakeonusb).
+      coreutils
 
-    # Watching video player
-    vlc
+      # Watching video player
+      vlc
 
-    # Youtube (and more) downloader
-    yt-dlp
+      # Youtube (and more) downloader
+      yt-dlp
 
-    # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
-    avizo
+      # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
+      avizo
 
-    # Allows to serve zim files which in turn provide offline (pre-downloaded) websites
-    kiwix-tools
+      # Allows to serve zim files which in turn provide offline (pre-downloaded) websites
+      kiwix-tools
 
-    # Golang package
-    go_1_22
+      # Golang package
+      go_1_22
 
-    # Torrent client
-    transmission-gtk
+      # Torrent client
+      transmission-gtk
 
-    # Font viewer (have to open twice for some reason)
-    gnome.gnome-font-viewer
+      # Font viewer (have to open twice for some reason)
+      gnome.gnome-font-viewer
 
-    # Rust debug server
-    vscode-extensions.vadimcn.vscode-lldb.adapter
+      # Rust debug server
+      vscode-extensions.vadimcn.vscode-lldb.adapter
 
-    # Multiplexer for terminal
-    tmux
+      # Multiplexer for terminal
+      tmux
 
-    # pdf viewer
-    zathura
+      # pdf viewer
+      zathura
 
-    # connect to k8s external secret source
-    doppler
+      # connect to k8s external secret source
+      doppler
 
-    # dns resolving tool (for testing)
-    dig
+      # dns resolving tool (for testing)
+      dig
 
-    # tool for partitioning
-    parted
+      # tool for partitioning
+      parted
 
-    # execution tool (in repos)
-    just
-    gnumake
+      # execution tool (in repos)
+      just
+      gnumake
 
-    # hacky tool to simulate keyboard inputs
-    wtype
+      # hacky tool to simulate keyboard inputs
+      wtype
 
-    # C++ compiler
-    gcc
+      # C++ compiler
+      gcc
 
-    # proprietary chat client (for external usage)
-    slack
+      # proprietary chat client (for external usage)
+      slack
 
-    # database client
-    dbeaver
+      # database client
+      dbeaver
 
-    # debuger for golang
-    delve
+      # debuger for golang
+      delve
 
-    # Cllium eBPF client tool for kubernetes cluster
-    cilium-cli
+      # Cllium eBPF client tool for kubernetes cluster
+      cilium-cli
 
-    # deploying nix builds easily, to many machines at the same time even
-    colmena
+      # deploying nix builds easily, to many machines at the same time even
+      colmena
 
-    #WIP
-    hadolint
-    czkawka
-    gum
-    ginkgo
-    ocaml
-    wpaperd
-    pre-commit
-    rustup
-    argocd
-    statix # to give suggestions on nix stuff
-    deadnix # look for dead nix code
-    alejandra
-    usbimager # etcher equiv
-    nvd # diff for nixos deploys
-    iamb # terminal client for matrix
-    # Vivaldi is a web browser
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = false;
-      inherit vivaldi-ffmpeg-codecs;
-      commandLineArgs = [
-        "--ozone-platform-hint=auto" # autodetect wayland or x11
-      ];
-    })
-    vivaldi-ffmpeg-codecs
-    widevine-cdm
-  ];
+      #WIP
+      hadolint
+      czkawka
+      gum
+      ginkgo
+      ocaml
+      wpaperd
+      pre-commit
+      rustup
+      argocd
+      statix # to give suggestions on nix stuff
+      deadnix # look for dead nix code
+      alejandra
+      usbimager # etcher equiv
+      nvd # diff for nixos deploys
+      iamb # terminal client for matrix
+    ]
+    ++ (with pkgs-stable; [
+      # Vivaldi is a web browser
+      (vivaldi.override {
+        proprietaryCodecs = true;
+        enableWidevine = false;
+        inherit vivaldi-ffmpeg-codecs;
+        commandLineArgs = [
+          "--ozone-platform-hint=auto" # autodetect wayland or x11
+        ];
+      })
+      vivaldi-ffmpeg-codecs
+      widevine-cdm
+    ]);
 
   systemd = {
     # This is a service that allows you to control with bluetooth headphones (e.g. volume play/stop)

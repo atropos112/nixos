@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
+    # WARN: Do not add mypy, it doesn't do well in global packages
     # Python
     (python311Full.withPackages (ps:
       with ps; [
