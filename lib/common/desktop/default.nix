@@ -24,6 +24,7 @@ in {
     ../../pkgs/mako.nix
     ../../pkgs/tofi
     ../../pkgs/python.nix
+    ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
   ];
 
@@ -214,6 +215,7 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      sshfs
       # Music player
       feishin
 
