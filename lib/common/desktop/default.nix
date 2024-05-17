@@ -26,6 +26,7 @@ in {
     ../../pkgs/python.nix
     ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
+    ../../pkgs/firefox.nix
   ];
 
   stylix = {
