@@ -1,8 +1,34 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
+    inputs.impermanence.nixosModules.impermanence
+    inputs.disko.nixosModules.disko
     ./hardware.nix
     ../../lib/common/desktop
   ];
+
+  # boot.initrd.postDeviceCommands = lib.mkAfter ''
+  #   mkdir /rpool_nixos_root_tmp
+  #   mount -t zfs rpool/nixos/root /rpool_nixos_root_tmp
+  #   rm -rf /rpool_nixos_root_tmp/*
+  #   umount /rpool_nixos_root_tmp
+  # '';
+
+  environment.persistence."/persistent" = {
+    hideMounts = true;
+    users.atropos.directories = [
+      # Testing
+      {
+        directory = ".ssh_backup";
+        mode = "0700";
+      }
+    ];
+  };
+
   topology.self = {
     interfaces = {
       wifi = {

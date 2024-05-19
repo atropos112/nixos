@@ -32,11 +32,10 @@ in {
     dataSets = mkOption {
       type = types.attrsOf types.str;
       default = {
-        "rpool/nixos/home" = "/home";
-        "rpool/nixos/var/lib" = "/var/lib";
-        "rpool/nixos/var/log" = "/var/log";
-        "rpool/nixos/root" = "/";
-        "bpool/nixos/root" = "/boot";
+        "rpool/home" = "/home";
+        "rpool/persistent" = "/persistent";
+        "rpool/nix" = "/nix";
+        "bpool/root" = "/boot";
       };
     };
     hostId = mkOption {
