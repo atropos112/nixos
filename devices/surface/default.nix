@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  config,
   ...
 }: {
   imports = [
@@ -11,12 +12,18 @@
     ../../lib/common/desktop
   ];
 
-  # boot.initrd.postDeviceCommands = lib.mkAfter ''
-  #   mkdir /rpool_nixos_root_tmp
-  #   mount -t zfs rpool/nixos/root /rpool_nixos_root_tmp
-  #   rm -rf /rpool_nixos_root_tmp/*
-  #   umount /rpool_nixos_root_tmp
-  # '';
+  boot.initrd.postDeviceCommands = lib.mkAfter (''
+      zfs destroy zroot/nixos/root@previous
+      zfs rename zroot/nixos/root@current rename zroot/nixos/root@previous
+      zfs snapshot zroot/nixos/root@current
+      zfs rollback -r zroot/nixos/root@blank
+
+      zfs destroy zroot/nixos/home@previous
+      zfs rename zroot/nixos/home@current rename zroot/nixos/home@previous
+      zfs snapshot zroot/nixos/home@current
+      zfs rollback -r zroot/nixos/home@blank
+    ''
+    + config.system.activationScripts.premFix.text);
 
   environment.persistence."/persistent" = {
     hideMounts = true;

@@ -19,6 +19,7 @@
           content = {
             type = "swap";
             randomEncryption = true;
+            priority = 100;
           };
         };
         zfs = {
@@ -52,6 +53,33 @@ in {
     kernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod"];
   };
 
+  boot = {
+    supportedFilesystems = ["zfs"];
+    loader = {
+      generationsDir.copyKernels = true;
+      efi = {
+        canTouchEfiVariables = false;
+      };
+      grub = {
+        enable = true;
+        useOSProber = true;
+        copyKernels = true;
+        efiSupport = true;
+        zfsSupport = true;
+        efiInstallAsRemovable = true;
+      };
+    };
+  };
+
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.mirroredBoots = [
+    {
+      path = "/boot0";
+      devices = ["nodev"];
+    }
+  ];
+
   fileSystems."/persistent".neededForBoot = true;
 
   disko.devices = {
@@ -70,7 +98,7 @@ in {
           mountpoint = "none";
         };
         datasets = {
-          "root" = {
+          "nixos" = {
             type = "zfs_fs";
             options = {
               mountpoint = "none";
@@ -80,15 +108,16 @@ in {
               keylocation = "prompt";
             };
           };
-          "root/root" = {
+          "nixos/root" = {
             type = "zfs_fs";
             mountpoint = "/";
             options = {
               mountpoint = "legacy";
             };
+            postCreateHook = "zfs snapshot zroot/nixos/root@blank";
           };
 
-          "root/nix" = {
+          "nixos/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
             options = {
@@ -96,15 +125,16 @@ in {
             };
           };
 
-          "root/home" = {
+          "nixos/home" = {
             type = "zfs_fs";
             mountpoint = "/home";
             options = {
               mountpoint = "legacy";
             };
+            postCreateHook = "zfs snapshot zroot/nixos/home@blank";
           };
 
-          "root/persistent" = {
+          "nixos/persistent" = {
             type = "zfs_fs";
             mountpoint = "/persistent";
             options = {

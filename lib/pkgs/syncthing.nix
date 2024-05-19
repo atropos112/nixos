@@ -8,9 +8,13 @@ in {
   sops.secrets = {
     "syncthing/${hostName}/cert" = {
       owner = config.users.users.atropos.name;
+      group = config.users.users.atropos.name;
+      mode = "0600";
     };
     "syncthing/${hostName}/key" = {
       owner = config.users.users.atropos.name;
+      group = config.users.users.atropos.name;
+      mode = "0600";
     };
   };
 

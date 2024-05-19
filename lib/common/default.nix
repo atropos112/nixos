@@ -63,6 +63,23 @@ in {
         fi
       '';
     };
+
+    # Provides diff to current system and what it was upgraded to.
+    activationScripts.premFix = {
+      supportsDryActivation = false;
+      text = ''
+        mkdir -p ${homeDirectory}/.config
+        mkdir -p ${homeDirectory}/.local
+        mkdir -p ${homeDirectory}/.cache
+        mkdir -p ${homeDirectory}/.ssh
+        mkdir -p ${homeDirectory}/media
+
+        mkdir -p ${rootHomeDirectory}/.config
+
+        chown -R ${homeUser}:${homeUser} ${homeDirectory}
+        chown -R ${rootHomeUser}:${rootHomeUser} ${rootHomeDirectory}
+      '';
+    };
   };
 
   # The notion of "online" is a broken concept
