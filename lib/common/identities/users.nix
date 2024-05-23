@@ -19,7 +19,9 @@ in {
       plugdev = {};
     };
 
-    groups.atropos = {};
+    groups.atropos = {
+      gid = 1000;
+    };
 
     users = {
       root = {
@@ -33,6 +35,7 @@ in {
       };
       atropos = {
         isNormalUser = true;
+        uid = 1000;
         useDefaultShell = true;
         home = "/home/atropos";
         group = "atropos";

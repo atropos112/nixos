@@ -87,8 +87,7 @@ in {
 
           # ls -> eza
           ls = "eza";
-          ll = "eza -l";
-          la = "eza -la";
+          l = "eza -l --icons --git -a";
 
           # kitty based
           s = "kitten ssh";

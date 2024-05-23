@@ -47,7 +47,10 @@ in {
   #   ln -nsf /home/atropos/media/fonts /home/atropos/.local/share/fonts
   # '';
 
-  atro.kopia.enable = true;
+  atro.kopia = {
+    enable = true;
+    runAs = "root";
+  };
 
   # Enabled by default, but is needed if you are a purist so putting it here to make it explicit.
   nix.settings.sandbox = true;
@@ -155,6 +158,10 @@ in {
       settings = {
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+
         USB_AUTOSUSPEND = 1;
         USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 0;
       };
@@ -463,7 +470,7 @@ in {
         "${homeDirectory}/.local/share/fonts" = {
           enable = true;
           recursive = true;
-          source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/media/fonts";
+          source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/Sync/fonts";
         };
       };
 

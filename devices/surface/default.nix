@@ -1,40 +1,8 @@
-{
-  pkgs,
-  lib,
-  inputs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
-    inputs.impermanence.nixosModules.impermanence
-    inputs.disko.nixosModules.disko
     ./hardware.nix
     ../../lib/common/desktop
   ];
-
-  boot.initrd.postDeviceCommands = lib.mkAfter (''
-      zfs destroy zroot/nixos/root@previous
-      zfs rename zroot/nixos/root@current rename zroot/nixos/root@previous
-      zfs snapshot zroot/nixos/root@current
-      zfs rollback -r zroot/nixos/root@blank
-
-      zfs destroy zroot/nixos/home@previous
-      zfs rename zroot/nixos/home@current rename zroot/nixos/home@previous
-      zfs snapshot zroot/nixos/home@current
-      zfs rollback -r zroot/nixos/home@blank
-    ''
-    + config.system.activationScripts.premFix.text);
-
-  environment.persistence."/persistent" = {
-    hideMounts = true;
-    users.atropos.directories = [
-      # Testing
-      {
-        directory = ".ssh_backup";
-        mode = "0700";
-      }
-    ];
-  };
 
   topology.self = {
     interfaces = {
@@ -42,11 +10,11 @@
         network = "WLAN";
         type = "wifi";
       };
-      tailscale0.addresses = ["100.69.192.50" "surface"];
+      tailscale0.addresses = ["surface"];
     };
     hardware.info = "i7-8650U, 16GB, GTX1060";
   };
-
+  powerManagement.enable = true;
   networking.hostName = "surface";
 
   nix = {
@@ -153,8 +121,7 @@
       "2, monitor:eDP-1, default:true"
       "3, monitor:eDP-1, default:true"
       "4, monitor:eDP-1, default:true"
-      "5, monitor:eDP-1, default:true
-"
+      "5, monitor:eDP-1, default:true"
       "6, monitor:DP-2, default:true"
       "7, monitor:DP-2, default:true"
       "8, monitor:DP-2, default:true"

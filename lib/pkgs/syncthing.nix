@@ -50,11 +50,11 @@ in {
         };
       };
       folders = {
-        media = {
+        sync = {
           enable = true;
           id = "ezaua-zrnnt";
           devices = ["cluster"];
-          path = "/home/atropos/media";
+          path = "/home/atropos/Sync";
         };
       };
     };

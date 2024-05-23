@@ -9,34 +9,22 @@
 
   secretKeyString = name: "hostKeys/${name}/privateKey";
   publicKeyString = name: "hostKeys/${name}/publicKey";
-
-  secretKeyPath = name: config.sops.secrets.${secretKeyString name}.path;
-  publicKeyPath = name: config.sops.secrets.${publicKeyString name}.path;
 in {
   # INFO: Ensuring the key on the machine where NixOs is deployed is decleared.
   # This will allow us to statically define known hosts below.
 
   sops.secrets = {
-    "${secretKeyString shortHostName}" = {};
-    "${publicKeyString shortHostName}" = {};
-  };
-
-  environment.etc = {
-    "private-host-key" = {
-      enable = true;
-      target = "ssh/ssh_host_ed25519_key";
-      source = secretKeyPath shortHostName;
-      uid = 0;
-      gid = 0;
+    "${secretKeyString shortHostName}" = {
       mode = "0600";
+      owner = "root";
+      group = "root";
+      path = "/etc/ssh/ssh_host_ed25519_key";
     };
-    "public-host-key" = {
-      enable = true;
-      target = "ssh/ssh_host_ed25519_key.pub";
-      source = publicKeyPath shortHostName;
-      uid = 0;
-      gid = 0;
+    "${publicKeyString shortHostName}" = {
       mode = "0644";
+      owner = "root";
+      group = "root";
+      path = "/etc/ssh/ssh_host_ed25519_key.pub";
     };
   };
 
