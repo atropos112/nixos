@@ -26,7 +26,7 @@ jobs:
           sudo apt -y install qemu-user-static
           cat /proc/sys/fs/binfmt_misc/qemu-aarch64
           /usr/bin/qemu-aarch64-static --version
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v15
         with:
           name: devenv
       - name: Install devenv.sh
