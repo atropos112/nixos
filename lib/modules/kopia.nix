@@ -21,14 +21,25 @@ with lib; let
     KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
     KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
 
-    ${pkgs.coreutils}/bin/echo "Generating config file if it doesn't exist..."
+    connect_output=$(${pkgs.kopia}/bin/kopia --log-level=debug repository connect s3 --bucket=kopiabackup --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="eu-central-1.linodeobjects.com" 2>&1)
+
+    if [[ "$connect_output" == *"repository not initialized in the provided storage"* ]]; then
+    	${pkgs.kopia}/bin/kopia --log-level=debug repository create s3 --bucket=kopiabackup --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="eu-central-1.linodeobjects.com"
+        ${pkgs.coreutils}/bin/echo "Sleeping for 10 seconds for good measure."
+    fi
+
+    ${pkgs.coreutils}/bin/sleep 10 # Bit hacky...
+    # Connect to the repository again as sometimes the first connection fails
     ${pkgs.kopia}/bin/kopia --log-level=debug repository connect s3 --bucket=kopiabackup --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="eu-central-1.linodeobjects.com"
+
+    ${pkgs.coreutils}/bin/echo "Generating config file if it doesn't exist..."
     ${pkgs.coreutils}/bin/echo "Starting Kopia server..."
     ${pkgs.kopia}/bin/kopia --log-level=debug server start --insecure --address="http://0.0.0.0:51515" --server-username=atropos --server-password="$KOPIA_GUI_PASSWORD" --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
   ''}";
   kopiaService = {
     description = "Kopia server";
-    after = ["network.target"];
+    after = ["graphical.target"];
+    wants = ["graphical.target"];
     wantedBy = ["default.target"];
     environment = home_dir;
     serviceConfig = {

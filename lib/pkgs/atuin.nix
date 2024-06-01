@@ -10,10 +10,13 @@
   home-manager.users.atropos.programs.atuin = {
     enable = true;
     settings = {
-      sync_address = "http://atuin:8888";
+      sync_address = "http://atuin";
       auto_sync = true;
       sync_frequency = "10s";
       search_mode = "fuzzy";
+      daemon = {
+        enabled = true;
+      };
       key_path = config.sops.secrets."atuin/key".path;
     };
     flags = ["--disable-up-arrow"];

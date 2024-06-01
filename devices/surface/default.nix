@@ -17,48 +17,10 @@
   powerManagement.enable = true;
   networking.hostName = "surface";
 
-  nix = {
-    distributedBuilds = true;
-    extraOptions = ''
-      builders-use-substitutes = true
-    '';
-    buildMachines = [
-      {
-        hostName = "rzr";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 2;
-        speedFactor = 4;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
-      {
-        hostName = "a21";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 2;
-        speedFactor = 2;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
-      {
-        hostName = "smol";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 2;
-        speedFactor = 2;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
-      {
-        hostName = "giant";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 8;
-        speedFactor = 8;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
+  environment.persistence."/persistent" = {
+    # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
+    directories = [
+      "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
     ];
   };
 

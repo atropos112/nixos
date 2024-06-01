@@ -23,7 +23,7 @@ in {
     inputs.impermanence.nixosModules.impermanence # Is used within some modules not necessarily used though.
     inputs.disko.nixosModules.disko # Is used within some modules not necessarily used though.
     ../pkgs/sopsnix.nix
-    # ../pkgs/atuin.nix # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
+    ../pkgs/atuin.nix # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
     ../pkgs/git.nix
     ../pkgs/zsh
     ../pkgs/htop.nix
@@ -266,7 +266,7 @@ in {
       # Base home manager configuration
       username = rootHomeUser;
       homeDirectory = rootHomeDirectory;
-      stateVersion = "24.05";
+      stateVersion = "24.11";
     };
   };
   home-manager.users.atropos = {
@@ -274,7 +274,7 @@ in {
       # Base home manager configuration
       username = homeUser;
       inherit homeDirectory;
-      stateVersion = "24.05";
+      stateVersion = "24.11";
 
       sessionPath = [
         "$HOME/.bun/bin"
@@ -282,15 +282,6 @@ in {
         "$HOME/.cargo/bin"
         "$HOME/bins"
       ];
-    };
-
-    programs = {
-      # Execute scripts on directory entry, convenient for setups etc.
-      direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-        package = pkgs.direnv;
-      };
     };
   };
 }

@@ -95,10 +95,13 @@ in {
       disk =
         if cfg.mirrored
         then {
-          x = diskCfg "0";
-          y = diskCfg "1";
+          # TODO: This should be an option passing in "nvme numbers" rather than this fixed shit.
+          # Giant
+          x = diskCfg "1";
+          y = diskCfg "2";
         }
         else {
+          # Surface
           x = diskCfg "0";
         };
       zpool = {

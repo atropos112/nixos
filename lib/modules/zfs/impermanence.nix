@@ -15,68 +15,39 @@ in {
       echo "--------------------------------------------------"
       echo "Setting up impermanence..."
 
-      # Check and destroy the 'previous' snapshot if it exists for root
-      if zfs list -t snapshot | grep -q 'zroot/nixos/root@previous'; then
-          echo "Destroying previous snapshot for root"
-          zfs destroy zroot/nixos/root@previous
-      fi
-
-      # Check and rename the 'current' snapshot to 'previous' if it exists for root
-      if zfs list -t snapshot | grep -q 'zroot/nixos/root@current'; then
-          echo "Renaming current snapshot for root to previous"
-          zfs rename zroot/nixos/root@current zroot/nixos/root@previous
-      fi
-
-      # Create a new 'current' snapshot for root
-      echo "Creating new current snapshot for root"
-      zfs snapshot zroot/nixos/root@current
-
-      # Rollback to 'blank' for root
-      echo "Rolling back to blank for root"
+      echo "Rolling root back to blank..."
       zfs rollback -r zroot/nixos/root@blank
 
-      # Check and destroy the 'previous' snapshot if it exists for home
-      if zfs list -t snapshot | grep -q 'zroot/nixos/home@previous'; then
-          echo "Destroying previous snapshot for home"
-          zfs destroy zroot/nixos/home@previous
-      fi
-
-      # Check and rename the 'current' snapshot to 'previous' if it exists for home
-      if zfs list -t snapshot | grep -q 'zroot/nixos/home@current'; then
-          echo "Renaming current snapshot for home to previous"
-          zfs rename zroot/nixos/home@current zroot/nixos/home@previous
-      fi
-
-      # Create a new 'current' snapshot for home
-      echo "Creating new current snapshot for home"
-      zfs snapshot zroot/nixos/home@current
-
-      # Rollback to 'blank' for home
-      echo "Rolling back to blank for home"
+      echo "Rolling home back to blank..."
       zfs rollback -r zroot/nixos/home@blank
 
-      # Mounting home to fix permissions
-      echo "Mounting home and persistent to fix permissions"
+      echo "Impermanence setup complete."
+      echo "--------------------------------------------------"
+      echo "Fixing permissions..."
+
+      echo "Mounting home..."
       mkdir -p /home
       mount -t zfs zroot/nixos/home /home
 
+      echo "Mounting persistent..."
       mkdir -p /persistent
       mount -t zfs zroot/nixos/persistent /persistent
 
-      # Fixing permissions for home and root home and persistent
-      echo "Fixing permissions for home"
+      echo "Fixing permissions for home..."
       mkdir -p /home/atropos/.config /home/atropos/.local /home/atropos/.cache /home/atropos/.ssh /home/atropos/Sync /home/atropos/.local/share
       chown -R 1000:1000 /home/atropos
 
+      echo "Fixing permissions for persistent..."
       mkdir -p /persistent/home/atropos
       chown -R 1000:1000 /persistent/home/atropos
 
-      # Unmounting
-      echo "Unmounting home and persistent"
+      echo "Unmounting home..."
       umount /home
+
+      echo "Unmounting persistent..."
       umount /persistent
 
-      echo "Impermanence setup complete."
+      echo "Permissions fixed."
       echo "--------------------------------------------------"
     '';
 
@@ -85,27 +56,31 @@ in {
       # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
       users.atropos = {
         directories = [
-          ".ssh"
-          "Sync"
-          "projects"
-          "nixos"
-          ".config/vivaldi"
-          ".config/nvim"
-          ".local/share/nvim"
-          ".local/share/zoxide"
+          ".ssh" # User SSH keys
+          "Sync" # Syncthing
+          "projects" # Code projects
+          "nixos" # NixOS config
+
+          ".config/vivaldi" # Vivaldi browser content (config, cache, open pages, etc.)
+          ".config/nvim" # Neovim config
+
+          ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
+          ".local/share/zoxide" # Zoxide cache (otherwise its useless)
+          ".local/share/keyrings" # GPG keys for GNOME keyring
+          ".local/share/atuin" # Atuin cache TODO: Check if this is necessary
         ];
         files = [
-          ".zsh_history"
+          ".zsh_history" # Zsh history, likely to be superseded by atuin soon
+          ".kube/config" # Kubernetes config (for kubectl)
+          ".config/sops/age/keys.txt" # Allowing atropos user read and edit the age keys
         ];
       };
       directories = [
-        # TODO: Figure out a way to generate this.
-        "/etc/NetworkManager/system-connections" # To store wifi passwords/connections
-        "/root/.ssh"
+        "/root/.ssh" # Root SSH keys (used during age key decryption)
       ];
       # INFO: These dirs are not relative, must be full path.
       files = [
-        "/var/lib/tailscale/tailscaled.state"
+        "/var/lib/tailscale/tailscaled.state" # Tailscale login state. Tried doing ephemeral, comes with bunch of issues...
       ];
     };
   };

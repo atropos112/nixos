@@ -17,8 +17,7 @@ in {
 
   home-manager.users.atropos = {
     programs = {
-      direnv.enableZshIntegration = true;
-      # atuin.enableZshIntegration = true; # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
+      atuin.enableZshIntegration = true; # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
       kitty.shellIntegration.enableZshIntegration = true;
 
       zsh = {
@@ -114,6 +113,27 @@ in {
           fi
 
           # functions
+          function rebase-surface {
+            # if hostname of current machine is NOT giant then exit with 1 and echo message
+            if [ $(hostname) != "giant" ]; then
+              echo "You are not on giant, you are on $(hostname)"
+              return 1
+            fi
+            rsync -av --delete /home/atropos/.config/vivaldi/ surface:/persistent/home/atropos/.config/vivaldi
+            rsync -av --delete /home/atropos/projects/ surface:/persistent/home/atropos/projects
+            rsync -av --delete /home/atropos/nixos/ surface:/persistent/home/atropos/nixos
+          }
+
+          function rebase-giant {
+            if [ $(hostname) != "surface" ]; then
+              echo "You are not on giant, you are on $(hostname)"
+              return 1
+            fi
+            rsync -av --delete /home/atropos/.config/vivaldi/ giant:/persistent/home/atropos/.config/vivaldi
+            rsync -av --delete /home/atropos/projects/ giant:/persistent/home/atropos/projects
+            rsync -av --delete /home/atropos/nixos/ giant:/persistent/home/atropos/nixos
+          }
+
           function sssh {
               /run/current-system/sw/bin/mosh $@ -- tmux new -As atropos
           }
@@ -159,7 +179,7 @@ in {
           }
 
           eval "$(zoxide init zsh)"
-          eval "$(fzf --zsh)"
+          # eval "$(fzf --zsh)"
         '';
       };
     };

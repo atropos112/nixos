@@ -27,6 +27,7 @@ in {
     ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
     ../../pkgs/firefox.nix
+    ../../pkgs/direnv.nix
   ];
 
   stylix = {
@@ -76,9 +77,6 @@ in {
     # To Globally replace gcc stuff use this env var but it will do damage to othre stuff so ideally use nix-ld approach
     # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
     FZF_BASE = "${pkgs.fzf}/bin/fzf";
-
-    # For direnv to not show the log
-    DIRENV_LOG_FORMAT = "";
 
     # hint XDG to use wayland
     XDG_SESSION_TYPE = "wayland";
@@ -405,7 +403,7 @@ in {
       slack
 
       # database client
-      dbeaver
+      dbeaver-bin
 
       # debuger for golang
       delve
