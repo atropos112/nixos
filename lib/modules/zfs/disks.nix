@@ -5,20 +5,19 @@
 }:
 with lib; let
   cfg = config.atro.hardware.zfs.disks;
-  diskCfg = idx: withBoot: {
+  diskCfg = idx: bootName: {
     type = "disk";
     device = "/dev/nvme${idx}n1";
     content = {
       type = "gpt";
       partitions = {
-        ESP = lib.mkIf withBoot {
+        ESP = {
           size = "1G";
           type = "EF00";
           content = {
             type = "filesystem";
             format = "vfat";
-            #mountpoint = "/boot${idx}";
-            mountpoint = "/boot";
+            mountpoint = "/${bootName}";
             mountOptions = ["nofail"];
           };
         };
@@ -57,46 +56,28 @@ in {
     boot = {
       supportedFilesystems = ["zfs"];
       loader = {
-        generationsDir.copyKernels = true;
+        # generationsDir.copyKernels = true;
         efi = {
-          # canTouchEfiVariables = false;
+          canTouchEfiVariables = false;
         };
-        # grub = {
-        #   enable = true;
-        #   useOSProber = true;
-        #   copyKernels = true;
-        #   efiSupport = true;
-        #   zfsSupport = true;
-        #   efiInstallAsRemovable = true;
-        # };
+        grub = {
+          enable = true;
+          # useOSProber = true;
+          # copyKernels = true;
+          efiSupport = true;
+          device = "nodev";
+          # zfsSupport = true;
+          # efiInstallAsRemovable = true;
+        };
       };
     };
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-    # boot.loader.grub.mirroredBoots = [
-    #   {
-    #     path = "/boot";
-    #     devices = ["nodev"];
-    #   }
-    # ];
-    # if cfg.mirrored
-    # then [
-    #   # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
-    #   {
-    #     path = "/boot1";
-    #     devices = ["nodev"];
-    #   }
-    #   {
-    #     path = "/boot2";
-    #     devices = ["nodev"];
-    #   }
-    # ]
-    # else [
-    #   {
-    #     path = "/boot";
-    #     devices = ["nodev"];
-    #   }
-    # ];
+
+    boot.loader.grub.mirroredBoots = mkIf cfg.mirrored [
+      {
+        path = "/boot-fallback";
+        devices = ["/dev/nvme1n1"];
+      }
+    ];
 
     fileSystems."/persistent".neededForBoot = true;
 
@@ -106,12 +87,12 @@ in {
         then {
           # TODO: This should be an option passing in "nvme numbers" rather than this fixed shit.
           # Giant
-          x = diskCfg "1" true;
-          y = diskCfg "2" false;
+          x = diskCfg "1" "boot";
+          y = diskCfg "2" "boot-fallback";
         }
         else {
           # Surface
-          x = diskCfg "0" true;
+          x = diskCfg "0" "boot";
         };
       zpool = {
         zroot = {
