@@ -21,14 +21,6 @@ with lib; let
             mountOptions = ["nofail"];
           };
         };
-        swap = {
-          size = "16G";
-          content = {
-            type = "swap";
-            randomEncryption = true;
-            priority = 100;
-          };
-        };
         zfs = {
           size = "100%";
           content = {
@@ -75,7 +67,7 @@ in {
     boot.loader.grub.mirroredBoots = mkIf cfg.mirrored [
       {
         path = "/boot-fallback";
-        devices = ["/dev/nvme1n1"];
+        devices = ["/dev/nvme1n2"];
       }
     ];
 

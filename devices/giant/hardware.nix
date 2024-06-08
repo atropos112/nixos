@@ -16,7 +16,7 @@ _: {
       enable = true;
       hostId = "9676761a";
       netAtBootForDecryption = false;
-      mirrored = false;
+      mirrored = true;
     };
     impermanence.enable = true;
   };
