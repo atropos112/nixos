@@ -11,18 +11,13 @@ with lib; let
     content = {
       type = "gpt";
       partitions = lib.mkForce {
-        BOOT = {
-          size = "1M";
-          type = "EF02"; # for grub MBR
-          priority = 1; # Needs to be first partition
-        };
-        ESP = {
+        ESP = lib.mkIf withBoot {
           size = "1G";
           type = "EF00";
           content = {
             type = "filesystem";
             format = "vfat";
-            mountpoint = "/boot${idx}";
+            mountpoint = "/boot";
           };
         };
         swap = {
@@ -58,7 +53,7 @@ in {
       inherit (cfg) hostId;
     };
     boot = {
-      # supportedFilesystems = ["zfs"];
+      supportedFilesystems = ["zfs"];
       loader = {
         generationsDir.copyKernels = true;
         efi = {
@@ -74,7 +69,7 @@ in {
         };
       };
     };
-
+    boot.loader.grub.devices = "/dev/nvme1n1";
     # boot.loader.grub.mirroredBoots =
     #   if cfg.mirrored
     #   then [
