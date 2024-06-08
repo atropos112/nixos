@@ -164,7 +164,9 @@ in {
 
     # Those are not keys used anywhere other than to be able to ssh to machine on boot.
     # They are insecure by default as they are accessible at boot, anyone with physical access to the PC has access to these keys.
-    boot.initrd.network = mkIf cfg.netAtBootForDecryption {
+    # WARN: On the first run boot the key is somehow not found in the dir (where it actually is) this is some weird behaviour with
+    # nixos-anywhere i think (not 100% sure), on next application "its magically there"
+    boot.initrd.network = mkIf (cfg.netAtBootForDecryption && (builtins.pathExists ./notSoPrivatePrivateKey)) {
       enable = true;
       postCommands = ''
         tee -a /root/.profile >/dev/null <<EOF
