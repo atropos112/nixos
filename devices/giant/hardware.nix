@@ -5,6 +5,12 @@ _: {
     ../../lib/modules/boot.nix
   ];
 
+  atro.boot = {
+    enable = true;
+    kernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
+    kernelParams = ["ip=dhcp"];
+  };
+
   atro.hardware.zfs = {
     disks = {
       enable = true;
@@ -13,11 +19,5 @@ _: {
       mirrored = true;
     };
     impermanence.enable = true;
-  };
-
-  atro.boot = {
-    enable = true;
-    kernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-    kernelParams = ["ip=dhcp"];
   };
 }

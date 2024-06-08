@@ -5,13 +5,13 @@
 }:
 with lib; let
   cfg = config.atro.hardware.zfs.disks;
-  diskCfg = idx: {
+  diskCfg = idx: withBoot: {
     type = "disk";
     device = "/dev/nvme${idx}n1";
     content = {
       type = "gpt";
       partitions = lib.mkForce {
-        ESP = {
+        ESP = lib.mkIf withBoot {
           size = "1G";
           type = "EF00";
           content = {
@@ -53,7 +53,7 @@ in {
       inherit (cfg) hostId;
     };
     boot = {
-      supportedFilesystems = ["zfs"];
+      # supportedFilesystems = ["zfs"];
       loader = {
         generationsDir.copyKernels = true;
         efi = {
@@ -73,10 +73,7 @@ in {
     boot.loader.grub.mirroredBoots =
       if cfg.mirrored
       then [
-        {
-          path = "/boot0";
-          devices = ["nodev"];
-        }
+        # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
         {
           path = "/boot1";
           devices = ["nodev"];
@@ -97,12 +94,12 @@ in {
         then {
           # TODO: This should be an option passing in "nvme numbers" rather than this fixed shit.
           # Giant
-          x = diskCfg "1";
-          y = diskCfg "2";
+          x = diskCfg "1" true;
+          y = diskCfg "2" false;
         }
         else {
           # Surface
-          x = diskCfg "0";
+          x = diskCfg "0" true;
         };
       zpool = {
         zroot = {
