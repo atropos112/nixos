@@ -5,9 +5,9 @@
 }:
 with lib; let
   cfg = config.atro.hardware.zfs.disks;
-  diskCfg = idx: bootName: {
+  diskCfg = id: bootName: {
     type = "disk";
-    device = "/dev/nvme${idx}n1";
+    device = "/dev/disk/by-id/${id}";
     content = {
       type = "gpt";
       partitions = {
@@ -67,7 +67,7 @@ in {
     boot.loader.grub.mirroredBoots = mkIf cfg.mirrored [
       {
         path = "/boot-fallback";
-        devices = ["/dev/nvme1n2"];
+        devices = ["/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_1TB_S5GXNL0W525668K"];
       }
     ];
 
@@ -79,12 +79,13 @@ in {
         then {
           # TODO: This should be an option passing in "nvme numbers" rather than this fixed shit.
           # Giant
-          x = diskCfg "1" "boot";
-          y = diskCfg "2" "boot-fallback";
+          x = diskCfg "nvme-Samsung_SSD_980_PRO_1TB_S5GXNF1R901919N" "boot";
+          y = diskCfg "nvme-Samsung_SSD_980_PRO_1TB_S5GXNL0W525668K" "boot-fallback";
         }
         else {
           # Surface
-          x = diskCfg "0" "boot";
+          # WARN: THIS NEEDS FILLING IN BEFORE INSTALLING ON SURFACE
+          x = diskCfg "FILL THIS IN !!!!" "boot";
         };
       zpool = {
         zroot = {
