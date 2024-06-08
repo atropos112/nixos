@@ -12,12 +12,12 @@ with lib; let
       type = "gpt";
       partitions = lib.mkForce {
         ESP = lib.mkIf withBoot {
-          size = "1G";
+          size = "1000M";
           type = "EF00";
           content = {
             type = "filesystem";
             format = "vfat";
-            mountpoint = "/boot${idx}";
+            mountpoint = "/boot";
           };
         };
         swap = {
@@ -70,21 +70,21 @@ in {
       };
     };
 
-    boot.loader.grub.mirroredBoots =
-      if cfg.mirrored
-      then [
-        # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
-        {
-          path = "/boot1";
-          devices = ["nodev"];
-        }
-      ]
-      else [
-        {
-          path = "/boot0";
-          devices = ["nodev"];
-        }
-      ];
+    # boot.loader.grub.mirroredBoots =
+    #   if cfg.mirrored
+    #   then [
+    #     # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
+    #     {
+    #       path = "/boot1";
+    #       devices = ["nodev"];
+    #     }
+    #   ]
+    #   else [
+    #     {
+    #       path = "/boot0";
+    #       devices = ["nodev"];
+    #     }
+    #   ];
 
     fileSystems."/persistent".neededForBoot = true;
 
