@@ -5,17 +5,18 @@
 }:
 with lib; let
   cfg = config.atro.hardware.zfs.disks;
+  mirrored = cfg.mirrorDriveId != "";
   diskCfg = id: bootName: {
     type = "disk";
     device = "/dev/disk/by-id/${id}";
     content = {
       type = "gpt";
       partitions = {
-        # MBR = {
-        #   type = "EF02"; # for grub MBR
-        #   size = "1M";
-        #   priority = 1; # Needs to be first partition
-        # };
+        MBR = {
+          type = "EF02"; # for grub MBR
+          size = "1M";
+          priority = 1; # Needs to be first partition
+        };
         ESP = {
           size = "1G";
           type = "EF00";
@@ -75,7 +76,7 @@ in {
       };
     };
 
-    boot.loader.grub.mirroredBoots = mkIf (cfg.mirrorDriveId != "") [
+    boot.loader.grub.mirroredBoots = mkIf mirrored [
       {
         path = "/boot-fallback";
         devices = ["/dev/disk/by-id/${cfg.mirrorDriveId}"];
@@ -86,7 +87,7 @@ in {
 
     disko.devices = {
       disk =
-        if cfg.mirrorDriveId
+        if mirrored
         then {
           x = diskCfg cfg.mainDriveId "boot";
           y = diskCfg cfg.mirrorDriveId "boot-fallback";
@@ -98,7 +99,7 @@ in {
         zroot = {
           type = "zpool";
           mode =
-            if cfg.mirrored
+            if mirrored
             then "mirror"
             else "";
           rootFsOptions = {

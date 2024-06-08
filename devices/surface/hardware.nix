@@ -9,7 +9,7 @@ _: {
       enable = true;
       hostId = "8f3cc97f";
       netAtBootForDecryption = false;
-      mirrored = false;
+      mainDriveId = "nvme-BA_HFS256GD9TNG-62A0A_MI89N001212209B0R";
     };
     impermanence.enable = true;
   };
