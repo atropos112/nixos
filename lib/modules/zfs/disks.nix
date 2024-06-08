@@ -11,13 +11,18 @@ with lib; let
     content = {
       type = "gpt";
       partitions = lib.mkForce {
-        ESP = lib.mkIf withBoot {
-          size = "1000M";
+        BOOT = {
+          size = "1M";
+          type = "EF02"; # for grub MBR
+          priority = 1; # Needs to be first partition
+        };
+        ESP = {
+          size = "1G";
           type = "EF00";
           content = {
             type = "filesystem";
             format = "vfat";
-            mountpoint = "/boot";
+            mountpoint = "/boot${idx}";
           };
         };
         swap = {
@@ -76,6 +81,10 @@ in {
     #     # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
     #     {
     #       path = "/boot1";
+    #       devices = ["nodev"];
+    #     }
+    #     {
+    #       path = "/boot2";
     #       devices = ["nodev"];
     #     }
     #   ]
