@@ -11,11 +11,11 @@ with lib; let
     content = {
       type = "gpt";
       partitions = {
-        MBR = {
-          type = "EF02"; # for grub MBR
-          size = "1M";
-          priority = 1; # Needs to be first partition
-        };
+        # MBR = {
+        #   type = "EF02"; # for grub MBR
+        #   size = "1M";
+        #   priority = 1; # Needs to be first partition
+        # };
         ESP = {
           size = "1G";
           type = "EF00";
@@ -42,7 +42,13 @@ in {
     hostId = mkOption {
       type = types.str;
     };
-    mirrored = mkEnableOption "mirror the boot partition";
+    mainDriveId = mkOption {
+      type = types.str;
+    };
+    mirrorDriveId = mkOption {
+      type = types.str;
+      default = "";
+    };
     netAtBootForDecryption = mkEnableOption "Connect to internet at boot to allow decryption over network.";
   };
 
@@ -69,10 +75,10 @@ in {
       };
     };
 
-    boot.loader.grub.mirroredBoots = mkIf cfg.mirrored [
+    boot.loader.grub.mirroredBoots = mkIf (cfg.mirrorDriveId != "") [
       {
         path = "/boot-fallback";
-        devices = ["/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_1TB_S5GXNL0W525668K"];
+        devices = ["/dev/disk/by-id/${cfg.mirrorDriveId}"];
       }
     ];
 
@@ -80,17 +86,13 @@ in {
 
     disko.devices = {
       disk =
-        if cfg.mirrored
+        if cfg.mirrorDriveId
         then {
-          # TODO: This should be an option passing in "nvme numbers" rather than this fixed shit.
-          # Giant
-          x = diskCfg "nvme-Samsung_SSD_980_PRO_1TB_S5GXNF1R901919N" "boot";
-          y = diskCfg "nvme-Samsung_SSD_980_PRO_1TB_S5GXNL0W525668K" "boot-fallback";
+          x = diskCfg cfg.mainDriveId "boot";
+          y = diskCfg cfg.mirrorDriveId "boot-fallback";
         }
         else {
-          # Surface
-          # WARN: THIS NEEDS FILLING IN BEFORE INSTALLING ON SURFACE
-          x = diskCfg "FILL THIS IN !!!!" "boot";
+          x = diskCfg cfg.mainDriveId "boot";
         };
       zpool = {
         zroot = {
