@@ -10,14 +10,16 @@ with lib; let
     device = "/dev/nvme${idx}n1";
     content = {
       type = "gpt";
-      partitions = lib.mkForce {
+      partitions = {
         ESP = lib.mkIf withBoot {
           size = "1G";
           type = "EF00";
           content = {
             type = "filesystem";
             format = "vfat";
+            #mountpoint = "/boot${idx}";
             mountpoint = "/boot";
+            mountOptions = ["nofail"];
           };
         };
         swap = {
@@ -57,38 +59,44 @@ in {
       loader = {
         generationsDir.copyKernels = true;
         efi = {
-          canTouchEfiVariables = false;
+          # canTouchEfiVariables = false;
         };
-        grub = {
-          enable = true;
-          useOSProber = true;
-          copyKernels = true;
-          efiSupport = true;
-          zfsSupport = true;
-          efiInstallAsRemovable = true;
-        };
+        # grub = {
+        #   enable = true;
+        #   useOSProber = true;
+        #   copyKernels = true;
+        #   efiSupport = true;
+        #   zfsSupport = true;
+        #   efiInstallAsRemovable = true;
+        # };
       };
     };
-    boot.loader.grub.devices = "/dev/nvme1n1";
-    # boot.loader.grub.mirroredBoots =
-    #   if cfg.mirrored
-    #   then [
-    #     # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
-    #     {
-    #       path = "/boot1";
-    #       devices = ["nodev"];
-    #     }
-    #     {
-    #       path = "/boot2";
-    #       devices = ["nodev"];
-    #     }
-    #   ]
-    #   else [
-    #     {
-    #       path = "/boot0";
-    #       devices = ["nodev"];
-    #     }
-    #   ];
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+    # boot.loader.grub.mirroredBoots = [
+    #   {
+    #     path = "/boot";
+    #     devices = ["nodev"];
+    #   }
+    # ];
+    # if cfg.mirrored
+    # then [
+    #   # TODO: This has to match the diskCfg 1 and diskCfg 2 below it should all be under one variable...
+    #   {
+    #     path = "/boot1";
+    #     devices = ["nodev"];
+    #   }
+    #   {
+    #     path = "/boot2";
+    #     devices = ["nodev"];
+    #   }
+    # ]
+    # else [
+    #   {
+    #     path = "/boot";
+    #     devices = ["nodev"];
+    #   }
+    # ];
 
     fileSystems."/persistent".neededForBoot = true;
 

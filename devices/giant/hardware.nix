@@ -15,8 +15,8 @@ _: {
     disks = {
       enable = true;
       hostId = "9676761a";
-      netAtBootForDecryption = true;
-      mirrored = true;
+      netAtBootForDecryption = false;
+      mirrored = false;
     };
     impermanence.enable = true;
   };
