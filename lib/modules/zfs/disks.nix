@@ -186,7 +186,7 @@ in {
         # I wanted to make this a secret using sops-nix sadly this file is copied before the /run/secrets are available so it's not possible
         hostKeys = [
           # WARN: Providing path directly via ./notSoPrivatePrivateKey DOES NOT WORK, it fails on new machine installs.
-          "${./notSoPrivatePrivateKey}"
+          "/persistent/netboot/key"
         ];
 
         # public ssh key used for login
