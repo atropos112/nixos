@@ -164,9 +164,7 @@ in {
 
     # Those are not keys used anywhere other than to be able to ssh to machine on boot.
     # They are insecure by default as they are accessible at boot, anyone with physical access to the PC has access to these keys.
-    # WARN: On the first run boot the key is somehow not found in the dir (where it actually is) this is some weird behaviour with
-    # nixos-anywhere i think (not 100% sure), on next application "its magically there"
-    boot.initrd.network = mkIf (cfg.netAtBootForDecryption && (builtins.pathExists ./notSoPrivatePrivateKey)) {
+    boot.initrd.network = mkIf cfg.netAtBootForDecryption {
       enable = true;
       postCommands = ''
         tee -a /root/.profile >/dev/null <<EOF
@@ -187,7 +185,8 @@ in {
 
         # I wanted to make this a secret using sops-nix sadly this file is copied before the /run/secrets are available so it's not possible
         hostKeys = [
-          ./notSoPrivatePrivateKey
+          # WARN: Providing path directly via ./notSoPrivatePrivateKey DOES NOT WORK, it fails on new machine installs.
+          "${./notSoPrivatePrivateKey}"
         ];
 
         # public ssh key used for login
