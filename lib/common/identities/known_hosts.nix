@@ -7,24 +7,37 @@
     then builtins.substring 4 (builtins.stringLength hostName) hostName
     else hostName;
 
-  secretKeyString = name: "hostKeys/${name}/privateKey";
-  publicKeyString = name: "hostKeys/${name}/publicKey";
+  secretKeyString = name: type: "hostKeys/${name}/${type}/privateKey";
+  publicKeyString = name: type: "hostKeys/${name}/${type}/publicKey";
 in {
-  # INFO: Ensuring the key on the machine where NixOs is deployed is decleared.
+  # INFO: Ensuring the key on the machine where NixOs is deployed is declared.
   # This will allow us to statically define known hosts below.
 
   sops.secrets = {
-    "${secretKeyString shortHostName}" = {
+    "${secretKeyString shortHostName "ed25519"}" = {
       mode = "0600";
       owner = "root";
       group = "root";
       path = "/etc/ssh/ssh_host_ed25519_key";
     };
-    "${publicKeyString shortHostName}" = {
+    "${publicKeyString shortHostName "ed25519"}" = {
       mode = "0644";
       owner = "root";
       group = "root";
       path = "/etc/ssh/ssh_host_ed25519_key.pub";
+    };
+
+    "${secretKeyString shortHostName "rsa"}" = {
+      mode = "0600";
+      owner = "root";
+      group = "root";
+      path = "/etc/ssh/ssh_host_rsa_key";
+    };
+    "${publicKeyString shortHostName "rsa"}" = {
+      mode = "0644";
+      owner = "root";
+      group = "root";
+      path = "/etc/ssh/ssh_host_rsa_key.pub";
     };
   };
 

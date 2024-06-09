@@ -77,6 +77,7 @@ in {
       };
       directories = [
         "/root/.ssh" # Root SSH keys (used during age key decryption)
+        "/var/lib/bluetoth" # Keep track of bluetooth devices
       ];
       # INFO: These dirs are not relative, must be full path.
       files = [
