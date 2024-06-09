@@ -13,6 +13,8 @@
     stylix.url = "github:danth/stylix";
     impermanence.url = "github:nix-community/impermanence";
 
+    atuin.url = "github:atuinsh/atuin";
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

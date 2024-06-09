@@ -1,25 +1,27 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    # WARN: Do not add mypy, it doesn't do well in global packages
+{pkgs, ...}: let
+  pythonPackages = with pkgs.python312Packages; [
+    python-lsp-server
+    pylsp-rope
+    pylsp-mypy
+    debugpy
+
+    pydocstyle
+    vulture
+    mccabe
+    pylint
+  ];
+
+  otherPackages = with pkgs; [
     # Python
-    (python311Full.withPackages (ps:
-      with ps; [
-        python-lsp-server
-        pylsp-rope
-        python-lsp-ruff
-        pydocstyle
-        vulture
-        mccabe
-        pylint
-        debugpy
-      ]))
+    python312
 
     # Linters
     pylint
     ruff
 
-    # Python package managers
     poetry
     uv # pip but faster.
   ];
+in {
+  environment.systemPackages = pythonPackages ++ otherPackages;
 }
