@@ -13,7 +13,8 @@ in {
     inputs.stylix.nixosModules.stylix
     inputs.nix-index-database.nixosModules.nix-index
     ../kubernetes/user.nix
-    ../../pkgs/kitty.nix
+    # ../../pkgs/kitty.nix
+    ../../pkgs/foot.nix
     ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix

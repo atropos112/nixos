@@ -17,8 +17,8 @@ in {
 
   home-manager.users.atropos = {
     programs = {
-      atuin.enableZshIntegration = true; # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
-      kitty.shellIntegration.enableZshIntegration = true;
+      atuin.enableZshIntegration = true;
+      # kitty.shellIntegration.enableZshIntegration = true;
 
       zsh = {
         enable = true;
@@ -89,7 +89,7 @@ in {
           l = "eza -l --icons --git -a";
 
           # kitty based
-          s = "kitten ssh";
+          # s = "kitten ssh";
 
           # Nix based
           nxsh = ''cached-nix-shell --command zsh -p '';
