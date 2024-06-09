@@ -66,6 +66,7 @@ in {
 
           ".config/vivaldi" # Vivaldi browser content (config, cache, open pages, etc.)
           ".config/nvim" # Neovim config
+          ".config/Element" # Element desktop config.
 
           ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)
