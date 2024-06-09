@@ -161,12 +161,12 @@
           "scroll-step" = 5;
         };
         network = {
-          "interface" = "mlan0";
+          # "interface" = "eth0";
           "format" = "{ifname}";
           "format-wifi" = "D:{bandwidthDownBytes} U:{bandwidthUpBytes}";
+          "format-ethernet" = "D:{bandwidthDownBytes} U:{bandwidthUpBytes}";
           "interval" = 2;
-          "format-ethernet" = "{ipaddr}/{cidr} ";
-          "tooltip-format" = "{essid} - {ifname} via {gwaddr} ";
+          "tooltip-format" = "{essid} - {ipaddr}/{cidr} ";
           "format-linked" = "{ifname} (No IP) ";
           "format-disconnected" = "Disconnected ⚠";
           "format-alt" = "{ifname}:{essid} {ipaddr}/{cidr}";

@@ -115,4 +115,14 @@
       kb_rules = "";
     };
   };
+
+  home-manager.users.atropos.programs.waybar = {
+    settings = {
+      mainBar = {
+        network = {
+          interface = "mlan0";
+        };
+      };
+    };
+  };
 }

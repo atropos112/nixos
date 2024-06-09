@@ -37,9 +37,12 @@ in {
       mkdir -p /home/atropos/.config /home/atropos/.local /home/atropos/.cache /home/atropos/.ssh /home/atropos/Sync /home/atropos/.local/share
       chown -R 1000:1000 /home/atropos
 
-      echo "Fixing permissions for persistent..."
       mkdir -p /persistent/home/atropos
-      chown -R 1000:1000 /persistent/home/atropos
+      HOME_OWNER=$(stat -c '%u' "/persistent/home/atropos") # Optimising, only chown if the whole dir is not belonging to the user.
+      if [ "$HOME_OWNER" -ne "1000" ]; then
+       echo "Fixing permissions for persistent..."
+       chown -R 1000:1000 /persistent/home/atropos
+      fi
 
       echo "Unmounting home..."
       umount /home

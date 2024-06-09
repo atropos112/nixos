@@ -73,4 +73,14 @@
       "CTRL_SHIFT_ALT, 0, movetoworkspace, 10"
     ];
   };
+
+  home-manager.users.atropos.programs.waybar = {
+    settings = {
+      mainBar = {
+        network = {
+          interface = "eth0";
+        };
+      };
+    };
+  };
 }
