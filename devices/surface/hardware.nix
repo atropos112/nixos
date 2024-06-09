@@ -1,13 +1,17 @@
 _: {
   imports = [
-    ../../lib/modules/zfs-root
+    ../../lib/modules/zfs
     ../../lib/modules/boot.nix
   ];
-  atro.hardware.zfs-root = {
-    enable = true;
-    hostId = "8f3cc97f";
-    bootDevices = ["nvme-BA_HFS256GD9TNG-62A0A_MI89N001212209B0R"];
-    netAtBootForDecryption = false;
+
+  atro.hardware.zfs = {
+    disks = {
+      enable = true;
+      hostId = "8f3cc97f";
+      netAtBootForDecryption = false;
+      mainDriveId = "nvme-BA_HFS256GD9TNG-62A0A_MI89N001212209B0R";
+    };
+    impermanence.enable = true;
   };
 
   atro.boot = {

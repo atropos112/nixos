@@ -15,7 +15,7 @@
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
-    age.sshKeyPaths = ["/root/.ssh/id_ed25519"];
+    age.sshKeyPaths = ["/persistent/root/.ssh/id_ed25519"];
 
     # Secrets that don't fit in other modules/pkgs
     secrets = {

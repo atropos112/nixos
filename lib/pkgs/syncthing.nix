@@ -8,9 +8,13 @@ in {
   sops.secrets = {
     "syncthing/${hostName}/cert" = {
       owner = config.users.users.atropos.name;
+      group = config.users.users.atropos.name;
+      mode = "0600";
     };
     "syncthing/${hostName}/key" = {
       owner = config.users.users.atropos.name;
+      group = config.users.users.atropos.name;
+      mode = "0600";
     };
   };
 
@@ -46,11 +50,11 @@ in {
         };
       };
       folders = {
-        media = {
+        sync = {
           enable = true;
           id = "ezaua-zrnnt";
           devices = ["cluster"];
-          path = "/home/atropos/media";
+          path = "/home/atropos/Sync";
         };
       };
     };

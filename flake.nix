@@ -11,6 +11,14 @@
     xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
     stylix.url = "github:danth/stylix";
+    impermanence.url = "github:nix-community/impermanence";
+
+    atuin.url = "github:atuinsh/atuin";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";

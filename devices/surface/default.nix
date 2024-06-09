@@ -3,61 +3,24 @@
     ./hardware.nix
     ../../lib/common/desktop
   ];
+
   topology.self = {
     interfaces = {
       wifi = {
         network = "WLAN";
         type = "wifi";
       };
-      tailscale0.addresses = ["100.69.192.50" "surface"];
+      tailscale0.addresses = ["surface"];
     };
     hardware.info = "i7-8650U, 16GB, GTX1060";
   };
-
+  powerManagement.enable = true;
   networking.hostName = "surface";
 
-  nix = {
-    distributedBuilds = true;
-    extraOptions = ''
-      builders-use-substitutes = true
-    '';
-    buildMachines = [
-      {
-        hostName = "rzr";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 2;
-        speedFactor = 4;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
-      {
-        hostName = "a21";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 2;
-        speedFactor = 2;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
-      {
-        hostName = "smol";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 2;
-        speedFactor = 2;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
-      {
-        hostName = "giant";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 8;
-        speedFactor = 8;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
-      }
+  environment.persistence."/persistent" = {
+    # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
+    directories = [
+      "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
     ];
   };
 
@@ -120,8 +83,7 @@
       "2, monitor:eDP-1, default:true"
       "3, monitor:eDP-1, default:true"
       "4, monitor:eDP-1, default:true"
-      "5, monitor:eDP-1, default:true
-"
+      "5, monitor:eDP-1, default:true"
       "6, monitor:DP-2, default:true"
       "7, monitor:DP-2, default:true"
       "8, monitor:DP-2, default:true"
@@ -151,6 +113,16 @@
         "caps:swapescape" # On giant this os done through moonlander already.
       ];
       kb_rules = "";
+    };
+  };
+
+  home-manager.users.atropos.programs.waybar = {
+    settings = {
+      mainBar = {
+        network = {
+          interface = "mlan0";
+        };
+      };
     };
   };
 }

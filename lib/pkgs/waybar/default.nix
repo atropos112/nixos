@@ -33,11 +33,10 @@
           "memory"
           "custom/power_profile"
           "battery"
-          "backlight"
           "pulseaudio"
-          "pulseaudio#microphone"
           "idle_inhibitor"
           "bluetooth"
+          "network"
           "tray"
         ];
         "hyprland/window" = {
@@ -64,6 +63,7 @@
             "<span color='#dd532e'>█</span>"
           ];
         };
+
         memory = {
           interval = 10;
           format = "{used:0.1f}G ";
@@ -161,12 +161,19 @@
           "scroll-step" = 5;
         };
         network = {
-          "format-wifi" = "  {signalStrength}%";
-          "format-ethernet" = "{ipaddr}/{cidr} ";
-          "tooltip-format" = "{essid} - {ifname} via {gwaddr} ";
+          # "interface" = "eth0";
+          "format" = "{ifname}";
+          "format-wifi" = "D:{bandwidthDownBytes} U:{bandwidthUpBytes}";
+          "format-ethernet" = "D:{bandwidthDownBytes} U:{bandwidthUpBytes}";
+          "interval" = 2;
+          "tooltip-format" = "{essid} - {ipaddr}/{cidr} ";
           "format-linked" = "{ifname} (No IP) ";
           "format-disconnected" = "Disconnected ⚠";
           "format-alt" = "{ifname}:{essid} {ipaddr}/{cidr}";
+          "tooltip-format-wifi" = "{essid} ({signalStrength}%) ";
+          "tooltip-format-ethernet" = "{ifname} ";
+          "tooltip-format-disconnected" = "Disconnected";
+          "max-length" = 50;
         };
         bluetooth = {
           "format" = " {status}";

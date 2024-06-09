@@ -55,7 +55,7 @@
     };
     apply-local = {
       exec = ''
-        build && sudo nixos-rebuild switch --fast || exit 1
+        build && sudo nixos-rebuild switch --fast --flake .#$(hostname) || exit 1
       '';
       description = "Rebuild the system";
     };
