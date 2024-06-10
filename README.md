@@ -26,7 +26,7 @@ My home infrastructure is composed of two types of devices, ones which are part 
 >
 > - **Window Manager:** Hyprland
 > - **Shell:** ZSH
-> - **Terminal:** Foot 
+> - **Terminal:** Foot
 > - **Editor:** Neovim (external for now)
 
 Kubernetes nodes are a cut down version that do not come with a WM of any kind. I do however have a pikvm with ezCoo 4x1 HDMI switch that allows me to access the 3 master nodes in case something was to go wrong with them, look for details [here](https://docs.pikvm.org/multiport/), this is in case I can't connect to the machines via SSH directly.
@@ -72,7 +72,7 @@ THis is ran with sudo to ensure we have sufficient permissions for whatever is i
 
 i had this fail on me once because i didn't have permission to all the stuff inside of the surface folder. Before doing this get fresh image and whack it on, so it is in livecd mode.
 
-DUring this process if doing on desktop will be asked for password for zfs encryption. for ext4 nothing
+During this process if doing on desktop will be asked for password for zfs encryption. for ext4 nothing
 
 once the machine reboots, need to apply config one more time, this is to get secrets across (the ssh keys should be there by then to read the said secrets)
 

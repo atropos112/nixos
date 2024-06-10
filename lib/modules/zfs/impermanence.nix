@@ -67,6 +67,7 @@ in {
           ".config/vivaldi" # Vivaldi browser content (config, cache, open pages, etc.)
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
+          ".config/github-copilot"
 
           ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)
@@ -86,6 +87,7 @@ in {
       # INFO: These dirs are not relative, must be full path.
       files = [
         "/var/lib/tailscale/tailscaled.state" # Tailscale login state. Tried doing ephemeral, comes with bunch of issues...
+        "/etc/machine-id" # Some apps rely on this being fixed.
       ];
     };
   };
