@@ -68,21 +68,19 @@ in {
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
           ".config/github-copilot"
+          ".config/sops/age" # Allowing atropos user read and edit the age keys
 
           ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)
           ".local/share/keyrings" # GPG keys for GNOME keyring
           ".local/share/atuin" # Atuin cache TODO: Check if this is necessary
-        ];
-        files = [
-          ".zsh_history" # Zsh history, likely to be superseded by atuin soon
-          ".kube/config" # Kubernetes config (for kubectl)
-          ".config/sops/age/keys.txt" # Allowing atropos user read and edit the age keys
+
+          ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...
         ];
       };
       directories = [
         "/root/.ssh" # Root SSH keys (used during age key decryption)
-        "/var/lib/bluetoth" # Keep track of bluetooth devices
+        "/var/lib/bluetooth" # Keep track of bluetooth devices
       ];
       # INFO: These dirs are not relative, must be full path.
       files = [

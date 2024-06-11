@@ -25,6 +25,7 @@ in {
     ../../pkgs/mako.nix
     ../../pkgs/tofi
     ../../pkgs/python.nix
+    ../../pkgs/go.nix
     ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
     ../../pkgs/firefox.nix
