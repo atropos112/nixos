@@ -109,6 +109,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # dns resolving tool (for testing)
+        dig
+
         # Basic system utilities
         gnused
         util-linuxMinimal

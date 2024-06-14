@@ -226,6 +226,10 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # To communicate with kafak for dev purposes
+      redpanda-client
+
+      # To mount remote directories
       sshfs
       # Music player
       feishin
@@ -384,9 +388,6 @@ in {
 
       # connect to k8s external secret source
       doppler
-
-      # dns resolving tool (for testing)
-      dig
 
       # tool for partitioning
       parted

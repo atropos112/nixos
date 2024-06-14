@@ -54,6 +54,8 @@ in {
       echo "--------------------------------------------------"
     '';
 
+    sops.age.sshKeyPaths = lib.mkForce ["/persistent/root/.ssh/id_ed25519"];
+
     environment.persistence."/persistent" = {
       hideMounts = true;
       # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh

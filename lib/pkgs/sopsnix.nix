@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   config,
   pkgs,
   ...
@@ -15,7 +16,9 @@
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
-    age.sshKeyPaths = ["/persistent/root/.ssh/id_ed25519"];
+    # WARN: This is the default path, it might be overwritten.
+    # It does in impermanence for example.
+    age.sshKeyPaths = lib.mkDefault ["/root/.ssh/id_ed25519"];
 
     # Secrets that don't fit in other modules/pkgs
     secrets = {
