@@ -7,6 +7,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        param:
+          - a21
+          - rzr
+          - giant
+          - smol
+          - surface
     steps:
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
@@ -51,8 +59,5 @@ jobs:
 
             sudo mkdir -p /home/atropos/media/fonts && sudo mkdir -p /home/atropos/media/bins
 
-            nix build .#nixosConfigurations.a21.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-            nix build .#nixosConfigurations.smol.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-            nix build .#nixosConfigurations.surface.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-            nix build .#nixosConfigurations.giant.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-            nix build .#nixosConfigurations.rzr.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+            nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+
