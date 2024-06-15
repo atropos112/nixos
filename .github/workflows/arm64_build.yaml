@@ -56,7 +56,7 @@ jobs:
       - name: Build
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 180
+          timeout_minutes: 360
           max_attempts: 5
           command: |
             # Updating flake lock, then adding substituters and keys, then fake media directory, then building
