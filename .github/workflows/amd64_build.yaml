@@ -34,21 +34,25 @@ jobs:
       - name: Attic cache
         uses: ryanccn/attic-action@v0
         with:
-          endpoint: "http://atticd:8080"
+          endpoint: "http://atticd"
           cache: atro
           token: ${{ secrets.ATTIC_TOKEN }}
       - name: Build
-        run: |
-          # Updating flake lock, then adding substituters and keys, then fake media directory, then building
-          nix flake update
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 180
+          max_attempts: 5
+          command: |
+            # Updating flake lock, then adding substituters and keys, then fake media directory, then building
+            nix flake update
 
-          export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
-          export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
+            export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
+            export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
 
-          sudo mkdir -p /home/atropos/media/fonts && sudo mkdir -p /home/atropos/media/bins
+            sudo mkdir -p /home/atropos/media/fonts && sudo mkdir -p /home/atropos/media/bins
 
-          nix build .#nixosConfigurations.giant.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-          nix build .#nixosConfigurations.surface.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-          nix build .#nixosConfigurations.rzr.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-          nix build .#nixosConfigurations.a21.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
-          nix build .#nixosConfigurations.smol.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+            nix build .#nixosConfigurations.a21.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+            nix build .#nixosConfigurations.smol.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+            nix build .#nixosConfigurations.surface.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+            nix build .#nixosConfigurations.giant.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+            nix build .#nixosConfigurations.rzr.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
