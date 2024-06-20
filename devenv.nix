@@ -34,6 +34,10 @@
   };
 
   scripts = {
+    inspect = {
+      exec = ''{pkgs.nix-inspect}/bin/nix-inspect "$@" '';
+      description = "Inspect the entire configuration, like a json tree";
+    };
     browse-flake-lock = {
       exec = ''
         ${pkgs.nix-melt}/bin/nix-melt

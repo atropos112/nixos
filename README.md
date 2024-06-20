@@ -62,19 +62,25 @@ To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, co
 # How to install on a fresh machine
 
 I use nixos-anywhere with disko and impermamence to install on my machines.
-I need to have the `/persistent` to re-create the state, this usually comes from a backup or is copied across before I do a full on format. I then run
+I need to have the `/persistent` to re-create the state, this usually comes from a backup or is copied across before I do a full on format.
+
+First I do some preparation
+
+- Get /persistent folder for the machine I am installing from (somehow).
+- Boot into livecd mode and run passwd as root setting some password easy to remember. Run `ip a` to get the IP address of the machine (the machine must be connected to internet, ideally via cable).
+- From machine you are installing from run `sudo ssh <IP-OF-THE-MACHINE>` and accept the fingerprint.
+
+Once the prep is done, simply run
 
 ```bash
 sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/nixos/surface" --flake .#surface root@9.0.0.211
 ```
 
-THis is ran with sudo to ensure we have sufficient permissions for whatever is in /home/atropos/nixos/surface to copy it over. the content of this surface folder should be one folder and that folder should be "persistent" which is to represent the /persistent folder on the host machine.
+This is ran with sudo to ensure we have sufficient permissions for whatever is in /home/atropos/nixos/surface to copy it over. the content of this surface folder should be one folder and that folder should be "persistent" which is to represent the /persistent folder on the host machine.
 
-i had this fail on me once because i didn't have permission to all the stuff inside of the surface folder. Before doing this get fresh image and whack it on, so it is in livecd mode.
+I had this fail on me once because i didn't have permission to all the stuff inside of the surface folder. Before doing this get fresh image and whack it on, so it is in livecd mode.
 
 During this process if doing on desktop will be asked for password for zfs encryption. for ext4 nothing
-
-once the machine reboots, need to apply config one more time, this is to get secrets across (the ssh keys should be there by then to read the said secrets)
 
 # Work to be done
 

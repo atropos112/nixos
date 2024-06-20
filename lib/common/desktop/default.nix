@@ -226,8 +226,11 @@ in {
 
   environment.systemPackages = with pkgs;
     [
-      # To communicate with kafak for dev purposes
-      redpanda-client
+      # inspection tool for current system state
+      nix-inspect
+
+      # LSP for nix
+      nixd
 
       # To mount remote directories
       sshfs
