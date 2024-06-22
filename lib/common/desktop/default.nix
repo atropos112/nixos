@@ -92,6 +92,8 @@ in {
     # hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
 
+    WAKATIME_HOME = "${homeDirectory}/.config/wakatime";
+
     # Inform all GDK apps its wayland env
     GDK_BACKEND = lib.mkDefault "wayland, x11";
 
