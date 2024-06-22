@@ -136,11 +136,6 @@ _: {
         preserve_split = true; # you probably want this
       };
 
-      master = {
-        # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        new_is_master = true;
-      };
-
       gestures = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
         workspace_swipe = false;

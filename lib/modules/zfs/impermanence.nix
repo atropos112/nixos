@@ -62,6 +62,7 @@ in {
       users.atropos = {
         directories = [
           ".ssh" # User SSH keys
+          ".wakatime" # waka time local bin's otherwise it wipes the password...
           "Sync" # Syncthing
           "projects" # Code projects
           "nixos" # NixOS config

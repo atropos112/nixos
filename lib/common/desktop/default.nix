@@ -7,6 +7,7 @@
 }: let
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
+  theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
 in {
   imports = [
     ../default.nix
@@ -36,11 +37,9 @@ in {
   stylix = {
     enable = true;
     autoEnable = true;
-    image = pkgs.fetchurl {
-      url = "https://www.pixelstalk.net/wp-content/uploads/images8/Free-Download-Space-Backgrounds-HD-for-Desktop.jpg";
-      sha256 = "sha256-2o27/58lJugkUVN4SWm7PXWA9J+9bbaU3HQLAq9Qsd0=";
-    };
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+    polarity = "dark";
+    image = ./wallpaper.png;
+    base16Scheme = theme;
     cursor.size = 24;
     opacity = {
       terminal = 0.95;

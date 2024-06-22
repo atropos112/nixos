@@ -24,7 +24,7 @@
     secrets = {
       "wakatime/cfg" = {
         owner = config.users.users.atropos.name;
-        mode = "0440";
+        mode = "0444";
         path = "/home/${config.users.users.atropos.name}/.wakatime.cfg";
       };
       "tailscale/key" = {};
