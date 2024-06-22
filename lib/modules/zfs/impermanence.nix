@@ -62,6 +62,7 @@ in {
       users.atropos = {
         directories = [
           ".ssh" # User SSH keys
+          ".wakatime" # Wakatime downloads some cache (some bins etc)
           "Sync" # Syncthing
           "projects" # Code projects
           "nixos" # NixOS config
@@ -71,7 +72,7 @@ in {
           ".config/Element" # Element desktop config.
           ".config/github-copilot"
           ".config/sops/age" # Allowing atropos user read and edit the age keys
-          ".config/wakatime" # waka time local bin's otherwise it wipes the password. THere is a WAKATIME_HOME environment variable pointing to this dir.
+          ".config/wakatime" # waka time local bin's otherwise it wipes the password. There is a WAKATIME_HOME environment variable pointing to this dir.
 
           ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)
