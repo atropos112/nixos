@@ -12,6 +12,7 @@ in {
     ../default.nix
     inputs.stylix.nixosModules.stylix
     inputs.nix-index-database.nixosModules.nix-index
+    ../../modules/exmounts.nix
     ../kubernetes/user.nix
     # ../../pkgs/kitty.nix
     ../../pkgs/foot.nix
@@ -51,6 +52,10 @@ in {
   #   mkdir -m 0755 -p /usr/local
   #   ln -nsf /home/atropos/media/fonts /home/atropos/.local/share/fonts
   # '';
+
+  atro.extMounts = {
+    enable = true;
+  };
 
   atro.kopia = {
     enable = true;
