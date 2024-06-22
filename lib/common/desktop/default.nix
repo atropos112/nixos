@@ -12,7 +12,7 @@ in {
     ../default.nix
     inputs.stylix.nixosModules.stylix
     inputs.nix-index-database.nixosModules.nix-index
-    ../../modules/exmounts.nix
+    ../../modules/extmounts.nix
     ../kubernetes/user.nix
     # ../../pkgs/kitty.nix
     ../../pkgs/foot.nix
