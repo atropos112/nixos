@@ -70,8 +70,8 @@ in {
   };
 
   hardware = {
-    # OpenGL acceleration
-    opengl.enable = true;
+    # OpenGL acceleration etc.
+    graphics.enable = true;
 
     # Bluetooth support
     bluetooth.enable = true;
