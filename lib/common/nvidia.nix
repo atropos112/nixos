@@ -19,15 +19,6 @@
   };
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = lib.mkDefault true;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
-  };
-
   environment.systemPackages = with pkgs-stable; [
     nvtop-nvidia
     nvidia-docker
@@ -35,8 +26,19 @@
 
   services.xserver.videoDrivers = ["nvidia"];
 
-  hardware.graphics = {
-    enable32Bit = true;
-    enable = true;
+  hardware = {
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = lib.mkDefault true;
+      powerManagement.finegrained = false;
+      open = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
   };
 }
