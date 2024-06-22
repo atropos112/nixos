@@ -71,7 +71,13 @@ jobs:
 
           nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
 
-      - name: Send message on build fail
-        if: steps.Build.outcome != 'success' && steps.BuildRetry.outcome != 'success'
+      - name: Check build outcomes and send message if failed
         run: |
-          curl -X POST -F "body=Github action has failed for NixOS AMD64 Build for ${{ matrix.param }}. Go to ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." "${{ secrets.EXIT_URL }}"
+          BUILD_OUTCOME="${{ steps.Build.outcome }}"
+          BUILD_RETRY_OUTCOME="${{ steps.BuildRetry.outcome }}"
+
+          if [[ "$BUILD_OUTCOME" != "success" && "$BUILD_RETRY_OUTCOME" != "success" ]]; then
+            curl -X POST -F "body=Github action has failed for NixOS AMD64 Build for ${{ matrix.param }}. Go to ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." "${{ secrets.EXIT_URL }}"
+          else
+            echo "Build succeeded."
+          fi
