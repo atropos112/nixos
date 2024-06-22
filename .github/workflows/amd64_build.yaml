@@ -57,8 +57,21 @@ jobs:
           sudo mkdir -p /home/atropos/media/fonts && sudo mkdir -p /home/atropos/media/bins
 
           nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+      - name: BuildRetry
+        if: steps.Build.outcome != 'success'
+        continue-on-error: true
+        run: |
+          # Updating flake lock, then adding substituters and keys, then fake media directory, then building
+          nix flake update
+
+          export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
+          export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
+
+          sudo mkdir -p /home/atropos/media/fonts && sudo mkdir -p /home/atropos/media/bins
+
+          nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
 
       - name: Send message on build fail
-        if: steps.Build.outcome != 'success'
+        if: steps.Build.outcome != 'success' && steps.BuildRetry.outcome != 'success'
         run: |
           curl -X POST -F "body=Github action has failed for NixOS AMD64 Build for ${{ matrix.param }}. Go to ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." "${{ secrets.EXIT_URL }}"
