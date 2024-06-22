@@ -83,10 +83,10 @@ in {
       directories = [
         "/root/.ssh" # Root SSH keys (used during age key decryption)
         "/var/lib/bluetooth" # Keep track of bluetooth devices
+        "/var/lib/tailscale" # Tailscale login state. Tried doing ephemeral, comes with bunch of issues...
       ];
       # INFO: These dirs are not relative, must be full path.
       files = [
-        "/var/lib/tailscale/tailscaled.state" # Tailscale login state. Tried doing ephemeral, comes with bunch of issues...
         "/etc/machine-id" # Some apps rely on this being fixed.
       ];
     };
