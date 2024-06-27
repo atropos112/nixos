@@ -2,7 +2,7 @@
   inputs = {
     # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Hyprland packages
     # Do not override the nixpkgs input in them as it will be built with different nxipkgs than it was tested with and

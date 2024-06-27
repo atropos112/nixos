@@ -80,6 +80,8 @@ in {
           ".local/share/atuin" # Atuin cache TODO: Check if this is necessary
 
           ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...
+
+          ".cache/direnv" # Very annoying to wait each time
         ];
       };
       directories = [

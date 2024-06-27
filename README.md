@@ -62,6 +62,9 @@ To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, co
 # How to install on a fresh machine
 
 I use nixos-anywhere with disko and impermamence to install on my machines.
+
+For simplicity one can use either minimal NixOS image from NixOS website or the purpose made for this from [nixos-images](https://github.com/nix-community/nixos-images?tab=readme-ov-file#iso-installer-images).
+
 I need to have the `/persistent` to re-create the state, this usually comes from a backup or is copied across before I do a full on format.
 
 First I do some preparation
