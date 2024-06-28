@@ -17,7 +17,7 @@
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
 
   environment.systemPackages = with pkgs-stable; [
-    nvtop-nvidia
+    nvtopPackages.nvidia
     runc
   ];
 
