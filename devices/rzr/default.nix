@@ -30,4 +30,9 @@ _: {
     port = 11434;
     acceleration = "cuda";
   };
+
+  system.activationScripts.makeNvidiaK3s = ''
+    mkdir -p /var/lib/rancher/k3s/agent/etc/containerd/
+    cp ${./k3s_config.toml.tmpl} /var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl
+  '';
 }
