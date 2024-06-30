@@ -54,6 +54,7 @@ jobs:
           cache: atro
           token: ${{ secrets.ATTIC_TOKEN }}
       - name: Build
+        id: build
         continue-on-error: true
         run: |
           # Updating flake lock, then adding substituters and keys, then fake media directory, then building
@@ -64,13 +65,21 @@ jobs:
 
           nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
 
-      - name: Check build outcomes and send message if failed
+      - name: BuildRetry
+        id: buildretry
+        if: steps.build.outcome != 'success'
+        continue-on-error: true
         run: |
-          BUILD_OUTCOME="${{ steps.Build.outcome }}"
-          BUILD_RETRY_OUTCOME="${{ steps.BuildRetry.outcome }}"
+          # Updating flake lock, then adding substituters and keys, then fake media directory, then building
+          nix flake update
 
-          if [[ "$BUILD_OUTCOME" != "success" && "$BUILD_RETRY_OUTCOME" != "success" ]]; then
-            curl -X POST -F "body=Github action has failed for NixOS ARM64 Build for ${{ matrix.param }}. Go to ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." "${{ secrets.EXIT_URL }}"
-          else
-            echo "Build succeeded."
-          fi
+          export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
+          export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
+
+          nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
+
+      - name: Send message on build fail
+        if: steps.build.outcome != 'success' && steps.buildretry.outcome != 'success'
+        run: |
+          echo "Build failed, sending message to Matrix."
+          curl -X POST -F "body=Github action has failed for NixOS ARM64 Build for ${{ matrix.param }}. Go to ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." "${{ secrets.EXIT_URL }}"

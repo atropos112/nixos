@@ -60,7 +60,7 @@ jobs:
           nix build .#nixosConfigurations.${{ matrix.param }}.config.system.build.toplevel -L --substituters "$SUBS" --trusted-public-keys "$SUBSKEYS"
       - name: BuildRetry
         id: buildretry
-        if: steps.Build.outcome != 'success'
+        if: steps.build.outcome != 'success'
         continue-on-error: true
         run: |
           # Updating flake lock, then adding substituters and keys, then fake media directory, then building
