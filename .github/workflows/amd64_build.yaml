@@ -63,9 +63,6 @@ jobs:
         if: steps.build.outcome != 'success'
         continue-on-error: true
         run: |
-          # Updating flake lock, then adding substituters and keys, then fake media directory, then building
-          nix flake update
-
           export SUBS="$(nix show-config substituters) https://hyprland.cachix.org https://staging.attic.rs/attic-ci"
           export SUBSKEYS="$(nix show-config trusted-public-keys) hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
 
