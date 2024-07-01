@@ -34,3 +34,4 @@ https://watermill.io watermill-go
 https://gadgetbridge.org gadgetbridge
 https://knative.dev/docs/ knative
 https://awesome-architecture.com awesome-architecture
+https://docs.pydantic.dev/latest pydantic

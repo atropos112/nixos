@@ -383,7 +383,7 @@ in {
       go_1_22
 
       # Torrent client
-      transmission-gtk
+      transmission_4-gtk
 
       # Font viewer (have to open twice for some reason)
       gnome.gnome-font-viewer

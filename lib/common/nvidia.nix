@@ -10,7 +10,6 @@
     };
     containers = {
       enable = true;
-      cdi.dynamic.nvidia.enable = true;
     };
   };
 
@@ -41,6 +40,5 @@
       enable = true;
       enable32Bit = true;
     };
-    opengl.enable = true;
   };
 }
