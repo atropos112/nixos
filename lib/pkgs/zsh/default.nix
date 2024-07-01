@@ -86,7 +86,7 @@ in {
 
           # ls -> eza
           l = "eza -l --icons --git -a";
-          ls = "echo 'use l instead of ls'";
+          ls = "eza --icons --git";
 
           # kitty based
           # s = "kitten ssh";
@@ -102,7 +102,7 @@ in {
           # if not running interactively do nothing.
           [[ $- != *i* ]] && return
 
-          fastfetch
+          # fastfetch
 
           set -o vi
           set -o emacs
@@ -122,6 +122,7 @@ in {
             rsync -av --delete /home/atropos/.config/vivaldi/ surface:/persistent/home/atropos/.config/vivaldi
             rsync -av --delete /home/atropos/projects/ surface:/persistent/home/atropos/projects
             rsync -av --delete /home/atropos/nixos/ surface:/persistent/home/atropos/nixos
+            rsync -av --delete /home/atropos/.config/nvim surface:/persistent/home/atropos/.config/nvim
           }
 
           function rebase-giant {
@@ -132,6 +133,7 @@ in {
             rsync -av --delete /home/atropos/.config/vivaldi/ giant:/persistent/home/atropos/.config/vivaldi
             rsync -av --delete /home/atropos/projects/ giant:/persistent/home/atropos/projects
             rsync -av --delete /home/atropos/nixos/ giant:/persistent/home/atropos/nixos
+            rsync -av --delete /home/atropos/.config/nvim giant:/persistent/home/atropos/.config/nvim
           }
 
           function sssh {

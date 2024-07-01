@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-websites_dir="$HOME/media/websites"
+websites_dir="$HOME/Sync/websites"
 links_file="$HOME/nixos/lib/pkgs/zsh/kiwix-links.txt"
 update_interval=3 # Months
 
@@ -30,6 +30,8 @@ function kiwix-add() {
 }
 
 function kiwix-update() {
+  docker pull ghcr.io/openzim/zimit 
+
   # Check if there is any file in the directory that does not end with .zim
   zim_files_exist=false
 
