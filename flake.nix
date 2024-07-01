@@ -42,6 +42,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    eza = {
+      url = "github:eza-community/eza";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     waybar = {
       url = "github:Alexays/Waybar";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

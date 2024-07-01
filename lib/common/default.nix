@@ -23,7 +23,8 @@ in {
     inputs.impermanence.nixosModules.impermanence # Is used within some modules not necessarily used though.
     inputs.disko.nixosModules.disko # Is used within some modules not necessarily used though.
     ../pkgs/sopsnix.nix
-    ../pkgs/atuin.nix # WARN: Atuin is not working well, sqlite is timing out some ZFS-sqlite issue. Once daemon works this can be enabled.
+    ../pkgs/atuin.nix
+    ../pkgs/eza.nix
     ../pkgs/git.nix
     ../pkgs/zsh
     ../pkgs/htop.nix
@@ -124,9 +125,6 @@ in {
 
         # allows to kill apps
         killall
-
-        # pretty ls
-        eza
 
         # network bandwith monitoring
         bandwhich
