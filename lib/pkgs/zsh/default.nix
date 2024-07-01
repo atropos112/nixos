@@ -85,8 +85,8 @@ in {
           gmerg = "git add --all && git commit --amend --no-edit";
 
           # ls -> eza
-          ls = "eza";
           l = "eza -l --icons --git -a";
+          ls = "echo 'use l instead of ls'";
 
           # kitty based
           # s = "kitten ssh";
