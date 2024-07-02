@@ -119,10 +119,11 @@ in {
               echo "You are not on giant, you are on $(hostname)"
               return 1
             fi
-            rsync -av --delete /home/atropos/.config/vivaldi/ surface:/persistent/home/atropos/.config/vivaldi
             rsync -av --delete /home/atropos/projects/ surface:/persistent/home/atropos/projects
             rsync -av --delete /home/atropos/nixos/ surface:/persistent/home/atropos/nixos
             rsync -av --delete /home/atropos/.config/nvim surface:/persistent/home/atropos/.config/nvim
+            /run/current-system/sw/bin/ssh surface "rm -rf .config/vivaldi/*"
+            rsync -av --delete /home/atropos/.config/vivaldi/ surface:/persistent/home/atropos/.config/vivaldi
           }
 
           function rebase-giant {
@@ -130,10 +131,12 @@ in {
               echo "You are not on giant, you are on $(hostname)"
               return 1
             fi
-            rsync -av --delete /home/atropos/.config/vivaldi/ giant:/persistent/home/atropos/.config/vivaldi
             rsync -av --delete /home/atropos/projects/ giant:/persistent/home/atropos/projects
             rsync -av --delete /home/atropos/nixos/ giant:/persistent/home/atropos/nixos
             rsync -av --delete /home/atropos/.config/nvim giant:/persistent/home/atropos/.config/nvim
+
+            /run/current-system/sw/bin/ssh giant "rm -rf .config/vivaldi/*"
+            rsync -av --delete /home/atropos/.config/vivaldi/ giant:/persistent/home/atropos/.config/vivaldi
           }
 
           function sssh {
