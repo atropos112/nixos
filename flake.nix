@@ -42,6 +42,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     eza = {
       url = "github:eza-community/eza";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
