@@ -234,6 +234,9 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # for testing purposes sending/consuming messages
+      redpanda-client
+
       # inspection tool for current system state
       nix-inspect
 

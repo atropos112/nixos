@@ -110,6 +110,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # file manager
+        yazi
+
         # dns resolving tool (for testing)
         dig
 
@@ -126,7 +129,7 @@ in {
         # allows to kill apps
         killall
 
-        # network bandwith monitoring
+        # network bandwidth monitoring
         bandwhich
 
         # storage control

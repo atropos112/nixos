@@ -80,6 +80,9 @@ in {
           vim = "nvim";
           vi = "nvim";
 
+          # templates
+          template-python = "copier copy git@github.com:atropos112/template-python-pkg.git";
+
           # git
           rbr = "git checkout $(git_main_branch) && git pull && git switch - && git rebase $(git_main_branch)";
           gmerg = "git add --all && git commit --amend --no-edit";
