@@ -400,9 +400,6 @@ in {
       # pdf viewer
       zathura
 
-      # connect to k8s external secret source
-      doppler
-
       # tool for partitioning
       parted
 

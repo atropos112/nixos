@@ -42,9 +42,6 @@
         };
       };
 
-      "doppler.autocomplete.enable" = true;
-      "doppler.hover.enable" = true;
-
       "isort.args" = ["--profile" "black"];
 
       "[nix]" = {
