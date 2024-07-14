@@ -6,7 +6,7 @@
   home-manager.users.atropos = {
     home.file.".config/direnv/config.toml".text = ''
       [whitelist]
-      prefix = ["/home/atropos/projects", "/home/atropos/nixos"]
+      prefix = ["/home/atropos/projects", "/home/atropos/nixos", "/home/atropos/.config/nvim"]
     '';
 
     programs = {
