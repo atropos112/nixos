@@ -141,7 +141,7 @@ in {
       ];
     };
 
-    opengl.package =
+    graphics.package =
       (
         (pkgs.mesa.override {
           galliumDrivers = ["panfrost" "swrast"];
