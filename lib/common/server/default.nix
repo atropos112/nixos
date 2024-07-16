@@ -37,8 +37,6 @@ _: {
     };
   };
 
-  sound.enable = false;
-
   boot = {
     kernel.sysctl = {
       "vm.swappiness" = 10;
