@@ -100,6 +100,8 @@ in {
     # Inform QT apps of the version
     QT_QPA_PLATFORMTHEME = "qt6ct";
 
+    QT_QPA_PLATFORM = "wayland";
+
     # Base
     EDITOR = "nvim";
     VISUAL = "nvim";
@@ -234,6 +236,12 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # For developing
+      protobuf
+
+      # for password managing
+      infisical
+
       # for testing purposes sending/consuming messages
       redpanda-client
 

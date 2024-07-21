@@ -94,8 +94,13 @@ in {
           # kitty based
           # s = "kitten ssh";
 
+          # Infisical (secret manager)
+          inf = "infisical run --recursive";
+
           # Nix based
           nxsh = ''cached-nix-shell --command zsh -p '';
+
+          y = "yazi";
         };
         initExtra = ''
           for file in ${thisDir}/*.zsh; do

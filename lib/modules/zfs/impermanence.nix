@@ -67,6 +67,7 @@ in {
           "projects" # Code projects
           "nixos" # NixOS config
 
+          ".config/atro" # Dir for my configs
           ".config/vivaldi" # Vivaldi browser content (config, cache, open pages, etc.)
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
