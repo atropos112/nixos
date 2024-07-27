@@ -18,7 +18,7 @@ _: {
 
         # Start applications
         "tailscale-systray"
-        "copyq --start-server"
+        # "copyq --start-server"
         "element-desktop --disable-gpu"
       ];
 

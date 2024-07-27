@@ -23,15 +23,16 @@ in {
     ../../modules/kopia.nix
     ../../pkgs/syncthing.nix
     ../../pkgs/waybar
-    ../../pkgs/copyq
+    # ../../pkgs/copyq
     ../../pkgs/mako.nix
     ../../pkgs/tofi
     ../../pkgs/python.nix
     ../../pkgs/go.nix
     ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
-    ../../pkgs/firefox.nix
+    # ../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
+    ../../pkgs/kiwix-serve.nix
   ];
 
   stylix = {
@@ -386,9 +387,6 @@ in {
 
       # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
       avizo
-
-      # Allows to serve zim files which in turn provide offline (pre-downloaded) websites
-      kiwix-tools
 
       # Golang package
       go_1_22
