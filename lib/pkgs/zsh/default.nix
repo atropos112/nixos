@@ -13,6 +13,7 @@ in {
 
     zsh-fzf-tab
     zsh-you-should-use
+    zsh-syntax-highlighting
   ];
 
   home-manager.users.atropos = {
@@ -39,6 +40,8 @@ in {
         autosuggestion.enable = true;
         enableCompletion = true;
         enableVteIntegration = true;
+        # INFO: These file paths are found by installing it first with bogus file
+        # and then going to ~/.config/zsh/plugins and finding the plugin we want within which we have share/... path that we should put here.
         plugins = [
           {
             name = "powerlevel10k";
@@ -54,6 +57,11 @@ in {
             name = "zsh-you-should-use";
             src = pkgs.zsh-you-should-use;
             file = "share/zsh/plugins/you-should-use/you-should-use.plugin.zsh";
+          }
+          {
+            name = "zsh-syntax-highlighting";
+            src = pkgs.zsh-syntax-highlighting;
+            file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
           }
         ];
 
