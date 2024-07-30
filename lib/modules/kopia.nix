@@ -38,8 +38,7 @@ with lib; let
   ''}";
   kopiaService = {
     description = "Kopia server";
-    after = ["graphical.target"];
-    wants = ["graphical.target"];
+    after = ["network.target" "graphical.target"];
     wantedBy = ["default.target"];
     environment = home_dir;
     serviceConfig = {
@@ -73,11 +72,11 @@ in {
       };
     };
 
-    systemd.services.kopia-svc = mkIf (cfg.runAs
+    systemd.services.kopia = mkIf (cfg.runAs
       == "root")
     kopiaService;
 
-    systemd.user.services.kopia-svc = mkIf (cfg.runAs
+    systemd.user.services.kopia = mkIf (cfg.runAs
       != "root")
     kopiaService;
   };
