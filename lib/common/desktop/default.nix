@@ -33,6 +33,7 @@ in {
     # ../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
     ../../pkgs/kiwix-serve.nix
+    ../../pkgs/s3.nix
   ];
 
   stylix = {
@@ -242,9 +243,6 @@ in {
 
       # for password managing
       infisical
-
-      # for testing purposes sending/consuming messages
-      redpanda-client
 
       # inspection tool for current system state
       nix-inspect
