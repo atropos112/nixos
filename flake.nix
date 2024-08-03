@@ -100,6 +100,14 @@
 
     # Little hack to get colmena to work with nixos-rebuild switch interoperably.
     conf = self.nixosConfigurations;
+    sdImages = {
+      sdImage-opi1 = self.nixosConfigurations.opi1.config.system.build.sdImage;
+      sdImage-opi2 = self.nixosConfigurations.opi2.config.system.build.sdImage;
+      sdImage-opi3 = self.nixosConfigurations.opi3.config.system.build.sdImage;
+      sdImage-opi4 = self.nixosConfigurations.opi4.config.system.build.sdImage;
+      sdImage-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
+      sdImage-opi021 = self.nixosConfigurations.opi021.config.system.build.sdImage;
+    };
   in
     {
       nixosConfigurations = {
@@ -116,13 +124,9 @@
         opi021 = mkHost "opi021" "aarch64-linux";
       };
 
-      packages.x86_64-linux = {
-        sdImage-opi1 = self.nixosConfigurations.opi1.config.system.build.sdImage;
-        sdImage-opi2 = self.nixosConfigurations.opi2.config.system.build.sdImage;
-        sdImage-opi3 = self.nixosConfigurations.opi3.config.system.build.sdImage;
-        sdImage-opi4 = self.nixosConfigurations.opi4.config.system.build.sdImage;
-        sdImage-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
-        sdImage-opi021 = self.nixosConfigurations.opi021.config.system.build.sdImage;
+      packages = {
+        x86_64-linux = sdImages;
+        aarch64-linux = sdImages;
       };
 
       colmena =

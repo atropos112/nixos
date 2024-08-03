@@ -28,13 +28,13 @@
     lint = {
       enable = true;
       package = pkgs.statix;
-      entry = "lint";
+      entry = "nx-lint";
       pass_filenames = false;
     };
   };
 
   scripts = {
-    inspect = {
+    nx-inspect = {
       exec = ''{pkgs.nix-inspect}/bin/nix-inspect "$@" '';
       description = "Inspect the entire configuration, like a json tree";
     };
@@ -44,14 +44,14 @@
       '';
       description = "Browse the flake.lock contents";
     };
-    lint = {
+    nx-lint = {
       exec = ''
         ${pkgs.coreutils}/bin/rm -rf "$DEVENV_ROOT/result"
         ${pkgs.statix}/bin/statix check
       '';
       description = "Lint the configuration";
     };
-    search = {
+    nx-search = {
       exec = ''
         ${pkgs.nix-search-cli}/bin/nix-search "$@"
       '';
@@ -63,7 +63,7 @@
       '';
       description = "Rebuild the system";
     };
-    build = {
+    nx-build = {
       exec = ''
         sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel -L
       '';
@@ -75,7 +75,7 @@
       '';
       description = "Edit secrets";
     };
-    update = {
+    nx-update = {
       exec = ''
         sudo nix-channel --update && nix flake update && git add . && git commit -m "Update flake.lock" && apply-local
       '';
@@ -99,7 +99,7 @@
       '';
       description = "Builds configuration on $/1 and applies it on $/2";
     };
-    diff = {
+    nx-diff = {
       exec = ''
         echo -e "---------- Building... ----------\n" && build && echo -e "---------- Build finished. Computing diff... ---------- \n\n\n" && nvd diff /run/current-system result
       '';

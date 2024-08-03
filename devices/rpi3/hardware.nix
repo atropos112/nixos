@@ -11,12 +11,6 @@
     # kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
 
     # Disable ZFS on kernel 6
-    supportedFilesystems = [
-      "vfat"
-      "xfs"
-      "cifs"
-      "ntfs"
-    ];
 
     # forwarding
     kernel.sysctl = {
@@ -25,13 +19,13 @@
       "net.ipv4.tcp_ecn" = true;
     };
 
-    kernelParams = [
-      "cma=256M"
-      "console=ttyS0,115200n8"
-      "console=tty0"
-    ];
-
-    initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
+    # kernelParams = [
+    #   "cma=256M"
+    #   "console=ttyS0,115200n8"
+    #   "console=tty0"
+    # ];
+    #
+    # initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
   };
 
   # File systems configuration for using the installer's partition layout
