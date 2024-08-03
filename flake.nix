@@ -3,6 +3,7 @@
     # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
 
     # Hyprland packages
     # Do not override the nixpkgs input in them as it will be built with different nxipkgs than it was tested with and
@@ -65,18 +66,12 @@
             pkgs = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
-              overlays = [
-                # fix the following error :
-                # modprobe: FATAL: Module ahci not found in directory
-                # https://github.com/NixOS/nixpkgs/issues/154163#issuecomment-1350599022
-                (_: super: {
-                  makeModulesClosure = x:
-                    super.makeModulesClosure (x // {allowMissing = true;});
-                })
-                inputs.raspberry-pi-nix.overlays.core
-              ];
             };
             pkgs-stable = import inputs.nixpkgs-stable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs2311 = import inputs.nixpkgs2311 {
               inherit system;
               config.allowUnfree = true;
             };
