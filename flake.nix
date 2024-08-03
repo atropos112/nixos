@@ -15,6 +15,8 @@
 
     atuin.url = "github:atuinsh/atuin";
 
+    raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -71,6 +73,7 @@
                   makeModulesClosure = x:
                     super.makeModulesClosure (x // {allowMissing = true;});
                 })
+                inputs.raspberry-pi-nix.overlays.core
               ];
             };
             pkgs-stable = import inputs.nixpkgs-stable {

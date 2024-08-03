@@ -1,21 +1,17 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   boot = {
     loader = {
       # NixOS wants to enable GRUB by default
       grub.enable = false;
 
       # Enables the generation of /boot/extlinux/extlinux.conf
-      generic-extlinux-compatible.enable = true;
+      # generic-extlinux-compatible.enable = true;
     };
 
-    kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
 
     # Disable ZFS on kernel 6
-    supportedFilesystems = lib.mkForce [
+    supportedFilesystems = [
       "vfat"
       "xfs"
       "cifs"
@@ -30,7 +26,7 @@
     };
 
     kernelParams = [
-      "cma=320M"
+      "cma=256M"
       "console=ttyS0,115200n8"
       "console=tty0"
     ];
