@@ -1,4 +1,4 @@
-_: let
+{lib, ...}: let
   # Public keys
   giant = {
     publicKeyAtropos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGqRdI3cwDuF/x1Hdr2AGmnNjTiU7hfXePqzlEMVn7F AtroGiant";
@@ -25,7 +25,7 @@ in {
 
     users = {
       root = {
-        initialHashedPassword = "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
+        initialHashedPassword = lib.mkForce "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
         openssh = {
           authorizedKeys.keys = [
             giant.publicKeyRoot
@@ -41,7 +41,7 @@ in {
         group = "atropos";
         createHome = true;
         extraGroups = ["wheel" "audio" "networkmanager" "docker" "input" "plugdev"];
-        initialHashedPassword = "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
+        initialHashedPassword = lib.mkForce "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
         openssh = {
           authorizedKeys.keys = [
             giant.publicKeyAtropos

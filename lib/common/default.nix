@@ -2,6 +2,7 @@
   self,
   pkgs,
   inputs,
+  lib,
   config,
   ...
 }: let
@@ -223,7 +224,7 @@ in {
       enable = true;
       settings = {
         X11Forwarding = true;
-        PermitRootLogin = "prohibit-password"; # disable root login with password
+        PermitRootLogin = lib.mkForce "prohibit-password"; # disable root login with password
         PasswordAuthentication = false; # disable password login
       };
       openFirewall = true;

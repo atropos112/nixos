@@ -109,6 +109,7 @@
         sdImage-opi2 = self.nixosConfigurations.opi2.config.system.build.sdImage;
         sdImage-opi3 = self.nixosConfigurations.opi3.config.system.build.sdImage;
         sdImage-opi4 = self.nixosConfigurations.opi4.config.system.build.sdImage;
+        sdImage-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
         # sdImage-opi021 = self.nixosConfigurations.opi021.config.system.build.sdImage;
       };
 

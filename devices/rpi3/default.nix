@@ -1,6 +1,8 @@
 _: {
   imports = [
     ./hardware.nix
+    ../../lib/common
+    ./sdimage.nix
   ];
   topology.self = {
     name = "rpi3";
