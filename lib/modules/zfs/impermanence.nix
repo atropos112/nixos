@@ -63,6 +63,7 @@ in {
         directories = [
           ".ssh" # User SSH keys
           ".wakatime" # Wakatime downloads some cache (some bins etc)
+          ".rustup" # Rustup cache
           "Sync" # Syncthing
           "projects" # Code projects
           "nixos" # NixOS config

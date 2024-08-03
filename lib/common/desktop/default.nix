@@ -27,6 +27,7 @@ in {
     ../../pkgs/mako.nix
     ../../pkgs/tofi
     ../../pkgs/python.nix
+    ../../pkgs/rust.nix
     ../../pkgs/go.nix
     ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
@@ -395,9 +396,6 @@ in {
       # Font viewer (have to open twice for some reason)
       gnome.gnome-font-viewer
 
-      # Rust debug server
-      vscode-extensions.vadimcn.vscode-lldb.adapter
-
       # Multiplexer for terminal
       tmux
 
@@ -408,7 +406,6 @@ in {
       parted
 
       # execution tool (in repos)
-      just
       gnumake
 
       # hacky tool to simulate keyboard inputs
@@ -440,7 +437,6 @@ in {
       ocaml
       wpaperd
       pre-commit
-      rustup
       argocd
       statix # to give suggestions on nix stuff
       deadnix # look for dead nix code
