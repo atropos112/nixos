@@ -100,6 +100,7 @@
         opi2 = mkHost "opi2" "aarch64-linux";
         opi3 = mkHost "opi3" "aarch64-linux";
         opi4 = mkHost "opi4" "aarch64-linux";
+        rpi3 = mkHost "rpi3" "aarch64-linux";
         # opi021 = mkHost "opi021" "aarch64-linux"; # BROKEN at the moment, memory issues
       };
 
