@@ -4,13 +4,29 @@
   ...
 }: {
   boot = {
-    # NixOS wants to enable GRUB by default
-    loader.grub.enable = false;
+    loader = {
+      # NixOS wants to enable GRUB by default
+      grub.enable = false;
+      raspberryPi = {
+        enable = true;
 
-    kernelPackages = pkgs.linuxPackages; # kernel version
+        # Set the version depending on your raspberry pi.
+        version = 3;
+        uboot.enable = true;
+
+        # These two parameters are the important ones to get the
+        # camera working. These will be appended to /boot/config.txt.
+        firmwareConfig = ''
+          start_x=1
+          gpu_mem=256
+        '';
+      };
+    };
 
     # Enables the generation of /boot/extlinux/extlinux.conf
     loader.generic-extlinux-compatible.enable = true;
+
+    kernelPackages = pkgs.linuxPackages; # kernel version
 
     # Disable ZFS on kernel 6
     supportedFilesystems = lib.mkForce [
@@ -27,10 +43,11 @@
       "net.ipv4.tcp_ecn" = true;
     };
 
-    # !!! Needed for the virtual console to work on the RPi 3, as the default of 16M doesn't seem to be enough.
-    # If X.org behaves weirdly (I only saw the cursor) then try increasing this to 256M.
-    # On a Raspberry Pi 4 with 4 GB, you should either disable this parameter or increase to at least 64M if you want the USB ports to work.
-    kernelParams = ["cma=256M"];
+    kernelParams = [
+      "cma=320M"
+    ];
+
+    initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
   };
 
   # File systems configuration for using the installer's partition layout
