@@ -5,7 +5,7 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "orangepi-firmware";
-  version = "2024.01.24";
+  version = "2024.08.01";
   dontBuild = true;
   dontFixup = true;
   compressFirmware = false;
@@ -13,8 +13,8 @@ stdenvNoCC.mkDerivation {
   src = fetchFromGitHub {
     owner = "orangepi-xunlong";
     repo = "firmware";
-    rev = "76ead17a1770459560042a9a7c43fe615bbce5e7";
-    hash = "sha256-mltaup92LTGbuCXeGTMdoFloX3vZRbaUFVbh6lwveFs=";
+    rev = "a1bdbf549ba503edd514c26367a847bc9d83dd4a";
+    hash = "sha256-RvVWq40++0VPNGQYu5PKDNZr1oZ/n4jf9majl27jO/c=";
   };
 
   installPhase = ''

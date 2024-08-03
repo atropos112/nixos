@@ -13,8 +13,8 @@
   src = fetchFromGitHub {
     owner = "orangepi-xunlong";
     repo = "linux-orangepi";
-    rev = "752c0d0a12fdce201da45852287b48382caa8c0f";
-    hash = "sha256-tVu/3SF/+s+Z6ytKvuY+ZwqsXUlm40yOZ/O5kfNfUYc=";
+    rev = "b3424fb4449753e99f9fc3de9548ad2ef08647bb";
+    hash = "sha256-kOhxDP1hbrrIriOXizgZoB0I+3/JWOPcOCdNeXcPJV0=";
   };
 
   # Steps to the generated kernel config file
