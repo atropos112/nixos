@@ -101,7 +101,7 @@
         opi3 = mkHost "opi3" "aarch64-linux";
         opi4 = mkHost "opi4" "aarch64-linux";
         rpi3 = mkHost "rpi3" "aarch64-linux";
-        # opi021 = mkHost "opi021" "aarch64-linux"; # BROKEN at the moment, memory issues
+        opi021 = mkHost "opi021" "aarch64-linux";
       };
 
       packages.x86_64-linux = {
@@ -110,7 +110,7 @@
         sdImage-opi3 = self.nixosConfigurations.opi3.config.system.build.sdImage;
         sdImage-opi4 = self.nixosConfigurations.opi4.config.system.build.sdImage;
         sdImage-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
-        # sdImage-opi021 = self.nixosConfigurations.opi021.config.system.build.sdImage;
+        sdImage-opi021 = self.nixosConfigurations.opi021.config.system.build.sdImage;
       };
 
       colmena =

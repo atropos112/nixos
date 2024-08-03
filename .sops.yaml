@@ -11,7 +11,8 @@ keys:
   - &node_opi2 age1aexpww0x800hauh53gyzy955evmnnmphezzh80wmuxzruy6dfugqpmq4hr
   - &node_opi3 age16ynqhd75q8cvhckqjkk5757r0zcl06cqy2qgs66klgjh503pv5us4aufs8
   - &node_opi4 age1zpfnev7lwkgd78kmfeufp3yt49eh5jxkwx6xwpkgx4c4h9jgsspshv8u3p
-  - &ndoe_rpi3 age1hfhaw3lqvlh0rpg7pjgarjv63nuklvkwqzvj2anvuggfzkky7p2q0e3ul5
+  - &node_rpi3 age1hfhaw3lqvlh0rpg7pjgarjv63nuklvkwqzvj2anvuggfzkky7p2q0e3ul5
+  - &node_opi021 age1kr7ln29t5zwsuwmce2u8z4a2gkp39a4euae2qcucx9t8qlu094kqrqm9gs
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -27,4 +28,5 @@ creation_rules:
           - *node_opi2
           - *node_opi3
           - *node_opi4
-          - *ndoe_rpi3
+          - *node_rpi3
+          - *node_opi021
