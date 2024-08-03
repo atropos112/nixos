@@ -50,12 +50,6 @@ in {
       # Support USB keyboards, in case the boot fails and we only have
       # a USB keyboard, or for LUKS passphrase prompt.
       "hid"
-
-      # For LUKS encrypted root partition.
-      # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/system/boot/luksroot.nix#L985
-      "dm_mod" # for LVM & LUKS
-      "dm_crypt" # for LUKS
-      "input_leds"
     ];
 
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./vendor_kernel.nix {});
@@ -85,60 +79,7 @@ in {
   hardware = {
     deviceTree = {
       name = "rockchip/rk3588s-orangepi-5.dtb";
-      overlays = [
-        {
-          # enable pcie2x1l2 (NVMe), disable sata0
-          name = "orangepi5-sata-overlay";
-          dtsText = ''
-            // Orange Pi 5 Pcie M.2 to sata
-            /dts-v1/;
-            /plugin/;
-
-            / {
-              compatible = "rockchip,rk3588s-orangepi-5";
-
-              fragment@0 {
-                target = <&sata0>;
-
-                __overlay__ {
-                  status = "disabled";
-                };
-              };
-
-              fragment@1 {
-                target = <&pcie2x1l2>;
-
-                __overlay__ {
-                  status = "okay";
-                };
-              };
-            };
-          '';
-        }
-
-        # enable i2c1
-        {
-          name = "orangepi5-i2c-overlay";
-          dtsText = ''
-            /dts-v1/;
-            /plugin/;
-
-            / {
-              compatible = "rockchip,rk3588s-orangepi-5";
-
-              fragment@0 {
-                target = <&i2c1>;
-
-                __overlay__ {
-                  status = "okay";
-                  pinctrl-names = "default";
-                  pinctrl-0 = <&i2c1m2_xfer>;
-                };
-              };
-            };
-          '';
-        }
-      ];
+      overlays = [];
     };
 
     enableRedistributableFirmware = lib.mkForce true;

@@ -7,26 +7,12 @@
     loader = {
       # NixOS wants to enable GRUB by default
       grub.enable = false;
-      raspberryPi = {
-        enable = true;
 
-        # Set the version depending on your raspberry pi.
-        version = 3;
-        uboot.enable = true;
-
-        # These two parameters are the important ones to get the
-        # camera working. These will be appended to /boot/config.txt.
-        firmwareConfig = ''
-          start_x=1
-          gpu_mem=256
-        '';
-      };
+      # Enables the generation of /boot/extlinux/extlinux.conf
+      generic-extlinux-compatible.enable = true;
     };
 
-    # Enables the generation of /boot/extlinux/extlinux.conf
-    loader.generic-extlinux-compatible.enable = true;
-
-    kernelPackages = pkgs.linuxPackages; # kernel version
+    kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
 
     # Disable ZFS on kernel 6
     supportedFilesystems = lib.mkForce [
@@ -45,6 +31,8 @@
 
     kernelParams = [
       "cma=320M"
+      "console=ttyS0,115200n8"
+      "console=tty0"
     ];
 
     initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
