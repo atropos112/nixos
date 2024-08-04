@@ -271,7 +271,7 @@ in {
       # Base home manager configuration
       username = rootHomeUser;
       homeDirectory = rootHomeDirectory;
-      stateVersion = "24.11";
+      stateVersion = "23.11";
     };
   };
   home-manager.users.atropos = {
@@ -279,7 +279,7 @@ in {
       # Base home manager configuration
       username = homeUser;
       inherit homeDirectory;
-      stateVersion = "24.11";
+      stateVersion = "23.11";
 
       sessionPath = [
         "$HOME/.bun/bin"

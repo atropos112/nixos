@@ -1,7 +1,7 @@
 _: {
   imports = [
     ./hardware.nix
-    ../../lib/common
+    # ../../lib/common
     ./sdimage.nix
   ];
 
@@ -16,4 +16,5 @@ _: {
     # interfaces.eth0.macAddress = "7e:7d:fe:73:bf:61";
     hostName = "atrorpi3";
   };
+  system.stateVersion = "23.11";
 }

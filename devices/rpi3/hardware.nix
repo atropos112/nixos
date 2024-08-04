@@ -32,12 +32,9 @@
     };
 
     kernelParams = [
-      "cma=256M"
       "console=ttyS0,115200n8"
       "console=tty0"
     ];
-
-    initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
   };
 
   # File systems configuration for using the installer's partition layout
@@ -49,14 +46,6 @@
       fsType = "ext4";
     };
   };
-
-  # Bit scary to have swap on an SD card, but it's not like we're going to be swapping a lot.
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 1024;
-    }
-  ];
 
   # WiFi
   hardware = {

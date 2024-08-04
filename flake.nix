@@ -61,7 +61,15 @@
           specialArgs = {
             inherit inputs self;
             inherit (inputs) stylix;
-            pkgs = import inputs.nixpkgs-unstable {
+            pkgs = import inputs.nixpkgs-stable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs-stable = import inputs.nixpkgs-stable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs2311 = import inputs.nixpkgs2311 {
               inherit system;
               config.allowUnfree = true;
               overlays = [
@@ -73,14 +81,6 @@
                     super.makeModulesClosure (x // {allowMissing = true;});
                 })
               ];
-            };
-            pkgs-stable = import inputs.nixpkgs-stable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            pkgs2311 = import inputs.nixpkgs2311 {
-              inherit system;
-              config.allowUnfree = true;
             };
           };
           modules = [
