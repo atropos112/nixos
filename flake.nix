@@ -90,6 +90,10 @@
                 })
               ];
             };
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
             pkgs-stable = import inputs.nixpkgs-stable {
               inherit system;
               config.allowUnfree = true;

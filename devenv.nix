@@ -101,7 +101,7 @@
     };
     nx-diff = {
       exec = ''
-        echo -e "---------- Building... ----------\n" && build && echo -e "---------- Build finished. Computing diff... ---------- \n\n\n" && nvd diff /run/current-system result
+        echo -e "---------- Building... ----------\n" && nx-build && echo -e "---------- Build finished. Computing diff... ---------- \n\n\n" && nvd diff /run/current-system result
       '';
       description = "Diff the current system with current configuration files";
     };
