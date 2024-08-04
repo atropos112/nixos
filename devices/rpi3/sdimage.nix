@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  nixpkgs = inputs.nixpkgs-unstable;
+  nixpkgs = inputs.nixpkgs-stable;
 in {
   # INFO: SD image card builder here.
   imports = [

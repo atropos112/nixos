@@ -16,8 +16,6 @@
 
     atuin.url = "github:atuinsh/atuin";
 
-    raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -66,6 +64,15 @@
             pkgs = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
+              overlays = [
+                # fix the following error :
+                # modprobe: FATAL: Module ahci not found in directory
+                # https://github.com/NixOS/nixpkgs/issues/154163#issuecomment-1350599022
+                (_: super: {
+                  makeModulesClosure = x:
+                    super.makeModulesClosure (x // {allowMissing = true;});
+                })
+              ];
             };
             pkgs-stable = import inputs.nixpkgs-stable {
               inherit system;

@@ -2,6 +2,8 @@
 #      Orange Pi 5 Specific Configuration
 # =========================================================================
 {
+  # WARN: Having tried 24-04 and unstable neither allowed the kernel to build, so I'm sticking with 23.11 for now.
+  # Its also what https://github.com/ryan4yin/nixos-rk3588 is doing, once he changes can look to move as well.
   pkgs2311,
   config,
   inputs,

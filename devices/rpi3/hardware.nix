@@ -1,14 +1,26 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   boot = {
+    supportedFilesystems = lib.mkForce [
+      "vfat"
+      "fat32"
+      "exfat"
+      "ext4"
+      "btrfs"
+    ];
+
     loader = {
       # NixOS wants to enable GRUB by default
       grub.enable = false;
 
       # Enables the generation of /boot/extlinux/extlinux.conf
-      # generic-extlinux-compatible.enable = true;
+      generic-extlinux-compatible.enable = true;
     };
 
-    # kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
+    kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
 
     # Disable ZFS on kernel 6
 
@@ -19,13 +31,13 @@
       "net.ipv4.tcp_ecn" = true;
     };
 
-    # kernelParams = [
-    #   "cma=256M"
-    #   "console=ttyS0,115200n8"
-    #   "console=tty0"
-    # ];
-    #
-    # initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
+    kernelParams = [
+      "cma=256M"
+      "console=ttyS0,115200n8"
+      "console=tty0"
+    ];
+
+    initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
   };
 
   # File systems configuration for using the installer's partition layout

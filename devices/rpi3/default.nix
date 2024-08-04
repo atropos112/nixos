@@ -1,12 +1,9 @@
-{inputs, ...}: {
+_: {
   imports = [
     ./hardware.nix
     ../../lib/common
-    # ./sdimage.nix
-    inputs.raspberry-pi-nix.nixosModules.raspberry-pi
+    ./sdimage.nix
   ];
-  raspberry-pi-nix.board = "bcm2711";
-  # raspberry-pi-nix.kernel-version = "v6_6_31";
 
   topology.self = {
     name = "rpi3";
