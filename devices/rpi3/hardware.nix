@@ -20,7 +20,7 @@
       generic-extlinux-compatible.enable = true;
     };
 
-    kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
+    kernelPackages = pkgs.linuxPackages;
 
     # Disable ZFS on kernel 6
 

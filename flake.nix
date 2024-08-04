@@ -25,6 +25,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    home-manager-stable = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
     attic = {
       url = "github:zhaofengli/attic";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -54,22 +60,24 @@
     };
   };
   outputs = {self, ...} @ inputs: let
-    mkHost = hostName: system: (
+    nxpkg = {
+      "stable" = inputs.nixpkgs-stable;
+      "unstable" = inputs.nixpkgs-unstable;
+      "old2311" = inputs.nixpkgs2311;
+    };
+    hm = {
+      "stable" = inputs.home-manager-stable;
+      "unstable" = inputs.home-manager;
+    };
+
+    mkHost = hostName: system: branch: (
       (_:
-        inputs.nixpkgs-unstable.lib.nixosSystem {
+        nxpkg."${branch}".lib.nixosSystem {
           inherit system;
           specialArgs = {
             inherit inputs self;
             inherit (inputs) stylix;
-            pkgs = import inputs.nixpkgs-stable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            pkgs-stable = import inputs.nixpkgs-stable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            pkgs2311 = import inputs.nixpkgs2311 {
+            pkgs = import nxpkg."${branch}" {
               inherit system;
               config.allowUnfree = true;
               overlays = [
@@ -82,10 +90,18 @@
                 })
               ];
             };
+            pkgs-stable = import inputs.nixpkgs-stable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs2311 = import inputs.nixpkgs2311 {
+              inherit system;
+              config.allowUnfree = true;
+            };
           };
           modules = [
             #1. Home-manager
-            inputs.home-manager.nixosModules.home-manager
+            hm."${branch}".nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -113,17 +129,17 @@
   in
     {
       nixosConfigurations = {
-        surface = mkHost "surface" "x86_64-linux";
-        giant = mkHost "giant" "x86_64-linux";
-        smol = mkHost "smol" "x86_64-linux";
-        a21 = mkHost "a21" "x86_64-linux";
-        rzr = mkHost "rzr" "x86_64-linux";
-        opi1 = mkHost "opi1" "aarch64-linux";
-        opi2 = mkHost "opi2" "aarch64-linux";
-        opi3 = mkHost "opi3" "aarch64-linux";
-        opi4 = mkHost "opi4" "aarch64-linux";
-        rpi3 = mkHost "rpi3" "aarch64-linux";
-        opi021 = mkHost "opi021" "aarch64-linux";
+        surface = mkHost "surface" "x86_64-linux" "unstable";
+        giant = mkHost "giant" "x86_64-linux" "unstable";
+        smol = mkHost "smol" "x86_64-linux" "unstable";
+        a21 = mkHost "a21" "x86_64-linux" "unstable";
+        rzr = mkHost "rzr" "x86_64-linux" "unstable";
+        opi1 = mkHost "opi1" "aarch64-linux" "unstable";
+        opi2 = mkHost "opi2" "aarch64-linux" "unstable";
+        opi3 = mkHost "opi3" "aarch64-linux" "unstable";
+        opi4 = mkHost "opi4" "aarch64-linux" "unstable";
+        rpi3 = mkHost "rpi3" "aarch64-linux" "stable";
+        opi021 = mkHost "opi021" "aarch64-linux" "unstable";
       };
 
       packages = {
@@ -135,7 +151,7 @@
         {
           meta = {
             description = "my personal machines";
-            nixpkgs = import inputs.nixpkgs-unstable {system = "x86_64-linux";}; # Gets overriden by the host-specific nixpkgs.
+            nixpkgs = import inputs.nixpkgs-stable {system = "x86_64-linux";}; # Gets overriden by the host-specific nixpkgs.
             nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
           };
         }

@@ -271,7 +271,10 @@ in {
       # Base home manager configuration
       username = rootHomeUser;
       homeDirectory = rootHomeDirectory;
-      stateVersion = "23.11";
+      stateVersion =
+        if config.system.stateVersion == "unstable"
+        then "24.11"
+        else config.system.stateVersion;
     };
   };
   home-manager.users.atropos = {
@@ -279,7 +282,10 @@ in {
       # Base home manager configuration
       username = homeUser;
       inherit homeDirectory;
-      stateVersion = "23.11";
+      stateVersion =
+        if config.system.stateVersion == "unstable"
+        then "24.11"
+        else config.system.stateVersion;
 
       sessionPath = [
         "$HOME/.bun/bin"
