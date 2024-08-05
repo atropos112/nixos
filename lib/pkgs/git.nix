@@ -1,4 +1,9 @@
-{
+_: {
+  programs = {
+    # Version control application.
+    git.enable = true;
+  };
+
   home-manager.users.atropos.programs.git = {
     lfs.enable = true;
     enable = true;

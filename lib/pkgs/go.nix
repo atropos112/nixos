@@ -3,5 +3,8 @@
     gofumpt
     golangci-lint
     gopls
+
+    # debugger for golang
+    delve
   ];
 }

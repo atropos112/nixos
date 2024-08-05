@@ -27,7 +27,8 @@ in {
     ../pkgs/atuin.nix
     ../pkgs/eza.nix
     ../pkgs/git.nix
-    ../pkgs/zsh
+    ../pkgs/zsh.nix
+    ../pkgs/starship.nix
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
     ../pkgs/nvim.nix
@@ -229,11 +230,6 @@ in {
       };
       openFirewall = true;
     };
-  };
-
-  programs = {
-    # Version control application.
-    git.enable = true;
   };
 
   security = {

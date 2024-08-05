@@ -268,7 +268,7 @@ in {
       wlr-randr
 
       # File manager
-      gnome.nautilus
+      nautilus
 
       # Backup solution
       kopia
@@ -394,7 +394,7 @@ in {
       transmission_4-gtk
 
       # Font viewer (have to open twice for some reason)
-      gnome.gnome-font-viewer
+      gnome-font-viewer
 
       # Multiplexer for terminal
       tmux
@@ -416,12 +416,6 @@ in {
 
       # proprietary chat client (for external usage)
       slack
-
-      # database client
-      dbeaver-bin
-
-      # debuger for golang
-      delve
 
       # Cllium eBPF client tool for kubernetes cluster
       cilium-cli

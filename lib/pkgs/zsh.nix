@@ -1,13 +1,8 @@
-{pkgs, ...}: let
-  thisDir = ../zsh; # Bit silly, you'd think you can just write "." or "./" but nope.
-in {
+{pkgs, ...}: {
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # Nice theme for ZSH
-    zsh-powerlevel10k
-
     # Fuzzy selector, need for the zsh plugin
     fzf
 
@@ -44,11 +39,6 @@ in {
         # and then going to ~/.config/zsh/plugins and finding the plugin we want within which we have share/... path that we should put here.
         plugins = [
           {
-            name = "powerlevel10k";
-            src = pkgs.zsh-powerlevel10k;
-            file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-          }
-          {
             name = "fzf-tab";
             src = pkgs.zsh-fzf-tab;
             file = "share/fzf-tab/fzf-tab.plugin.zsh";
@@ -83,6 +73,9 @@ in {
           cat = "bat --paging never --theme DarkNeon --style plain";
           rcat = "/run/current-system/sw/bin/cat";
 
+          # View
+          fz = ''fzf --preview "bat --style numbers --color always {}" --bind "enter:execute(vim {})+abort"'';
+
           # vim
           v = "nvim";
           vim = "nvim";
@@ -111,10 +104,6 @@ in {
           y = "yazi";
         };
         initExtra = ''
-          for file in ${thisDir}/*.zsh; do
-            source "$file"
-          done
-
           # if not running interactively do nothing.
           [[ $- != *i* ]] && return
 
@@ -167,10 +156,6 @@ in {
             curl --upload-file $1 https://transfer.sh
           }
 
-          function cd () {
-              __zoxide_z "$@"
-          }
-
           function ssh () {
             # check if $TERM = "xterm-kitty"
             if [ "$TERM" = "xterm-kitty" ]; then
@@ -199,7 +184,7 @@ in {
               fi
           }
 
-          eval "$(zoxide init zsh)"
+          eval "$(zoxide init --cmd cd zsh)"
           # eval "$(fzf --zsh)"
         '';
       };

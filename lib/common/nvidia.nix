@@ -1,24 +1,26 @@
 {
   lib,
   config,
-  pkgs-stable,
+  pkgs,
   ...
 }: {
-  virtualisation = {
-    docker = {
-      enableNvidia = true;
-    };
-    containers = {
-      enable = true;
+  # INFO: On nix opts it says "virtualisation.docker.enableNvidia" was replaced with hardware.nvidia-container-toolkit.enable
+  # but that's not really true, docker doesn't seem to find nvidia-container-cli. The virtualisation.docker below
+  # is a workaround for that, using a lot of the virtualisation.docker.enableNvidia logic.
+  virtualisation.docker = {
+    extraPackages = with pkgs; [
+      nvidia-docker
+    ];
+    daemon.settings = {
+      runtimes = {
+        nvidia = {
+          path = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+        };
+      };
     };
   };
 
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
-
-  environment.systemPackages = with pkgs-stable; [
-    nvtopPackages.nvidia
-    runc
-  ];
 
   services.xserver.videoDrivers = ["nvidia"];
 
@@ -26,11 +28,14 @@
     nvidia-container-toolkit = {
       enable = true;
       mount-nvidia-executables = true;
+      mount-nvidia-docker-1-directories = true;
     };
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = lib.mkDefault true;
-      powerManagement.finegrained = false;
+      powerManagement = {
+        enable = lib.mkDefault true;
+        finegrained = false;
+      };
       open = false;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.beta;
