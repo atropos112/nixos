@@ -27,11 +27,6 @@ _: {
         symbol = "🦬 ";
       };
 
-      cmd_duration = {
-        min_time = 500;
-        format = "took [$duration](bold yellow)";
-      };
-
       direnv = {
         disabled = true;
       };
@@ -61,6 +56,7 @@ _: {
 
       nix_shell = {
         format = "in [$symbol]($style)";
+        symbol = "❄️ ";
       };
 
       package = {
