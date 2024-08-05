@@ -80,7 +80,7 @@ in {
           rssh = "/run/current-system/sw/bin/ssh";
 
           # cat
-          cat = "bat --paging never --theme DarkNeon";
+          cat = "bat --paging never --theme DarkNeon --style plain";
           rcat = "/run/current-system/sw/bin/cat";
 
           # vim
