@@ -165,6 +165,13 @@
             fi
           }
 
+          function cd () {
+              __zoxide_z "$@"
+             if type cdfunc &> /dev/null; then  # Check if cdfunc exists
+               cdfunc  # Execute cdfunc if it exists
+             fi
+          }
+
           function grih {
             git rebase -i HEAD~$1
           }
@@ -184,7 +191,7 @@
               fi
           }
 
-          eval "$(zoxide init --cmd cd zsh)"
+          eval "$(zoxide init zsh)"
           # eval "$(fzf --zsh)"
         '';
       };
