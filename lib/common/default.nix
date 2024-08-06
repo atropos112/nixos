@@ -112,6 +112,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # useful tldr
+        tldr
+
         # file manager
         yazi
 
