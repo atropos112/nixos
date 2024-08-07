@@ -17,7 +17,7 @@ in {
     ../kubernetes/user.nix
     # ../../pkgs/kitty.nix
     ../../pkgs/foot.nix
-    ../../pkgs/vscode.nix
+    # ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix
     ../../modules/kopia.nix
