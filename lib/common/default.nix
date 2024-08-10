@@ -27,7 +27,7 @@ in {
     ../pkgs/atuin.nix
     ../pkgs/eza.nix
     ../pkgs/git.nix
-    ../pkgs/zsh.nix
+    ../pkgs/zsh
     ../pkgs/starship.nix
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
