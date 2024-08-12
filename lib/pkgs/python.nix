@@ -2,7 +2,6 @@
   pythonPackages = with pkgs.python312Packages; [
     python-lsp-server
     pylsp-rope
-    pylsp-mypy
     debugpy
 
     pydocstyle

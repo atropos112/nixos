@@ -177,6 +177,9 @@ in {
         # Basic CLI downloader
         wget
 
+        # useful for CLI based yaml processing
+        yq
+
         # Useful for CLI based json processing
         jq
 
