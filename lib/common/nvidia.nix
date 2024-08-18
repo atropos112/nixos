@@ -20,6 +20,12 @@
     };
   };
 
+  # INFO: These are used in the k3s hack, do not touch pls.
+  environment.systemPackages = with pkgs; [
+    runc
+    nvidia-container-toolkit
+  ];
+
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
 
   services.xserver.videoDrivers = ["nvidia"];
