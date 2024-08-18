@@ -1,18 +1,4 @@
 ---
 mirrors:
-  docker.io:
-    endpoint:
-      - "https://harbor.atro.xyz/dockerhub"
-  ghcr.io:
-    endpoint:
-      - "https://harbor.atro.xyz/ghcr"
-  cgr.dev:
-    endpoint:
-      - "https://harbor.atro.xyz/chainguard"
-  mcr.microsoft.com:
-    endpoint:
-      - "https://harbor.atro.xyz/microsoft"
-  # INFO: To have Embedded Registry Mirror working, we need to cover every entry in mirrors hence the empty entry below.
-  # For more info go to https://docs.k3s.io/installation/registry-mirror#enabling-registry-mirroring working.
+  # Needed for embedded registries. 
   "*":
-# INFO: Not adding auth as my proxies are open to the public anyway.
