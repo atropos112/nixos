@@ -32,7 +32,7 @@ in {
     owner = config.users.users.atropos.name;
   };
 
-  systemd.user.services.atuin-daemon = {
+  systemd.user.services.atuind = {
     description = "Atuin Daemon";
     after = ["network.target"];
     wantedBy = ["default.target"];

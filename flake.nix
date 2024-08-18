@@ -155,7 +155,7 @@
         {
           meta = {
             description = "my personal machines";
-            nixpkgs = import inputs.nixpkgs-stable {system = "x86_64-linux";}; # Gets overriden by the host-specific nixpkgs.
+            nixpkgs = import inputs.nixpkgs-unstable {system = "x86_64-linux";}; # Gets overriden by the host-specific nixpkgs.
             nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
           };
         }
