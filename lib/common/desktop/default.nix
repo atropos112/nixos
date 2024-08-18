@@ -361,7 +361,7 @@ in {
       wl-clipboard
 
       # psql to connect to postgres databases
-      postgresql
+      postgresql_16
 
       # NIX LSP
       nil

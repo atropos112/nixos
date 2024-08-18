@@ -35,5 +35,10 @@ in {
         else hostName
       }";
     };
+
+    environment.etc."rancher/k3s/registries.yaml" = {
+      source = ./registries.yaml;
+      mode = "0440";
+    };
   };
 }

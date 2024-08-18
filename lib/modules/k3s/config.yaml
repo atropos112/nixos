@@ -1,5 +1,7 @@
+---
 flannel-backend: none
 tls-san: "11.0.0.11"
+embedded-registry: true
 disable:
   - servicelb
   - traefik

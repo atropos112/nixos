@@ -21,22 +21,22 @@ with lib; let
     "uid=1000"
     "gid=1000"
   ];
+
+  mkSshFs = device: {
+    inherit device;
+    fsType = "sshfs";
+    options = sshfsOpts;
+  };
 in {
   options.atro.extMounts = {
     enable = mkEnableOption "Mount external mounts when starting the system";
   };
 
   config = mkIf cfg.enable {
-    fileSystems."/infra/k8s/pipelines" = {
-      device = "atropos@pipelines:/pvc/";
-      fsType = "sshfs";
-      options = sshfsOpts;
-    };
-
-    fileSystems."/infra/rzr/mnt" = {
-      device = "atropos@rzr:/mnt/";
-      fsType = "sshfs";
-      options = sshfsOpts;
+    fileSystems = {
+      "/infra/k8s/pipelines" = mkSshFs "atropos@pipelines:/pvc/";
+      "/infra/k8s/backups" = mkSshFs "atropos@pipelines:/backups/";
+      "/infra/rzr/mnt" = mkSshFs "atropos@rzr:/mnt/";
     };
   };
 }
