@@ -5,7 +5,6 @@
   ...
 }:
 with lib; let
-  thisDir = ./.;
   cfg = config.atro.k3s;
   inherit (pkgs) k3s;
   inherit (config.networking) hostName;
@@ -35,11 +34,6 @@ in {
         then "atro21"
         else hostName
       }";
-    };
-
-    environment.etc."rancher/k3s/registries.yaml" = {
-      source = "${thisDir}/registries.yaml";
-      mode = "0444";
     };
   };
 }

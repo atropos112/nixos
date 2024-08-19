@@ -1,4 +1,0 @@
----
-mirrors:
-  # Needed for embedded registries. 
-  "*":
