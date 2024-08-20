@@ -89,7 +89,7 @@
     };
     colmena-apply-k8s = {
       exec = ''
-        colmena-apply "opi*,rzr,smol,a21"
+        colmena-apply "opi1,opi2,opi3,opi4,rzr,smol,a21"
       '';
       description = "Apply the configuration using colmena to all Kubernetes nodes.";
     };

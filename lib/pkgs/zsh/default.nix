@@ -114,6 +114,8 @@ in {
           nxsh = ''cached-nix-shell --command zsh -p '';
 
           y = "yazi";
+
+          cnpg = "kubectl-cnpg";
         };
         initExtra = ''
            # if not running interactively do nothing.
