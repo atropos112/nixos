@@ -8,6 +8,12 @@
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
   theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+
+  variant = "Mocha";
+  accent = "Mauve";
+  kvantumThemePackage = pkgs.catppuccin-kvantum.override {
+    inherit variant accent;
+  };
 in {
   imports = [
     ../default.nix
@@ -35,6 +41,7 @@ in {
     ../../pkgs/direnv.nix
     ../../pkgs/kiwix-serve.nix
     ../../pkgs/s3.nix
+    ../../pkgs/zeal
   ];
 
   stylix = {
@@ -239,6 +246,14 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      libsForQt5.qtstyleplugin-kvantum # themes for qt apps
+      (catppuccin-kvantum.override {
+        accent = "Blue";
+        variant = "Macchiato";
+      })
+      libsForQt5.qtstyleplugin-kvantum
+      libsForQt5.qt5ct
+
       # For developing
       protobuf
 
@@ -444,6 +459,7 @@ in {
       usbimager # etcher equiv
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
+      ulauncher
     ]
     ++ (with pkgs-stable; [
       # Vivaldi is a web browser
@@ -471,9 +487,19 @@ in {
     };
   };
 
-  # Portals are a standardised framework allowing desktop applications to use resources outside of their sandbox.
-  xdg.portal = {
+  xdg = {
+    # Portals are a standardised framework allowing desktop applications to use resources outside of their sandbox.
+    portal = {
+      enable = true;
+    };
+    mime = {
+      enable = true;
+    };
+  };
+
+  qt = {
     enable = true;
+    style = "kvantum";
   };
 
   home-manager.users.atropos = {config, ...}: {
@@ -491,6 +517,17 @@ in {
         "$HOME/media/bins"
         "$HOME/.go/bin"
       ];
+    };
+
+    xdg.configFile = {
+      "Kvantum/kvantum.kvconfig".text = ''
+        [General]
+        theme=Catppuccin-${variant}-${accent}
+      '';
+
+      # The important bit is here, links the theme directory from the package to a directory under `~/.config`
+      # where Kvantum should find it.
+      "Kvantum/Catppuccin-${variant}-${accent}".source = "${kvantumThemePackage}/share/Kvantum/Catppuccin-${variant}-${accent}";
     };
 
     services = {
