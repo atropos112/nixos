@@ -42,6 +42,7 @@ in {
     ../../pkgs/kiwix-serve.nix
     ../../pkgs/s3.nix
     ../../pkgs/zeal
+    ../../pkgs/jq.nix
   ];
 
   stylix = {
@@ -109,6 +110,8 @@ in {
 
     # Inform QT apps of the version
     QT_QPA_PLATFORMTHEME = "qt6ct";
+
+    QT_STYLE_OVERRIDE = "kvantum";
 
     QT_QPA_PLATFORM = "wayland";
 
