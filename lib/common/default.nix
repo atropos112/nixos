@@ -33,6 +33,7 @@ in {
     ../pkgs/attic-client.nix
     ../pkgs/nvim.nix
     ../pkgs/tmux.nix
+    ../pkgs/jq.nix
     ./nix.nix
     ./identities/users.nix
     ./identities/known_hosts.nix
@@ -176,12 +177,6 @@ in {
 
         # Basic CLI downloader
         wget
-
-        # useful for CLI based yaml processing
-        yq
-
-        # Useful for CLI based json processing
-        jq
 
         # checking temps and basics
         lm_sensors

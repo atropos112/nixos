@@ -42,7 +42,6 @@ in {
     ../../pkgs/kiwix-serve.nix
     ../../pkgs/s3.nix
     ../../pkgs/zeal
-    ../../pkgs/jq.nix
   ];
 
   stylix = {

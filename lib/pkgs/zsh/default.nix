@@ -41,16 +41,6 @@ in {
         # and then going to ~/.config/zsh/plugins and finding the plugin we want within which we have share/... path that we should put here.
         plugins = [
           {
-            name = "fzf-jq";
-            src = pkgs.fetchFromGitHub {
-              owner = "reegnz";
-              repo = "jq-zsh-plugin";
-              rev = "48befbcd91229e48171d4aac5215da205c1f497e";
-              sha256 = "sha256-q/xQZ850kifmd8rCMW+aAEhuA43vB9ZAW22sss9e4SE=";
-            };
-            file = "jq.plugin.zsh";
-          }
-          {
             name = "fzf-tab";
             src = pkgs.zsh-fzf-tab;
             file = "share/fzf-tab/fzf-tab.plugin.zsh";
