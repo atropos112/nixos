@@ -31,6 +31,7 @@
     cudaPackages.cudatoolkit
     cudaPackages.cudnn
     lutris
+    super-slicer-beta
   ];
 
   atro.hyprland.deviceSpecificSettings = {

@@ -462,6 +462,7 @@ in {
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
       ulauncher
+      appimage-run
     ]
     ++ (with pkgs-stable; [
       # Vivaldi is a web browser
