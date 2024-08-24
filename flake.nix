@@ -26,11 +26,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    home-manager-stable = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-
     attic = {
       url = "github:zhaofengli/attic";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -60,24 +55,14 @@
     };
   };
   outputs = {self, ...} @ inputs: let
-    nxpkg = {
-      "stable" = inputs.nixpkgs-stable;
-      "unstable" = inputs.nixpkgs-unstable;
-      "old2311" = inputs.nixpkgs2311;
-    };
-    hm = {
-      "stable" = inputs.home-manager-stable;
-      "unstable" = inputs.home-manager;
-    };
-
-    mkHost = hostName: system: branch: (
+    mkHost = hostName: system: (
       (_:
-        nxpkg."${branch}".lib.nixosSystem {
+        inputs.nixpkgs-unstable.lib.nixosSystem {
           inherit system;
           specialArgs = {
             inherit inputs self;
             inherit (inputs) stylix;
-            pkgs = import nxpkg."${branch}" {
+            pkgs = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
               overlays = [
@@ -105,7 +90,7 @@
           };
           modules = [
             #1. Home-manager
-            hm."${branch}".nixosModules.home-manager
+            inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -133,17 +118,16 @@
   in
     {
       nixosConfigurations = {
-        surface = mkHost "surface" "x86_64-linux" "unstable";
-        giant = mkHost "giant" "x86_64-linux" "unstable";
-        smol = mkHost "smol" "x86_64-linux" "unstable";
-        a21 = mkHost "a21" "x86_64-linux" "unstable";
-        rzr = mkHost "rzr" "x86_64-linux" "unstable";
-        opi1 = mkHost "opi1" "aarch64-linux" "unstable";
-        opi2 = mkHost "opi2" "aarch64-linux" "unstable";
-        opi3 = mkHost "opi3" "aarch64-linux" "unstable";
-        opi4 = mkHost "opi4" "aarch64-linux" "unstable";
-        rpi3 = mkHost "rpi3" "aarch64-linux" "stable";
-        opi021 = mkHost "opi021" "aarch64-linux" "unstable";
+        surface = mkHost "surface" "x86_64-linux";
+        giant = mkHost "giant" "x86_64-linux";
+        smol = mkHost "smol" "x86_64-linux";
+        a21 = mkHost "a21" "x86_64-linux";
+        rzr = mkHost "rzr" "x86_64-linux";
+        opi1 = mkHost "opi1" "aarch64-linux";
+        opi2 = mkHost "opi2" "aarch64-linux";
+        opi3 = mkHost "opi3" "aarch64-linux";
+        opi4 = mkHost "opi4" "aarch64-linux";
+        opi021 = mkHost "opi021" "aarch64-linux";
       };
 
       packages = {
