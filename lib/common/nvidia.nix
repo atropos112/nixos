@@ -24,6 +24,7 @@
   environment.systemPackages = with pkgs; [
     runc
     nvidia-container-toolkit
+    nvtopPackages.nvidia
   ];
 
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];

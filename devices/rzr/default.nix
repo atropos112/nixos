@@ -4,6 +4,7 @@ _: {
     ../../lib/common/kubernetes/node.nix
     ../../lib/common/kubernetes/user.nix
     ../../lib/modules/kopia.nix
+    ../../lib/pkgs/ollama.nix
   ];
 
   atro.k3s.role = "server";
@@ -23,13 +24,6 @@ _: {
   };
 
   networking.hostName = "atrorzr";
-
-  services.ollama = {
-    enable = true;
-    host = "0.0.0.0";
-    port = 11434;
-    acceleration = "cuda";
-  };
 
   system.activationScripts.makeNvidiaK3s = ''
     mkdir -p /var/lib/rancher/k3s/agent/etc/containerd/
