@@ -1,0 +1,21 @@
+---
+name: Build and bump
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule:
+    - cron: '0 1 * * 6' # every Saturday at 01:00 UTC
+jobs:
+  AMD64-Build:
+    uses: atropos112/nixos/.github/workflows/amd64_build.yaml@main
+    secrets: inherit
+  ARM64-Build:
+    uses: atropos112/nixos/.github/workflows/arm64_build.yaml@main
+    secrets: inherit
+  Test:
+    uses: atropos112/nixos/.github/workflows/devenv_test.yaml@main
+    secrets: inherit
+  bump-lockfile:
+    needs: [AMD64-Build, ARM64-Build, "Test"]
+    uses: atropos112/nixos/.github/workflows/bump_flake_lock.yaml@main
+    secrets: inherit
+

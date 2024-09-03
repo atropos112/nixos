@@ -1,9 +1,17 @@
 ---
 name: AMD64-Build
 on:
+  workflow_call:
+    secrets:
+      TS_OAUTH_CLIENT_ID:
+        required: true
+      TS_OAUTH_SECRET:
+        required: true
+      ATTIC_TOKEN:
+        required: true
+      EXIT_URL:
+        required: true
   workflow_dispatch: # allows manual triggering
-  schedule:
-    - cron: '0 1,7 * * 6' # every Saturday at 01:00 UTC and 07:00 UT
 jobs:
   build:
     runs-on: ubuntu-latest
