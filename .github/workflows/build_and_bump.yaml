@@ -14,6 +14,8 @@ jobs:
   Test:
     uses: atropos112/nixos/.github/workflows/devenv_test.yaml@main
     secrets: inherit
+    with:
+      bump-flake-lock: true
   bump-lockfile:
     needs: [AMD64-Build, ARM64-Build, "Test"]
     uses: atropos112/nixos/.github/workflows/bump_flake_lock.yaml@main
