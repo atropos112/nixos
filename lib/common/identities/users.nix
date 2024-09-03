@@ -16,14 +16,42 @@ in {
     mutableUsers = false;
 
     groups = {
-      plugdev = {};
-    };
+      atropos.gid = 1000;
+      msr.gid = 999;
 
-    groups.atropos = {
-      gid = 1000;
+      nscd.gid = 998;
+      plugdev.gid = 997;
+      polkituser.gid = 996;
+      rtkit.gid = 995;
+      sshd.gid = 994;
+
+      systemd-coredump.gid = 993;
+      systemd-oom.gid = 992;
+      networkmanager.gid = 57;
     };
 
     users = {
+      nm-iodine = {
+        uid = 999;
+        group = "networkmanager";
+      };
+      nscd = {
+        uid = 998;
+        group = "nscd";
+      };
+      sshd = {
+        uid = 994;
+        group = "sshd";
+      };
+      rtkit = {
+        uid = 995;
+        group = "rtkit";
+      };
+      systemd-oom = {
+        uid = 992;
+        group = "systemd-oom";
+      };
+
       root = {
         initialHashedPassword = lib.mkForce "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
         openssh = {
@@ -33,6 +61,7 @@ in {
           ];
         };
       };
+
       atropos = {
         isNormalUser = true;
         uid = 1000;

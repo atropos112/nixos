@@ -83,3 +83,4 @@ jobs:
         run: |
           echo "Build failed, sending message to Matrix."
           curl -X POST -F "body=Github action has failed for NixOS AMD64 Build for ${{ matrix.param }}. Go to ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." "${{ secrets.EXIT_URL }}"
+          exit 1
