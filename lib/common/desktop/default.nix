@@ -248,6 +248,7 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      httpie
       libsForQt5.qtstyleplugin-kvantum # themes for qt apps
       (catppuccin-kvantum.override {
         accent = "Blue";
