@@ -71,3 +71,33 @@ function frg {
 		"$EDITOR" +"''${linenumber}" "$file"
 	fi
 }
+
+gpbump() {
+	if [ "$1" = "" ]; then
+		echo "Please provide a commit message."
+		return 1
+	fi
+
+	# Stage all changes
+	git add --all
+
+	# Commit with the provided message
+	git commit -m "$1"
+
+	# Push the changes
+	git push
+
+	# Get the most recent tag
+	latest_tag=$(git describe --tags --abbrev=0)
+
+	# Bump the patch version
+	new_tag=$(echo "$latest_tag" | awk -F. -v OFS=. '{$3++; print}')
+
+	# Create the new tag
+	git tag "$new_tag"
+
+	# Push the new tag
+	git push --tags
+
+	echo "New tag created: $new_tag"
+}
