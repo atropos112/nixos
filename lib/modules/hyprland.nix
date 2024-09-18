@@ -60,8 +60,8 @@ in {
       hyprland = {
         enable = true;
         xwayland.enable = true; # jetbrains needs it, spotify and so on
-        package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-        portalPackage = inputs.xdg-desktop-portal-hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+        package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+        portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };
     };
 

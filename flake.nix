@@ -9,7 +9,6 @@
     # Do not override the nixpkgs input in them as it will be built with different nxipkgs than it was tested with and
     # it will bust the cache on the hyprland cachix server.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
     stylix.url = "github:danth/stylix";
     impermanence.url = "github:nix-community/impermanence";
