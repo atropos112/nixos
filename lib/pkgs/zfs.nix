@@ -1,17 +1,15 @@
 {
+  config,
   lib,
-  pkgs-stable,
+  pkgs,
   ...
 }: {
   boot = {
-    kernelPackages = pkgs-stable.zfs.latestCompatibleLinuxPackages;
-    zfs = {
-      package = pkgs-stable.zfs;
-      forceImportRoot = false;
-    };
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    zfs.forceImportRoot = false;
   };
 
-  environment.systemPackages = with pkgs-stable; [
+  environment.systemPackages = with pkgs; [
     zfs-autobackup
   ];
 

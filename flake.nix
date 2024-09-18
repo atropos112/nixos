@@ -55,10 +55,6 @@
     };
   };
   outputs = {self, ...} @ inputs: let
-    pkgConfig = {
-      allowUnfree = true;
-      allowBroken = false;
-    };
     mkHost = hostName: system: (
       (_:
         inputs.nixpkgs-unstable.lib.nixosSystem {
@@ -67,8 +63,8 @@
             inherit inputs self;
             inherit (inputs) stylix;
             pkgs = import inputs.nixpkgs-unstable {
-              config = pkgConfig;
               inherit system;
+              config.allowUnfree = true;
               overlays = [
                 # fix the following error :
                 # modprobe: FATAL: Module ahci not found in directory
@@ -81,15 +77,15 @@
             };
             pkgs-unstable = import inputs.nixpkgs-unstable {
               inherit system;
-              config = pkgConfig;
+              config.allowUnfree = true;
             };
             pkgs-stable = import inputs.nixpkgs-stable {
               inherit system;
-              config = pkgConfig;
+              config.allowUnfree = true;
             };
             pkgs2311 = import inputs.nixpkgs2311 {
               inherit system;
-              config = pkgConfig;
+              config.allowUnfree = true;
             };
           };
           modules = [
