@@ -11,7 +11,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    boot.initrd.postDeviceCommands = lib.mkAfter ''
+    boot.initrd.postResumeCommands = lib.mkAfter ''
       echo "--------------------------------------------------"
       echo "Setting up impermanence..."
 

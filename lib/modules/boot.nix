@@ -10,7 +10,7 @@ in {
     enable = mkEnableOption "boot basics";
     kernelModules = mkOption {
       type = types.listOf types.str;
-      default = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
+      default = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "zfs"];
     };
     kernelParams = mkOption {
       type = types.listOf types.str;
