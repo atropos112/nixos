@@ -14,7 +14,8 @@ with lib; let
       then "/root"
       else "/home/" + cfg.runAs;
   };
-  execCmd = "${pkgs.writeShellScript "kopia-script" ''
+  execCmd = "${pkgs.writeShellScript "kopiascript" ''
+    sleep 600 # Sleep for 10 minutes, don't want to start a backup at boot.
     KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/linode/keyId".path})
     KOPIA_KEY=$(cat ${config.sops.secrets."kopia/linode/key".path})
     KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
