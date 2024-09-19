@@ -525,6 +525,7 @@ in {
       };
 
       sessionPath = [
+        "$HOME/.krew/bin"
         "$HOME/.bun/bin"
         "$HOME/media/bins"
         "$HOME/.go/bin"
