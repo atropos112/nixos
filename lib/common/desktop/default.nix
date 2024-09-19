@@ -120,6 +120,9 @@ in {
 
     # Hyprland scaling
     GDK_SCALE = "1";
+
+    # Bunch of libraries need to know this so location, like nvim's sqlite3 plugin
+    ATRO_SQLITE3_SO_PATH = "${pkgs.sqlite.out}/lib/libsqlite3.so";
   };
 
   security = {
@@ -248,6 +251,8 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      sqlite
+
       httpie
       libsForQt5.qtstyleplugin-kvantum # themes for qt apps
       (catppuccin-kvantum.override {

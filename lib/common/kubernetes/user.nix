@@ -1,4 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    inputs.krewfile.homeManagerModules.krewfile
+  ];
+
   environment.systemPackages = with pkgs; [
     # Kubernetes CLI tool
     kubectl
@@ -11,7 +19,25 @@
 
     # Kubernetes kubebuilder, a tool for building kubernetes operators
     kubebuilder
+
+    # ArgoCD CLI
+    argocd
+
+    # Argo Workflows CLI
+    argo
   ];
+  programs.krewfile = {
+    enable = true;
+    krewPackage = pkgs.krew;
+    plugins = [
+      "cnpg"
+      "neat"
+      "pv-migrate"
+      "browse-pvc"
+      "gadget"
+      "kor"
+    ];
+  };
 
   home-manager.users.atropos = {
     programs.zsh = {
