@@ -79,9 +79,10 @@ in {
           fz = ''fzf --preview "bat --style numbers --color always {}" --bind "enter:execute(vim {})+abort"'';
 
           # vim
-          v = "nvim";
-          vim = "nvim";
-          vi = "nvim";
+          # nnvim is function made in functions.nix
+          v = "nnvim";
+          vim = "nnvim";
+          vi = "nnvim";
 
           # templates
           template-python = "copier copy git@github.com:atropos112/template-python-pkg.git";

@@ -6,8 +6,6 @@
   programs = {
     neovim = {
       enable = true;
-      viAlias = true;
-      vimAlias = true;
     };
   };
 
@@ -15,7 +13,7 @@
   home-manager.users.atropos.home.file.".config/nix-store-nvim".source = inputs.atro-nvim;
 
   # NVIM_APPNAME is then used to load the correct config
-  environment.sessionVariables.NVIM_APPNAME = "nix-store-nvim";
+  environment.sessionVariables.ATRO_NIX_STORE_NVIM = "${inputs.atro-nvim}/init.lua";
 
   environment.systemPackages = with pkgs; [
     # lua package manager
