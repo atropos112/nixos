@@ -38,6 +38,7 @@
         "browse-pvc"
         "gadget"
         "kor"
+        "klock"
       ];
     };
     programs.zsh = {

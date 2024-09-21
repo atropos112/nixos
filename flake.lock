@@ -49,6 +49,22 @@
         "type": "github"
       }
     },
+    "atro-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1726944932,
+        "narHash": "sha256-EgrZ8AS5ZRdX63BaFb01zb7AVTDwsrvoS/00718/lmE=",
+        "owner": "atropos112",
+        "repo": "nvim",
+        "rev": "68b2ebd3466d268efbd7e778071cee3622aec00e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atropos112",
+        "repo": "nvim",
+        "type": "github"
+      }
+    },
     "attic": {
       "inputs": {
         "crane": "crane",
@@ -1234,6 +1250,7 @@
     },
     "root": {
       "inputs": {
+        "atro-nvim": "atro-nvim",
         "attic": "attic",
         "atuin": "atuin",
         "disko": "disko",

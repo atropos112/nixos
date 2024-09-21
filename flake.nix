@@ -5,6 +5,11 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
 
+    atro-nvim = {
+      url = "github:atropos112/nvim";
+      flake = false;
+    };
+
     # Hyprland packages
     # Do not override the nixpkgs input in them as it will be built with different nxipkgs than it was tested with and
     # it will bust the cache on the hyprland cachix server.

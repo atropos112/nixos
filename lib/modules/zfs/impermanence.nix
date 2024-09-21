@@ -68,6 +68,7 @@ in {
           "projects" # Code projects
           "nixos" # NixOS config
 
+          ".krew" # krew cache (plugins etc.)
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
           ".config/github-copilot"
