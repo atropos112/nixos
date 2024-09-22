@@ -2,7 +2,7 @@
   pythonPackages = with pkgs.python312Packages; [
     python-lsp-server
     pylsp-rope
-    debugpy
+    # debugpy # INFO: Need to control venv a bit more.
 
     pydocstyle
     vulture

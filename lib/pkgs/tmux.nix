@@ -4,7 +4,6 @@
     package = pkgs.tmux;
     plugins = with pkgs.tmuxPlugins; [
       catppuccin # Theme
-      vim-tmux-navigator # Allows navigation between vim and tmux
       yank # Vim like yanking
       tmux-thumbs # Allows grabbing text (like IP's, paths etc.) and pasting it
     ];
@@ -43,6 +42,9 @@
 
       ## Thumbs
       set -g @thumbs-alphabet colemak
+
+      ## Passthrough for pics
+      set -gq allow-passthrough on
     '';
   };
 }

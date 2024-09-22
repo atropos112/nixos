@@ -64,6 +64,10 @@
     };
   };
   outputs = {self, ...} @ inputs: let
+    config = {
+      allowUnfree = true;
+      allowBroken = false;
+    };
     mkHost = hostName: system: (
       (_:
         inputs.nixpkgs-unstable.lib.nixosSystem {
@@ -72,37 +76,26 @@
             inherit inputs self;
             inherit (inputs) stylix;
             pkgs = import inputs.nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-              overlays = [
-                # fix the following error :
-                # modprobe: FATAL: Module ahci not found in directory
-                # https://github.com/NixOS/nixpkgs/issues/154163#issuecomment-1350599022
-                (_: super: {
-                  makeModulesClosure = x:
-                    super.makeModulesClosure (x // {allowMissing = true;});
-                })
-              ];
+              inherit system config;
             };
             pkgs-unstable = import inputs.nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
+              inherit system config;
             };
             pkgs-stable = import inputs.nixpkgs-stable {
-              inherit system;
-              config.allowUnfree = true;
+              inherit system config;
             };
             pkgs2311 = import inputs.nixpkgs2311 {
-              inherit system;
-              config.allowUnfree = true;
+              inherit system config;
             };
           };
           modules = [
             #1. Home-manager
             inputs.home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+              };
             }
 
             #2. Loading device specific configuration

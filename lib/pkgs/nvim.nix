@@ -16,9 +16,6 @@
   environment.sessionVariables.ATRO_NIX_STORE_NVIM = "${inputs.atro-nvim}/init.lua";
 
   environment.systemPackages = with pkgs; [
-    # lua package manager
-    lua54Packages.luarocks
-
     # markdown preview needs it
     yarn
 

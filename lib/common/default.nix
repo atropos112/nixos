@@ -113,6 +113,10 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        gnumake
+        gcc
+        clang
+
         pciutils # lspci
 
         # useful tldr
