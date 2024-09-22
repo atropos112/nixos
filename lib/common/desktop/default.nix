@@ -124,7 +124,7 @@ in {
     # Bunch of libraries need to know this so location, like nvim's sqlite3 plugin
     ATRO_SQLITE3_SO_PATH = "${pkgs.sqlite.out}/lib/libsqlite3.so";
 
-    KREW_ROOT = "${homeDirectory}/.krew";
+    KREW_ROOT = "/persistent/home/atropos/.krew";
   };
 
   security = {
@@ -527,7 +527,7 @@ in {
       };
 
       sessionPath = [
-        "$HOME/.krew/bin"
+        "/persistent/home/atropos/.krew/bin"
         "$HOME/.bun/bin"
         "$HOME/media/bins"
         "$HOME/.go/bin"

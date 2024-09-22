@@ -15,11 +15,6 @@
     # it will bust the cache on the hyprland cachix server.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
-    krewfile = {
-      url = "github:brumhard/krewfile";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
     stylix.url = "github:danth/stylix";
     impermanence.url = "github:nix-community/impermanence";
 

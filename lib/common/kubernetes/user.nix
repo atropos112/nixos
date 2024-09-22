@@ -1,8 +1,4 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # Kubernetes CLI tool
     kubectl
@@ -21,26 +17,12 @@
 
     # Argo Workflows CLI
     argo
+
+    # Krew, the plugin manager for kubectl
+    krew
   ];
 
   home-manager.users.atropos = {
-    imports = [
-      inputs.krewfile.homeManagerModules.krewfile
-    ];
-
-    programs.krewfile = {
-      enable = true;
-      krewPackage = pkgs.krew;
-      plugins = [
-        "cnpg"
-        "neat"
-        "pv-migrate"
-        "browse-pvc"
-        "gadget"
-        "kor"
-        "klock"
-      ];
-    };
     programs.zsh = {
       shellAliases = {
         k = "kubecolor";
