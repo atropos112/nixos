@@ -113,6 +113,7 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        ripgrep
         gnumake
         gcc
         clang
