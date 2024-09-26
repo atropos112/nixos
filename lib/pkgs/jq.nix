@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    gojq
+    jq
     yq
     xq
   ];
@@ -19,8 +19,6 @@
           file = "jq.plugin.zsh";
         }
       ];
-
-      shellAliases.jq = "gojq";
     };
   };
 }
