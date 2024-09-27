@@ -86,6 +86,7 @@ in {
     enableRedistributableFirmware = true;
   };
   boot = {
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     binfmt.emulatedSystems =
       if (pkgs.system == "x86_64-linux")
       then ["aarch64-linux"]

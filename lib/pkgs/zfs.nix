@@ -1,11 +1,9 @@
 {
-  config,
   lib,
   pkgs,
   ...
 }: {
   boot = {
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     zfs.forceImportRoot = false;
   };
 
