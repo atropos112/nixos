@@ -516,9 +516,6 @@ in {
   home-manager.users.atropos = {config, ...}: {
     home = {
       file = {
-        ".infisical/infisical-config.json".text = ''
-          {"loggedInUserEmail":"sv7n@pm.me","LoggedInUserDomain":"http://creds/api","loggedInUsers":[{"email":"sv7n@pm.me","domain":"http://creds/api"}]}
-        '';
         ".local/share/fonts" = {
           enable = true;
           recursive = true;

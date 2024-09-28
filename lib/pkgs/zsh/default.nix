@@ -107,18 +107,21 @@ in {
           y = "yazi";
 
           cnpg = "kubectl-cnpg";
+
+          cp = "${pkgs.xcp}/bin/xcp -r";
         };
         initExtra = ''
-           # if not running interactively do nothing.
-           [[ $- != *i* ]] && return
+          # If not running interactively do nothing.
+          # This is super important to avoid errors. and also avoid scripts executing with aliases.
+          [[ $- != *i* ]] && return
 
 
           # Sourcsing all all .sh files.
           for zsh_file in ${thisDir}/**/*.sh ${thisDir}/*.sh; do
             # Check if the file actually exists to avoid errors
             if [ -f "$zsh_file" ]; then
-          	source "$zsh_file"
-            fi
+            source "$zsh_file"
+          fi
           done
         '';
       };
