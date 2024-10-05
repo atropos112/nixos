@@ -20,6 +20,9 @@
 
     # Krew, the plugin manager for kubectl
     krew
+
+    # Local k8s testing
+    kind
   ];
 
   home-manager.users.atropos = {
