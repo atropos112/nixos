@@ -109,6 +109,9 @@ in {
           cnpg = "kubectl-cnpg";
 
           cp = "${pkgs.xcp}/bin/xcp -r";
+
+          watch = "viddy";
+          wch = "viddy";
         };
         initExtra = ''
           # If not running interactively do nothing.

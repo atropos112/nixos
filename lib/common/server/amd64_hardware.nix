@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+_: let
   # ZFS not for longhorn
   filesystems = [
     "btrfs"
@@ -14,7 +10,6 @@ in {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
     supportedFilesystems = filesystems;

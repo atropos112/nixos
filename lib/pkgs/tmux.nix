@@ -11,11 +11,6 @@
       # Correct colours
       set-option -sa terminal-overrides ",xterm*:Tc"
 
-      # Prefix key
-      unbind C-b
-      set -g prefix C-Space
-      bind C-Space send-prefix
-
       # Theme flavour
       set -g @catppuccin_flavour 'macchiato'
 

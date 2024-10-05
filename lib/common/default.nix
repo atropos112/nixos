@@ -114,6 +114,7 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        viddy # watch replacement
         xcp
         ripgrep
         gnumake

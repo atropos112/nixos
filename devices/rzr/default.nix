@@ -4,7 +4,7 @@ _: {
     ../../lib/common/kubernetes/node.nix
     ../../lib/common/kubernetes/user.nix
     ../../lib/modules/kopia.nix
-    ../../lib/pkgs/ollama.nix
+    # ../../lib/pkgs/ollama.nix # Running via k8s instead
   ];
 
   atro.k3s.role = "server";
