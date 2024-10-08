@@ -34,7 +34,7 @@ in {
     ../../pkgs/tofi
     ../../pkgs/python.nix
     ../../pkgs/rust.nix
-    ../../pkgs/go.nix
+    ../../pkgs/go
     ../../pkgs/zig.nix
     ../../pkgs/csharp.nix
     # ../../pkgs/firefox.nix
@@ -418,9 +418,6 @@ in {
       # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
       avizo
 
-      # Golang package
-      go_1_22
-
       # Torrent client
       transmission_4-gtk
 
@@ -458,7 +455,6 @@ in {
       hadolint
       czkawka
       gum
-      ginkgo
       ocaml
       wpaperd
       pre-commit

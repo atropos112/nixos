@@ -1,0 +1,68 @@
+---
+run:
+  timeout: 5m
+  allow-parallel-runners: true
+
+issues:
+  exclude-use-default: false
+linters:
+  disable-all: true
+  enable:
+    - dupl
+    - errcheck
+    - exportloopref
+    - ginkgolinter
+    - goconst
+    - gocyclo
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - prealloc
+    - revive
+    - staticcheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - dogsled
+    - dupword
+    - durationcheck
+    - godot
+    - godox
+    - gofumpt
+    - misspell
+    - nilerr
+    - nlreturn
+    - noctx
+    - predeclared
+    - reassign
+    - spancheck
+    - sqlclosecheck
+    - sloglint 
+    - testifylint
+
+linters-settings:
+  revive:
+    ignore-generated-header: true
+    severity: warning
+    enable-all-rules: true
+    rules:
+      - name: line-length-limit
+        severity: error
+        arguments: [200]
+      - name: package-comments
+        disabled: true
+      - name: dot-imports
+        disabled: true
+      - name: cyclomatic
+        arguments: [10]
+      - name: struct-tag
+        arguments:
+          - "json,inline" # Makes `json:",inline"` valid
+

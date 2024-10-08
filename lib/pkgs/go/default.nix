@@ -12,5 +12,5 @@
     delve
   ];
 
-  home-manager.users.atropos.home.file.".golangci.yml".source = ./config;
+  home-manager.users.atropos.home.file.".golangci.yml".source = ./golangci.yml;
 }
