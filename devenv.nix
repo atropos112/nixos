@@ -105,6 +105,18 @@
       '';
       description = "Diff the current system with current configuration files";
     };
+    help = {
+      exec = ''
+        echo
+        echo 🦾 Useful project scripts:
+        echo 🦾
+        ${pkgs.gnused}/bin/sed -e 's| |••|g' -e 's|=| |' <<EOF | ${pkgs.util-linuxMinimal}/bin/column -t | ${pkgs.gnused}/bin/sed -e 's|^|🦾 |' -e 's|••| |g'
+        ${lib.generators.toKeyValue {} (lib.mapAttrs (_: value: value.description) config.scripts)}
+        EOF
+        echo
+      '';
+      description = "Show this help message";
+    };
   };
 
   enterTest = ''
@@ -112,7 +124,7 @@
   '';
 
   enterShell = ''
-      echo
+    echo
     echo 🦾 Useful project scripts:
     echo 🦾
     ${pkgs.gnused}/bin/sed -e 's| |••|g' -e 's|=| |' <<EOF | ${pkgs.util-linuxMinimal}/bin/column -t | ${pkgs.gnused}/bin/sed -e 's|^|🦾 |' -e 's|••| |g'

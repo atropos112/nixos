@@ -5,6 +5,8 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     atro-nvim = {
       url = "github:atropos112/nvim";
       flake = false;

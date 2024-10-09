@@ -121,13 +121,21 @@
         temperature = {
           "thermal-zone" = 2;
           "hwmon-path" = [
-            "/sys/class/hwmon/hwmon0/temp4_input"
-            "/sys/class/hwmon/hwmon1/temp4_input"
-            "/sys/class/hwmon/hwmon2/temp4_input"
-            "/sys/class/hwmon/hwmon3/temp4_input"
-            "/sys/class/hwmon/hwmon4/temp4_input"
-            "/sys/class/hwmon/hwmon5/temp4_input"
-            "/sys/class/hwmon/hwmon6/temp4_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp2_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp3_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp4_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp5_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp6_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp7_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp8_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp9_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp10_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp1_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp2_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp3_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp4_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp5_input"
           ];
           "critical-threshold" = 80;
           "format-critical" = "{temperatureC}°C ";
