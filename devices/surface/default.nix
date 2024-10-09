@@ -29,9 +29,9 @@
     ];
   };
 
-  systemd = {
+  systemd.services = {
     # This service sets all usb ports to wakeon so that a key press can get out of suspended state
-    services.wakeonusb = {
+    wakeonusb = {
       description = "Set all usb's to WakeOn Enabled";
       after = ["network.target" "sound.target"];
       wantedBy = ["default.target"];
@@ -40,7 +40,7 @@
       '';
     };
 
-    services.fusuma = {
+    fusuma = {
       description = "Trackpad Gestures";
       after = ["network.target" "sound.target"];
       wantedBy = ["default.target"];
@@ -69,6 +69,9 @@
       layout = "us,us";
       variant = "colemak,intl";
       options = "grp:win_space_toggle";
+    };
+    thermald = {
+      enable = true;
     };
   };
 
