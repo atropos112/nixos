@@ -465,7 +465,6 @@ in {
       usbimager # etcher equiv
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
-      ulauncher
       appimage-run
     ]
     ++ (with pkgs-stable; [

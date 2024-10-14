@@ -35,7 +35,7 @@
 
   scripts = {
     nx-inspect = {
-      exec = ''{pkgs.nix-inspect}/bin/nix-inspect "$@" '';
+      exec = ''${pkgs.nix-inspect}/bin/nix-inspect "$@" '';
       description = "Inspect the entire configuration, like a json tree";
     };
     browse-flake-lock = {
