@@ -106,8 +106,6 @@ in {
 
           y = "yazi";
 
-          cnpg = "kubectl-cnpg";
-
           cp = "${pkgs.xcp}/bin/xcp -r";
 
           watch = "viddy";
