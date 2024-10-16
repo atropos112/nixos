@@ -36,6 +36,7 @@
           hui = "helm upgrade --install";
           kb = "kubebuilder";
           cnpg = "kubectl-cnpg";
+          kvpn = "kubectl-kubevpn";
         };
         initExtra = ''
           compdef kubecolor=kubectl
@@ -57,7 +58,7 @@
         plugin = {
           plugins = {
             exec-sh-container = {
-              shortCut = "Shift-E";
+              shortCut = "Shift-U";
               description = "Exec into container";
               scopes = ["containers"];
               command = "kubectl";
@@ -116,7 +117,7 @@
               confirm = false;
               description = "Get Events";
               scopes = ["all"];
-              command = "kubectl ";
+              command = "kubecolor";
               background = false;
               args = [
                 "get"

@@ -520,6 +520,7 @@ in {
         "$HOME/.bun/bin"
         "$HOME/media/bins"
         "$HOME/.go/bin"
+        "$HOME/Sync/bins"
       ];
     };
 
