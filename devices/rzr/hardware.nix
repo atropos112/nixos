@@ -1,4 +1,4 @@
-_: let
+{lib, ...}: let
   # ZFS not for longhorn
   filesystems = [
     "btrfs"
@@ -15,6 +15,10 @@ in {
 
   networking.hostId = "8f3bb97f";
   boot = {
+    kernelParams = lib.mkForce [
+      "zfs.zfs_arc_max=6442450944" # 6G of max ARC
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    ];
     supportedFilesystems = filesystems;
     initrd = {
       supportedFilesystems = filesystems;
