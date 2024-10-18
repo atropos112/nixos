@@ -24,6 +24,7 @@ in {
       polkituser.gid = 996;
       rtkit.gid = 995;
       sshd.gid = 994;
+      resolvconf.gid = 991;
 
       systemd-coredump.gid = 993;
       systemd-oom.gid = 992;

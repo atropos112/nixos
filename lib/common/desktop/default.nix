@@ -341,9 +341,6 @@ in {
       # GTK theme gui manager
       lxappearance # To run it use: GDK_BACKEND=x11 lxappearance
 
-      # ProtonMail suite
-      electron-mail
-
       # Music player
       spotify
 
@@ -462,7 +459,6 @@ in {
       usbimager # etcher equiv
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
-      appimage-run
     ]
     ++ (with pkgs-stable; [
       # Vivaldi is a web browser
