@@ -1,4 +1,4 @@
-_: {
+{pkgs, ...}: {
   imports = [
     ./hardware.nix
     ../../lib/common/kubernetes/node.nix
@@ -7,12 +7,18 @@ _: {
     # ../../lib/pkgs/ollama.nix # Running via k8s instead
   ];
 
-  atro.k3s.role = "server";
+  atro = {
+    k3s.role = "server";
 
-  atro.kopia = {
-    enable = true;
-    runAs = "root";
+    kopia = {
+      enable = true;
+      runAs = "root";
+    };
   };
+
+  environment.systemPackages = with pkgs; [
+    yt-dlp
+  ];
 
   topology.self = {
     name = "rzr";
