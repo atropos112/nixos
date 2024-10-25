@@ -114,6 +114,7 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        lnav
         viddy # watch replacement
         xcp
         ripgrep

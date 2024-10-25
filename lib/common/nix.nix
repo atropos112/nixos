@@ -34,6 +34,6 @@ in {
       options = "--delete-older-than 60d";
     };
     registry.nixpkgs.flake = nixpkgs;
-    nixPath = ["/etc/nix/inputs"];
+    nixPath = ["nixpkgs=${inputs.nixpkgs-unstable}"];
   };
 }
