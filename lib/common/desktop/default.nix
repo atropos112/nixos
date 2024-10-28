@@ -9,8 +9,8 @@
   homeDirectory = "/home/${homeUser}";
   theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
 
-  variant = "Mocha";
-  accent = "Mauve";
+  accent = "blue";
+  variant = "macchiato";
   kvantumThemePackage = pkgs.catppuccin-kvantum.override {
     inherit variant accent;
   };
@@ -258,8 +258,7 @@ in {
       httpie
       libsForQt5.qtstyleplugin-kvantum # themes for qt apps
       (catppuccin-kvantum.override {
-        accent = "Blue";
-        variant = "Macchiato";
+        inherit accent variant;
       })
       libsForQt5.qtstyleplugin-kvantum
       libsForQt5.qt5ct
