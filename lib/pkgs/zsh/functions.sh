@@ -33,6 +33,10 @@ function nxrn {
 	cached-nix-shell --command "$1" -p "$1"
 }
 
+function lat {
+	tail -n 100 -f "$@" | bat --paging=never -l log --theme DarkNeon --style plain
+}
+
 function upload {
 	curl --upload-file "$1" https://transfer.sh
 }
