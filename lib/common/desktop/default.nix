@@ -77,8 +77,23 @@ in {
   networking = {
     networkmanager.enable = true;
     useDHCP = false;
+    extraHosts = ''
+      127.0.0.1 articles
+    '';
   };
 
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      readeck = {
+        serverName = "articles";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8111";
+          recommendedProxySettings = true;
+        };
+      };
+    };
+  };
   virtualisation = {
     oci-containers = {
       backend = "docker";
