@@ -79,8 +79,21 @@ in {
     useDHCP = false;
   };
 
-  virtualisation.docker = {
-    storageDriver = "zfs";
+  virtualisation = {
+    oci-containers = {
+      backend = "docker";
+      containers = {
+        readeck = {
+          image = "codeberg.org/readeck/readeck:latest";
+          autoStart = true;
+          ports = ["127.0.0.1:8111:8000"];
+          volumes = ["/home/atropos/Sync/bookmarks:/readeck"];
+        };
+      };
+    };
+    docker = {
+      storageDriver = "zfs";
+    };
   };
 
   hardware = {
@@ -466,7 +479,8 @@ in {
         enableWidevine = false;
         inherit vivaldi-ffmpeg-codecs;
         commandLineArgs = [
-          "--ozone-platform-hint=auto" # autodetect wayland or x11
+          "--enable-features=UseOzonePlatform"
+          "--ozone-platform=wayland"
         ];
       })
       vivaldi-ffmpeg-codecs

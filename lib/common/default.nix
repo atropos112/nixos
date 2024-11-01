@@ -114,6 +114,11 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # Containerization
+        dive
+        docker
+        docker-compose
+
         lnav
         viddy # watch replacement
         xcp
@@ -161,12 +166,6 @@ in {
 
         # VPN mesh network
         tailscale
-
-        # Allows conterinization of applications and whole OS's
-        docker
-
-        # Allows yaml defined docker container for easier reproducability and editability
-        docker-compose
 
         # Resilient SSH alternative
         mosh
