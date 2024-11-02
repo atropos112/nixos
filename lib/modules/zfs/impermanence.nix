@@ -67,6 +67,7 @@ in {
           "Sync" # Syncthing
           "projects" # Code projects
           "nixos" # NixOS config
+          ".mozilla" # Firefox config
 
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.

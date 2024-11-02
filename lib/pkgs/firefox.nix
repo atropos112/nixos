@@ -3,8 +3,8 @@
   lib,
   ...
 }: let
-  inherit (builtins) mapAttrs;
-  inherit (lib) mkMerge;
+  inherit (builtins) map;
+  inherit (lib) mkForce;
 in {
   programs.firefox = {
     enable = true;
@@ -30,6 +30,9 @@ in {
       OverrideFirstRunPage = "";
       OverridePostUpdatePage = "";
       DontCheckDefaultBrowser = true;
+      # DNSOverHTTPS = {
+      #   Enabled = true;
+      # };
       DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
       DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
       SearchBar = "unified"; # alternative: "separate"
@@ -41,29 +44,53 @@ in {
       # Valid strings for installation_mode are "allowed", "blocked",
       # "force_installed" and "normal_installed".
 
-      ExtensionSettings = mkMerge [
-        {
-          # Disable all extensions by default.
-          # "*".installation_mode = "blocked";
-        }
-        (mapAttrs (_: value: {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
-            installation_mode = "force_installed";
-          }) {
-            # uBlock Origin:
-            "uBlock0@raymondhill.net" = "ublock-origin";
-            "addon@darkreader.org" = "darkreader";
-            "freshrss-checker@addons.mozilla.org" = "freshrss-checker";
-            "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
-            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = "vimium-ff";
-            "sponsorBlocker@ajay.app" = "sponsorblock";
-            "redirector@einaregilsson.com" = "redirector";
-            "{61a05c39-ad45-4086-946f-32adb0a40a9d}" = "linkding-extension";
-            "jid0-RvYT2rGWfM8q5yWxIxAHYAeo5Qg@jetpack" = "duplicate-tabs-closer";
-            "addon@simplelogin" = "simplelogin";
-          })
-      ];
+      ExtensionSettings = mkForce (
+        # Default behaviour for all extensions not listed here.
+        # [
+        #   {
+        #     # Disable all extensions by default.
+        #     # "*".installation_mode = "blocked";
+        #   }
+        # ] ++
+        # My selected extensions
+        map (x: {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
+          installation_mode = "force_installed";
+        }) [
+          # uBlock Origin:
+          "uBlock0@raymondhill.net"
 
+          # Dark Reader:
+          "addon@darkreader.org"
+
+          # FreshRSS Checker:
+          "freshrss-checker@addons.mozilla.org"
+
+          # Bitwarden Password Manager:
+          "{446900e4-71c2-419f-a6a7-df9c091e268b}"
+
+          # Vimium
+          "{d7742d87-e61d-4b78-b8a1-b469842139fa}"
+
+          # SponsorBlock
+          "sponsorBlocker@ajay.app"
+
+          # Duplicate Tabs Closer
+          "jid0-RvYT2rGWfM8q5yWxIxAHYAeo5Qg@jetpack"
+
+          # SimpleLogin
+          "addon@simplelogin"
+
+          # Tree Style Tabs
+          "treestyletab@piro.sakura.ne.jp"
+
+          # Kiwix JS
+          "kiwix-html5-listed@kiwix.org"
+
+          # Readeck
+          "readeck@readeck.com"
+        ]
+      );
       /*
       ---- PREFERENCES ----
       */
