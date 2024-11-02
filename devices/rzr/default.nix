@@ -13,6 +13,7 @@
     kopia = {
       enable = true;
       runAs = "root";
+      exposeWebUI = true;
     };
   };
 
