@@ -8,8 +8,11 @@ function rebase-surface {
 	rsync -av --delete /home/atropos/projects/ surface:/persistent/home/atropos/projects
 	rsync -av --delete /home/atropos/nixos/ surface:/persistent/home/atropos/nixos
 	rsync -av --delete /home/atropos/.config/nvim surface:/persistent/home/atropos/.config/nvim
-	/run/current-system/sw/bin/ssh surface "rm -rf .config/vivaldi/*"
-	rsync -av --delete /home/atropos/.config/vivaldi/ surface:/persistent/home/atropos/.config/vivaldi
+	# /run/current-system/sw/bin/ssh surface "rm -rf .config/vivaldi/*"
+	# rsync -av --delete /home/atropos/.config/vivaldi/ surface:/persistent/home/atropos/.config/vivaldi
+
+	/run/current-system/sw/bin/ssh surface "rm -rf .mozilla/*"
+	rsync -av --delete /home/atropos/.mozilla/ surface:/persistent/home/atropos/mozilla
 }
 
 function rebase-giant {
@@ -21,8 +24,10 @@ function rebase-giant {
 	rsync -av --delete /home/atropos/nixos/ giant:/persistent/home/atropos/nixos
 	rsync -av --delete /home/atropos/.config/nvim giant:/persistent/home/atropos/.config/nvim
 
-	/run/current-system/sw/bin/ssh giant "rm -rf .config/vivaldi/*"
-	rsync -av --delete /home/atropos/.config/vivaldi/ giant:/persistent/home/atropos/.config/vivaldi
+	# /run/current-system/sw/bin/ssh giant "rm -rf .config/vivaldi/*"
+	# rsync -av --delete /home/atropos/.config/vivaldi/ giant:/persistent/home/atropos/.config/vivaldi
+	/run/current-system/sw/bin/ssh giant "rm -rf .mozilla/*"
+	rsync -av --delete /home/atropos/.mozilla/ giant:/persistent/home/atropos/.mozilla
 }
 
 function sssh {

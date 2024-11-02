@@ -36,7 +36,7 @@ _: {
         "$mainMod, V, exec, pavucontrol"
         "$mainMod, C, exec, blueman-manager"
         "$mainMod, P, exec, grimshot --notify --cursor copy area"
-        "$mainMod, W, exec, vivaldi  --force-dark-mode --enable-features=WebUIDarkMode --use-gl=egl --enable-features=UseOzonePlatform --ozone-platform=wayland"
+        "$mainMod, W, exec, firefox-devedition"
         "$mainMod, T, exec, foot nvim"
         "$mainMod, L, exec, systemctl suspend"
         "$mainMod, F, exec, nautilus"
