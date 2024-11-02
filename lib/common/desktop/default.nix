@@ -79,6 +79,7 @@ in {
     useDHCP = false;
     extraHosts = ''
       127.0.0.1 articles
+      127.0.0.1 kopia
     '';
   };
 
@@ -89,6 +90,13 @@ in {
         serverName = "articles";
         locations."/" = {
           proxyPass = "http://127.0.0.1:8111";
+          recommendedProxySettings = true;
+        };
+      };
+      kopia = {
+        serverName = "kopia";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:51515";
           recommendedProxySettings = true;
         };
       };

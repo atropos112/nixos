@@ -15,7 +15,7 @@ with lib; let
       else "/home/" + cfg.runAs;
   };
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
-    # ${pkgs.coreutils}/bin/sleep 300 # Bit hacky...
+    ${pkgs.coreutils}/bin/sleep 300 # Bit hacky...
     KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/opi03bak/keyId".path})
     KOPIA_KEY=$(cat ${config.sops.secrets."kopia/opi03bak/key".path})
     KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
