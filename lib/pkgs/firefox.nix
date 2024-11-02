@@ -84,6 +84,12 @@ in {
           # Tree Style Tabs
           "treestyletab@piro.sakura.ne.jp"
 
+          # TST More Tree Commands (Creating folders, etc.)
+          "tst-more-tree-commands@piro.sakura.ne.jp"
+
+          # TST Search box
+          "@tst-search" # Not super confident about this one will revisit
+
           # Kiwix JS
           "kiwix-html5-listed@kiwix.org"
 
