@@ -93,8 +93,8 @@ in {
           # Kiwix JS
           "kiwix-html5-listed@kiwix.org"
 
-          # Readeck
-          "readeck@readeck.com"
+          # SingleFile
+          "{531906d3-e22f-4a6c-a102-8057b88a1a63}"
         ]
       );
       /*

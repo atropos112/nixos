@@ -9,12 +9,12 @@
   # is a workaround for that, using a lot of the virtualisation.docker.enableNvidia logic.
   virtualisation.docker = {
     extraPackages = with pkgs; [
-      nvidia-docker
+      nvidia-container-toolkit
     ];
     daemon.settings = {
       runtimes = {
         nvidia = {
-          path = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+          path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime";
         };
       };
     };

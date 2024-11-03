@@ -77,43 +77,9 @@ in {
   networking = {
     networkmanager.enable = true;
     useDHCP = false;
-    extraHosts = ''
-      127.0.0.1 articles
-      127.0.0.1 kopia
-    '';
   };
 
-  services.nginx = {
-    enable = true;
-    virtualHosts = {
-      readeck = {
-        serverName = "articles";
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8111";
-          recommendedProxySettings = true;
-        };
-      };
-      kopia = {
-        serverName = "kopia";
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:51515";
-          recommendedProxySettings = true;
-        };
-      };
-    };
-  };
   virtualisation = {
-    oci-containers = {
-      backend = "docker";
-      containers = {
-        readeck = {
-          image = "codeberg.org/readeck/readeck:latest";
-          autoStart = true;
-          ports = ["127.0.0.1:8111:8000"];
-          volumes = ["/home/atropos/Sync/bookmarks:/readeck"];
-        };
-      };
-    };
     docker = {
       storageDriver = "zfs";
     };
