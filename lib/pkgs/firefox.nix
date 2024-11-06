@@ -95,6 +95,9 @@ in {
 
           # SingleFile
           "{531906d3-e22f-4a6c-a102-8057b88a1a63}"
+
+          # Redirector
+          "redirector@einaregilsson.com"
         ]
       );
       /*
