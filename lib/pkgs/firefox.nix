@@ -98,6 +98,9 @@ in {
 
           # Redirector
           "redirector@einaregilsson.com"
+
+          # Keepa - Amazon Price Tracker
+          "amptra@keepa.com"
         ]
       );
       /*
