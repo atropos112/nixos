@@ -20,6 +20,8 @@ _: {
         "tailscale-systray"
         # "copyq --start-server"
         "element-desktop --disable-gpu"
+        "signal-desktop"
+        "whatsapp-for-linux"
       ];
 
       bind = [
