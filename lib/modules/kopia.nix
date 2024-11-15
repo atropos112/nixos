@@ -15,7 +15,7 @@ with lib; let
       else "/home/" + cfg.runAs;
   };
 
-  s3Endpoint = "opi03bak:9000";
+  s3Endpoint = "opiz2:9000";
   s3BucketName = "kopiabackup";
 
   kopiaWebUICmd =
@@ -30,29 +30,31 @@ with lib; let
   kopiaCreateRepoCmd = ''${pkgs.kopia}/bin/kopia --log-level=debug repository create s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls'';
 
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
-    ${pkgs.coreutils}/bin/sleep 300 # Bit hacky...
-    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/opi03bak/keyId".path})
-    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/opi03bak/key".path})
-    KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
-    KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
-    KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
+    set -xeu
+
+       ${pkgs.coreutils}/bin/sleep 300 # Bit hacky...
+       KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/opiz2/keyId".path})
+       KOPIA_KEY=$(cat ${config.sops.secrets."kopia/opiz2/key".path})
+       KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
+       KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
+       KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
 
 
-    connect_output=$(${kopiaConnectCmd} 2>&1)
+       connect_output=$(${kopiaConnectCmd} 2>&1)
 
-    if [[ "$connect_output" == *"repository not initialized in the provided storage"* ]]; then
-        ${kopiaCreateRepoCmd}
-    	${pkgs.coreutils}/bin/echo "Sleeping for 10 seconds for good measure."
-    fi
+       if [[ "$connect_output" == *"repository not initialized in the provided storage"* ]]; then
+           ${kopiaCreateRepoCmd}
+       	${pkgs.coreutils}/bin/echo "Sleeping for 10 seconds for good measure."
+       fi
 
 
-    ${pkgs.coreutils}/bin/sleep 10 # Bit hacky...
-    # Connect to the repository again as sometimes the first connection fails
-    ${kopiaConnectCmd}
+       ${pkgs.coreutils}/bin/sleep 10 # Bit hacky...
+       # Connect to the repository again as sometimes the first connection fails
+       ${kopiaConnectCmd}
 
-    ${pkgs.coreutils}/bin/echo "Generating config file if it doesn't exist..."
-    ${pkgs.coreutils}/bin/echo "Starting Kopia server..."
-    ${kopiaWebUICmd}
+       ${pkgs.coreutils}/bin/echo "Generating config file if it doesn't exist..."
+       ${pkgs.coreutils}/bin/echo "Starting Kopia server..."
+       ${kopiaWebUICmd}
   ''}";
 
   kopiaService = {
@@ -85,10 +87,10 @@ in {
       "kopia/password" = {
         owner = cfg.runAs;
       };
-      "kopia/opi03bak/keyId" = {
+      "kopia/opiz2/keyId" = {
         owner = cfg.runAs;
       };
-      "kopia/opi03bak/key" = {
+      "kopia/opiz2/key" = {
         owner = cfg.runAs;
       };
       "kopia/gui/password" = {
