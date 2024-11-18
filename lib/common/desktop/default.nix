@@ -507,6 +507,10 @@ in {
   };
 
   home-manager.users.atropos = {config, ...}: {
+    stylix.targets = {
+      # TODO: Remove once https://github.com/danth/stylix/issues/630 is closed.
+      hyprland.enable = false;
+    };
     home = {
       file = {
         ".local/share/fonts" = {
