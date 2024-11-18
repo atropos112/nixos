@@ -149,10 +149,10 @@
             targetHost = name;
           };
           # Change arch to aarch64 if the system is aarch64-linux
-          nixpkgs.system =
-            if (value.config.nixpkgs.system == "aarch64-linux")
-            then "aarch64-linux"
-            else "x86_64-linux";
+          nixpkgs.system = value.config.nixpkgs.system;
+          # if (value.config.nixpkgs.system == "aarch64-linux")
+          # then "aarch64-linux"
+          # else "x86_64-linux";
 
           imports = value._module.args.modules;
         })

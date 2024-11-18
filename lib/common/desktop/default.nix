@@ -39,7 +39,6 @@ in {
     ../../pkgs/csharp.nix
     ../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
-    ../../pkgs/kiwix-serve.nix
     ../../pkgs/s3.nix
     ../../pkgs/zeal
   ];
