@@ -65,7 +65,7 @@
     };
     nx-build = {
       exec = ''
-        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel -L
+        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel -L --extra-experimental-features pipe-operators
       '';
       description = "Build the system";
     };

@@ -28,7 +28,7 @@ _: {
         "$mainMod, o, togglefloating"
         "$mainMod, j, fullscreen"
         "$mainMod, b, exec, systemctl --user is-active waybar.service &> /dev/null && systemctl --user stop waybar.service || systemctl --user start waybar.service"
-        "$mainMod, RETURN, exec, foot"
+        "$mainMod, RETURN, exec, kitty"
         "$mainMod, Y, exec, element-desktop --disable-gpu"
         "$mainMod, Q, killactive,"
         "$mainMod, M, exec, feishin --help" # Surprisingly any -- makes it work idk why, --help makes it work without it breaks because nvidia driver is not nouvou, weird af.
@@ -39,7 +39,7 @@ _: {
         "$mainMod, C, exec, blueman-manager"
         "$mainMod, P, exec, grimshot --notify --cursor copy area"
         "$mainMod, W, exec, firefox-devedition"
-        "$mainMod, T, exec, foot nvim"
+        "$mainMod, T, exec, kitty nvim"
         "$mainMod, L, exec, systemctl suspend"
         "$mainMod, F, exec, nautilus"
         "$mainMod, R, exec, tofi-drun --drun-launch=true --font=/home/atropos/media/fonts/ComicCodeLigatures-Regular.ttf --late-keyboard-init=true --ascii-input=true"
