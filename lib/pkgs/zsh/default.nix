@@ -16,7 +16,7 @@ in {
   home-manager.users.atropos = {
     programs = {
       atuin.enableZshIntegration = true;
-      # kitty.shellIntegration.enableZshIntegration = true;
+      kitty.shellIntegration.enableZshIntegration = true;
 
       zsh = {
         enable = true;
@@ -96,7 +96,7 @@ in {
           ls = "eza --icons --git";
 
           # kitty based
-          # s = "kitten ssh";
+          s = "kitten ssh";
 
           # Infisical (secret manager)
           inf = "infisical run --recursive";

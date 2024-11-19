@@ -21,8 +21,8 @@ in {
     inputs.nix-index-database.nixosModules.nix-index
     ../../modules/extmounts.nix
     ../kubernetes/user.nix
-    # ../../pkgs/kitty.nix
-    ../../pkgs/foot.nix
+    ../../pkgs/kitty.nix
+    # ../../pkgs/foot.nix # A bit faster startup but no ligatures support
     # ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix
