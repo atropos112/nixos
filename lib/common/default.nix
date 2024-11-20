@@ -1,5 +1,4 @@
 {
-  self,
   pkgs,
   inputs,
   lib,
@@ -53,10 +52,6 @@ in {
   # Basic system configuration
   system = {
     stateVersion = "unstable";
-    configurationRevision =
-      if (self ? rev)
-      then self.rev
-      else null; #throw "refuse to build: git tree is dirty";
 
     # Provides diff to current system and what it was upgraded to.
     activationScripts.diff = {

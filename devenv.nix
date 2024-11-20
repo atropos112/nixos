@@ -8,6 +8,7 @@
     nix-search-cli
     nix-output-monitor
     nix-melt
+    deploy-rs
   ];
 
   languages.nix = {
@@ -43,6 +44,17 @@
         ${pkgs.nix-melt}/bin/nix-melt
       '';
       description = "Browse the flake.lock contents";
+    };
+    nx-deploy-single = {
+      exec = ''
+        sudo ${pkgs.deploy-rs}/bin/deploy --remote-build --skip-checks --fast-connection=true .#$@ -- --extra-experimental-features pipe-operators --fallback
+      '';
+    };
+    nx-deploy = {
+      exec = ''
+        sudo -v
+        echo "$@" | ${pkgs.rush-parallel}/bin/rush -D " " "nx-deploy-single {}"
+      '';
     };
     nx-lint = {
       exec = ''

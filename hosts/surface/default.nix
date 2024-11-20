@@ -8,7 +8,6 @@
     ./hardware.nix
     ../../lib/common/desktop
   ];
-
   topology.self = {
     interfaces = {
       wifi = {
