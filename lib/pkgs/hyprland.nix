@@ -105,12 +105,6 @@ _: {
           size = 5;
           passes = 1;
         };
-
-        # power hungry according to FAQ
-        drop_shadow = false;
-
-        shadow_range = 4;
-        shadow_render_power = 3;
       };
 
       animations = {
