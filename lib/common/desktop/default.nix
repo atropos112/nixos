@@ -168,13 +168,15 @@ in {
     };
 
     # For sound to work
-    pipewire = {
-      wireplumber.enable = true; # This is the default, wanted to make it explicit.
+    pipewire = lib.mkForce {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      wireplumber.enable = true; # This is the default, wanted to make it explicit.
       pulse.enable = true;
       jack.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
     };
 
     # Bluetooth manager

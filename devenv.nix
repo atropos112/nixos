@@ -47,6 +47,7 @@
     };
     nx-deploy-single = {
       exec = ''
+        set -xeu
         sudo ${pkgs.deploy-rs}/bin/deploy --remote-build --skip-checks --fast-connection=true .#$@ -- --extra-experimental-features pipe-operators --fallback
       '';
     };

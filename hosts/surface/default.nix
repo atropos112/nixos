@@ -66,6 +66,7 @@
     tailscale = {
       extraUpFlags = [
         "--accept-routes"
+        "--exit-node=100.120.250.58" # rzr
       ];
     };
 

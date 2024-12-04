@@ -5,9 +5,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
 
-    # Stuck at specific commit because zfs is not compatible with 6.11 which is what maester is expecting for surface
-    # TODO: This needs to hash needs to replaced with "master" once the zfs issue is resolved.
-    nixos-hardware.url = "github:NixOS/nixos-hardware/efb12d7f4648986c17bb6674a4136d20eac01bbf";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
     deploy-rs.url = "github:serokell/deploy-rs";
 
