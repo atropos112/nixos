@@ -38,7 +38,9 @@
       # To adjust the bus so that screen sharing work with pipewire
       "sleep 3 && systemctl restart --user xdg-desktop-portal-hyprland.service pipewire.service wireplumber.service" # hack to make screen sharing work with nvidia
       "xrandr --output DP-5 --primary" # Letting lutris and other xwayland apps know this is primary
+      "element-desktop --disable-gpu"
       "signal-desktop"
+      "whatsapp-for-linux"
     ];
 
     monitor = [
