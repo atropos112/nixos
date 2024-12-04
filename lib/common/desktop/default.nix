@@ -168,7 +168,7 @@ in {
     };
 
     # For sound to work
-    pipewire = lib.mkForce {
+    pipewire = lib.mkDefault {
       enable = true;
       wireplumber.enable = true; # This is the default, wanted to make it explicit.
       pulse.enable = true;

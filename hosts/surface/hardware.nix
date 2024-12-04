@@ -4,6 +4,12 @@ _: {
     ../../lib/modules/boot.nix
   ];
 
+  # INFO: Surface doesn't play well with Pipewire not sure why.
+  # Sadly the bluetooth support on pulse audio is very flimsy.
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;
+  services.pipewire.enable = false;
+
   atro.hardware.zfs = {
     disks = {
       enable = true;
