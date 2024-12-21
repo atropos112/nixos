@@ -5,7 +5,7 @@
 }: {
   boot = {
     zfs.forceImportRoot = false;
-    zfs.package = pkgs.zfs_unstable;
+    zfs.package = pkgs.zfs;
   };
 
   environment.systemPackages = with pkgs; [

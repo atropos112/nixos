@@ -1,4 +1,5 @@
 ---
+# See all the rules and configs on https://revive.run/r#description-of-available-rules
 run:
   timeout: 5m
   allow-parallel-runners: true
@@ -44,7 +45,7 @@ linters:
     - reassign
     - spancheck
     - sqlclosecheck
-    - sloglint 
+    - sloglint
     - testifylint
 
 linters-settings:
@@ -65,4 +66,10 @@ linters-settings:
       - name: struct-tag
         arguments:
           - "json,inline" # Makes `json:",inline"` valid
-
+      - name: max-public-structs
+        arguments: [500]
+      - name: add-constant
+        arguments:
+          - "maxLitCount=4"
+          - "allowInts=0,1,2"
+          - "allowFloats=0.0,0.,1.0,1.,2.0,2."

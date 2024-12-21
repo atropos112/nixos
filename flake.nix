@@ -2,7 +2,7 @@
   inputs = {
     # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

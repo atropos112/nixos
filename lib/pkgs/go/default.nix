@@ -4,7 +4,7 @@
     golangci-lint
     gopls
 
-    go_1_23
+    go
 
     ginkgo
 
