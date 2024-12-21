@@ -519,6 +519,18 @@ in {
           recursive = true;
           source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/Sync/fonts";
         };
+        ".config/wasistlos/settings.conf".text = ''
+          [general]
+          notification-sounds=true
+          close-to-tray=true
+          start-in-tray=true
+
+          [web]
+          hw-accel=1
+
+          [appearance]
+          prefer-dark-theme=true
+        '';
       };
 
       sessionPath = [

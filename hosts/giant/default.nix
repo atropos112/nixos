@@ -40,7 +40,7 @@
       "xrandr --output DP-5 --primary" # Letting lutris and other xwayland apps know this is primary
       "element-desktop --disable-gpu"
       "signal-desktop"
-      "whatsapp-for-linux"
+      "wasistlos"
     ];
 
     monitor = [
