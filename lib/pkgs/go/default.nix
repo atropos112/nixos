@@ -10,6 +10,9 @@
 
     # debugger for golang
     delve
+
+    # Makefile for go
+    mage
   ];
 
   # INFO: I encountered an issue when trying to debug a test in go. This is the error message:

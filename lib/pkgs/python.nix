@@ -1,26 +1,10 @@
-{pkgs, ...}: let
-  pythonPackages = with pkgs.python312Packages; [
-    python-lsp-server
-    pylsp-rope
-    # debugpy # INFO: Need to control venv a bit more.
-
-    pydocstyle
-    vulture
-    mccabe
-    pylint
-  ];
-
-  otherPackages = with pkgs; [
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
     # Python
-    python312
+    (python312.withPackages (ps: with ps; [pandas numpy]))
 
-    # Linters
-    pylint
     ruff
-
     poetry
     uv # pip but faster.
   ];
-in {
-  environment.systemPackages = pythonPackages ++ otherPackages;
 }
