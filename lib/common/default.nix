@@ -109,6 +109,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # Utilities like iostat, pidstat, sar etc.
+        sysstat
+
         # Containerization
         dive
         docker

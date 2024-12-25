@@ -464,6 +464,7 @@ in {
       usbimager # etcher equiv
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
+      lima
     ]
     ++ (with pkgs-stable; [
       # Vivaldi is a web browser

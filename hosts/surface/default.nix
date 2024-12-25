@@ -97,7 +97,7 @@
     monitor = [
       "eDP-1,3240x2160@60,0x0,1.8,bitdepth,10"
       "DP-2,1440x900@60,1800x0,1.0,bitdepth,10" # monitor in Stoke
-      "DP-1,1920x1080@60,1800x0,1.0,bitdepth,10" # monitor in Ndg
+      # "DP-1,1920x1080@60,1800x0,1.0,bitdepth,10" # monitor in Ndg
     ];
 
     workspace = [
