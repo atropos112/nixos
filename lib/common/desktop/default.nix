@@ -565,15 +565,15 @@ in {
         enable = true;
         timeouts = [
           {
-            timeout = 1680; # 30min - 2 minutes
+            timeout = 5280; # 90min - 2 minutes
             command = "${pkgs.libnotify}/bin/notify-send -u 'low' 'Suspending and locking in 2 minutes...'";
           }
           {
-            timeout = 1790; # 30min - 10seconds
+            timeout = 5390; # 90min - 10seconds
             command = "${pkgs.libnotify}/bin/notify-send -u 'critical' 'Suspending and locking in 10 seconds...'";
           }
           {
-            timeout = 1800; # 30min
+            timeout = 5400; # 90min
             command = "${pkgs.systemd}/bin/systemctl suspend";
           }
         ];
