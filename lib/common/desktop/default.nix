@@ -411,6 +411,9 @@ in {
       # Watching video player
       vlc
 
+      # Curl with browser like interfaces
+      curl-impersonate
+
       # Youtube (and more) downloader
       yt-dlp
 
