@@ -77,7 +77,6 @@ in {
           ".config/sops/age" # Allowing atropos user read and edit the age keys
           ".config/wakatime" # waka time local bin's otherwise it wipes the password. There is a WAKATIME_HOME environment variable pointing to this dir.
           ".config/SuperSlicer" # SuperSlicer config
-          ".config/vivaldi" # Vivaldi browser content (config, cache, open pages, etc.)
 
           ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)

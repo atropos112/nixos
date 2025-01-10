@@ -256,6 +256,9 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # just in case
+      # chromium
+
       signal-desktop
       whatsapp-for-linux
 
