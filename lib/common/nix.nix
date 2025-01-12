@@ -4,6 +4,7 @@ in {
   # Basic Nix configuration
   nix = {
     settings = {
+      download-buffer-size = 256 * 1024 * 1024; # 256 MiB (default is 16 MiB)
       log-lines = 25; # The default 10 is too little.
       connect-timeout = 5; # Fallback quickly if substituters are not available.
       trusted-users = ["root" "atropos"];
