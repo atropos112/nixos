@@ -353,7 +353,7 @@ in {
       spotify
 
       # Matrix client
-      element-desktop-wayland
+      element-desktop
 
       # For better bluetooth controls
       bluez
@@ -649,15 +649,6 @@ in {
       };
       gtk4.extraConfig = {
         "gtk-application-prefer-dark-theme" = 1;
-      };
-
-      theme = {
-        name = lib.mkForce "Qogir-Dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
-        # Corresponding package is installed in configuration.nix
-      };
-      iconTheme = {
-        name = lib.mkForce "Qogir-dark"; # These names can be found by running GDK_BACKEND=x11 lxappearance, capitalization matters
-        # Corresponding package is installed in configuration.nix
       };
     };
 

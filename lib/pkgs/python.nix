@@ -8,10 +8,15 @@
     uv # pip but faster.
   ];
 
-  home-manager.users.atropos.home.file.".config/pypoetry/config.toml".text = ''
-    [virtualenvs]
-    in-project = true
-    prefer-active-python = true
-    use-poetry-python = false
-  '';
+  home-manager.users.atropos.programs.poetry = {
+    enable = true;
+    package = pkgs.poetry;
+    settings = {
+      virtualenvs = {
+        in-project = true;
+        prefer-active-python = true;
+        use-poetry-python = false;
+      };
+    };
+  };
 }
