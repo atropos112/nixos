@@ -34,7 +34,7 @@ in {
       mount -t zfs zroot/nixos/persistent /persistent
 
       echo "Fixing permissions for home..."
-      mkdir -p /home/atropos/.config /home/atropos/.local /home/atropos/.cache /home/atropos/.ssh /home/atropos/Sync /home/atropos/.local/share
+      mkdir -p /home/atropos/.config /home/atropos/.local /home/atropos/.cache /home/atropos/.ssh /home/atropos/Sync /home/atropos/.local/share /home/atropos/scratch
       chown -R 1000:1000 /home/atropos
 
       mkdir -p /persistent/home/atropos
