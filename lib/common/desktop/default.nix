@@ -23,6 +23,7 @@ in {
     ../kubernetes/user.nix
     ../../pkgs/kitty.nix
     ../../pkgs/markdown.nix
+    ../../pkgs/docker.nix
     # ../../pkgs/foot.nix # A bit faster startup but no ligatures support
     # ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
