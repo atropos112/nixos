@@ -22,6 +22,7 @@ in {
     ../../modules/extmounts.nix
     ../kubernetes/user.nix
     ../../pkgs/kitty.nix
+    ../../pkgs/markdown.nix
     # ../../pkgs/foot.nix # A bit faster startup but no ligatures support
     # ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
