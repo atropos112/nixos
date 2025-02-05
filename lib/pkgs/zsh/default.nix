@@ -110,6 +110,9 @@ in {
 
           watch = "viddy";
           wch = "viddy";
+
+          # Have to sudo for access, and have to use tiny-skia as otherwise it shows black window.
+          sniff = "sudo -E ICED_BACKEND=tiny-skia sniffnet";
         };
         initExtra = ''
           # If not running interactively do nothing.

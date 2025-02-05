@@ -29,6 +29,7 @@
   ];
 
   home-manager.users.atropos = {
+    home.file.".kube/color.yaml".source = ./kubecolor.yaml;
     programs = {
       zsh = {
         shellAliases = {

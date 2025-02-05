@@ -1,0 +1,4 @@
+---
+# yaml-language-server: $schema=https://github.com/kubecolor/kubecolor/raw/main/config-schema.json
+kubectl: kubectl # path to kubectl executable
+preset: protanopia-dark

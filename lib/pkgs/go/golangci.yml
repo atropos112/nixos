@@ -3,7 +3,6 @@
 run:
   timeout: 5m
   allow-parallel-runners: true
-
 issues:
   exclude-use-default: false
 linters:
@@ -11,7 +10,6 @@ linters:
   enable:
     - dupl
     - errcheck
-    - exportloopref
     - ginkgolinter
     - goconst
     - gocyclo
@@ -47,7 +45,6 @@ linters:
     - sqlclosecheck
     - sloglint
     - testifylint
-
 linters-settings:
   revive:
     ignore-generated-header: true
@@ -65,11 +62,11 @@ linters-settings:
         arguments: [10]
       - name: struct-tag
         arguments:
-          - "json,inline" # Makes `json:",inline"` valid
+          - json,inline # Makes `json:",inline"` valid
       - name: max-public-structs
         arguments: [500]
       - name: add-constant
         arguments:
-          - "maxLitCount=4"
-          - "allowInts=0,1,2"
-          - "allowFloats=0.0,0.,1.0,1.,2.0,2."
+          - maxLitCount: '4'
+            allowInts: 0,1,2
+            allowFloats: 0.0,0.,1.0,1.,2.0,2.

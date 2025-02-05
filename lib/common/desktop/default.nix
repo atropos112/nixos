@@ -260,6 +260,7 @@ in {
     [
       # just in case
       # chromium
+      sniffnet
 
       signal-desktop
       whatsapp-for-linux
