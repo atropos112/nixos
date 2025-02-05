@@ -29,11 +29,17 @@
   ];
 
   home-manager.users.atropos = {
-    home.file.".kube/color.yaml".source = ./kubecolor.yaml;
+    home.file.".kube/color.yaml".text = ''
+      kubectl: ${pkgs.kubectl}/bin/kubectl
+      preset: protanopia-dark
+      objFreshThreshold: 1h
+    '';
+
     programs = {
       zsh = {
         shellAliases = {
           k = "kubecolor";
+          kubectl = "kubecolor";
           hui = "helm upgrade --install";
           kb = "kubebuilder";
           cnpg = "kubectl-cnpg";
