@@ -9,4 +9,12 @@ _: {
     enable = true;
     serverAddr = "https://11.0.0.11:6443";
   };
+
+  atro.fastfetch.extraModules = [
+    {
+      "type" = "command";
+      "text" = "systemctl is-active k3s";
+      "key" = "K3s";
+    }
+  ];
 }

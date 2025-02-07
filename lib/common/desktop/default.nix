@@ -63,13 +63,23 @@ in {
   #   ln -nsf /home/atropos/media/fonts /home/atropos/.local/share/fonts
   # '';
 
-  atro.extMounts = {
-    enable = true;
-  };
+  atro = {
+    fastfetch.extraModules = [
+      {
+        "type" = "command";
+        "text" = "systemctl is-active syncthing";
+        "key" = "Syncthing";
+      }
+    ];
 
-  atro.kopia = {
-    enable = true;
-    runAs = "root";
+    extMounts = {
+      enable = true;
+    };
+
+    kopia = {
+      enable = true;
+      runAs = "root";
+    };
   };
 
   # Enabled by default, but is needed if you are a purist so putting it here to make it explicit.

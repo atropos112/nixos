@@ -23,6 +23,7 @@ in {
     inputs.impermanence.nixosModules.impermanence # Is used within some modules not necessarily used though.
     inputs.disko.nixosModules.disko # Is used within some modules not necessarily used though.
     ../pkgs/sopsnix.nix
+    ../pkgs/fastfetch.nix
     ../pkgs/atuin.nix
     ../pkgs/eza.nix
     ../pkgs/git.nix
@@ -208,7 +209,6 @@ in {
         python312Packages.jsondiff
 
         # simple apps to show resources
-        fastfetch
         onefetch
         cpufetch
         ramfetch

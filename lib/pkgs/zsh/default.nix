@@ -127,6 +127,10 @@ in {
             source "$zsh_file"
           fi
           done
+
+          if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+            fastfetch
+          fi
         '';
       };
     };
