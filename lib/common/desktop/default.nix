@@ -42,6 +42,7 @@ in {
     ../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
     ../../pkgs/s3.nix
+    ../../pkgs/jsonnet.nix
     ../../pkgs/zeal
   ];
 
@@ -269,7 +270,7 @@ in {
   environment.systemPackages = with pkgs;
     [
       # just in case
-      # chromium
+      chromium
       sniffnet
 
       signal-desktop

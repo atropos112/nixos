@@ -1,9 +1,12 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # The basics
-    zig
+    jsonnet
+
+    # The package manager
+    jsonnet-bundler
 
     # LSP
-    zls
+    jsonnet-language-server
   ];
 }

@@ -26,6 +26,9 @@
 
     # For interacting with cnpg
     kubectl-cnpg
+
+    # Nice kubectl watch wrapper
+    kubectl-klock
   ];
 
   home-manager.users.atropos = {
@@ -44,6 +47,7 @@
           kb = "kubebuilder";
           cnpg = "kubectl-cnpg";
           kvpn = "kubectl-kubevpn";
+          kgpw = "kubectl-klock pods";
         };
         initExtra = ''
           compdef kubecolor=kubectl

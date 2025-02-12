@@ -31,7 +31,20 @@
     cudaPackages.cudatoolkit
     cudaPackages.cudnn
     super-slicer-beta
+    nvitop
+    ollama-cuda
   ];
+
+  powerManagement = {
+    enable = true;
+    # WARN: There is a bug in 6.12 that makes igc module not load when resuming from suspend
+    # igc is the driver for the 2.5G ethernet card on the motherboard so this means no internet
+    # This is a workaround to fix that, I unload it (in case it's loaded and in bad state) and then load it.
+    resumeCommands = ''
+      ${pkgs.kmod}/bin/modprobe -r igc
+      ${pkgs.kmod}/bin/modprobe igc
+    '';
+  };
 
   atro.hyprland.deviceSpecificSettings = {
     exec-once = [
