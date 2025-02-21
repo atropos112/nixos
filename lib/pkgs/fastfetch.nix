@@ -22,8 +22,6 @@ _: {
     "swap"
     "disk"
     "zpool"
-    "separator" # Displays
-    "display"
     "separator" # External connectivity (Ethernet, Wi-Fi, Bluetooth, etc.)
     "localip"
     "dns"

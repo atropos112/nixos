@@ -71,6 +71,8 @@ in {
         "text" = "systemctl is-active syncthing";
         "key" = "Syncthing";
       }
+      "separator" # Displays
+      "display"
     ];
 
     extMounts = {
