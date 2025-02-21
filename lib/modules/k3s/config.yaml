@@ -1,6 +1,6 @@
 ---
 flannel-backend: none
-tls-san: "11.0.0.11"
+tls-san: 11.0.0.11
 disable:
   - servicelb
   - traefik
@@ -12,7 +12,9 @@ kube-apiserver-arg:
   - default-not-ready-toleration-seconds=30
   - default-unreachable-toleration-seconds=30
   - feature-gates=StatefulSetAutoDeletePVC=true
+  - tracing-config-file=/root/k3s/trace-config.yaml
 kubelet-arg:
+  - config=/root/k3s/kubelet-config.yaml
   - max-pods=250
   - node-status-update-frequency=5s
   - feature-gates=StatefulSetAutoDeletePVC=true

@@ -9,4 +9,9 @@
     # LSP
     jsonnet-language-server
   ];
+
+  home-manager.users.atropos.programs.zsh.shellAliases = {
+    jn = "jsonnet";
+    jnfmt = "jsonnetfmt";
+  };
 }

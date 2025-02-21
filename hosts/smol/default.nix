@@ -5,7 +5,6 @@ _: {
     ../../lib/common/kubernetes/user.nix
     ../../lib/common/server
   ];
-
   atro.k3s.role = "server";
 
   topology.self = {

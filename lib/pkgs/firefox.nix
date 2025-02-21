@@ -9,6 +9,14 @@ in {
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-devedition;
+    preferences = {
+      "browser.tabs.unloadOnLowMemory" = true; # This doesn't work for some reason :/ I set it by hand.
+    };
+
+    languagePacks = [
+      "en-GB"
+      "en-US"
+    ];
 
     /*
     ---- POLICIES ----

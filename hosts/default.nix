@@ -67,6 +67,8 @@
 
           #3. Topology
           inputs.nix-topology.nixosModules.default
+
+          ../lib/modules/hyprland.nix
         ];
     };
   nixosConfigurations = lib.mapAttrs (hostName: system: mkHost {inherit hostName system;}) hosts;

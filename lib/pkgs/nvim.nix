@@ -3,10 +3,11 @@
   inputs,
   ...
 }: {
-  programs = {
-    neovim = {
-      enable = true;
-    };
+  programs.neovim = {
+    enable = true;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    viAlias = true;
+    vimAlias = true;
   };
 
   # My nvim config is placed in store as an input and then placed in ~/.config/nix-store-nvim

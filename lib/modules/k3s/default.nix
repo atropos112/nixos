@@ -23,6 +23,11 @@ in {
     environment.systemPackages = [k3s];
     sops.secrets."k3s/token" = {};
 
+    home-manager.users.root.home.file = {
+      "k3s/kubelet-config.yaml".source = ./kubelet-config.yaml;
+      "k3s/tracing-config.yaml".source = ./tracing-config.yaml;
+    };
+
     services.k3s = {
       enable = true;
       inherit (cfg) role serverAddr;
