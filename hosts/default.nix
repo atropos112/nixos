@@ -29,9 +29,11 @@
     inherit inputs;
     inherit (inputs) stylix;
 
-    pkgs = import inputs.nixpkgs-unstable {
-      inherit system config;
-    };
+    # NOTE: We do not need to set
+    # pkgs = import inputs.nixpkgs-unstable {
+    #   inherit system config;
+    # };
+    # as it is already set in nixosSystem function as its from nixpkgs-unstable.lib.
     pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit system config;
     };
@@ -49,27 +51,22 @@
     nixosSystem {
       inherit system;
       specialArgs = passThroughArgs system;
-      modules =
-        # default
-        # ++ [
-        [
-          #1. Home-manager
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-            };
-          }
+      modules = [
+        #1. Home-manager
+        inputs.home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+          };
+        }
 
-          #2. Loading device specific configuration
-          ./${hostName}
+        #2. Loading device specific configuration
+        ./${hostName}
 
-          #3. Topology
-          inputs.nix-topology.nixosModules.default
-
-          ../lib/modules/hyprland.nix
-        ];
+        #3. Topology
+        inputs.nix-topology.nixosModules.default
+      ];
     };
   nixosConfigurations = lib.mapAttrs (hostName: system: mkHost {inherit hostName system;}) hosts;
 in {

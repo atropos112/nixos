@@ -2,6 +2,10 @@
   nixpkgs = inputs.nixpkgs-unstable;
 in {
   # Basic Nix configuration
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowBroken = false;
+  };
   nix = {
     settings = {
       # download-buffer-size = 256 * 1024 * 1024; # 256 MiB (default is 16 MiB)
