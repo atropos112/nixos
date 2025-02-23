@@ -41,6 +41,9 @@ in {
     ./networking.nix
   ];
 
+  # To avoid the "too many open files" error
+  systemd.extraConfig = "DefaultLimitNOFILE=1024:1048576";
+
   topology.self = {
     interfaces = {
       tailscale0 = {
