@@ -4,16 +4,16 @@
 {
   # WARN: Having tried 24-04 and unstable neither allowed the kernel to build, so I'm sticking with 23.11 for now.
   # Its also what https://github.com/ryan4yin/nixos-rk3588 is doing, once he changes can look to move as well.
-  pkgs,
   config,
   inputs,
   lib,
+  pkgs2311,
   ...
 }: let
   nixpkgs = inputs.nixpkgs2311;
   boardName = "orangepi5";
   rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
-  # pkgs = pkgs2311;
+  pkgs = pkgs2311;
 in {
   imports = [
     "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
@@ -60,8 +60,8 @@ in {
       "input_leds"
     ];
 
-    # kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./vendor_kernel.nix {});
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./vendor_kernel.nix {});
+    # kernelPackages = pkgs.linuxPackages_latest;
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [

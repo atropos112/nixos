@@ -90,6 +90,31 @@ During this process if doing on desktop will be asked for password for zfs encry
 - Orange Pi Zero 2W setup is not working it needs fixing.
 - My neovim setup should be ingested.
 
+# What happens when Orange Pi 5 goes belly up
+
+Sometimes an update is so bad the screen is just dark and there is no way to turn back on. On typical AMD64 machine you can just select older version of nixos config in the grub but not on Orange Pi 5's.
+To fix this I do the following:
+
+- Get any nixos (ryan4yin one or one built with `nix build .#sdImage-opi4` say) image and flash it onto SD card.
+- Boot into this SD card.
+- Mount the nvme drive into `/mnt`.
+- Copy over nixos configuration to `/mnt/root/nixos`.
+- Run `sudo su` to get root.
+- Run `nixos-enter --root /mnt` to enter the system.
+- Optionally login to attic (to get remote cache).
+- Run `nixos-rebuild boot --flake .#opi4 --rollback --option sandbox false` to rollback to previous version.
+- Shutdown and remove SD card and boot into nvme normally.
+
+Note, you have to use `--option sandbox false` to prevent the
+
+```
+error: cloning builder process: Operation not permitted
+error: unable to start build process
+```
+
+error. Also have to use `boot` isntead of `switch` because `switch` will try to switch now (rather than after reboot) and will need dbus process with pid 1 to be running which is not the case when you are in chroot.
+More about this can be found [here](https://nixos.wiki/wiki/Change_root).
+
 # Acknowledgements
 
 - I have shamelessly copied a lot from [Srvos](https://github.com/nix-community/srvos), I am grateful for the work they have done.

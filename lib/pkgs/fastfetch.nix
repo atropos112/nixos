@@ -12,7 +12,6 @@ _: {
     "processes"
     "battery"
     "poweradapter"
-    "brightness"
     "separator" # Compute (CPU, GPU)
     "cpu"
     "loadavg"
