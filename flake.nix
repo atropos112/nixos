@@ -66,134 +66,114 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux"];
-
-      imports = [
-        ./hosts
-      ];
+  outputs = {self, ...} @ inputs: let
+    config = {
+      allowUnfree = true;
+      allowBroken = false;
     };
 
-  # outputs = {self, ...} @ inputs: let
-  #   config = {
-  #     allowUnfree = true;
-  #     allowBroken = false;
-  #   };
-  #   mkHost = hostName: system: (
-  #     (_:
-  #       inputs.nixpkgs-unstable.lib.nixosSystem {
-  #         inherit system;
-  #         specialArgs = {
-  #           inherit inputs self;
-  #           inherit (inputs) stylix;
-  #           pkgs = import inputs.nixpkgs-unstable {
-  #             inherit system config;
-  #           };
-  #           pkgs-unstable = import inputs.nixpkgs-unstable {
-  #             inherit system config;
-  #           };
-  #           pkgs-stable = import inputs.nixpkgs-stable {
-  #             inherit system config;
-  #           };
-  #           pkgs2311 = import inputs.nixpkgs2311 {
-  #             inherit system config;
-  #           };
-  #         };
-  #         modules = [
-  #           #1. Home-manager
-  #           inputs.home-manager.nixosModules.home-manager
-  #           {
-  #             home-manager = {
-  #               useGlobalPkgs = true;
-  #               useUserPackages = true;
-  #             };
-  #           }
-  #
-  #           #2. Loading device specific configuration
-  #           ./devices/${hostName}
-  #
-  #           #3. Topology
-  #           inputs.nix-topology.nixosModules.default
-  #         ];
-  #       }) {}
-  #   );
-  #
-  #   # Little hack to get colmena to work with nixos-rebuild switch interoperably.
-  #   conf = self.nixosConfigurations;
-  #   sdImages = {
-  #     sdImage-opi1 = self.nixosConfigurations.opi1.config.system.build.sdImage;
-  #     sdImage-opi2 = self.nixosConfigurations.opi2.config.system.build.sdImage;
-  #     sdImage-opi3 = self.nixosConfigurations.opi3.config.system.build.sdImage;
-  #     sdImage-opi4 = self.nixosConfigurations.opi4.config.system.build.sdImage;
-  #   };
-  # in {
-  #   nixosConfigurations = {
-  #     surface = mkHost "surface" "x86_64-linux";
-  #     giant = mkHost "giant" "x86_64-linux";
-  #     smol = mkHost "smol" "x86_64-linux";
-  #     a21 = mkHost "a21" "x86_64-linux";
-  #     rzr = mkHost "rzr" "x86_64-linux";
-  #     opi1 = mkHost "opi1" "aarch64-linux";
-  #     opi2 = mkHost "opi2" "aarch64-linux";
-  #     opi3 = mkHost "opi3" "aarch64-linux";
-  #     opi4 = mkHost "opi4" "aarch64-linux";
-  #   };
-  #
-  #   packages = {
-  #     x86_64-linux = sdImages;
-  #     aarch64-linux = sdImages;
-  #   };
-  #   deploy.nodes =
-  #     builtins.mapAttrs (name: value: {
-  #       hostname = name;
-  #       profiles.system = {
-  #         user = "root";
-  #         path = inputs.deploy-rs.lib.${value.config.nixpkgs.system}.activate.nixos value;
-  #       };
-  #     })
-  #     conf;
-  #
-  #   # deploy.nodes.some-random-system = {
-  #   #   hostname = "some-random-system";
-  #   #   profiles.system = {
-  #   #     user = "root";
-  #   #     path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.some-random-system;
-  #   #   };
-  #   # };
-  #
-  #   colmena =
-  #     {
-  #       meta = {
-  #         description = "my personal machines";
-  #         nixpkgs = import inputs.nixpkgs-unstable {system = "x86_64-linux";}; # Gets overwritten by the host-specific nixpkgs.
-  #         nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
-  #       };
-  #     }
-  #     // builtins.mapAttrs (name: value: {
-  #       deployment = {
-  #         allowLocalDeployment = true;
-  #         targetUser = "root";
-  #         buildOnTarget = true;
-  #         targetHost = name;
-  #       };
-  #       nixpkgs.system = value.config.nixpkgs.system;
-  #       imports = value._module.args.modules;
-  #     })
-  #     conf;
-  # };
-  # // inputs.flake-utils.lib.eachDefaultSystem (system: {
-  #   topology = import inputs.nix-topology {
-  #     pkgs = import inputs.nixpkgs-unstable {
-  #       inherit system;
-  #       overlays = [inputs.nix-topology.overlays.default];
-  #     };
-  #
-  #     modules = [
-  #       ./lib/topology/networks.nix
-  #       ./lib/topology/services.nix
-  #       {inherit (self) nixosConfigurations;}
-  #     ];
-  #   };
-  # });
+    passThroughArgs = system: {
+      inherit inputs;
+      inherit (inputs) stylix;
+
+      # NOTE: We do not need to set
+      # pkgs = import inputs.nixpkgs-unstable {
+      #   inherit system config;
+      # };
+      # as it is already set in nixosSystem function as its from nixpkgs-unstable.lib.
+      pkgs-unstable = import inputs.nixpkgs-unstable {
+        inherit system config;
+      };
+      pkgs-stable = import inputs.nixpkgs-stable {
+        inherit system config;
+      };
+      pkgs2311 = import inputs.nixpkgs2311 {
+        inherit system config;
+      };
+    };
+
+    mkHost = hostName: system: (
+      (_:
+        inputs.nixpkgs-unstable.lib.nixosSystem {
+          inherit system;
+          specialArgs = passThroughArgs system;
+          modules = [
+            #1. Home-manager
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+              };
+            }
+
+            #2. Loading device specific configuration
+            ./hosts/${hostName}
+
+            #3. Topology
+            inputs.nix-topology.nixosModules.default
+          ];
+        }) {}
+    );
+
+    # Little hack to get colmena to work with nixos-rebuild switch interoperably.
+    conf = self.nixosConfigurations;
+    sdImages = {
+      sdImage-opi1 = self.nixosConfigurations.opi1.config.system.build.sdImage;
+      sdImage-opi2 = self.nixosConfigurations.opi2.config.system.build.sdImage;
+      sdImage-opi3 = self.nixosConfigurations.opi3.config.system.build.sdImage;
+      sdImage-opi4 = self.nixosConfigurations.opi4.config.system.build.sdImage;
+    };
+  in
+    {
+      nixosConfigurations = {
+        surface = mkHost "surface" "x86_64-linux";
+        giant = mkHost "giant" "x86_64-linux";
+        smol = mkHost "smol" "x86_64-linux";
+        a21 = mkHost "a21" "x86_64-linux";
+        rzr = mkHost "rzr" "x86_64-linux";
+        opi1 = mkHost "opi1" "aarch64-linux";
+        opi2 = mkHost "opi2" "aarch64-linux";
+        opi3 = mkHost "opi3" "aarch64-linux";
+        opi4 = mkHost "opi4" "aarch64-linux";
+      };
+
+      packages = {
+        x86_64-linux = sdImages;
+        aarch64-linux = sdImages;
+      };
+
+      colmena =
+        {
+          meta = {
+            description = "my personal machines";
+            nixpkgs = import inputs.nixpkgs-unstable {system = "x86_64-linux";}; # Gets overwritten by the host-specific nixpkgs.
+            nodeSpecialArgs = builtins.mapAttrs (_name: value: value._module.specialArgs) conf;
+          };
+        }
+        // builtins.mapAttrs (name: value: {
+          deployment = {
+            allowLocalDeployment = true;
+            targetUser = "root";
+            buildOnTarget = true;
+            targetHost = name;
+          };
+          nixpkgs.system = value.config.nixpkgs.system;
+          imports = value._module.args.modules;
+        })
+        conf;
+    }
+    // inputs.flake-utils.lib.eachDefaultSystem (system: {
+      topology = import inputs.nix-topology {
+        pkgs = import inputs.nixpkgs-unstable {
+          inherit system;
+          overlays = [inputs.nix-topology.overlays.default];
+        };
+
+        modules = [
+          ./lib/topology/networks.nix
+          ./lib/topology/services.nix
+          {inherit (self) nixosConfigurations;}
+        ];
+      };
+    });
 }
