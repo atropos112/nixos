@@ -119,6 +119,16 @@
         temperature = {
           "thermal-zone" = 2;
           "hwmon-path" = [
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp1_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp2_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp3_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp4_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp5_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp6_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp7_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp8_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp9_input"
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon8/temp10_input"
             "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"
             "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp2_input"
             "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp3_input"
