@@ -1,11 +1,9 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home-manager.users.atropos.programs.waybar = {
     enable = true;
-    package = inputs.waybar.packages.${pkgs.system}.waybar;
+    package = pkgs.waybar;
+    # WARN: They waybar flake version (0.12.0+date=2025-02-21_8490a1d) is broken using nixpkgs one instead
+    # package = inputs.waybar.packages.${pkgs.system}.waybar;
     style = builtins.readFile ./style.css;
     systemd = {
       enable = true;

@@ -1,11 +1,15 @@
 {inputs, ...}: let
   nixpkgs = inputs.nixpkgs-unstable;
-in {
-  # Basic Nix configuration
-  nixpkgs.config = {
+  nixpkgs-config = {
     allowUnfree = true;
     allowBroken = false;
   };
+in {
+  home-manager.users.atropos.nixpkgs.config = nixpkgs-config;
+  home-manager.users.root.nixpkgs.config = nixpkgs-config;
+
+  # Basic Nix configuration
+  nixpkgs.config = nixpkgs-config;
   nix = {
     settings = {
       # download-buffer-size = 256 * 1024 * 1024; # 256 MiB (default is 16 MiB)

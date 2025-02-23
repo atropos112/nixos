@@ -18,6 +18,7 @@
     if builtins.substring 0 4 hostName == "atro"
     then builtins.substring 4 (builtins.stringLength hostName) hostName
     else hostName;
+  stateVersion = "25.05";
 in {
   imports = [
     inputs.impermanence.nixosModules.impermanence # Is used within some modules not necessarily used though.
@@ -52,7 +53,7 @@ in {
 
   # Basic system configuration
   system = {
-    stateVersion = "unstable";
+    inherit stateVersion;
 
     # Provides diff to current system and what it was upgraded to.
     activationScripts.diff = {
@@ -276,21 +277,14 @@ in {
       # Base home manager configuration
       username = rootHomeUser;
       homeDirectory = rootHomeDirectory;
-      stateVersion =
-        if config.system.stateVersion == "unstable"
-        then "24.11"
-        else config.system.stateVersion;
+      inherit stateVersion;
     };
   };
   home-manager.users.atropos = {
     home = {
       # Base home manager configuration
       username = homeUser;
-      inherit homeDirectory;
-      stateVersion =
-        if config.system.stateVersion == "unstable"
-        then "24.11"
-        else config.system.stateVersion;
+      inherit homeDirectory stateVersion;
 
       sessionPath = [
         "$HOME/.bun/bin"

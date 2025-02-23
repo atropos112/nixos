@@ -123,9 +123,6 @@ in {
     # Inform all GDK apps its wayland env
     GDK_BACKEND = lib.mkDefault "wayland, x11";
 
-    # Inform QT apps of the version
-    QT_QPA_PLATFORMTHEME = "qt6ct";
-
     QT_STYLE_OVERRIDE = "kvantum";
 
     QT_QPA_PLATFORM = "wayland";
@@ -340,7 +337,7 @@ in {
       # Polkit authentication for KDE based apps.
       # Authentication agents are the things that pop up a window asking you for a
       # password whenever an app wants to elevate its privileges.
-      polkit-kde-agent
+      kdePackages.polkit-kde-agent-1
 
       # Application killer
       killall
@@ -527,13 +524,23 @@ in {
 
   qt = {
     enable = true;
-    style = "kvantum";
+    style = lib.mkForce "kvantum";
+  };
+
+  home-manager.users.root = _: {
+    stylix.enable = false;
   };
 
   home-manager.users.atropos = {config, ...}: {
     stylix.targets = {
       # TODO: Remove once https://github.com/danth/stylix/issues/630 is closed.
       hyprland.enable = false;
+
+      # TODO: Remove once wpaperd is fixed to services.wpaperd.settings (as opposed to programs.wpaperd.settings)
+      wpaperd.enable = false;
+
+      # TODO: Remove once vscode is fixed to programs.vscode.default.profiles....
+      vscode.enable = false;
     };
     home = {
       file = {
@@ -607,8 +614,7 @@ in {
         ];
       };
     };
-
-    programs = {
+    services = {
       # Wallpaper changer
       wpaperd = {
         enable = false;
@@ -621,7 +627,9 @@ in {
           };
         };
       };
+    };
 
+    programs = {
       # For locking the screen
       swaylock = {
         enable = true;
