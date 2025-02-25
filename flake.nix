@@ -4,6 +4,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
+    colmena.url = "github:zhaofengli/colmena";
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -125,6 +126,8 @@
     };
   in
     {
+      colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
+
       nixosConfigurations = {
         surface = mkHost "surface" "x86_64-linux";
         giant = mkHost "giant" "x86_64-linux";

@@ -2,13 +2,16 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
-}: {
-  packages = with pkgs; [
+}: let
+  pkgu = import inputs.nixpkgs-unstable {inherit (pkgs.stdenv) system;};
+in {
+  packages = with pkgu; [
     nix-search-cli
     nix-output-monitor
     nix-melt
-    deploy-rs
+    colmena
   ];
 
   languages.nix = {
@@ -44,18 +47,6 @@
         ${pkgs.nix-melt}/bin/nix-melt
       '';
       description = "Browse the flake.lock contents";
-    };
-    nx-deploy-single = {
-      exec = ''
-        set -xeu
-        sudo ${pkgs.deploy-rs}/bin/deploy --remote-build --skip-checks --fast-connection=true .#$@ -- --extra-experimental-features pipe-operators --fallback
-      '';
-    };
-    nx-deploy = {
-      exec = ''
-        sudo -v
-        echo "$@" | ${pkgs.rush-parallel}/bin/rush -D " " "nx-deploy-single {}"
-      '';
     };
     nx-lint = {
       exec = ''
@@ -96,7 +87,7 @@
     };
     colmena-apply = {
       exec = ''
-        sudo colmena apply --on "$@" --verbose
+        sudo ${pkgu.colmena}/bin/colmena apply --on "$@" --verbose
       '';
       description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,surface')";
     };

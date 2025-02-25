@@ -5,4 +5,4 @@ featureGates:
   KubeletTracing: true
 tracing:
   endpoint: otel:4317
-  samplingRatePerMillion: 100
+  samplingRatePerMillion: 1000000
