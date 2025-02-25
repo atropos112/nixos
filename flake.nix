@@ -12,7 +12,6 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    deploy-rs.url = "github:serokell/deploy-rs";
 
     atro-nvim = {
       url = "github:atropos112/nvim";
@@ -126,6 +125,7 @@
     };
   in
     {
+      # Allows colmena to evaluate the flake purely via `--experimental-flake-eval`.
       colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
 
       nixosConfigurations = {

@@ -6,13 +6,17 @@
   ...
 }: let
   pkgu = import inputs.nixpkgs-unstable {inherit (pkgs.stdenv) system;};
+  inherit (inputs.colmena.packages.${pkgs.system}) colmena;
 in {
-  packages = with pkgu; [
-    nix-search-cli
-    nix-output-monitor
-    nix-melt
-    colmena
-  ];
+  packages = with pkgu;
+    [
+      nix-search-cli
+      nix-output-monitor
+      nix-melt
+    ]
+    ++ [
+      colmena
+    ];
 
   languages.nix = {
     enable = true;
@@ -87,7 +91,7 @@ in {
     };
     colmena-apply = {
       exec = ''
-        sudo ${pkgu.colmena}/bin/colmena apply --on "$@" --verbose
+        sudo ${colmena}/bin/colmena apply --on "$@" --verbose
       '';
       description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,surface')";
     };
