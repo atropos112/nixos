@@ -1,4 +1,14 @@
-_: {
+{
+  config,
+  lib,
+  ...
+}: let
+  inherit (config.networking) hostName;
+  shortHostName =
+    if builtins.substring 0 4 hostName == "atro"
+    then builtins.substring 4 (builtins.stringLength hostName) hostName
+    else hostName;
+in {
   systemd = {
     # Given that our systems are headless, emergency mode is useless.
     # We prefer the system to attempt to continue booting so
@@ -30,9 +40,17 @@ _: {
     # vpn mesh to connect to other devices
     tailscale = {
       useRoutingFeatures = "both";
-      extraUpFlags = [
-        "--advertise-routes=9.0.0.0/24"
+      extraUpFlags = lib.mkForce [
+        # WARN: Ensuring that the nodes that the server nodes are not in the routes being shared.
+        # This means all server nodes need to be in (9.0.0.1, 9.0.0.32)
+        # 9.0.0.128/25 -> [9.0.0.128, 9.0.0.255],
+        # 9.0.0.64/26 -> [9.0.0.64, 9.0.0.127],
+        # 9.0.0.32/27 -> [9.0.0.32, 9.0.0.63],
+        # 9.0.0.1/32 -> [9.0.0.1, 9.0.0.1] For the router.
+        "--advertise-routes=9.0.0.128/25,9.0.0.64/26,9.0.0.32/27,9.0.0.1/32"
         "--advertise-exit-node"
+        "--accept-routes"
+        "--hostname=${shortHostName}"
       ];
     };
   };

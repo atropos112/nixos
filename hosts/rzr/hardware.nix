@@ -9,6 +9,7 @@ in {
   imports = [
     ../../lib/common/nvidia.nix
     ../../lib/common/server/amd64_hardware.nix
+    ../../lib/common/server
     ../../lib/pkgs/zfs.nix
   ];
   hardware.nvidia.powerManagement.enable = false;
