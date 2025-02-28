@@ -13,6 +13,7 @@ in {
   home-manager.users.atropos.programs.atuin = {
     enable = true;
     package = atuin_pkgs.atuin;
+    enableZshIntegration = true;
     settings = {
       sync_address = "http://atuin";
       auto_sync = true;

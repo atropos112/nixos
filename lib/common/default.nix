@@ -229,6 +229,7 @@ in {
     tailscale = {
       enable = true;
       authKeyFile = config.sops.secrets."tailscale/key".path;
+      package = pkgs.tailscale;
       extraUpFlags = [
         "--hostname=${shortHostName}"
       ];
