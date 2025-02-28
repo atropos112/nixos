@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (config.networking) hostName;
@@ -35,25 +36,45 @@ in {
       AllowHibernation=no
     '';
   };
+  environment.systemPackages = with pkgs; [
+    ethtool
+    networkd-dispatcher
+  ];
 
-  services = {
-    # vpn mesh to connect to other devices
-    tailscale = {
-      useRoutingFeatures = "both";
-      extraUpFlags = lib.mkForce [
-        # WARN: Ensuring that the nodes that the server nodes are not in the routes being shared.
-        # This means all server nodes need to be in (9.0.0.1, 9.0.0.32)
-        # 9.0.0.128/25 -> [9.0.0.128, 9.0.0.255],
-        # 9.0.0.64/26 -> [9.0.0.64, 9.0.0.127],
-        # 9.0.0.32/27 -> [9.0.0.32, 9.0.0.63],
-        # 9.0.0.1/32 -> [9.0.0.1, 9.0.0.1] For the router.
-        "--advertise-routes=9.0.0.128/25,9.0.0.64/26,9.0.0.32/27,9.0.0.1/32"
-        "--advertise-exit-node"
-        "--accept-routes"
-        "--hostname=${shortHostName}"
-      ];
-    };
-  };
+  # This clashse with networking.useDHCP but is needed for the optimisations below.
+  # systemd.network = {
+  #   enable = true;
+  # };
+  #
+
+  # This is needed to improve perf of advertised routes
+  # services.networkd-dispatcher = {
+  #   enable = true;
+  #   rules."50-tailscale" = {
+  #     onState = ["routable"];
+  #     script = ''
+  #       #!${pkgs.runtimeShell}
+  #       NETDEV=$(${pkgs.iproute2}/bin/ip -o route get 8.8.8.8 | cut -f 5 -d " ")
+  #       ${pkgs.ethtool}/bin/ethtool -K $NETDEV rx-udp-gro-forwarding on rx-gro-list off
+  #       exit 0
+  #     '';
+  #   };
+  # };
+
+  # Disabling as i don't use exit nodes AND the advertise-routes flag is not reliable
+  # services = {
+  #   # vpn mesh to connect to other devices
+  #   tailscale = {
+  #     interfaceName = "tailscale0"; # Default
+  #     extraUpFlags = lib.mkForce [
+  #       # WARN: Tried using advertise-routes but it cuts off at times
+  #       "--advertise-routes=9.0.0.128/25,9.0.0.64/26,9.0.0.32/27,9.0.0.1/32"
+  #       "--advertise-exit-node"
+  #       "--accept-routes"
+  #       "--hostname=${shortHostName}"
+  #     ];
+  #   };
+  # };
 
   boot = {
     kernel.sysctl = {

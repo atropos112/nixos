@@ -17,5 +17,8 @@ _: {
     hardware.info = "i3-10100F, 32GB (DDR4), K8s Master";
   };
 
-  networking.hostName = "atroa21";
+  networking = {
+    hostName = "atroa21";
+    interfaces.eth0.macAddress = "3c:7c:3f:0f:50:db";
+  };
 }

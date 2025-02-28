@@ -30,7 +30,10 @@
     hardware.info = "i7-6900K, 32GB (DDR4), GTX1080Ti, K8s Master";
   };
 
-  networking.hostName = "atrorzr";
+  networking = {
+    hostName = "atrorzr";
+    interfaces.eth0.macAddress = "d0:50:99:96:77:de";
+  };
 
   system.activationScripts.makeNvidiaK3s = ''
     mkdir -p /var/lib/rancher/k3s/agent/etc/containerd/

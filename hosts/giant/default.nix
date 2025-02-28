@@ -11,7 +11,10 @@
     hardware.info = "i9-12900K, 64GB (DDR5), RTX3090";
   };
 
-  networking.hostName = "giant";
+  networking = {
+    hostName = "giant";
+    interfaces.eth0.macAddress = "d8:bb:c1:a2:63:bd";
+  };
 
   systemd = {
     # Disabling all USB power management otherwise the PC can't suspend.

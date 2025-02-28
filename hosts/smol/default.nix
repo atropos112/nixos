@@ -16,5 +16,8 @@ _: {
     hardware.info = "i5-10210U, 16GB (DDR4), K8s Master";
   };
 
-  networking.hostName = "atrosmol";
+  networking = {
+    hostName = "atrosmol";
+    interfaces.eth0.macAddress = "2c:f0:5d:26:8d:da";
+  };
 }

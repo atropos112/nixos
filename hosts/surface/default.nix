@@ -20,7 +20,12 @@
     hardware.info = "i7-8650U, 16GB, GTX1060";
   };
   powerManagement.enable = true;
-  networking.hostName = "surface";
+
+  networking = {
+    hostName = "surface";
+    # Its not really ethernet its wifi.
+    # interfaces.eth0.macAddress = "";
+  };
 
   environment.persistence."/persistent" = {
     # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
@@ -66,7 +71,6 @@
     tailscale = {
       extraUpFlags = [
         "--accept-routes"
-        "--exit-node=100.120.250.58" # rzr
       ];
     };
 
