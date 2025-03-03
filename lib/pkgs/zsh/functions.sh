@@ -10,7 +10,7 @@ function rebase-surface {
 	rsync -av --delete /home/atropos/.config/nvim/ surface:/persistent/home/atropos/.config/nvim
 
 	/run/current-system/sw/bin/ssh surface "rm -rf .mozilla/*"
-	rsync -av --delete /home/atropos/.mozilla/ surface:/persistent/home/atropos/mozilla
+	rsync -av --delete /home/atropos/.mozilla/ surface:/persistent/home/atropos/.mozilla
 }
 
 function rebase-giant {

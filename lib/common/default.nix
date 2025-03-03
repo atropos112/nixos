@@ -94,6 +94,8 @@ in {
     kernel.sysctl = {
       "net.core.default_qdisc" = "fq";
       "net.ipv4.tcp_congestion_control" = "bbr";
+      "net.ipv4.ip_forward" = 1; # Enable IP forwarding for tailscale
+      "net.ipv6.conf.all.forwarding" = 1; # Enable IP forwarding for tailscale
       "fs.inotify.max_user_instances" = 8192;
     };
   };

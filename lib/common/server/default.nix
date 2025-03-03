@@ -1,15 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (config.networking) hostName;
-  shortHostName =
-    if builtins.substring 0 4 hostName == "atro"
-    then builtins.substring 4 (builtins.stringLength hostName) hostName
-    else hostName;
-in {
+_: {
   systemd = {
     # Given that our systems are headless, emergency mode is useless.
     # We prefer the system to attempt to continue booting so
@@ -36,10 +25,10 @@ in {
       AllowHibernation=no
     '';
   };
-  environment.systemPackages = with pkgs; [
-    ethtool
-    networkd-dispatcher
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   ethtool
+  #   networkd-dispatcher
+  # ];
 
   # This clashse with networking.useDHCP but is needed for the optimisations below.
   # systemd.network = {

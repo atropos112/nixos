@@ -29,6 +29,8 @@ in {
     flags = ["--disable-up-arrow"];
   };
 
+  # Place it in .local/share/atuin/key
+  # login with atuin login --username --password ...
   sops.secrets."atuin/key" = {
     owner = config.users.users.atropos.name;
   };
