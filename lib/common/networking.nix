@@ -2,9 +2,9 @@ _: {
   # Networking basics (hostname excluded)
   networking = {
     usePredictableInterfaceNames = false;
-    nftables.enable = false; # prefer iptables still
+    nftables.enable = true; # prefer iptables still
     firewall.enable = false;
-    enableIPv6 = true;
+    enableIPv6 = false;
   };
 
   systemd = {

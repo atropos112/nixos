@@ -203,7 +203,7 @@ in {
         iperf
 
         # bunch of network rules
-        iptables
+        # iptables
 
         # controlling network interface
         ethtool
