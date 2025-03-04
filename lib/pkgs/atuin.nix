@@ -15,7 +15,7 @@ in {
     package = atuin_pkgs.atuin;
     enableZshIntegration = true;
     settings = {
-      sync_address = "http://atuin";
+      sync_address = "http://9.0.0.91";
       auto_sync = true;
       sync_frequency = "10s";
       search_mode = "fuzzy";

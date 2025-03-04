@@ -2,7 +2,7 @@ _: {
   # Networking basics (hostname excluded)
   networking = {
     usePredictableInterfaceNames = false;
-    nftables.enable = true; # prefer iptables still
+    nftables.enable = true;
     firewall.enable = false;
     enableIPv6 = false;
   };
