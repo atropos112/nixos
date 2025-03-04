@@ -9,10 +9,6 @@ in {
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-devedition;
-    preferences = {
-      "browser.tabs.unloadOnLowMemory" = true; # This doesn't work for some reason :/ I set it by hand.
-    };
-
     languagePacks = [
       "en-GB"
       "en-US"
@@ -115,29 +111,73 @@ in {
       ---- PREFERENCES ----
       */
       # Check about:config for options.
-      Preferences = {
-        "browser.contentblocking.category" = {
-          Value = "strict";
-          Status = "locked";
+      Preferences =
+        lib.mapAttrs (_: value: {
+          Value = value;
+          Locked = true;
+        }) {
+          # "browser.contentblocking.category" = {
+          #   Value = "Custom";
+          #   Status = "locked";
+          # };
+          # "extensions.pocket.enabled" = "lock-false";
+          "extensions.screenshots.disabled" = "true";
+          "browser.topsites.contile.enabled" = "false";
+          "browser.formfill.enable" = "false";
+          "browser.search.suggest.enabled" = "false";
+          "browser.search.suggest.enabled.private" = "false";
+          "browser.urlbar.suggest.searches" = "false";
+          "browser.urlbar.showSearchSuggestionsFirst" = "false";
+          "browser.newtabpage.activity-stream.feeds.section.topstories" = "false";
+          "browser.newtabpage.activity-stream.feeds.snippets" = "false";
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" = "false";
+          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = "false";
+          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = "false";
+          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = "false";
+          "browser.newtabpage.activity-stream.showSponsored" = "false";
+          "browser.newtabpage.activity-stream.system.showSponsored" = "false";
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = "false";
+          "browser.tabs.unloadOnLowMemory" = "true";
+          # Set default search engine: DuckDuckGo
+          "browser.urlbar.placeholderName" = "DuckDuckGo";
+          # Set default permissions
+          # * Location, Camera, Microphone, VR
+          # * 0=always ask (default), 1=allow, 2=block.
+          "permissions.default.geo" = "2";
+          "permissions.default.camera" = "2";
+          "permissions.default.microphone" = "0";
+          "permissions.default.desktop-notification" = "0";
+          "permissions.default.xr" = "2";
+          # Fingerprints
+          "privacy.resistFingerprinting.letterboxing" = "lock-false";
+          "privacy.resistFingerprinting" = "lock-true";
+          "privacy.resistFingerprinting.pbmode" = "lock-true";
+          # Disable spellchecker
+          "layout.spellcheckDefault" = "1";
+          # Custom DNS over HTTPS
+          "network.trr.custom_uri" = "https://dns.atro.xyz:9443/dns-query";
+          "network.trr.mode" = 3;
+          "network.trr.uri" = "https://dns.atro.xyz:9443/dns-query";
+          "network.dns.disableIPv6" = "true";
+          "doh-rollout.disable-heuristics" = "true";
+          # Use HTTPS ONLY MODE
+          "dom.security.https_only_mode_ever_enabled" = "true";
+          # Custom Enhance Tracking Protection
+          "browser.contentblocking.category" = "Custom";
+          "extensions.formautofill.addresses.enabled" = false;
+          "extensions.formautofill.creditCards.enabled" = false;
+          "extensions.pocket.enabled" = false;
+          "identity.fxaccounts.enabled" = false;
+          "extensions.fxmonitor.enabled" = false;
+          "browser.messaging-system.whatsNewPanel.enabled" = false;
+          "dom.forms.autocomplete.formautofill" = false;
+          "beacon.enabled" = false;
+          "signon.rememberSignons" = false;
+          "signon.management.page.breach-alerts.enabled" = false;
+          "media.peerconnection.enabled" = false;
+          "media.peerconnection.ice.no_host" = true;
+          "media.gmp-provider.enabled" = false;
         };
-        "extensions.pocket.enabled" = "lock-false";
-        "extensions.screenshots.disabled" = "lock-true";
-        "browser.topsites.contile.enabled" = "lock-false";
-        "browser.formfill.enable" = "lock-false";
-        "browser.search.suggest.enabled" = "lock-false";
-        "browser.search.suggest.enabled.private" = "lock-false";
-        "browser.urlbar.suggest.searches" = "lock-false";
-        "browser.urlbar.showSearchSuggestionsFirst" = "lock-false";
-        "browser.newtabpage.activity-stream.feeds.section.topstories" = "lock-false";
-        "browser.newtabpage.activity-stream.feeds.snippets" = "lock-false";
-        "browser.newtabpage.activity-stream.section.highlights.includePocket" = "lock-false";
-        "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = "lock-false";
-        "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = "lock-false";
-        "browser.newtabpage.activity-stream.section.highlights.includeVisited" = "lock-false";
-        "browser.newtabpage.activity-stream.showSponsored" = "lock-false";
-        "browser.newtabpage.activity-stream.system.showSponsored" = "lock-false";
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = "lock-false";
-      };
     };
   };
 }

@@ -19,7 +19,7 @@ in {
       trusted-users = ["root" "atropos"];
       auto-optimise-store = true;
       substituters = [
-        "https://atticd.atro.xyz/atro" # My attic server
+        "http://atticd/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
         "https://staging.attic.rs/attic-ci" # Attic staging server
         "https://nix-community.cachix.org" # Nix community Cachix server
