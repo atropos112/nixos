@@ -5,6 +5,7 @@
   ...
 }: let
   atuin_pkgs = inputs.atuin.packages.${pkgs.system};
+  at_bin = "${atuin_pkgs.atuin}/bin/atuin";
 in {
   environment.systemPackages = with atuin_pkgs; [
     atuin
@@ -29,10 +30,19 @@ in {
     flags = ["--disable-up-arrow"];
   };
 
-  # Place it in .local/share/atuin/key
-  # login with atuin login --username --password ...
-  sops.secrets."atuin/key" = {
-    owner = config.users.users.atropos.name;
+  sops.secrets = {
+    "atuin/key" = {
+      owner = config.users.users.atropos.name;
+    };
+    "atuin/mnemonic" = {
+      owner = config.users.users.atropos.name;
+    };
+    "atuin/username" = {
+      owner = config.users.users.atropos.name;
+    };
+    "atuin/password" = {
+      owner = config.users.users.atropos.name;
+    };
   };
 
   systemd.user.services.atuin-daemon = {
@@ -41,7 +51,14 @@ in {
     wantedBy = ["default.target"];
     serviceConfig = {
       ExecStart = "${pkgs.writeShellScript "atuin-daemon" ''
-        ${atuin_pkgs.atuin}/bin/atuin daemon
+        USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
+        PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
+        MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
+
+        ${at_bin} logout
+        ${at_bin} login -k $MNEMONIC -u $USERNAME -p $PASSWORD
+        ${at_bin} sync
+        ${at_bin} daemon
       ''}";
       Restart = "on-failure";
       RestartSec = "5s";
