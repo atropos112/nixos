@@ -13,6 +13,13 @@ in {
       nix-search-cli
       nix-output-monitor
       nix-melt
+
+      # Docs
+      mdbook
+      mdbook-mermaid
+      mdbook-admonish
+      mdbook-linkcheck
+      mdbook-toc
     ]
     ++ [
       colmena
@@ -42,6 +49,15 @@ in {
   };
 
   scripts = {
+    run-docs = {
+      exec = with pkgu; ''
+        cd $DEVENV_ROOT
+        ${mdbook}/bin/mdbook serve --hostname 0.0.0.0
+        cd -
+      '';
+      description = "Run the documentation server";
+    };
+
     nx-inspect = {
       exec = ''${pkgs.nix-inspect}/bin/nix-inspect "$@" '';
       description = "Inspect the entire configuration, like a json tree";
