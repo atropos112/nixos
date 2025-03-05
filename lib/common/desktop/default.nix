@@ -82,6 +82,7 @@ in {
     kopia = {
       enable = true;
       runAs = "root";
+      path = "/persistent/";
     };
   };
 

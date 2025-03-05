@@ -17,44 +17,66 @@ with lib; let
 
   s3Endpoint = "opiz2:9000";
   s3BucketName = "kopiabackup";
+  echo = "${pkgs.coreutils}/bin/echo";
+  sleep = "${pkgs.coreutils}/bin/sleep";
+  rg = "${pkgs.ripgrep}/bin/rg";
+  kopia = "${pkgs.kopia}/bin/kopia";
+  curl = "${pkgs.curl}/bin/curl";
 
   kopiaWebUICmd =
     if cfg.exposeWebUI
     then ''
-      ${pkgs.kopia}/bin/kopia --log-level=debug server start --insecure --address="http://0.0.0.0:51515" --server-username=atropos --server-password="$KOPIA_GUI_PASSWORD" --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
+      ${kopia} --log-level=debug server start --insecure --address="http://0.0.0.0:51515" --server-username=atropos --server-password="$KOPIA_GUI_PASSWORD" --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
     ''
     else ''
-      ${pkgs.kopia}/bin/kopia --log-level=debug server start --insecure --address="http://127.0.0.1:51515" --without-password --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
+      ${kopia} --log-level=debug server start --insecure --address="http://127.0.0.1:51515" --without-password --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
     '';
-  kopiaConnectCmd = ''${pkgs.kopia}/bin/kopia --log-level=debug repository connect s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls'';
-  kopiaCreateRepoCmd = ''${pkgs.kopia}/bin/kopia --log-level=debug repository create s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls'';
+  kopiaConnectCmd = ''${kopia} --log-level=debug repository connect s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls'';
+  kopiaCreateRepoCmd = ''
+    ${kopia} --log-level=debug repository create s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls
+  '';
+  kopiaSetupPolicy = ''
+    ${kopia} policy set ${cfg.path} --add-ignore="Sync" --snapshot-time-crontab="0 */6 * * *" --compression="zstd-better-compression"
+  '';
 
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
-    set -xeu
+    # No -e as we expect some commands to fail (e.g. curl or kopiaConnectCmd)
+    set -xu
 
-       ${pkgs.coreutils}/bin/sleep 300 # Bit hacky...
-       KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/opiz2/keyId".path})
-       KOPIA_KEY=$(cat ${config.sops.secrets."kopia/opiz2/key".path})
-       KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
-       KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
-       KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
+    # Initialize variables
+    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/opiz2/keyId".path})
+    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/opiz2/key".path})
+    KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
+    KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
+    KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
+
+    # Wait for internet connection, by checking if we can reach a known website
+    while ! ${curl} -s -f https://atro.xyz > /dev/null; do
+      ${echo} "No internet connection, waiting 10 seconds..."
+      ${sleep} 10
+    done
+
+    ${kopiaSetupPolicy}
+
+    ${echo} "Internet connection established."}
+
+    # Check if the repository is initialized and if not, initialize it
+    connect_output=$(${kopiaConnectCmd} 2>&1)
+
+    # From here on i expect no errors
+    set -xeuo pipefail
+
+    if ${echo} "$connect_output" | ${rg} -q "repository not initialized in the provided storage"; then
+        ${kopiaCreateRepoCmd}
+        ${sleep} 10 # For good measure
+    fi
 
 
-       connect_output=$(${kopiaConnectCmd} 2>&1)
+    # Connect to the repository again as sometimes the first connection fails
+    ${kopiaConnectCmd}
 
-       if [[ "$connect_output" == *"repository not initialized in the provided storage"* ]]; then
-           ${kopiaCreateRepoCmd}
-       	${pkgs.coreutils}/bin/echo "Sleeping for 10 seconds for good measure."
-       fi
-
-
-       ${pkgs.coreutils}/bin/sleep 10 # Bit hacky...
-       # Connect to the repository again as sometimes the first connection fails
-       ${kopiaConnectCmd}
-
-       ${pkgs.coreutils}/bin/echo "Generating config file if it doesn't exist..."
-       ${pkgs.coreutils}/bin/echo "Starting Kopia server..."
-       ${kopiaWebUICmd}
+    # Start the server
+    ${kopiaWebUICmd}
   ''}";
 
   kopiaService = {
@@ -79,6 +101,9 @@ in {
     exposeWebUI = mkOption {
       type = types.bool;
       default = false;
+    };
+    path = mkOption {
+      type = types.str;
     };
   };
 

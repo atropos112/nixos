@@ -14,6 +14,7 @@
       enable = true;
       runAs = "root";
       exposeWebUI = true;
+      path = "/mnt/photos/";
     };
   };
 
