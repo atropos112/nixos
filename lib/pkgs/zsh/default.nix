@@ -75,9 +75,10 @@ in {
           cat = "bat --paging never --theme DarkNeon --style plain";
           rcat = "/run/current-system/sw/bin/cat";
 
-          # View
+          # fzf
           fz = ''fzf --preview "bat --style numbers --color always {}" --bind "enter:execute(vim {})+abort"'';
 
+          fzkill = "kill -9 $(ps -ef | fzf | awk '{print $2}')";
           # vim
           # nnvim is function made in functions.nix
           v = "nnvim";
