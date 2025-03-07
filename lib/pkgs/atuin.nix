@@ -6,7 +6,6 @@
 }: let
   atuin_pkgs = inputs.atuin.packages.${pkgs.system};
   at_bin = "${atuin_pkgs.atuin}/bin/atuin";
-  socket_path = "/home/atropos/.config/atuin/socket";
 in {
   environment.systemPackages = with atuin_pkgs; [
     atuin
@@ -23,7 +22,7 @@ in {
       search_mode = "fuzzy";
       daemon = {
         enabled = true;
-        inherit socket_path;
+        systemd_socket = true;
         sync_frequency = "10"; # 10 seconds sync
       };
       key_path = config.sops.secrets."atuin/key".path;
@@ -46,24 +45,37 @@ in {
     };
   };
 
-  systemd.user.services.atuin-daemon = {
-    description = "Atuin Daemon";
-    after = ["network.target"];
-    wantedBy = ["default.target"];
-    serviceConfig = {
-      ExecStart = "${pkgs.writeShellScript "atuin-daemon" ''
-        USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
-        PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
-        MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
+  systemd.user = {
+    services.atuin-daemon = {
+      description = "Atuin Daemon";
+      after = ["network.target" "atuin-daemon.socket"];
+      wantedBy = ["default.target"];
+      unitConfig = {
+        Requires = ["atuin-daemon.socket"];
+      };
+      serviceConfig = {
+        ExecStart = "${pkgs.writeShellScript "atuin-daemon" ''
+          USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
+          PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
+          MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
 
-        ${at_bin} logout
-        ${pkgs.coreutils}/bin/rm -rf "${socket_path}"
-        ${at_bin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
-        ${at_bin} status # For logging purposes
-        ${at_bin} daemon
-      ''}";
-      Restart = "on-failure";
-      RestartSec = "5s";
+          ${at_bin} logout
+          ${at_bin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
+          ${at_bin} daemon
+        ''}";
+        Restart = "on-failure";
+        RestartSec = "5s";
+      };
+    };
+    sockets.atuin-daemon = {
+      description = "Atuin Daemon Socket";
+      after = ["network.target"];
+      wantedBy = ["sockets.target"];
+      socketConfig = {
+        ListenStream = "%t/atuin.sock";
+        SocketMode = "0600";
+        RemoveOnStop = true;
+      };
     };
   };
 }
