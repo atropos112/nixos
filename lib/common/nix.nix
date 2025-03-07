@@ -21,7 +21,6 @@ in {
       substituters = [
         "http://atticd/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
-        "https://staging.attic.rs/attic-ci" # Attic staging server
         "https://nix-community.cachix.org" # Nix community Cachix server
         "https://devenv.cachix.org" # Devenv Cachix server
       ];
@@ -29,7 +28,6 @@ in {
       trusted-public-keys = [
         "atro:aPnYaVBlVKTG78gDHVSOXcQhlCgjrAP+PWofeLraISY=" # My attic server
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server
-        "attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo=" # Attic staging server
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" # Nix community Cachix server
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" # Devenv Cachix server
       ];

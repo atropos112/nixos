@@ -1,21 +1,22 @@
 {
-  inputs,
   config,
   pkgs,
   ...
 }: let
-  atuin_pkgs = inputs.atuin.packages.${pkgs.system};
-  at_bin = "${atuin_pkgs.atuin}/bin/atuin";
-  socket_path = "/home/atropos/.config/atuin/socket";
+  at_bin = "${pkgs.atuin}/bin/atuin";
 in {
-  environment.systemPackages = with atuin_pkgs; [
+  environment.systemPackages = with pkgs; [
     atuin
   ];
 
   home-manager.users.atropos.programs.atuin = {
     enable = true;
-    package = atuin_pkgs.atuin;
+    package = pkgs.atuin;
     enableZshIntegration = true;
+    # daemon = {
+    #   enable = true;
+    #   logLevel = "info";
+    # };
     settings = {
       sync_address = "http://9.0.0.91";
       auto_sync = true;
@@ -23,8 +24,8 @@ in {
       search_mode = "fuzzy";
       daemon = {
         enabled = true;
-        inherit socket_path;
         sync_frequency = "10"; # 10 seconds sync
+        systemd_socket = true; # set by deamon.enable anyway.
       };
       key_path = config.sops.secrets."atuin/key".path;
     };
@@ -46,24 +47,56 @@ in {
     };
   };
 
-  systemd.user.services.atuin-daemon = {
-    description = "Atuin Daemon";
-    after = ["network.target"];
-    wantedBy = ["default.target"];
-    serviceConfig = {
-      ExecStart = "${pkgs.writeShellScript "atuin-daemon" ''
-        USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
-        PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
-        MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
+  systemd.user = {
+    sockets = {
+      atuin-daemon = {
+        description = "Atuin Daemon Socket";
+        partOf = ["atuin-daemon.service"];
+        wantedBy = ["sockets.target"];
+        socketConfig = {
+          ListenStream = "%t/atuin.sock";
+          SocketMode = "0600";
+          RemoveOnStop = true;
+        };
+      };
+    };
 
-        ${at_bin} logout
-        ${pkgs.coreutils}/bin/rm -rf "${socket_path}"
-        ${at_bin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
-        ${at_bin} status # For logging purposes
-        ${at_bin} daemon
-      ''}";
-      Restart = "on-failure";
-      RestartSec = "5s";
+    services = {
+      # Separated into two services to allow socket to work. Not sure if this is necessary.
+
+      atuin-daemon = {
+        description = "Atuin Credential Setup";
+        wantedBy = ["multi-user.target"];
+        requires = ["atuin-creds.service" "atuin-daemon.socket"];
+        after = ["network.target"];
+        partOf = ["atuin-creds.service"];
+        serviceConfig = {
+          ExecStart = "${pkgs.atuin}/bin/atuin daemon";
+          Restart = "on-failure";
+          RestartSec = "5s";
+        };
+      };
+
+      atuin-creds = {
+        description = "Atuin Credential Setup";
+        wantedBy = ["multi-user.target"];
+        partOf = ["atuin-creds.service"];
+        before = ["atuin-daemon.service"];
+        after = ["network.target"];
+        serviceConfig = {
+          ExecStart = "${pkgs.writeShellScript "atuin-credentials" ''
+            USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
+            PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
+            MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
+
+            ${at_bin} logout
+            ${at_bin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
+            ${at_bin} status # For logging purposes
+          ''}";
+          Restart = "on-failure";
+          RestartSec = "5s";
+        };
+      };
     };
   };
 }
