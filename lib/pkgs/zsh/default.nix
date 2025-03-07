@@ -130,6 +130,7 @@ in {
           done
 
           if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+            systemctl restart --user atuin-daemon.service # Restart atuin as it gets weird in ssh
             fastfetch
           fi
         '';
