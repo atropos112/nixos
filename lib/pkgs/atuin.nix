@@ -18,7 +18,7 @@ in {
     #   logLevel = "info";
     # };
     settings = {
-      sync_address = "http://9.0.0.91";
+      sync_address = "http://atuin";
       auto_sync = true;
       sync_frequency = "10s";
       search_mode = "fuzzy";
