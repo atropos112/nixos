@@ -5,6 +5,10 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
     colmena.url = "github:zhaofengli/colmena";
+    nix-ld = {
+      url = "github:Mic92/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";

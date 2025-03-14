@@ -1279,6 +1279,26 @@
         "type": "github"
       }
     },
+    "nix-ld": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1740995332,
+        "narHash": "sha256-SELnZZg9LOhw+kz60yEAr3l1plu70rBLInMRszLHtuc=",
+        "owner": "Mic92",
+        "repo": "nix-ld",
+        "rev": "090c2003e3faa739e5a94e0a3cd782a1ccc40964",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "nix-ld",
+        "type": "github"
+      }
+    },
     "nix-topology": {
       "inputs": {
         "devshell": "devshell",
@@ -1605,6 +1625,7 @@
         "impermanence": "impermanence",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-index-database": "nix-index-database",
+        "nix-ld": "nix-ld",
         "nix-topology": "nix-topology",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs-stable": "nixpkgs-stable_2",

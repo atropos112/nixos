@@ -18,6 +18,7 @@ in {
   imports = [
     ../default.nix
     inputs.stylix.nixosModules.stylix
+    inputs.nix-ld.nixosModules.nix-ld
     inputs.nix-index-database.nixosModules.nix-index
     ../../modules/extmounts.nix
     ../kubernetes/user.nix
@@ -255,13 +256,15 @@ in {
     #   '';
     # }
 
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        zlib # numpy
-        libgcc # sqlalchemy
-      ];
-    };
+    nix-ld.dev.enable = true;
+
+    # nix-ld = {
+    #   enable = true;
+    #   libraries = with pkgs; [
+    #     zlib # numpy
+    #     libgcc # sqlalchemy
+    #   ];
+    # };
   };
 
   # Allowing for "sshfs rzr:/mnt/media /mnt/media -o allow_other" so that docker can use the mount as well not just the user.
