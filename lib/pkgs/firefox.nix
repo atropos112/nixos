@@ -61,6 +61,9 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
+          # Read Aloud:
+          "{ddc62400-f22d-4dd3-8b4a-05837de53c2e}"
+
           # uBlock Origin:
           "uBlock0@raymondhill.net"
 
@@ -137,7 +140,8 @@ in {
           "browser.newtabpage.activity-stream.showSponsored" = "false";
           "browser.newtabpage.activity-stream.system.showSponsored" = "false";
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = "false";
-          "browser.tabs.unloadOnLowMemory" = "true";
+          "browser.tabs.unloadOnLowMemory" = true;
+          "browser.tabs.warnOnClose" = true;
           # Set default search engine: DuckDuckGo
           "browser.urlbar.placeholderName" = "DuckDuckGo";
           # Set default permissions

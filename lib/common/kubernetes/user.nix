@@ -1,5 +1,8 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
+    # Nice regex capable log viewer
+    stern
+
     # Kubernetes CLI tool
     kubectl
 

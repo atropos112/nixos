@@ -272,6 +272,8 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      natscli
+
       # just in case
       chromium
       sniffnet
