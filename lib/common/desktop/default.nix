@@ -48,12 +48,17 @@ in {
   ];
 
   stylix = {
+    cursor = {
+      size = 24;
+      name = "Capitaine Cursors";
+      package = pkgs.capitaine-cursors-themed;
+    };
+
     enable = true;
     autoEnable = true;
     polarity = "dark";
     image = ./wallpaper.png;
     base16Scheme = theme;
-    cursor.size = 24;
     opacity = {
       terminal = 0.95;
     };

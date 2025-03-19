@@ -45,7 +45,7 @@ in {
           addresses = [
             "tcp://syncthing"
           ];
-          autoAcceptFolders = true;
+          autoAcceptFolders = false; # Can't auto accept as those will be overridden by the config below
           id = "ZLCZ4HZ-E67BWUS-5VLRQ5M-PIA4JJW-DMBVDZH-EMOF5AM-S5R6QE7-IMXBEA2";
         };
       };
