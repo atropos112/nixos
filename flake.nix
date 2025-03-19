@@ -27,7 +27,11 @@
     # it will bust the cache on the hyprland cachix server.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
 
     disko = {
