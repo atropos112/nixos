@@ -42,7 +42,9 @@ in {
   ];
 
   # To avoid the "too many open files" error
-  systemd.extraConfig = "DefaultLimitNOFILE=1024:1048576";
+  # This is equivalent to `ulimit -n 16192:1048576`
+  # Or setting `DefaultLimitNOFILE=16192:1048576` in /etc/systemd/system.conf
+  systemd.extraConfig = "DefaultLimitNOFILE=16192:1048576";
 
   topology.self = {
     interfaces = {
