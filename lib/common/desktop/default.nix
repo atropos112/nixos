@@ -50,7 +50,7 @@ in {
   stylix = {
     cursor = {
       size = 24;
-      name = "Capitaine Cursors";
+      name = "Capitaine Cursors - White";
       package = pkgs.capitaine-cursors-themed;
     };
 
@@ -115,6 +115,10 @@ in {
   };
 
   environment.sessionVariables = {
+    # To match the cursor theme with the rest of the system
+    XCURSOR_THEME = "Capitaine Cursors - White";
+    XCURSOR_SIZE = "24";
+
     # To Globally replace gcc stuff use this env var but it will do damage to other stuff so ideally use nix-ld approach
     # LD_LIBRARY_PATH = lib.mkForce "${pkgs.stdenv.cc.cc.lib}/lib";
     FZF_BASE = "${pkgs.fzf}/bin/fzf";
