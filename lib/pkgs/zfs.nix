@@ -1,16 +1,14 @@
 {
   lib,
-  pkgs-stable,
+  pkgs,
   ...
 }: {
   boot = {
     zfs.forceImportRoot = false;
-    # INFO: On unstable you typically have 2.3.x meanwhile on stable zfs_2_3 you have 2.3.y where y <= x
-    # but sometimes x is broken and y is not so sticking with this.
-    zfs.package = pkgs-stable.zfs_2_3;
+    zfs.package = pkgs.zfs;
   };
 
-  environment.systemPackages = with pkgs-stable; [
+  environment.systemPackages = with pkgs; [
     zfs-autobackup
   ];
 
