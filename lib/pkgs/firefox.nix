@@ -119,31 +119,27 @@ in {
           Value = value;
           Locked = true;
         }) {
-          # "browser.contentblocking.category" = {
-          #   Value = "Custom";
-          #   Status = "locked";
-          # };
-          # "extensions.pocket.enabled" = "lock-false";
-          "extensions.screenshots.disabled" = "true";
-          "browser.topsites.contile.enabled" = "false";
-          "browser.formfill.enable" = "false";
-          "browser.search.suggest.enabled" = "false";
-          "browser.search.suggest.enabled.private" = "false";
-          "browser.urlbar.suggest.searches" = "false";
-          "browser.urlbar.showSearchSuggestionsFirst" = "false";
-          "browser.newtabpage.activity-stream.feeds.section.topstories" = "false";
-          "browser.newtabpage.activity-stream.feeds.snippets" = "false";
-          "browser.newtabpage.activity-stream.section.highlights.includePocket" = "false";
-          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = "false";
-          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = "false";
-          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = "false";
-          "browser.newtabpage.activity-stream.showSponsored" = "false";
-          "browser.newtabpage.activity-stream.system.showSponsored" = "false";
-          "browser.newtabpage.activity-stream.showSponsoredTopSites" = "false";
+          # INFO: Personal preference settings
+          "browser.aboutConfig.showWarning" = false; # Disable about:config warning
+          "browser.startup.page" = 3; # 0=blank, 1=home, 2=last visited, 3=resume previous session
+          "browser.startup.homepage" = "https://atro.xyz"; # Set homepage
+          "browser.newtabpage.enabled" = false; # Disable new tab page (true being the firefox homepage)
+
+          "extensions.screenshots.disabled" = true;
+          "browser.topsites.contile.enabled" = false;
+          "browser.formfill.enable" = false;
+          "browser.search.suggest.enabled" = false;
+          "browser.search.suggest.enabled.private" = false;
+          "browser.urlbar.suggest.searches" = false;
+          "browser.urlbar.showSearchSuggestionsFirst" = false;
           "browser.tabs.unloadOnLowMemory" = true;
           "browser.tabs.warnOnClose" = true;
+
+          ## INFO: Security and privacy settings
+
           # Set default search engine: DuckDuckGo
           "browser.urlbar.placeholderName" = "DuckDuckGo";
+
           # Set default permissions
           # * Location, Camera, Microphone, VR
           # * 0=always ask (default), 1=allow, 2=block.
@@ -152,35 +148,117 @@ in {
           "permissions.default.microphone" = "0";
           "permissions.default.desktop-notification" = "0";
           "permissions.default.xr" = "2";
+
           # Fingerprints
-          "privacy.resistFingerprinting.letterboxing" = "lock-false";
-          "privacy.resistFingerprinting" = "lock-true";
-          "privacy.resistFingerprinting.pbmode" = "lock-true";
+          "privacy.resistFingerprinting.letterboxing" = true;
+          "privacy.resistFingerprinting" = true;
+          "privacy.resistFingerprinting.pbmode" = true;
+
           # Disable spellchecker
           "layout.spellcheckDefault" = "1";
+
           # Custom DNS over HTTPS
           "network.trr.custom_uri" = "https://dns.atro.xyz:9443/dns-query";
-          "network.trr.mode" = 3;
+          "network.trr.mode" = 3; # Max protection use TRR first, complain if can't and fallback on user accept only
           "network.trr.uri" = "https://dns.atro.xyz:9443/dns-query";
-          "network.dns.disableIPv6" = "true";
-          "doh-rollout.disable-heuristics" = "true";
+          "network.dns.disableIPv6" = true; # Disable IPv6
+          "doh-rollout.disable-heuristics" = true;
+
           # Use HTTPS ONLY MODE
-          "dom.security.https_only_mode_ever_enabled" = "true";
+          "dom.security.https_only_mode_ever_enabled" = true;
+
           # Custom Enhance Tracking Protection
           "browser.contentblocking.category" = "Custom";
+
+          # Disable form autofill
           "extensions.formautofill.addresses.enabled" = false;
           "extensions.formautofill.creditCards.enabled" = false;
+
+          # Disable built-in bullshit features
           "extensions.pocket.enabled" = false;
           "identity.fxaccounts.enabled" = false;
           "extensions.fxmonitor.enabled" = false;
           "browser.messaging-system.whatsNewPanel.enabled" = false;
           "dom.forms.autocomplete.formautofill" = false;
           "beacon.enabled" = false;
+
+          # Disable internal password manager
           "signon.rememberSignons" = false;
           "signon.management.page.breach-alerts.enabled" = false;
+
+          # Disable WebRTC
           "media.peerconnection.enabled" = false;
+
+          # Protect private IP even in TRUSTED scenarios after you grant device access
           "media.peerconnection.ice.no_host" = true;
+
+          # Disable GMP (Gecko Media Plugins)
           "media.gmp-provider.enabled" = false;
+
+          # Disable Geolocation
+          "geo.provider.ms-windows-location" = false; # Windows
+          "geo.provider.use_corelocation" = false; # MacOS
+          "geo.provider.use_geoclue" = false; # Linux
+
+          # Disable about:addons recomended extensions (uses Google Analytics)
+          "extensions.getAddons.showPane" = false; # Hidden pref
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          "browser.discovery.enabled" = false;
+          "browser.shopping.experience2023.enabled" = false; # default is already false
+
+          # Activity stream
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+          "browser.newtabpage.activity-stream.feeds.snippets" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = false;
+          "browser.newtabpage.activity-stream.system.showSponsored" = false;
+          "browser.newtabpage.activity-stream.default.sites" = ""; # Disable default sites
+
+          # Disable studies
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+          "app.shield.optoutstudies.enabled" = false;
+
+          # No crash reporting
+          "breakpad.reportURL" = "";
+          "browser.tabs.crashReporting.sendReport" = false;
+          "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+
+          # Disable captive portal detection
+          # As per https://www.eff.org/deeplinks/2017/08/how-captive-portals-interfere-wireless-security-and-privacy
+          # these suck.
+          "captivedetect.canonicalURL" = "";
+          "network.captive-portal-service.enabled" = false;
+          "network.connectivity-service.enabled" = false;
+
+          # Block implicit outbound [not explicitly asked for - e.g. clicked on]
+          "network.prefetch-next" = false;
+          "network.dns.disablePrefetch" = true;
+          "network.dns.disablePrefetchFromHTTPS" = true;
+          "network.predictor.enabled" = false;
+          "network.predictor.enable-prefetch" = false;
+          "network.http.speculative-parallel-limit" = 0;
+          "browser.places.speculativeConnect.enabled" = false;
+
+          "network.gio.supported-protocols" = ""; # Disable GIO as a potential bypass vector
+
+          # Disable toolkit telemetry
+          "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.server" = "data:,";
+          "toolkit.telemetry.archive.enabled" = false;
+          "toolkit.telemetry.newProfilePing.enabled" = false;
+          "toolkit.telemetry.shutdownPingSender.enabled" = false;
+          "toolkit.telemetry.updatePing.enabled" = false;
+          "toolkit.telemetry.bhrPing.enabled" = false;
+          "toolkit.telemetry.firstShutdownPing.enabled" = false;
+          "toolkit.telemetry.coverage.opt-out" = true;
+          "toolkit.coverage.opt-out" = true;
+          "toolkit.coverage.endpoint.base" = "";
         };
     };
   };
