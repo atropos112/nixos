@@ -72,7 +72,8 @@ in {
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
           ".config/Signal" # Signal desktop config.
-          ".local/share/wasistlos" # Whatsapp for linux cache.
+          ".local/share/ZapZap" # Whatsapp for linux cache.
+          ".cache/ZapZap" # Whatsapp for linux cache.
           ".config/github-copilot"
           ".config/sops/age" # Allowing atropos user read and edit the age keys
           ".config/wakatime" # waka time local bin's otherwise it wipes the password. There is a WAKATIME_HOME environment variable pointing to this dir.

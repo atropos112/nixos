@@ -229,9 +229,6 @@ in {
   };
 
   services = {
-    # DNS caching among other things
-    resolved.enable = true;
-
     # vpn mesh to connect to other devices
     tailscale = {
       enable = true;

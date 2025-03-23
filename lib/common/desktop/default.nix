@@ -288,7 +288,7 @@ in {
       sniffnet
 
       signal-desktop
-      whatsapp-for-linux
+      zapzap
 
       sqlite
 
@@ -564,17 +564,20 @@ in {
           recursive = true;
           source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/Sync/fonts";
         };
-        ".config/wasistlos/settings.conf".text = ''
-          [general]
-          notification-sounds=true
-          close-to-tray=true
-          start-in-tray=true
-
+        ".config/ZapZap/ZapZap.conf".text = ''
+          [performance]
+          cache_size_max=100
+          [system]
+          menubar=false
+          sidebar=false
+          start_background=true
+          theme=dark
+          tray_theme=symbolic_light
+          wayland=true
           [web]
-          hw-accel=1
-
-          [appearance]
-          prefer-dark-theme=true
+          scroll_animator=true
+          [website]
+          open_page=false
         '';
       };
 
