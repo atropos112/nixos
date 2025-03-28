@@ -60,22 +60,22 @@
     ];
 
     monitor = [
-      "DP-5,2560x1440@240,1080x480,1"
-      "DP-4,2560x1440@144,3640x0,1,transform,3"
-      "HDMI-A-5,1920x1080@75,0x0,1,transform,1"
+      "DP-5,2560x1440@240,0x270,1"
+      "DP-4,2560x1440@144,2560x270,1"
+      "HDMI-A-5,1920x1080@75,5120x0,1,transform,3"
     ];
 
     workspace = [
-      "1, monitor:HDMI-A-5, default:true"
-      "2, monitor:HDMI-A-5, default:true"
-      "3, monitor:HDMI-A-5, default:true"
-      "4, monitor:DP-5, default:true"
-      "5, monitor:DP-5, default:true"
-      "6, monitor:DP-5, default:true"
-      "7, monitor:DP-5, default:true"
-      "8, monitor:DP-4, default:true"
-      "9, monitor:DP-4, default:true"
-      "10, monitor:DP-4, default:true"
+      "1, monitor:DP-5, default:true"
+      "2, monitor:DP-5, default:true"
+      "3, monitor:DP-5, default:true"
+      "4, monitor:DP-4, default:true"
+      "5, monitor:DP-4, default:true"
+      "6, monitor:DP-4, default:true"
+      "7, monitor:DP-4, default:true"
+      "8, monitor:HDMI-A-5, default:true"
+      "9, monitor:HDMI-A-5, default:true"
+      "10, monitor:HDMI-A-5, default:true"
     ];
 
     bind = [

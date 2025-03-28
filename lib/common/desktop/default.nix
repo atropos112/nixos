@@ -565,6 +565,9 @@ in {
           source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/Sync/fonts";
         };
         ".config/ZapZap/ZapZap.conf".text = ''
+          [main]
+          geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\0\0\0\0\x1\xe\0\0\x4\xf9\0\0\x6\x85\0\0\0\0\0\0\x1\xe\0\0\x4\xf9\0\0\x6\x85\0\0\0\x2\x2\0\0\0\n\0\0\0\0\0\0\0\x1\xe\0\0\x4\xf9\0\0\x6\x85)
+          windowState=@ByteArray(\0\0\0\xff\0\0\0\0\xfd\0\0\0\0\0\0\x4\xfa\0\0\x5x\0\0\0\x4\0\0\0\x4\0\0\0\b\0\0\0\b\xfc\0\0\0\0)
           [performance]
           cache_size_max=100
           [system]
