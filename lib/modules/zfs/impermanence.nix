@@ -74,6 +74,7 @@ in {
           ".config/Signal" # Signal desktop config.
           ".local/share/ZapZap" # Whatsapp for linux cache.
           ".cache/ZapZap" # Whatsapp for linux cache.
+          ".cache/pre-commit" # Cache for pre-commit hooks
           ".config/github-copilot"
           ".config/sops/age" # Allowing atropos user read and edit the age keys
           ".config/wakatime" # waka time local bin's otherwise it wipes the password. There is a WAKATIME_HOME environment variable pointing to this dir.
