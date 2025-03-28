@@ -2,7 +2,7 @@ _: {
   # Networking basics (hostname excluded)
   networking = {
     usePredictableInterfaceNames = false;
-    nftables.enable = true;
+    nftables.enable = false; # Has to be disabled as otherwise k3s doesn't start up.
     firewall.enable = false;
     enableIPv6 = false;
   };
