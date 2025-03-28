@@ -14,15 +14,15 @@ in {
   # INFO: To get this token I ran
   # atticadm make-token \
   # --validity "10y" \
-  # --sub "atro*" \
-  # --pull "atro*" \
-  # --push "atro*" \
-  # --create-cache "atro*" \
-  # --configure-cache "atro*" \
-  # --configure-cache-retention "atro*" \
+  # --sub "atro" \
+  # --pull "atro" \
+  # --push "atro" \
+  # --create-cache "atro" \
+  # --configure-cache "atro" \
+  # --configure-cache-retention "atro" \
   # --destroy-cache "atro*" -f ./temp.toml
   # Where temp.toml is the file matching config.toml on the server.
-  # You might think you can do "*" instead of "atro*" but that will not work.
+  # You might think you can do "*" instead of "atro" but that will not work.
   sops.secrets."attic/atropos-token" = {};
 
   systemd.services.attic-client = {
