@@ -48,6 +48,14 @@ in {
           autoAcceptFolders = false; # Can't auto accept as those will be overridden by the config below
           id = "ZLCZ4HZ-E67BWUS-5VLRQ5M-PIA4JJW-DMBVDZH-EMOF5AM-S5R6QE7-IMXBEA2";
         };
+
+        p9pf = {
+          addresses = [
+            "tcp://p9pf"
+          ];
+          autoAcceptFolders = false; # Can't auto accept as those will be overridden by the config below
+          id = "ZSU4XYD-YTVHULA-UPB43OX-HABOH37-3QSDCYJ-56TGMCQ-IWR73HI-DXKCJAF";
+        };
       };
       folders = {
         sync = {

@@ -16,6 +16,20 @@
     interfaces.eth0.macAddress = "d8:bb:c1:a2:63:bd";
   };
 
+  services.syncthing = {
+    settings = {
+      devices = {
+        surface = {
+          addresses = [
+            "tcp://surface"
+          ];
+          autoAcceptFolders = false; # Can't auto accept as those will be overridden by the config below
+          id = "UWJRHPP-IDPIB5H-W2PZTLG-7NN2RNU-HCV54T5-4LY64YB-NYQX7W3-JRHNGAS";
+        };
+      };
+    };
+  };
+
   systemd = {
     # Disabling all USB power management otherwise the PC can't suspend.
     services = {

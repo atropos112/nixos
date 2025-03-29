@@ -9,6 +9,33 @@
     ./hardware.nix
     ../../lib/common/desktop
   ];
+
+  services = {
+    syncthing = {
+      settings = {
+        devices = {
+          giant = {
+            addresses = [
+              "tcp://giant"
+            ];
+            autoAcceptFolders = false; # Can't auto accept as those will be overridden by the config below
+            id = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
+          };
+        };
+      };
+    };
+
+    tlp.settings = lib.mkForce {
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+
+      USB_AUTOSUSPEND = 1;
+      USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 0;
+    };
+  };
   topology.self = {
     interfaces = {
       wifi = {
@@ -32,17 +59,6 @@
     directories = [
       "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
     ];
-  };
-
-  services.tlp.settings = lib.mkForce {
-    CPU_SCALING_GOVERNOR_ON_AC = "powersave";
-    CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-    CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
-    CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
-
-    USB_AUTOSUSPEND = 1;
-    USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 0;
   };
 
   systemd.services = {
