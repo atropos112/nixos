@@ -98,6 +98,8 @@ in {
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.ipv4.ip_forward" = 1; # Enable IP forwarding for tailscale
       "net.ipv6.conf.all.forwarding" = 1; # Enable IP forwarding for tailscale
+      "net.core.rmem_max" = 7500000; # Necessary for syncthing
+      "net.core.wmem_max" = 7500000; # Necessary for syncthing
       "fs.inotify.max_user_instances" = 8192;
     };
   };
