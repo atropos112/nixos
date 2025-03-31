@@ -26,9 +26,17 @@
     };
 
     tlp.settings = lib.mkForce {
+      # INFO: I found the available options in
+      # /sys/devices/system/cpu/cpu4/cpufreq/scaling_available_governors
+      # And they are:
+      # performance powersave
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
+      # INFO: I found the avaiable options in
+      # /sys/devices/system/cpu/cpu4/cpufreq/energy_performance_available_preferences
+      # And they are:
+      # default performance balance_performance balance_power power
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
 
