@@ -1,26 +1,30 @@
 #!/usr/bin/env bash
 function rebase-surface {
+	set -xeuo pipefail
+
 	# if hostname of current machine is NOT giant then exit with 1 and echo message
 	if [ "$(hostname)" != "giant" ]; then
 		echo "You are not on giant, you are on $(hostname)"
 		return 1
 	fi
-	rsync -av --delete /home/atropos/projects/ surface:/persistent/home/atropos/projects
-	rsync -av --delete /home/atropos/nixos/ surface:/persistent/home/atropos/nixos
-	rsync -av --delete /home/atropos/.config/nvim/ surface:/persistent/home/atropos/.config/nvim
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/projects/ surface:/persistent/home/atropos/projects
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/nixos/ surface:/persistent/home/atropos/nixos
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/.config/nvim/ surface:/persistent/home/atropos/.config/nvim
 
 	/run/current-system/sw/bin/ssh surface "rm -rf .mozilla/*"
 	rsync -av --delete /home/atropos/.mozilla/ surface:/persistent/home/atropos/.mozilla
 }
 
 function rebase-giant {
+	set -xeuo pipefail
+
 	if [ "$(hostname)" != "surface" ]; then
 		echo "You are not on giant, you are on $(hostname)"
 		return 1
 	fi
-	rsync -av --delete /home/atropos/projects/ giant:/persistent/home/atropos/projects
-	rsync -av --delete /home/atropos/nixos/ giant:/persistent/home/atropos/nixos
-	rsync -av --delete /home/atropos/.config/nvim/ giant:/persistent/home/atropos/.config/nvim
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/projects/ giant:/persistent/home/atropos/projects
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/nixos/ giant:/persistent/home/atropos/nixos
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/.config/nvim/ giant:/persistent/home/atropos/.config/nvim
 
 	/run/current-system/sw/bin/ssh giant "rm -rf .mozilla/*"
 	rsync -av --delete /home/atropos/.mozilla/ giant:/persistent/home/atropos/.mozilla
