@@ -50,9 +50,9 @@ in {
 
   systemd.user = {
     sockets = {
-      atuind = {
+      atuin-sync = {
         description = "Atuin Daemon Socket";
-        partOf = ["atuind.service"];
+        partOf = ["atuin-sync.service"];
         wantedBy = ["sockets.target"];
         socketConfig = {
           ListenStream = "%t/atuin.sock";
@@ -65,12 +65,12 @@ in {
     services = {
       # Separated into two services to allow socket to work. Not sure if this is necessary.
 
-      atuind = {
+      atuin-sync = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
-        requires = ["atuind-creds.service" "atuind.socket"];
+        requires = ["atuin-creds.service" "atuin-sync.socket"];
         after = ["network.target"];
-        partOf = ["atuind-creds.service"];
+        partOf = ["atuin-creds.service"];
         serviceConfig = {
           ExecStart = "${pkgs.atuin}/bin/atuin daemon";
           Restart = "on-failure";
@@ -78,11 +78,11 @@ in {
         };
       };
 
-      atuind-creds = {
+      atuin-creds = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
-        partOf = ["atuind-creds.service"];
-        before = ["atuind.service"];
+        partOf = ["atuin-creds.service"];
+        before = ["atuin-sync.service"];
         after = ["network.target"];
         serviceConfig = {
           ExecStart = "${pkgs.writeShellScript "atuin-credentials" ''
