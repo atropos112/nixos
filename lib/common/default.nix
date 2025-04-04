@@ -120,6 +120,9 @@ in {
     variables.EDITOR = "nvim";
     systemPackages = with pkgs;
       [
+        # TUI for systemd
+        isd
+
         # Utilities like iostat, pidstat, sar etc.
         sysstat
 
