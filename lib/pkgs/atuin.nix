@@ -52,7 +52,7 @@ in {
     sockets = {
       atuind = {
         description = "Atuin Daemon Socket";
-        partOf = ["atuin-daemon.service"];
+        partOf = ["atuind.service"];
         wantedBy = ["sockets.target"];
         socketConfig = {
           ListenStream = "%t/atuin.sock";
@@ -68,9 +68,9 @@ in {
       atuind = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
-        requires = ["atuin-creds.service" "atuin-daemon.socket"];
+        requires = ["atuind-creds.service" "atuind.socket"];
         after = ["network.target"];
-        partOf = ["atuin-creds.service"];
+        partOf = ["atuind-creds.service"];
         serviceConfig = {
           ExecStart = "${pkgs.atuin}/bin/atuin daemon";
           Restart = "on-failure";
@@ -81,8 +81,8 @@ in {
       atuind-creds = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
-        partOf = ["atuin-creds.service"];
-        before = ["atuin-daemon.service"];
+        partOf = ["atuind-creds.service"];
+        before = ["atuind.service"];
         after = ["network.target"];
         serviceConfig = {
           ExecStart = "${pkgs.writeShellScript "atuin-credentials" ''
