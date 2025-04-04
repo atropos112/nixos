@@ -13,6 +13,7 @@ in {
     enable = true;
     package = pkgs.atuin;
     enableZshIntegration = true;
+    # home manager daemon is meh.
     # daemon = {
     #   enable = true;
     #   logLevel = "info";
@@ -49,7 +50,7 @@ in {
 
   systemd.user = {
     sockets = {
-      atuin-daemon = {
+      atuind = {
         description = "Atuin Daemon Socket";
         partOf = ["atuin-daemon.service"];
         wantedBy = ["sockets.target"];
@@ -64,7 +65,7 @@ in {
     services = {
       # Separated into two services to allow socket to work. Not sure if this is necessary.
 
-      atuin-daemon = {
+      atuind = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
         requires = ["atuin-creds.service" "atuin-daemon.socket"];
@@ -77,7 +78,7 @@ in {
         };
       };
 
-      atuin-creds = {
+      atuind-creds = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
         partOf = ["atuin-creds.service"];

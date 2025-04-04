@@ -15,6 +15,7 @@ _: {
         "systemctl start --user swayidle.service"
         "systemctl enable --now --user avizo.service"
         "systemctl restart --user kopia-backup.service"
+        "element-desktop --disable-gpu --hidden"
 
         # Start applications
         "tailscale-systray"
