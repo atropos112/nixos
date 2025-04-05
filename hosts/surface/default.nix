@@ -22,6 +22,7 @@
             id = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
           };
         };
+        folders.sync.devices = ["giant"]; # Adds to already existing devices
       };
     };
 

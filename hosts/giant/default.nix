@@ -27,6 +27,7 @@
           id = "UWJRHPP-IDPIB5H-W2PZTLG-7NN2RNU-HCV54T5-4LY64YB-NYQX7W3-JRHNGAS";
         };
       };
+      folders.sync.devices = ["surface"]; # Adds to already existing devices
     };
   };
 

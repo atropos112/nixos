@@ -61,7 +61,7 @@ in {
         sync = {
           enable = true;
           id = "ezaua-zrnnt";
-          devices = ["cluster"];
+          devices = ["cluster" "p9pf"];
           path = "/home/atropos/Sync";
         };
       };
