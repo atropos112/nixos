@@ -306,8 +306,8 @@ in {
       # for password managing
       infisical
 
-      # inspection tool for current system state
-      nix-inspect
+      # For viewing json files
+      jless
 
       # LSP for nix
       nixd
