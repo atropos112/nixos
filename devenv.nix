@@ -71,12 +71,6 @@ in {
       '';
       description = "Lint the configuration";
     };
-    nx-search = {
-      exec = ''
-        ${pkgs.nix-search-cli}/bin/nix-search "$@"
-      '';
-      description = "Search for a package";
-    };
     apply-local = {
       exec = ''
         nx-build && sudo nixos-rebuild switch --fast --flake .#$(hostname) || exit 1

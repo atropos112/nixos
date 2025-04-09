@@ -281,6 +281,9 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # Search for nix packages
+      nix-search-cli
+
       natscli
 
       # just in case
