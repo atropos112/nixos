@@ -50,7 +50,9 @@ _: {
       };
 
       memory_usage = {
-        disabled = false;
+        # Disabled as it doesn't understand ZFS Arc
+        # and assumes it the real memory usage
+        disabled = true;
         threshold = 90;
       };
 
