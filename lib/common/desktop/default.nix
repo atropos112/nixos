@@ -149,6 +149,8 @@ in {
     ATRO_SQLITE3_SO_PATH = "${pkgs.sqlite.out}/lib/libsqlite3.so";
 
     KREW_ROOT = "/persistent/home/atropos/.krew";
+
+    NATS_URL = "nats://nats:4222";
   };
 
   security = {
