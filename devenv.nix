@@ -119,6 +119,12 @@ in {
       '';
       description = "Diff the current system with current configuration files";
     };
+    render-topology = {
+      exec = ''
+        nix build .#topology.x86_64-linux.config.output
+      '';
+      description = "Render the topology image";
+    };
     help = {
       exec = ''
         echo

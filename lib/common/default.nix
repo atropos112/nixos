@@ -33,6 +33,7 @@ in {
     ../pkgs/htop.nix
     ../pkgs/attic-client.nix
     ../pkgs/nvim.nix
+    ../pkgs/devenv.nix
     ../pkgs/tmux.nix
     ../pkgs/jq.nix
     ./nix.nix
@@ -156,9 +157,6 @@ in {
 
         # Cached nix-shell calls.
         cached-nix-shell
-
-        # devenv
-        devenv
 
         # allows to kill apps
         killall
