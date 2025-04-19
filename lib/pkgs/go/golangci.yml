@@ -1,72 +1,82 @@
 ---
-# See all the rules and configs on https://revive.run/r#description-of-available-rules
+version: "2"
 run:
-  timeout: 5m
   allow-parallel-runners: true
-issues:
-  exclude-use-default: false
 linters:
-  disable-all: true
+  default: none
   enable:
-    - dupl
-    - errcheck
-    - ginkgolinter
-    - goconst
-    - gocyclo
-    - goimports
-    - gosimple
-    - govet
-    - ineffassign
-    - misspell
-    - nakedret
-    - prealloc
-    - revive
-    - staticcheck
-    - typecheck
-    - unconvert
-    - unparam
-    - unused
     - asciicheck
     - bidichk
     - bodyclose
     - dogsled
+    - dupl
     - dupword
     - durationcheck
+    - errcheck
+    - ginkgolinter
+    - goconst
+    - gocyclo
     - godot
     - godox
-    - gofumpt
+    - govet
+    - ineffassign
     - misspell
+    - nakedret
     - nilerr
     - nlreturn
     - noctx
+    - prealloc
     - predeclared
     - reassign
+    - revive
+    - sloglint
     - spancheck
     - sqlclosecheck
-    - sloglint
+    - staticcheck
     - testifylint
-linters-settings:
-  revive:
-    ignore-generated-header: true
-    severity: warning
-    enable-all-rules: true
-    rules:
-      - name: line-length-limit
-        severity: error
-        arguments: [200]
-      - name: package-comments
-        disabled: true
-      - name: dot-imports
-        disabled: true
-      - name: cyclomatic
-        arguments: [10]
-      - name: struct-tag
-        arguments:
-          - json,inline # Makes `json:",inline"` valid
-      - name: max-public-structs
-        arguments: [500]
-      - name: add-constant
-        arguments:
-          - maxLitCount: '4'
-            allowInts: 0,1,2
-            allowFloats: 0.0,0.,1.0,1.,2.0,2.
+    - unconvert
+    - unparam
+    - unused
+  settings:
+    revive:
+      severity: warning
+      enable-all-rules: true
+      rules:
+        - name: line-length-limit
+          arguments:
+            - 200
+          severity: error
+        - name: package-comments
+          disabled: true
+        - name: dot-imports
+          disabled: true
+        - name: cyclomatic
+          arguments:
+            - 10
+        - name: struct-tag
+          arguments:
+            - json,inline
+        - name: max-public-structs
+          arguments:
+            - 500
+        - name: add-constant
+          arguments:
+            - allowFloats: 0.0,0.,1.0,1.,2.0,2.
+              allowInts: 0,1,2
+              maxLitCount: "4"
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
