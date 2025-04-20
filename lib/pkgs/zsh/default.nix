@@ -99,9 +99,6 @@ in {
           # kitty based
           s = "kitten ssh";
 
-          # Infisical (secret manager)
-          inf = "infisical run --recursive";
-
           # Nix based
           nxsh = ''cached-nix-shell --command zsh -p '';
           ns = ''nix-search'';

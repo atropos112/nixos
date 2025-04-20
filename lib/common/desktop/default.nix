@@ -29,6 +29,7 @@ in {
     # ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix
+    ../../pkgs/infisical.nix
     ../../modules/kopia.nix
     ../../pkgs/syncthing.nix
     ../../pkgs/waybar
@@ -307,9 +308,6 @@ in {
 
       # For developing
       protobuf
-
-      # for password managing
-      infisical
 
       # For viewing json files
       jless
