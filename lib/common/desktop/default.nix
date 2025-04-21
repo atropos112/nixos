@@ -284,6 +284,9 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # For spaced repetition memorisation
+      anki
+
       # Search for nix packages
       nix-search-cli
 

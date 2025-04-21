@@ -84,9 +84,9 @@ in {
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)
           ".local/share/keyrings" # GPG keys for GNOME keyring
           ".local/share/atuin" # Atuin cache TODO: Check if this is necessary
+          ".local/share/Anki2" # Anki cache
 
           ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...
-
           ".cache/direnv" # Very annoying to wait each time
           ".cache/nix" # Sam as with direnv.
         ];

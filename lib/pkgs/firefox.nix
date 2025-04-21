@@ -61,6 +61,9 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
+          # Add custom search engine (to add Searx)
+          "{af37054b-3ace-46a2-ac59-709e4412bec6}"
+
           # Read Aloud:
           "{ddc62400-f22d-4dd3-8b4a-05837de53c2e}"
 
@@ -138,7 +141,7 @@ in {
           ## INFO: Security and privacy settings
 
           # Set default search engine: DuckDuckGo
-          "browser.urlbar.placeholderName" = "DuckDuckGo";
+          "browser.urlbar.placeholderName" = "Searx";
 
           # Set default permissions
           # * Location, Camera, Microphone, VR
