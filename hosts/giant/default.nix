@@ -71,7 +71,7 @@
       "xrandr --output DP-5 --primary" # Letting lutris and other xwayland apps know this is primary
       "element-desktop --disable-gpu"
       "signal-desktop"
-      "zapzap"
+      "sleep 3 && zapzap" # hack to make sure zapzap loads the config...
     ];
 
     monitor = [

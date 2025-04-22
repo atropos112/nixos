@@ -1,7 +1,0 @@
----
-# INFO: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml for full list of rules
-MD013:
-  line_length: 210
-
-MD033: false
-MD045: false

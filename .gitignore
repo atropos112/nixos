@@ -10,3 +10,4 @@ devenv.local.nix
 
 # nix build
 results
+book
