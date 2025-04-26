@@ -10,6 +10,7 @@
   virtualisation.docker = {
     extraPackages = with pkgs; [
       nvidia-container-toolkit
+      libnvidia-container
     ];
     daemon.settings = {
       runtimes = {
