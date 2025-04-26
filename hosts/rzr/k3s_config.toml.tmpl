@@ -27,11 +27,8 @@ version = 2
   config_path = "/var/lib/rancher/k3s/agent/etc/containerd/certs.d"
 
 
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
-  privileged_without_host_devices = false
-  runtime_engine = ""
-  runtime_root = ""
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes."nvidia"]
   runtime_type = "io.containerd.runc.v2"
-
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes."nvidia".options]
-  BinaryName = "/usr/bin/nvidia-container-runtime"
+  BinaryName = "/run/current-system/sw/bin/nvidia-container-runtime.cdi"
+  SystemdCgroup = true
