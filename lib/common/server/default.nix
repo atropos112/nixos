@@ -64,6 +64,21 @@ _: {
   #     ];
   #   };
   # };
+  services = {
+    cron = {
+      enable = true;
+      systemCronJobs = [
+        # INFO: Prunning docker volumes and images on a regular basis (every day at 04:05)
+        # Here flags stand for:
+        # --all = prune all images not just dangling ones
+        # --volumes = prune volumes that are dangling
+        # --force = do not prompt for confirmation
+        # So that any node used to do buildx should be cleaned by this operation.
+        # Do note this operation can be IO heavy (20-30GB of data being wiped at once).
+        "5 4 * * * docker system prune --all --volumes --force"
+      ];
+    };
+  };
 
   boot = {
     kernel.sysctl = {
