@@ -34,8 +34,8 @@ in {
 
   config = mkIf cfg.enable {
     fileSystems = {
-      "/infra/k8s/pipelines" = mkSshFs "atropos@pipelines:/pvc/";
-      "/infra/k8s/backups" = mkSshFs "atropos@pipelines:/backups/";
+      "/infra/k8s/pipelines" = mkSshFs "atropos@9.1.0.23:/pvc/";
+      "/infra/k8s/backups" = mkSshFs "atropos@9.1.0.23:/backups/";
       "/infra/rzr/mnt" = mkSshFs "atropos@rzr:/mnt/";
     };
   };

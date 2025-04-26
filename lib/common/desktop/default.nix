@@ -284,6 +284,9 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      # Clipboard manager
+      cliphist
+
       # For spaced repetition memorisation
       anki
 
