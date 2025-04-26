@@ -113,7 +113,7 @@ in {
           # Have to sudo for access, and have to use tiny-skia as otherwise it shows black window.
           sniff = "sudo -E ICED_BACKEND=tiny-skia sniffnet";
         };
-        initExtra = ''
+        initContent = ''
           # If not running interactively do nothing.
           # This is super important to avoid errors. and also avoid scripts executing with aliases.
           [[ $- != *i* ]] && return

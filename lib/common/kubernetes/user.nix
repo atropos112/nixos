@@ -52,7 +52,7 @@
           kvpn = "kubectl-kubevpn";
           kgpw = "kubectl-klock pods";
         };
-        initExtra = ''
+        initContent = ''
           compdef kubecolor=kubectl
         '';
       };
