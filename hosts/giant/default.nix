@@ -6,7 +6,7 @@
   topology.self = {
     interfaces = {
       eth0.network = "GIANT";
-      tailscale0.addresses = ["100.81.215.11" "giant"];
+      tailscale0.addresses = ["giant"];
     };
     hardware.info = "i9-12900K, 64GB (DDR5), RTX3090";
   };

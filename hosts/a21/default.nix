@@ -11,7 +11,7 @@ _: {
   topology.self = {
     name = "a21";
     interfaces = {
-      tailscale0.addresses = ["100.93.148.41" "a21"];
+      tailscale0.addresses = ["a21"];
       eth0.addresses = ["9.0.0.3"];
     };
     hardware.info = "i3-10100F, 32GB (DDR4), K8s Master";

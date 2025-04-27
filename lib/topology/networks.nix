@@ -65,20 +65,20 @@ in {
       };
 
       op8p = {
-        name = "op8p";
+        name = "p9pf";
         deviceType = "device";
-        hardware.info = "OnePlus 8 Pro";
+        hardware.info = "Pixen 9 Pro Fold";
         interfaces = {
           wifi = {
             network = "WLAN";
-            addresses = ["9.0.0.233"];
+            addresses = ["9.0.0.230"];
             type = "wifi";
           };
           tailscale0 = {
             network = "TAILSCALE";
             type = "wireguard";
             virtual = true;
-            addresses = ["100.64.27.1" "1p8p"];
+            addresses = ["p9pf"];
           };
         };
       };

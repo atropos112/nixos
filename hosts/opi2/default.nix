@@ -6,7 +6,7 @@ _: {
   topology.self = {
     name = "opi2";
     interfaces = {
-      tailscale0.addresses = ["100.100.44.111" "opi2"];
+      tailscale0.addresses = ["opi2"];
       eth0.addresses = ["9.0.0.6"];
     };
   };
