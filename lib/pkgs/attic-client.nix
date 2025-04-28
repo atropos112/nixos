@@ -23,17 +23,36 @@ in {
   # --destroy-cache "atro*" -f ./temp.toml
   # Where temp.toml is the file matching config.toml on the server.
   # You might think you can do "*" instead of "atro" but that will not work.
-  sops.secrets."attic/atropos-token" = {};
+  sops.secrets."attic/atropos-token" = {
+    owner = config.users.users.atropos.name;
+    group = config.users.users.atropos.name;
+  };
 
+  systemd.user.services.attic-connect = {
+    description = "Connect to Attic";
+    after = ["network.target"];
+    wantedBy = ["default.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.writeShellScript "connect-to-attic" ''
+        ATTIC_TOKEN=$(cat ${attic_atropos_token})
+        ${attic_pkgs.attic}/bin/attic login atticd http://atticd $ATTIC_TOKEN
+        ${attic_pkgs.attic}/bin/attic use atro
+      ''}";
+      Restart = "on-failure";
+      RestartSec = "5s";
+    };
+  };
   systemd.services.attic-client = {
     description = "Attic watch store";
     after = ["network.target"];
     wantedBy = ["default.target"];
     serviceConfig = {
       ExecStart = "${pkgs.writeShellScript "watch-store" ''
-        #!/run/current-system/sw/bin/bash
         ATTIC_TOKEN=$(cat ${attic_atropos_token})
         ${attic_pkgs.attic}/bin/attic login atticd http://atticd $ATTIC_TOKEN
+        ${attic_pkgs.attic}/bin/attic use atro
         ${attic_pkgs.attic}/bin/attic watch-store atticd:atro
       ''}";
       Restart = "on-failure";

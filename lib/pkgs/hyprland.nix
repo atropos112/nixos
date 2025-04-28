@@ -7,6 +7,10 @@ _: {
   atro.hyprland = {
     enable = true;
     baseSettings = {
+      ecosystem = {
+        no_update_news = true;
+      };
+
       exec-once = [
         # Autostart
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
