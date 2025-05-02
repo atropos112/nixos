@@ -282,6 +282,13 @@ in {
   programs.fuse.userAllowOther = true;
 
   environment.systemPackages = with pkgs; [
+    # Android mounting tool
+    # Can run with:
+    # mkdir temp
+    # go-mtpfs -android temp
+    # Once done, Ctrl + C and umount temp
+    go-mtpfs
+
     # Clipboard manager
     cliphist
 
