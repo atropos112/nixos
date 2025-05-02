@@ -1,5 +1,6 @@
-_: {
+{inputs, ...}: {
   imports = [
+    inputs.nixos-hardware.nixosModules.microsoft-surface-common
     ../../lib/modules/zfs
     ../../lib/modules/boot.nix
   ];

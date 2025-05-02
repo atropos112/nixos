@@ -1,11 +1,9 @@
 {
   pkgs,
-  inputs,
   lib,
   ...
 }: {
   imports = [
-    inputs.nixos-hardware.nixosModules.microsoft-surface-common
     ./hardware.nix
     ../../lib/common/desktop
   ];
