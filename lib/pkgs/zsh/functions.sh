@@ -30,6 +30,10 @@ function rebase-giant {
 	rsync -av --delete /home/atropos/.mozilla/ giant:/persistent/home/atropos/.mozilla
 }
 
+function refresh-devenvs {
+	find /home/atropos/projects -type d -exec test -f {}/.devenv.flake.nix \; -print -exec bash -c "cd {} && devenv shell ls" \;
+}
+
 function sssh {
 	/run/current-system/sw/bin/mosh "$@" -- tmux new -As atropos
 }
