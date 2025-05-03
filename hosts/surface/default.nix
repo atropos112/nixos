@@ -36,7 +36,7 @@
       # /sys/devices/system/cpu/cpu4/cpufreq/energy_performance_available_preferences
       # And they are:
       # default performance balance_performance balance_power power
-      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
 
       USB_AUTOSUSPEND = 1;
