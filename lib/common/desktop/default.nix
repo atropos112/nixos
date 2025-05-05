@@ -330,8 +330,6 @@ in {
 
     # To mount remote directories
     sshfs
-    # Music player
-    feishin
 
     vscode-langservers-extracted
 

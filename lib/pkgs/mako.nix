@@ -12,22 +12,13 @@ in {
     package = pkgs.mako;
     # Got to have it manually as opposed to Stylix
     # Because Stylix config comes first and has no timeout...
-    extraConfig = lib.mkForce ''
-      default-timeout=3000
-      ignore-timeout=1
-
-      [urgency=low]
-      background-color=#${colors.base00}${makoOpacity}
-      border-color=#${colors.base0D}
-      text-color=#${colors.base0A}
-      default-timeout=3000
-
-      [urgency=high]
-      background-color=#${colors.base00}${makoOpacity}
-      border-color=#${colors.base0D}
-      text-color=#${colors.base08}
-      default-timeout=5000
-    '';
+    settings = lib.mkForce {
+      default-timeout = 3000;
+      ignore-timeout = 1;
+      background-color = "#${colors.base00}${makoOpacity}";
+      border-color = "#${colors.base0D}";
+      text-color = "#${colors.base0A}";
+    };
   };
 
   # Notification daemon and cli tool
