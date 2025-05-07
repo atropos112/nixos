@@ -11,3 +11,6 @@ devenv.local.nix
 # nix build
 results
 book
+
+# docs related
+docs/.venv

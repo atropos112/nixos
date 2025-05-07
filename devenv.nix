@@ -36,7 +36,8 @@ in {
   scripts = {
     run-docs = {
       exec = writeShellScript "run-docs" ''
-        mdbook serve --hostname 0.0.0.0
+        cd docs
+        ${pkgs.uv}/bin/uv run mkdocs serve -a 0.0.0.0:8000
       '';
       description = "Run the documentation server";
     };
