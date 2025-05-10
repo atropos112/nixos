@@ -90,6 +90,7 @@ in {
       enable = true;
       runAs = "root";
       path = "/persistent/";
+      ignorePaths = ["Sync" ".venv" ".cache" ".devenv"];
     };
   };
 

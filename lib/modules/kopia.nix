@@ -35,8 +35,12 @@ with lib; let
   kopiaCreateRepoCmd = ''
     ${kopia} --log-level=debug repository create s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls
   '';
+
+  ignorePaths = lib.forEach cfg.ignorePaths (path: ''--add-ignore="${path}"'');
+  ignorePathsConcated = lib.concatMapStrings (x: " " + x) ignorePaths;
+  kopiaSetupPolicyPrefix = ''${kopia} policy set ${cfg.path} --snapshot-time-crontab="0 */6 * * *" --compression="pgzip-best-compression" '';
   kopiaSetupPolicy = ''
-    ${kopia} policy set ${cfg.path} --add-ignore="Sync" --snapshot-time-crontab="0 */6 * * *" --compression="pgzip-best-compression"
+    ${kopiaSetupPolicyPrefix} ${ignorePathsConcated}
   '';
 
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
@@ -104,6 +108,10 @@ in {
     };
     path = mkOption {
       type = types.str;
+    };
+    ignorePaths = mkOption {
+      type = types.listOf types.str;
+      default = [];
     };
   };
 
