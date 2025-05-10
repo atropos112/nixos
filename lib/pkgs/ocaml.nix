@@ -5,4 +5,14 @@
     ocaml
     ocamlPackages.utop
   ];
+
+  home-manager.users.atropos = {
+    programs = {
+      zsh = {
+        initContent = ''
+          eval $(opam env)
+        '';
+      };
+    };
+  };
 }

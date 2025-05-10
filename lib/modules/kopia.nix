@@ -36,7 +36,7 @@ with lib; let
     ${kopia} --log-level=debug repository create s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls
   '';
   kopiaSetupPolicy = ''
-    ${kopia} policy set ${cfg.path} --add-ignore="Sync" --snapshot-time-crontab="0 */6 * * *" --compression="zstd-better-compression"
+    ${kopia} policy set ${cfg.path} --add-ignore="Sync" --snapshot-time-crontab="0 */6 * * *" --compression="pgzip-best-compression"
   '';
 
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
