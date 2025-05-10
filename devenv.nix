@@ -52,7 +52,7 @@ in {
 
     apply-local = {
       exec = writeShellScript "apply-local" ''
-        nx-build && sudo nixos-rebuild switch --fast --flake .#$(hostname) || exit 1
+        build && sudo nixos-rebuild switch --fast --flake .#$(hostname) || exit 1
       '';
       description = "Rebuild the system";
     };

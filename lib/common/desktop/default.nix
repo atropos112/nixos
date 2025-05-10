@@ -36,6 +36,7 @@ in {
     ../../pkgs/mako.nix
     ../../pkgs/tofi
     ../../pkgs/python.nix
+    ../../pkgs/ocaml.nix
     ../../pkgs/rust.nix
     ../../pkgs/go
     ../../pkgs/zig.nix
