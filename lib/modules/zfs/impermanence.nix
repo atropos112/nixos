@@ -68,6 +68,7 @@ in {
           "projects" # Code projects
           "nixos" # NixOS config
           ".mozilla" # Firefox config
+          ".opam" # Opam cache
 
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
