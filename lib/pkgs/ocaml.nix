@@ -10,10 +10,10 @@
 
   home-manager.users.atropos = {
     programs = {
-      zsh = {
-        initContent = ''
-          eval $(opam env)
-        '';
+      opam = {
+        enable = true;
+        package = pkgs.opam;
+        enableZshIntegration = true;
       };
     };
   };
