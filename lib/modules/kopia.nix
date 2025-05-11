@@ -15,8 +15,8 @@ with lib; let
       else "/home/" + cfg.runAs;
   };
 
-  s3Endpoint = "opiz2:9000";
-  s3BucketName = "kopiabackup";
+  s3Endpoint = "rzr:9000";
+  s3BucketName = "kopia";
   echo = "${pkgs.coreutils}/bin/echo";
   sleep = "${pkgs.coreutils}/bin/sleep";
   rg = "${pkgs.ripgrep}/bin/rg";
@@ -48,8 +48,8 @@ with lib; let
     set -xu
 
     # Initialize variables
-    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/opiz2/keyId".path})
-    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/opiz2/key".path})
+    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/rzr/keyId".path})
+    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/rzr/key".path})
     KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
     KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
     KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
@@ -120,10 +120,10 @@ in {
       "kopia/password" = {
         owner = cfg.runAs;
       };
-      "kopia/opiz2/keyId" = {
+      "kopia/rzr/keyId" = {
         owner = cfg.runAs;
       };
-      "kopia/opiz2/key" = {
+      "kopia/rzr/key" = {
         owner = cfg.runAs;
       };
       "kopia/gui/password" = {
