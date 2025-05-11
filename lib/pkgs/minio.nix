@@ -1,4 +1,11 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    minio-client
+  ];
   sops.secrets = {
     "minio/rootCredentials" = {};
   };
