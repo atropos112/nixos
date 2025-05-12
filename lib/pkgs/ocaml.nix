@@ -4,8 +4,9 @@
     dune_3
     ocaml
     ocamlPackages.utop
-    ocamlPackages.ocaml-lsp
-    ocamlPackages.earlybird
+    # Getting those from nvim
+    # ocamlPackages.ocaml-lsp
+    # ocamlPackages.earlybird
   ];
 
   home-manager.users.atropos = {
