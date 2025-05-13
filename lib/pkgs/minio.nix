@@ -13,6 +13,7 @@
   services = {
     minio = {
       enable = true;
+      package = pkgs.minio;
       dataDir = [
         "/mnt/minio"
       ];
