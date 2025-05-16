@@ -20,7 +20,7 @@ kubelet-arg:
   - feature-gates=StatefulSetAutoDeletePVC=true
   # More aggressive GC
   - image-gc-high-threshold=50
-  - image-gc-low-threshold=40
+  - image-gc-low-threshold=10
   - maximum-dead-containers=0
 kube-controller-arg:
   - node-monitor-period=20s
