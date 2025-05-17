@@ -18,7 +18,6 @@ in {
       trusted-users = ["root" "atropos"];
       auto-optimise-store = true;
       substituters = [
-        "http://ncps" # My Nix cache server
         "http://atticd/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
         "https://nix-community.cachix.org" # Nix community Cachix server
@@ -27,7 +26,6 @@ in {
       ];
 
       trusted-public-keys = [
-        "ncps:xsiyS01PDynOHMHXDjqmdHUjuFtE5bOKqXPQnPAranU=" # My Nix cache server to get this simply curl http://ncps
         "atro:aPnYaVBlVKTG78gDHVSOXcQhlCgjrAP+PWofeLraISY=" # My attic server
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" # Nix community Cachix server

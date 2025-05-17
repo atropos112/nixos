@@ -4,7 +4,7 @@ _: {
   ];
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/0ae04819-e465-4058-ac8d-09c4be8eff99";
+      device = "/dev/disk/by-uuid/d984a3cc-a32d-4fdf-997c-a69a9b1f9175";
       fsType = "ext4";
     };
     "/mnt/ssd1" = {
@@ -16,14 +16,14 @@ _: {
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/12CE-A600";
+      device = "/dev/disk/by-uuid/D09B-864F";
       fsType = "vfat";
     };
   };
 
   swapDevices = [
     {
-      device = "/dev/disk/by-uuid/af4be6bd-39a8-48a0-ad1e-e6c3338866f4";
+      device = "/dev/disk/by-uuid/8e92398e-7ce0-42c6-bf50-6d72b960ab6c";
     }
   ];
 }
