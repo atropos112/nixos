@@ -1,2 +1,2 @@
 [allowlist]
-files = ['lib/modules/zfs-root/notSoPrivatePrivateKey']
+paths = ['lib/modules/zfs-root/notSoPrivatePrivateKey', 'results']

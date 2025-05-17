@@ -4,7 +4,8 @@
   inputs,
   ...
 }: let
-  inherit (inputs.atrolib.lib) writeShellScript helpScript;
+  inherit (inputs.atrolib.lib) listScripts writeShellScript;
+  inherit (inputs.atrolib.lib.devenv.scripts) help runDocs buildDocs;
 in {
   packages = [
     inputs.colmena.packages.${pkgs.system}.colmena
@@ -15,16 +16,11 @@ in {
     lsp.package = pkgs.nil;
   };
 
-  pre-commit.hooks = {
+  git-hooks.hooks = {
+    inherit (inputs.atrolib.lib.devenv.git-hooks.hooks) gitleaks markdownlint;
     deadnix.enable = true;
     alejandra.enable = true;
     shellcheck.enable = true;
-    # gitleaks = {
-    #   enable = true;
-    #   package = pkgs.gitleaks;
-    #   entry = "${pkgs.gitleaks}/bin/gitleaks detect --verbose";
-    #   pass_filenames = false;
-    # };
     lint = {
       enable = true;
       package = pkgs.statix;
@@ -34,13 +30,9 @@ in {
   };
 
   scripts = {
-    run-docs = {
-      exec = writeShellScript "run-docs" ''
-        cd docs
-        ${pkgs.uv}/bin/uv run mkdocs serve -a 0.0.0.0:8000
-      '';
-      description = "Run the documentation server";
-    };
+    help = help config.scripts;
+    run-docs = runDocs "docs";
+    build-docs = buildDocs "docs";
 
     lint = {
       exec = writeShellScript "lint" ''
@@ -108,16 +100,11 @@ in {
       '';
       description = "Render the topology image";
     };
-
-    help = {
-      exec = helpScript config.scripts;
-      description = "Show this help message";
-    };
   };
 
   enterTest = ''
     nix flake check
   '';
 
-  enterShell = helpScript config.scripts;
+  enterShell = listScripts config.scripts;
 }
