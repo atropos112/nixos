@@ -5,10 +5,10 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1747586021,
+        "lastModified": 1747588890,
         "owner": "atropos112",
         "repo": "atronixlib",
-        "rev": "dbba19cecdd384de864a1c25405a40f486a442fb",
+        "rev": "e793d389b2ba09c27992c8aa7b82af2afc2a647b",
         "type": "github"
       },
       "original": {

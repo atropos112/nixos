@@ -10,7 +10,7 @@ discovery.kubernetes "k8s_pods" {
 
 prometheus.scrape "k8s_pods" {
   targets    = discovery.kubernetes.k8s_pods.targets
-  forward_to = [prometheus.relabel.default.receiver]
+  forward_to = [otelcol.receiver.prometheus.default.receiver]
 }
 
 loki.source.kubernetes "k8s_pods" {

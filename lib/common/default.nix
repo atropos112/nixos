@@ -106,11 +106,6 @@ in {
     };
   };
 
-  environment.sessionVariables = {
-    "WLR_NO_HARDWARE_CURSORS" = "1";
-    "GOPATH" = "${homeDirectory}/.go";
-  };
-
   # Docker support
   virtualisation.docker = {
     enable = true;
@@ -119,7 +114,17 @@ in {
 
   environment = {
     etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-    variables.EDITOR = "nvim";
+
+    sessionVariables = {
+      "WLR_NO_HARDWARE_CURSORS" = "1";
+      "GOPATH" = "${homeDirectory}/.go";
+
+      FZF_BASE = "${pkgs.fzf}/bin/fzf";
+
+      EDITOR = "nvim";
+      SYSTEMD_EDITOR = "nvim";
+    };
+
     systemPackages = with pkgs;
       [
         # TUI for systemd

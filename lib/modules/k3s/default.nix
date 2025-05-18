@@ -34,6 +34,11 @@ in {
       "k3s/tracing-config.yaml".source = ./tracing-config.yaml;
     };
 
+    # Overriding the default config to include docker for docker socket access
+    systemd.services.alloy.Environment = lib.mkForce {
+      K8S_NODE_NAME = nodeName;
+    };
+
     environment.sessionVariables = {
       K8S_NODE_NAME = nodeName;
     };

@@ -38,7 +38,6 @@ prometheus.exporter.unix "default" {
     "meminfo_numa",
     "network_route",
     "processes",
-    "systemd",
     "sysctl",
     "tcpstat",
   ]
@@ -51,7 +50,7 @@ prometheus.scrape "unix" {
 }
 
 prometheus.relabel "default" {
-	forward_to = [otelcol.receiver.prometheus.default.receiver]
+    forward_to = [otelcol.receiver.prometheus.default.receiver]
 
     rule {
         action       = "replace"
