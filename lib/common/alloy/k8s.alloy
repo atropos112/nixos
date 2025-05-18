@@ -3,7 +3,7 @@
 // Limit the scope of the discovery to the current node
 discovery.kubernetes "k8s_pods" {
   role = "pod"
-  kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
+  kubeconfig_file = "/run/secrets/kubeconfig"
   selectors {
     role = "pod"
     field = "spec.nodeName=" + coalesce(sys.env("K8S_NODE_NAME"), constants.hostname)
@@ -22,7 +22,7 @@ loki.source.kubernetes "k8s_pods" {
   forward_to = [otelcol.receiver.loki.default.receiver]
 
   client {
-    kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
+    kubeconfig_file = "/run/secrets/kubeconfig"
   }
 }
 
@@ -31,6 +31,6 @@ loki.source.kubernetes_events "k8s_events" {
   job_name = "k8s_events"
 
   client {
-    kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
+    kubeconfig_file = "/run/secrets/kubeconfig"
   }
 }
