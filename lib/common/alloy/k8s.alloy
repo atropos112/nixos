@@ -1,3 +1,5 @@
+// Kubernetes specific config.
+
 // Limit the scope of the discovery to the current node
 discovery.kubernetes "k8s_pods" {
   role = "pod"
@@ -8,10 +10,12 @@ discovery.kubernetes "k8s_pods" {
   }
 }
 
-prometheus.scrape "k8s_pods" {
-  targets    = discovery.kubernetes.k8s_pods.targets
-  forward_to = [otelcol.receiver.prometheus.default.receiver]
-}
+//Getting bunch of errors like:
+// May 18 18:56:55 atroa21 alloy[26185]: ts=2025-05-18T17:56:55.952574246Z level=warn msg="Failed to scrape Prometheus endpoint" component_path=/ component_id=otelcol.receiver.prometheus.default scrape_timestamp=1747591015951 target_labels="{__name__=\"up\", instance=\"10.0.1.203:9502\", job=\"prometheus.scrape.k8s_pods\"}"
+// prometheus.scrape "k8s_pods" {
+//  targets    = discovery.kubernetes.k8s_pods.targets
+//  forward_to = [otelcol.receiver.prometheus.default.receiver]
+// }
 
 loki.source.kubernetes "k8s_pods" {
   targets    = discovery.kubernetes.k8s_pods.targets

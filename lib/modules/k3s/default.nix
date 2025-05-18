@@ -35,7 +35,7 @@ in {
     };
 
     # Overriding the default config to include docker for docker socket access
-    systemd.services.alloy.Environment = lib.mkForce {
+    systemd.services.alloy.environment = lib.mkForce {
       K8S_NODE_NAME = nodeName;
     };
 
