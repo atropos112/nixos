@@ -304,8 +304,7 @@ in {
 
     natscli
 
-    # just in case
-    chromium
+    # Net sniffer
     sniffnet
 
     signal-desktop

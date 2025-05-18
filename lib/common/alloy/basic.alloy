@@ -1,0 +1,128 @@
+// OTEL
+otelcol.exporter.otlp "default" {
+  client {
+    endpoint = "otel:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+otelcol.processor.batch "default" {
+  output {
+    metrics = [otelcol.exporter.otlp.default.input]
+    traces = [otelcol.exporter.otlp.default.input]
+    logs = [otelcol.exporter.otlp.default.input]
+  }
+}
+
+otelcol.receiver.prometheus "default" {
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+  }
+}
+
+otelcol.receiver.loki "default" {
+  output {
+    logs = [otelcol.processor.batch.default.input]
+  }
+}
+
+// METRICS
+
+prometheus.exporter.unix "default" {
+  enable_collectors = [
+    "devstat",
+    "ethtool",
+    "lnstat",
+    "meminfo_numa",
+    "network_route",
+    "processes",
+    "systemd",
+    "sysctl",
+    "tcpstat",
+  ]
+  include_exporter_metrics = true
+}
+
+prometheus.scrape "unix" {
+  forward_to = [prometheus.relabel.default.receiver]
+  targets = prometheus.exporter.unix.default.targets
+}
+
+prometheus.relabel "default" {
+	forward_to = [otelcol.receiver.prometheus.default.receiver]
+
+    rule {
+        action       = "replace"
+        target_label = "hostname"
+        replacement  = constants.hostname
+    }
+}
+
+// LOGS
+
+discovery.docker "linux" {
+  host = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+}
+
+loki.source.docker "default" {
+  host       = "unix:///var/run/docker.sock"
+  relabel_rules = loki.relabel.docker.rules
+  targets    = discovery.docker.linux.targets
+  forward_to = [otelcol.receiver.loki.default.receiver]
+}
+
+
+loki.relabel "docker" {
+	forward_to = []
+	rule {
+		target_label = "job"
+		replacement = "docker"
+	}
+
+
+	rule {
+		target_label = "hostname"
+		replacement = constants.hostname
+	}
+
+
+	rule {
+		source_labels = ["__meta_docker_container_name"]
+		regex = "/(.*)"
+		target_label = "service_name"
+	}
+
+
+	rule {
+		source_labels = ["__meta_docker_container_log_stream"]
+		target_label = "stream"
+	}
+}
+
+loki.relabel "journal" {
+	forward_to = []
+	rule {
+		target_label = "job"
+		replacement = "journal"
+	}
+
+
+	rule {
+		target_label = "hostname"
+		replacement = constants.hostname
+	}
+
+	rule {
+		source_labels = ["__journal__systemd_unit"]
+		target_label  = "service_name"
+	}
+}
+
+loki.source.journal "read"  {
+	relabel_rules = loki.relabel.journal.rules
+	labels        = {component = "loki.source.journal"}
+	forward_to = [otelcol.receiver.loki.default.receiver]
+}

@@ -40,6 +40,7 @@ in {
     ./identities/users.nix
     ./identities/known_hosts.nix
     ./networking.nix
+    ./alloy
   ];
 
   # To avoid the "too many open files" error

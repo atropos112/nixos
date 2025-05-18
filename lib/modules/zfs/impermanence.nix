@@ -84,7 +84,7 @@ in {
           ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
           ".local/share/zoxide" # Zoxide cache (otherwise its useless)
           ".local/share/keyrings" # GPG keys for GNOME keyring
-          ".local/share/atuin" # Atuin cache TODO: Check if this is necessary
+          ".local/share/atuin" # Atuin cache
           ".local/share/Anki2" # Anki cache
 
           ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...

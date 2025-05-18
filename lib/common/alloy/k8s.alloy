@@ -1,0 +1,24 @@
+// Limit the scope of the discovery to the current node
+discovery.kubernetes "k8s_pods" {
+  role = "pod"
+  kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
+  selectors {
+    role = "pod"
+    field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
+  }
+}
+
+prometheus.scrape "k8s_pods" {
+  targets    = discovery.kubernetes.k8s_pods.targets
+  forward_to = [prometheus.relabel.default.receiver]
+}
+
+loki.source.kubernetes "k8s_pods" {
+  targets    = discovery.kubernetes.pods.targets
+  forward_to = [otelcol.receiver.loki.default.receiver]
+}
+
+loki.source.kubernetes_events "<LABEL>" {
+  forward_to = [otelcol.receiver.loki.default.receiver]
+  job_name = "k8s_events"
+}
