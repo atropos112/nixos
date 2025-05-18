@@ -4,7 +4,7 @@ discovery.kubernetes "k8s_pods" {
   kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
   selectors {
     role = "pod"
-    field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
+    field = "spec.nodeName=" + coalesce(sys.env("K8S_NODE_NAME"), constants.hostname)
   }
 }
 
@@ -14,11 +14,19 @@ prometheus.scrape "k8s_pods" {
 }
 
 loki.source.kubernetes "k8s_pods" {
-  targets    = discovery.kubernetes.pods.targets
+  targets    = discovery.kubernetes.k8s_pods.targets
   forward_to = [otelcol.receiver.loki.default.receiver]
+
+  client {
+    kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
+  }
 }
 
-loki.source.kubernetes_events "<LABEL>" {
+loki.source.kubernetes_events "k8s_events" {
   forward_to = [otelcol.receiver.loki.default.receiver]
   job_name = "k8s_events"
+
+  client {
+    kubeconfig_file = "/etc/rancher/k3s/k3s.yaml"
+  }
 }

@@ -142,6 +142,7 @@ in {
 
     # Base
     EDITOR = "nvim";
+    SYSTEMD_EDITOR = "nvim";
     VISUAL = "nvim";
 
     # Hyprland scaling
