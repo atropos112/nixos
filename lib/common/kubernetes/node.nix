@@ -1,15 +1,4 @@
-_: let
-  inherit (builtins) readFile concatStringsSep toFile;
-  # Read both files and merge them.
-  basicAlloy = readFile ../alloy/basic.alloy;
-  k8sAlloy = readFile ../alloy/k8s.alloy;
-
-  mergedAlloy = concatStringsSep "\n" [
-    basicAlloy
-    k8sAlloy
-  ];
-  mergedAlloyFile = toFile "merged.alloy" mergedAlloy;
-in {
+_: {
   imports = [
     ./longhorn.nix
     ../../modules/k3s
@@ -37,8 +26,4 @@ in {
       "key" = "K3s";
     }
   ];
-
-  services.alloy = {
-    configPath = mergedAlloyFile;
-  };
 }

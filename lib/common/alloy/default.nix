@@ -11,7 +11,7 @@
       "--disable-reporting"
     ];
     package = pkgs.grafana-alloy;
-    configPath = lib.mkDefault ./basic.alloy;
+    configPath = ./config.alloy;
   };
 
   # Overriding the default config to include docker for docker socket access
