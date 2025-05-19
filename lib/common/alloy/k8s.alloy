@@ -6,7 +6,7 @@ discovery.kubernetes "k8s_pods" {
   kubeconfig_file = "/run/secrets/kubeconfig"
   selectors {
     role = "pod"
-    field = "spec.nodeName=" + coalesce(sys.env("K8S_NODE_NAME"), constants.hostname)
+    field = "spec.nodeName=" + sys.env("K8S_NODE_NAME")
   }
 }
 
