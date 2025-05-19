@@ -32,14 +32,16 @@ otelcol.receiver.loki "default" {
 
 prometheus.exporter.unix "default" {
   enable_collectors = [
-    "devstat",
+    "cpu",
+    "disk",
     "ethtool",
-    "lnstat",
-    "meminfo_numa",
-    "network_route",
-    "processes",
+    "filesystem",
+    "hwmon",
+    "netstat",
+    "perf",
+    "powersupply",
     "sysctl",
-    "tcpstat",
+    "vmstat",
   ]
   include_exporter_metrics = true
 }
