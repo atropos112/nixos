@@ -49,6 +49,9 @@ prometheus.exporter.unix "default" {
 prometheus.scrape "unix" {
   forward_to = [prometheus.relabel.default.receiver]
   targets = prometheus.exporter.unix.default.targets
+  job_name = "node-exporter" // Make it compatible with dashboards etc.
+  scrape_interval = "5s"
+  scrape_timeout = "4s"
 }
 
 prometheus.relabel "default" {
