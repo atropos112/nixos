@@ -61,6 +61,8 @@
     resumeCommands = ''
       ${pkgs.kmod}/bin/modprobe -r igc
       ${pkgs.kmod}/bin/modprobe igc
+      ${pkgs.networkmanager}/bin/nmcli networking on
+      ${pkgs.networkmanager}/bin/nmcli connection up eth0
     '';
   };
 
