@@ -280,6 +280,10 @@ in {
   programs.fuse.userAllowOther = true;
 
   environment.systemPackages = with pkgs; [
+    # VPN clients
+    protonvpn-gui
+    protonvpn-cli
+
     cachix
 
     # Android mounting tool
