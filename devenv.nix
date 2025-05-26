@@ -7,6 +7,7 @@
   inherit (inputs.atrolib.lib) listScripts writeShellScript;
   inherit (inputs.atrolib.lib.devenv.scripts) help runDocs buildDocs;
 in {
+  devenv.warnOnNewVersion = false;
   packages = [
     inputs.colmena.packages.${pkgs.system}.colmena
   ];

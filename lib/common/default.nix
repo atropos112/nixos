@@ -123,6 +123,7 @@ in {
 
       EDITOR = "nvim";
       SYSTEMD_EDITOR = "nvim";
+      DEVENV_TASKS_QUIET = "true"; # No "Running tasks     devenv:enterShell" outputs
     };
 
     systemPackages = with pkgs;
