@@ -28,7 +28,6 @@ in {
     # ../../pkgs/vscode.nix
     ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix
-    ../../pkgs/infisical.nix
     ../../modules/kopia.nix
     ../../pkgs/syncthing.nix
     ../../pkgs/waybar
