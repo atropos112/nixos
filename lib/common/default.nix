@@ -116,8 +116,8 @@ in {
     etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
 
     sessionVariables = {
-      "WLR_NO_HARDWARE_CURSORS" = "1";
-      "GOPATH" = "${homeDirectory}/.go";
+      WLR_NO_HARDWARE_CURSORS = "1";
+      GOPATH = "${homeDirectory}/.go";
 
       FZF_BASE = "${pkgs.fzf}/bin/fzf";
 

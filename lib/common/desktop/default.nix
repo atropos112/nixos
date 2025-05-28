@@ -46,6 +46,7 @@ in {
     ../../pkgs/s3.nix
     ../../pkgs/jsonnet.nix
     ../../pkgs/zeal
+    ../identities/infisical.nix
   ];
 
   stylix = {
