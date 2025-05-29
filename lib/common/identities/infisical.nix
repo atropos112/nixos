@@ -23,6 +23,15 @@
 
     infisical secrets set ${infParams env} --path "$1" "$2";
   ''}";
+
+  infDel = env: "${pkgs.writeShellScript "inf-del" ''
+    if [ $# -ne 2 ]; then
+      echo "Error: You are expected to provide path (first arg) and key=value (second arg) to set in infisical. For example '/event_driven ATRO_TEST_VALUE'."
+      exit 1
+    fi
+
+    infisical secrets delete ${infParams env} --path "$1" "$2";
+  ''}";
 in {
   environment.systemPackages = with pkgs; [
     infisical
@@ -50,6 +59,8 @@ in {
       inf-list-dirs-as-k8s = infisicalScriptWithPath "secrets folders get" "k8s";
       inf-get = infisicalScriptWithPath "export" "local";
       inf-get-as-k8s = infisicalScriptWithPath "export" "k8s";
+      inf-del = infDel "local";
+      inf-del-as-k8s = infDel "k8s";
       inf-set = infSet "local";
       inf-set-as-k8s = infSet "k8s";
       inf-set-both = "${pkgs.writeShellScript "inf-set-both" ''
