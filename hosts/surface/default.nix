@@ -26,22 +26,22 @@ in {
     buildMachines = buildMachinesMap [
       {
         hostName = "rzr";
-        maxJobs = 1;
+        maxJobs = 3;
         speedFactor = 4;
       }
       {
         hostName = "a21";
-        maxJobs = 1;
-        speedFactor = 2;
+        maxJobs = 2;
+        speedFactor = 3;
       }
       {
         hostName = "smol";
-        maxJobs = 1;
+        maxJobs = 2;
         speedFactor = 2;
       }
       {
         hostName = "giant";
-        maxJobs = 2;
+        maxJobs = 4;
         speedFactor = 8;
       }
     ];
