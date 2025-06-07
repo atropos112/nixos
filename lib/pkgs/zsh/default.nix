@@ -80,10 +80,9 @@ in {
 
           fzkill = "kill -9 $(ps -ef | fzf | awk '{print $2}')";
           # vim
-          # nnvim is function made in functions.nix
-          v = "nnvim";
-          vim = "nnvim";
-          vi = "nnvim";
+          v = "nvim";
+          vim = "nvim";
+          vi = "nvim";
 
           # templates
           template-python = "copier copy git@github.com:atropos112/template-python-pkg.git";

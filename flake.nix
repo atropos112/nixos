@@ -18,11 +18,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    atro-nvim = {
-      url = "github:atropos112/nvim";
-      flake = false;
-    };
-
     # Hyprland packages
     # Do not override the nixpkgs input in them as it will be built with different nxipkgs than it was tested with and
     # it will bust the cache on the hyprland cachix server.

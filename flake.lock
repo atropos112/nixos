@@ -49,22 +49,6 @@
         "type": "github"
       }
     },
-    "atro-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1747093989,
-        "narHash": "sha256-1ERhfSAKZIi+Bdf2Ay0ofzbTCMBOv3YYJu4Hq99GqEE=",
-        "owner": "atropos112",
-        "repo": "nvim",
-        "rev": "5a2773304a093e89ffb29fbcacf0132ea3de0d60",
-        "type": "github"
-      },
-      "original": {
-        "owner": "atropos112",
-        "repo": "nvim",
-        "type": "github"
-      }
-    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -1692,7 +1676,6 @@
     },
     "root": {
       "inputs": {
-        "atro-nvim": "atro-nvim",
         "colmena": "colmena",
         "devenv": "devenv",
         "disko": "disko",

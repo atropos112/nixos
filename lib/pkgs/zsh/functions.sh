@@ -114,14 +114,3 @@ gpbump() {
 
 	echo "New tag created: $new_tag"
 }
-
-function nnvim() {
-	# Check if ATRO_NIX_STORE_NVIM exists and if ~/.config/nvim/init.lua doesn't exists
-	if [[ -n "$ATRO_NIX_STORE_NVIM" && ! -f "$HOME/.config/nvim/init.lua" ]]; then
-		# Run nvim with the specified configuration
-		NVIM_APPNAME="nix-store-nvim" nvim "$@"
-	else
-		# Run nvim with the default configuration
-		nvim "$@"
-	fi
-}
