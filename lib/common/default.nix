@@ -6,7 +6,6 @@
   ...
 }: let
   nixpkgs = inputs.nixpkgs-unstable;
-  attic_pkgs = inputs.attic.packages.${pkgs.system};
 
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
@@ -126,116 +125,114 @@ in {
       DEVENV_TASKS_QUIET = "true"; # No "Running tasks     devenv:enterShell" outputs
     };
 
-    systemPackages = with pkgs;
-      [
-        # TUI for systemd
-        isd
+    systemPackages = with pkgs; [
+      # TUI for systemd
+      isd
 
-        # Utilities like iostat, pidstat, sar etc.
-        sysstat
+      # Utilities like iostat, pidstat, sar etc.
+      sysstat
 
-        # Containerization
-        dive
-        docker
-        docker-compose
+      # Containerization
+      dive
+      docker
+      docker-compose
 
-        lnav
-        viddy # watch replacement
-        xcp
-        ripgrep
-        gnumake
-        gcc
-        clang
+      lnav
+      viddy # watch replacement
+      xcp
+      ripgrep
+      gnumake
+      gcc
+      clang
 
-        pciutils # lspci
+      pciutils # lspci
 
-        # useful tldr
-        tldr
+      # useful tldr
+      tldr
 
-        # file manager
-        yazi
+      # file manager
+      yazi
 
-        # dns resolving tool (for testing)
-        dig
+      # dns resolving tool (for testing)
+      dig
 
-        # Basic system utilities
-        gnused
-        util-linuxMinimal
+      # Basic system utilities
+      gnused
+      util-linuxMinimal
 
-        # Cached nix-shell calls.
-        cached-nix-shell
+      # Cached nix-shell calls.
+      cached-nix-shell
 
-        # allows to kill apps
-        killall
+      # allows to kill apps
+      killall
 
-        # network bandwidth monitoring
-        bandwhich
+      # network bandwidth monitoring
+      bandwhich
 
-        # storage control
-        duf
-        ncdu
+      # storage control
+      duf
+      ncdu
 
-        # nfs utils (mounting etc.)
-        nfs-utils
+      # nfs utils (mounting etc.)
+      nfs-utils
 
-        # "cat" with syntax highlighting and other fancy stuff, slower than cat though
-        bat
+      # "cat" with syntax highlighting and other fancy stuff, slower than cat though
+      bat
 
-        # VPN mesh network
-        tailscale
+      # VPN mesh network
+      tailscale
 
-        # Resilient SSH alternative
-        mosh
+      # Resilient SSH alternative
+      mosh
 
-        # speed testing
-        speedtest-cli
+      # speed testing
+      speedtest-cli
 
-        # better find
-        fd
+      # better find
+      fd
 
-        # fuzzy finder used by bunch of apps (e.g. telescope in nvim)
-        fzf
+      # fuzzy finder used by bunch of apps (e.g. telescope in nvim)
+      fzf
 
-        # Nice git diff
-        delta
+      # Nice git diff
+      delta
 
-        # grep but faster
-        ripgrep
+      # grep but faster
+      ripgrep
 
-        # Basic CLI downloader
-        wget
+      # Basic CLI downloader
+      wget
 
-        # checking temps and basics
-        lm_sensors
+      # checking temps and basics
+      lm_sensors
 
-        # Setting POSIX commands
-        libcap
+      # Setting POSIX commands
+      libcap
 
-        # Internet interface testing
-        iperf
+      # Internet interface testing
+      iperf
 
-        # bunch of network rules
-        # iptables
+      # bunch of network rules
+      # iptables
 
-        # controlling network interface
-        ethtool
+      # controlling network interface
+      ethtool
 
-        # Allows fancy terminal directory jumping (with memory of where you have been)
-        zoxide
+      # Allows fancy terminal directory jumping (with memory of where you have been)
+      zoxide
 
-        # json diff
-        python312Packages.jsondiff
+      # json diff
+      python312Packages.jsondiff
 
-        # simple apps to show resources
-        onefetch
-        cpufetch
-        ramfetch
+      # simple apps to show resources
+      onefetch
+      cpufetch
+      ramfetch
 
-        # zip and unzip
-        unzip
-        p7zip
-      ]
-      ++ [attic_pkgs.attic];
+      # zip and unzip
+      unzip
+      p7zip
+    ];
   };
 
   services = {

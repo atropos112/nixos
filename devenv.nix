@@ -52,7 +52,7 @@ in {
 
     build = {
       exec = writeShellScript "build" ''
-        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel -L --extra-experimental-features pipe-operators
+        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel --fallback -L --extra-experimental-features pipe-operators
       '';
       description = "Build the system";
     };

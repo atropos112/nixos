@@ -1,14 +1,13 @@
 {
-  inputs,
   pkgs,
   config,
   ...
 }: let
-  attic_pkgs = inputs.attic.packages.${pkgs.system};
   attic_atropos_token = config.sops.secrets."attic/atropos-token".path;
+  attic = "${pkgs.attic-client}/bin/attic";
 in {
-  environment.systemPackages = [
-    attic_pkgs.attic
+  environment.systemPackages = with pkgs; [
+    attic-client
   ];
 
   # INFO: To get this token I ran
@@ -37,8 +36,8 @@ in {
       RemainAfterExit = true;
       ExecStart = "${pkgs.writeShellScript "connect-to-attic" ''
         ATTIC_TOKEN=$(cat ${attic_atropos_token})
-        ${attic_pkgs.attic}/bin/attic login atticd http://atticd $ATTIC_TOKEN
-        ${attic_pkgs.attic}/bin/attic use atro
+        ${attic} login atticd http://atticd $ATTIC_TOKEN
+        ${attic} use atro
       ''}";
       Restart = "on-failure";
       RestartSec = "5s";
@@ -51,9 +50,9 @@ in {
     serviceConfig = {
       ExecStart = "${pkgs.writeShellScript "watch-store" ''
         ATTIC_TOKEN=$(cat ${attic_atropos_token})
-        ${attic_pkgs.attic}/bin/attic login atticd http://atticd $ATTIC_TOKEN
-        ${attic_pkgs.attic}/bin/attic use atro
-        ${attic_pkgs.attic}/bin/attic watch-store atticd:atro
+        ${attic} login atticd http://atticd $ATTIC_TOKEN
+        ${attic} use atro
+        ${attic} watch-store atticd:atro
       ''}";
       Restart = "on-failure";
       RestartSec = "5s";
