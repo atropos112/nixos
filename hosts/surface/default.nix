@@ -2,11 +2,50 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  buildMachinesMap = lib.map (x: {
+    inherit (x) hostName maxJobs speedFactor;
+    system = "x86_64-linux";
+    protocol = "ssh-ng";
+    supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
+    mandatoryFeatures = [];
+    sshKey = "/root/.ssh/id_ed25519";
+    sshUser = "root";
+  });
+in {
   imports = [
     ./hardware.nix
     ../../lib/common/desktop
   ];
+
+  nix = {
+    distributedBuilds = true;
+    extraOptions = ''
+      builders-use-substitutes = true
+    '';
+    buildMachines = buildMachinesMap [
+      {
+        hostName = "rzr";
+        maxJobs = 1;
+        speedFactor = 4;
+      }
+      {
+        hostName = "a21";
+        maxJobs = 1;
+        speedFactor = 2;
+      }
+      {
+        hostName = "smol";
+        maxJobs = 1;
+        speedFactor = 2;
+      }
+      {
+        hostName = "giant";
+        maxJobs = 2;
+        speedFactor = 8;
+      }
+    ];
+  };
 
   services = {
     syncthing = {
