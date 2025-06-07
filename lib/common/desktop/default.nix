@@ -227,15 +227,13 @@ in {
     # Note, the keyboard settings are for stuff it controls like GDM, onced logged in, DE (e.g. HyprLand) takes over and that can dictate the keyboard.
     xserver = {
       enable = true;
-      # Display manager (Login screen)
-      displayManager = {
-        gdm = {
-          enable = true;
-          wayland = true;
-        };
-      };
     };
+    # Display manager (Login screen)
     displayManager = {
+      gdm = {
+        enable = true;
+        wayland = true;
+      };
       autoLogin = {
         enable = false; # I want to type my password as I may come remotely.
         user = "atropos";
