@@ -19,7 +19,11 @@ in {
   ];
 
   nix = {
-    distributedBuilds = true;
+    # WARN: Turned off distributed builds as its easier to simply build on giant and then copy over via
+    # sudo nixos-rebuild switch --flake .#surface --target-host surface --build-host localhost --fallback
+    # And the only benefit this distributed build has is that I can use colmena but that doesn't work that well
+    # either because I can't use "--fallback" with it.
+    distributedBuilds = false;
     extraOptions = ''
       builders-use-substitutes = true
     '';
