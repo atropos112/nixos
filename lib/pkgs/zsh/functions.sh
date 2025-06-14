@@ -38,6 +38,10 @@ function sssh {
 	/run/current-system/sw/bin/mosh "$@" -- tmux new -As atropos
 }
 
+function bjq {
+	printf "$@" | base64 -d | jq
+}
+
 function nxrn {
 	cached-nix-shell --command "$1" -p "$1"
 }
