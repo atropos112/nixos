@@ -44,6 +44,9 @@ in {
        chown -R 1000:1000 /persistent/home/atropos
       fi
 
+      echo "Removing exec permissions from any file that is not a directory."
+      find . -type f -perm /111 -exec chmod -x {} +
+
       echo "Unmounting home..."
       umount /home
 
