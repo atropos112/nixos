@@ -61,6 +61,12 @@ prometheus.relabel "default" {
         target_label = "hostname"
         replacement  = constants.hostname
     }
+
+    rule {
+        action       = "replace"
+        target_label = "instance"
+        replacement  = constants.hostname
+    }
 }
 
 // LOGS
@@ -91,6 +97,11 @@ loki.relabel "docker" {
 		replacement = constants.hostname
 	}
 
+	rule {
+		target_label = "instance"
+		replacement = constants.hostname
+	}
+
 
 	rule {
 		source_labels = ["__meta_docker_container_name"]
@@ -115,6 +126,11 @@ loki.relabel "journal" {
 
 	rule {
 		target_label = "hostname"
+		replacement = constants.hostname
+	}
+
+	rule {
+		target_label = "instance"
 		replacement = constants.hostname
 	}
 
