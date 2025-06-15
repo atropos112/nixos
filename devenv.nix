@@ -107,8 +107,8 @@ in {
     nix flake check
   '';
 
-  enterShell = writeShellScript "enter" ''
+  enterShell = "${pkgs.writeShellScript "enter" ''
     ${listScripts config.scripts}
     chmod u+x $DEVENV_ROOT/.git/hooks/pre-commit
-  '';
+  ''}";
 }

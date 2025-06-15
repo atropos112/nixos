@@ -5,6 +5,7 @@
     ocaml
     ocamlPackages.utop
     ocamlPackages.ocaml-lsp
+    ocamlPackages.ocamlformat
     ocamlPackages.earlybird
   ];
 
