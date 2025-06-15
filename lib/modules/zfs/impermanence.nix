@@ -69,6 +69,7 @@ in {
           "nixos" # NixOS config
           ".mozilla" # Firefox config
           ".opam" # Opam cache
+          ".supermaven" # Supermaven login
 
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
