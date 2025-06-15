@@ -107,5 +107,8 @@ in {
     nix flake check
   '';
 
-  enterShell = listScripts config.scripts;
+  enterShell = writeShellScript "enter" ''
+    ${listScripts config.scripts}
+    chmod u+x $DEVENV_ROOT/.git/hooks/pre-commit
+  '';
 }
