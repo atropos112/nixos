@@ -1,10 +1,9 @@
 {
   config,
   pkgs,
+  lib,
   ...
-}: let
-  at_bin = "${pkgs.atuin}/bin/atuin";
-in {
+}: {
   environment.systemPackages = with pkgs; [
     atuin
   ];
@@ -13,6 +12,8 @@ in {
     enable = true;
     package = pkgs.atuin;
     enableZshIntegration = true;
+    # WARN: You might think "I can override the ExecStart line in the service" the level of pain it caused me
+    # to try this, its honstly not worth it, decided to create my own service, socket and service for creds instead.
     # home manager daemon is meh.
     # daemon = {
     #   enable = true;
@@ -50,9 +51,9 @@ in {
 
   systemd.user = {
     sockets = {
-      atuin-sync-daemon = {
+      atuin-syncer = {
         description = "Atuin Daemon Socket";
-        partOf = ["atuin-sync-daemon.service"];
+        partOf = ["atuin-syncer.service"];
         wantedBy = ["sockets.target"];
         socketConfig = {
           ListenStream = "%t/atuin.sock";
@@ -65,16 +66,15 @@ in {
     services = {
       # Separated into two services to allow socket to work. Not sure if this is necessary.
 
-      atuin-sync-daemon = {
+      atuin-syncer = {
         description = "Atuin Sync Setup";
         wantedBy = ["multi-user.target"];
-        requires = ["atuin-auth.service" "atuin-sync-daemon.socket"];
+        requires = ["atuin-auth.service" "atuin-syncer.socket"];
         after = ["network.target"];
-        partOf = ["atuin-auth.service"];
         serviceConfig = {
-          ExecStart = "${pkgs.writeShellScript "atuin-auth" ''
-            ${at_bin} daemon
-          ''}";
+          # WARN: This really does need to be one liner app-starter and not a shell script.
+          # Otherwise it won't connect to the socket
+          ExecStart = "${lib.getExe pkgs.atuin} daemon";
           Restart = "on-failure";
           RestartSec = "5s";
         };
@@ -83,8 +83,7 @@ in {
       atuin-auth = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
-        partOf = ["atuin-auth.service"];
-        before = ["atuin-sync-daemon.service"];
+        before = ["atuin-syncer.service"];
         after = ["network.target"];
         serviceConfig = {
           ExecStart = "${pkgs.writeShellScript "atuin-auth" ''
@@ -92,9 +91,9 @@ in {
             PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
             MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
 
-            ${at_bin} logout
-            ${at_bin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
-            ${at_bin} status # For logging purposes
+            ${lib.getExe pkgs.atuin} logout
+            ${lib.getExe pkgs.atuin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
+            ${lib.getExe pkgs.atuin} status
           ''}";
           Restart = "on-failure";
           RestartSec = "5s";
