@@ -14,7 +14,7 @@
       opam = {
         enable = true;
         package = pkgs.opam;
-        enableZshIntegration = true;
+        enableZshIntegration = false;
       };
     };
   };

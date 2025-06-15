@@ -278,6 +278,9 @@ in {
   programs.fuse.userAllowOther = true;
 
   environment.systemPackages = with pkgs; [
+    # For shell script checking
+    shellharden
+
     # VPN clients
     protonvpn-gui
     protonvpn-cli
