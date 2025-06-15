@@ -45,7 +45,7 @@ in {
       fi
 
       echo "Removing exec permissions from any file that is not a directory."
-      find . -type f -perm /111 -exec chmod -x {} +
+      find /persistent -type f -perm /111 -exec chmod -x {} +
 
       echo "Unmounting home..."
       umount /home
