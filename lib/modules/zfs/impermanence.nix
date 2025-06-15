@@ -70,6 +70,7 @@ in {
           ".mozilla" # Firefox config
           ".opam" # Opam cache
           ".supermaven" # Supermaven login
+          ".ollama" # Ollama cache
 
           ".config/nvim" # Neovim config
           ".config/Element" # Element desktop config.
