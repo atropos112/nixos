@@ -50,9 +50,9 @@ in {
 
   systemd.user = {
     sockets = {
-      atuin-sync = {
+      atuin-sync-daemon = {
         description = "Atuin Daemon Socket";
-        partOf = ["atuin-sync.service"];
+        partOf = ["atuin-sync-daemon.service"];
         wantedBy = ["sockets.target"];
         socketConfig = {
           ListenStream = "%t/atuin.sock";
@@ -65,27 +65,29 @@ in {
     services = {
       # Separated into two services to allow socket to work. Not sure if this is necessary.
 
-      atuin-sync = {
-        description = "Atuin Credential Setup";
+      atuin-sync-daemon = {
+        description = "Atuin Sync Setup";
         wantedBy = ["multi-user.target"];
-        requires = ["atuin-creds.service" "atuin-sync.socket"];
+        requires = ["atuin-auth.service" "atuin-sync-daemon.socket"];
         after = ["network.target"];
-        partOf = ["atuin-creds.service"];
+        partOf = ["atuin-auth.service"];
         serviceConfig = {
-          ExecStart = "${pkgs.atuin}/bin/atuin daemon";
+          ExecStart = "${pkgs.writeShellScript "atuin-auth" ''
+            ${at_bin} daemon
+          ''}";
           Restart = "on-failure";
           RestartSec = "5s";
         };
       };
 
-      atuin-creds = {
+      atuin-auth = {
         description = "Atuin Credential Setup";
         wantedBy = ["multi-user.target"];
-        partOf = ["atuin-creds.service"];
-        before = ["atuin-sync.service"];
+        partOf = ["atuin-auth.service"];
+        before = ["atuin-sync-daemon.service"];
         after = ["network.target"];
         serviceConfig = {
-          ExecStart = "${pkgs.writeShellScript "atuin-credentials" ''
+          ExecStart = "${pkgs.writeShellScript "atuin-auth" ''
             USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
             PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
             MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})

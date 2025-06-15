@@ -5,7 +5,10 @@
 }: {
   sops.secrets."superMaven/configjson" = {
     owner = config.users.users.atropos.name;
-    path = "/home/atropos/.supermaven/config.json";
+  };
+
+  home-manager.users.atropos = {config, ...}: {
+    home.file.".supermaven/config.json".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/superMaven/configjson";
   };
 
   programs.neovim = {
