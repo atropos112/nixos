@@ -1,4 +1,13 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
+  sops.secrets."superMaven/configjson" = {
+    owner = config.users.users.atropos.name;
+    path = "/home/atropos/.supermaven/config.json";
+  };
+
   programs.neovim = {
     enable = true;
     # Don't want nighltly for 0.12 for now.
