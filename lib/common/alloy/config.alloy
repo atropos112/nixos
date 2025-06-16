@@ -49,7 +49,7 @@ prometheus.exporter.unix "default" {
 prometheus.scrape "unix" {
   forward_to = [prometheus.relabel.default.receiver]
   targets = prometheus.exporter.unix.default.targets
-  scrape_interval = "5s"
+  scrape_interval = "15s"
   scrape_timeout = "4s"
 }
 
@@ -73,7 +73,7 @@ prometheus.relabel "default" {
 
 discovery.docker "linux" {
   host = "unix:///var/run/docker.sock"
-  refresh_interval = "5s"
+  refresh_interval = "15s"
 }
 
 loki.source.docker "default" {
