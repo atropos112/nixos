@@ -1,10 +1,21 @@
-_: {
+{options, ...}: {
   # Networking basics (hostname excluded)
   networking = {
     usePredictableInterfaceNames = false;
     nftables.enable = true;
     firewall.enable = false;
     enableIPv6 = false;
+    # Some time servers just to be sure
+    timeServers =
+      options.networking.timeServers.default
+      ++ [
+        "time-a-g.nist.gov"
+        "utcnist3.colorado.edu"
+        "0.europe.pool.ntp.org"
+        "1.europe.pool.ntp.org"
+        "2.europe.pool.ntp.org"
+        "3.europe.pool.ntp.org"
+      ];
   };
 
   systemd = {

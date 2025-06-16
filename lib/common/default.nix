@@ -236,6 +236,11 @@ in {
   };
 
   services = {
+    # NTP (time syncing) service
+    # systemd-timesyncd is used by default unless something else is set (e.g. chrony)
+    # and chrony is considered more reliable.
+    chrony.enable = true;
+
     # vpn mesh to connect to other devices
     tailscale = {
       enable = true;
