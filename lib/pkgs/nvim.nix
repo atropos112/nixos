@@ -31,5 +31,8 @@
 
     # go implem
     impl
+
+    # word dictionary
+    wordnet
   ];
 }

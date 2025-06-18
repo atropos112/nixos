@@ -45,6 +45,7 @@ in {
     ../../pkgs/s3.nix
     ../../pkgs/jsonnet.nix
     ../../pkgs/zeal
+    ../../pkgs/sql.nix
     ../identities/infisical.nix
   ];
 
@@ -433,12 +434,6 @@ in {
 
     # Interacts with some apps to do correct copy n paste
     wl-clipboard
-
-    # For interacting with postgresql
-    pgcli
-
-    # psql to connect to postgres databases
-    postgresql_16
 
     # NIX LSP
     nil
