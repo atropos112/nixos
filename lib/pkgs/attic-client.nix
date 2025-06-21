@@ -52,7 +52,7 @@ in {
         ATTIC_TOKEN=$(cat ${attic_atropos_token})
         ${attic} login atticd http://atticd $ATTIC_TOKEN
         ${attic} use atro
-        ${attic} watch-store atticd:atro
+        ${attic} watch-store atticd:atro --ignore-upstream-cache-filter
       ''}";
       Restart = "on-failure";
       RestartSec = "5s";

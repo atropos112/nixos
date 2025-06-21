@@ -13,6 +13,7 @@
     zfs = {
       autoSnapshot = {
         enable = true;
+        # We keep data for 2 months tops anything more than that is deleted.
         monthly = 2; # Default is 12
         hourly = 24; # Default is 24
         daily = 7; # Default is 7
