@@ -17,6 +17,7 @@ in {
       connect-timeout = 5; # Fallback quickly if substituters are not available.
       trusted-users = ["root" "atropos"];
       auto-optimise-store = true;
+      fallback = true;
       substituters = [
         "http://atticd/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
