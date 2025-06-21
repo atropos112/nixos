@@ -42,7 +42,7 @@ in {
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 60d";
+      options = "--delete-older-than 30d";
     };
     registry.nixpkgs.flake = nixpkgs;
     nixPath = ["nixpkgs=${inputs.nixpkgs-unstable}"];

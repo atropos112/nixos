@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   boot = {
     zfs.forceImportRoot = false;
     zfs.package = pkgs.zfs;
@@ -15,10 +11,15 @@
   services = {
     # Filesystem services to make sure data is not corrupted.
     zfs = {
+      autoSnapshot = {
+        enable = true;
+        monthly = 2; # Default is 12
+        hourly = 24; # Default is 24
+        daily = 7; # Default is 7
+        weekly = 4; # Default is 4
+        frequent = 4; # Default is 1, (frequent = 15min interval)
+      };
       trim.enable = true;
-      autoSnapshot.enable = true;
-      # defaults to 12, which is a bit much given how much data is written
-      autoSnapshot.monthly = lib.mkDefault 2;
       autoScrub.enable = true;
     };
   };

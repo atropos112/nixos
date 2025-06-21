@@ -126,7 +126,10 @@ in {
                 mountpoint = "legacy";
                 "com.sun:auto-snapshot" = "false";
               };
-              postCreateHook = "zfs snapshot zroot/nixos/root@blank";
+              postCreateHook = ''
+                zfs snapshot zroot/nixos/root@blank
+                zfs hold -r keep zroot/nixos/root@blank
+              '';
             };
 
             "nixos/nix" = {
@@ -146,7 +149,10 @@ in {
                 "com.sun:auto-snapshot" = "false";
               };
 
-              postCreateHook = "zfs snapshot zroot/nixos/home@blank";
+              postCreateHook = ''
+                zfs snapshot zroot/nixos/home@blank
+                zfs hold -r keep zroot/nixos/home@blank
+              '';
             };
 
             "nixos/persistent" = {
