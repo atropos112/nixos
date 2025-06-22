@@ -141,7 +141,8 @@ in {
           ## INFO: Security and privacy settings
 
           # Set default search engine: DuckDuckGo
-          "browser.urlbar.placeholderName" = "Searx";
+          "browser.urlbar.placeholderName" = "Kagi";
+          # "browser.urlbar.placeholderName" = "Searx";
 
           # Set default permissions
           # * Location, Camera, Microphone, VR
