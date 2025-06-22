@@ -32,6 +32,7 @@ _: {
         "$mainMod, b, exec, systemctl --user is-active waybar.service &> /dev/null && systemctl --user stop waybar.service || systemctl --user start waybar.service"
         "$mainMod, RETURN, exec, kitty"
         "$mainMod, Y, exec, element-desktop --disable-gpu"
+        "$mainMod, I, exec, firefox-devedition -P app --new-window https://kagi.com/assistant"
         "$mainMod, Q, killactive,"
         "Alt_L, Z, exec, copyq show"
         "$mainMod, Z, exec, copyq show"
