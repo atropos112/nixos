@@ -45,14 +45,14 @@ in {
 
     apply-local = {
       exec = writeShellScript "apply-local" ''
-        build && sudo nixos-rebuild switch --fast --flake .#$(hostname) || exit 1
+        build && sudo nixos-rebuild switch --no-reexec --flake .#$(hostname) || exit 1
       '';
       description = "Rebuild the system";
     };
 
     build = {
       exec = writeShellScript "build" ''
-        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel --fallback -L --extra-experimental-features pipe-operators
+        sudo ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations.$(hostname).config.system.build.toplevel --fallback -L
       '';
       description = "Build the system";
     };
