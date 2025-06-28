@@ -26,6 +26,8 @@ in {
       sshd.gid = 994;
       resolvconf.gid = 991;
 
+      podman.gid = 990;
+
       systemd-coredump.gid = 993;
       systemd-oom.gid = 992;
       networkmanager.gid = 57;
@@ -70,7 +72,7 @@ in {
         home = "/home/atropos";
         group = "atropos";
         createHome = true;
-        extraGroups = ["wheel" "audio" "networkmanager" "docker" "input" "plugdev"];
+        extraGroups = ["wheel" "audio" "networkmanager" "docker" "input" "plugdev" "podman"];
         initialHashedPassword = lib.mkForce "$6$IHPb2KGAOorX1aT.$JIRXgxboZAAO/4pKl.L7Cgavn7tF1cUCiIk5z8sJrglwkcFYqPWhUxQ7zmynikVVyc6X5AMxQ5kz89Aqzoqgy1";
         openssh = {
           authorizedKeys.keys = [

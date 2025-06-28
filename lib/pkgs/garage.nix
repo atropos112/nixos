@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   garage = pkgs.garage_2;
@@ -14,17 +15,17 @@
 
     rpc_bind_addr = "[::]:3901";
     rpc_public_addr = "127.0.0.1:3901";
-    # TODO:
-    rpc_secret = "3fb2b60d803f1c7d8e459116b51a8a0f21346dd1b480225f277688d5185231ee";
     rpc_secret_file = config.sops.secrets."garage/rpcSecret".path;
 
     s3_api = {
       s3_region = "us-east-1";
       api_bind_addr = "[::]:3900";
+      root_domain = ".s3.garage.localhost";
     };
     s3_web = {
       bind_addr = "[::]:3902";
       index = "index.html";
+      root_domain = ".web.garage.localhost";
     };
 
     k2v_api = {
@@ -33,7 +34,6 @@
 
     admin = {
       api_bind_addr = "[::]:3903";
-      admin_token = "admin";
       admin_token_file = config.sops.secrets."garage/adminToken".path;
       # Do not need token on metrics endpoint
       # metrics_token_file = "nope";
@@ -50,21 +50,24 @@ in {
     "garage/rpcSecret" = {};
     "garage/adminToken" = {};
   };
+  # Can't use dynamic user with secrets above
+  # because dynamic user is not allowed to read secrets
+  systemd.services.garage.serviceConfig = {
+    DynamicUser = false;
+    ProtectHome = lib.mkForce false;
+  };
 
-  virtualisation.arion = {
-    backend = "docker";
-    projects = {
-      "garage".settings.services."garage_ui".service = {
-        image = "dxflrs/garage:v1.0.1";
-        restart = "unless-stopped";
-        ports = ["3909:3909"];
-        volumes = [
-          "${configFile}:/etc/garage/garage.toml"
-        ];
-        environment = {
-          API_BASE_URL = "http://localhost:3903";
-          S3_ENDPOINT_URL = "http://localhost:3900";
-        };
+  virtualisation.arion.projects = {
+    "garage".settings.services."garage_ui".service = {
+      image = "dxflrs/garage:v1.0.1";
+      restart = "unless-stopped";
+      ports = ["3909:3909"];
+      volumes = [
+        "${configFile}:/etc/garage/garage.toml"
+      ];
+      environment = {
+        API_BASE_URL = "http://localhost:3903";
+        S3_ENDPOINT_URL = "http://localhost:3900";
       };
     };
   };
