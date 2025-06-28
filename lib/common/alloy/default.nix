@@ -19,6 +19,6 @@
     # allow to read the systemd journal for loki log forwarding
     "systemd-journal"
     # allow to read the docker socket
-    "docker"
+    "podman"
   ];
 }

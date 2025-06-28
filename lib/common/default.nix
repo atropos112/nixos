@@ -20,7 +20,6 @@
   stateVersion = "25.05";
 in {
   imports = [
-    inputs.arion.nixosModules.arion
     inputs.impermanence.nixosModules.impermanence # Is used within some modules not necessarily used though.
     inputs.disko.nixosModules.disko # Is used within some modules not necessarily used though.
     ../pkgs/sopsnix.nix
@@ -107,11 +106,10 @@ in {
   };
 
   virtualisation = {
-    arion.backend = "podman-socket";
     docker.enable = false;
     podman = {
       enable = true;
-      dockerSocket.enable = lib.mkForce false;
+      dockerSocket.enable = true;
       defaultNetwork.settings.dns_enabled = true;
       dockerCompat = true; # alias docker -> podman
     };
@@ -132,7 +130,6 @@ in {
     };
 
     systemPackages = with pkgs; [
-      arion
       docker-client
 
       # TUI for systemd

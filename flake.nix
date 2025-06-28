@@ -4,7 +4,6 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
-    arion.url = "github:hercules-ci/arion";
     devenv.url = "github:cachix/devenv";
     colmena.url = "github:zhaofengli/colmena";
     nix-ld = {

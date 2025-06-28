@@ -5,9 +5,13 @@
   ...
 }: let
   garage = pkgs.garage_2;
-  toml = pkgs.formats.toml {};
   settings = {
-    data_dir = "/mnt/garage"; # Where data lives (need high capacity)
+    data_dir = [
+      {
+        capacity = "2T";
+        path = "/mnt/garage"; # Where data lives (need high capacity)
+      }
+    ];
     metadata_dir = "/home/atropos/garage_metadata"; # Where metadata lives (need high speed)
     db_engine = "sqlite"; # Database engine
 
@@ -39,8 +43,6 @@
       # metrics_token_file = "nope";
     };
   };
-  # Need it as a file for arion and as nix-config for garage
-  configFile = toml.generate "garage.toml" settings;
 in {
   environment.systemPackages = [
     garage
@@ -55,21 +57,6 @@ in {
   systemd.services.garage.serviceConfig = {
     DynamicUser = false;
     ProtectHome = lib.mkForce false;
-  };
-
-  virtualisation.arion.projects = {
-    "garage".settings.services."garage_ui".service = {
-      image = "dxflrs/garage:v1.0.1";
-      restart = "unless-stopped";
-      ports = ["3909:3909"];
-      volumes = [
-        "${configFile}:/etc/garage/garage.toml"
-      ];
-      environment = {
-        API_BASE_URL = "http://localhost:3903";
-        S3_ENDPOINT_URL = "http://localhost:3900";
-      };
-    };
   };
 
   services.garage = {
