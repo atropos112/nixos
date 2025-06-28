@@ -15,7 +15,7 @@ with lib; let
       else "/home/" + cfg.runAs;
   };
 
-  s3Endpoint = "rzr:9000";
+  s3Endpoint = "rzr:3900";
   s3BucketName = "kopia";
   echo = "${pkgs.coreutils}/bin/echo";
   sleep = "${pkgs.coreutils}/bin/sleep";
