@@ -61,11 +61,9 @@ in {
 
   services.garage = {
     enable = true;
-    extraEnvironment = {
-      RUST_BACKTRACE = "yes";
-    };
     inherit settings;
     package = garage;
-    logLevel = "debug";
+    # debug is nice but it's a bit too verbose
+    logLevel = "info";
   };
 }
