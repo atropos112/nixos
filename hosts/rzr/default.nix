@@ -5,7 +5,6 @@
     ../../lib/common/kubernetes/user.nix
     ../../lib/modules/kopia.nix
     # ../../lib/pkgs/ollama.nix # Running via k8s instead
-    ../../lib/pkgs/minio.nix
     ../../lib/pkgs/garage.nix
   ];
 
