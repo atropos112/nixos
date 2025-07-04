@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # The basics
-    jsonnet
+    go-jsonnet
 
     # The package manager
     jsonnet-bundler

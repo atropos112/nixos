@@ -16,6 +16,7 @@ in {
   # --sub "atro" \
   # --pull "atro" \
   # --push "atro" \
+  # --priority 1 \
   # --create-cache "atro" \
   # --configure-cache "atro" \
   # --configure-cache-retention "atro" \

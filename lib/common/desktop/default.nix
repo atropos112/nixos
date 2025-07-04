@@ -279,6 +279,8 @@ in {
   programs.fuse.userAllowOther = true;
 
   environment.systemPackages = with pkgs; [
+    buildah
+
     # For shell script checking
     shellharden
 
