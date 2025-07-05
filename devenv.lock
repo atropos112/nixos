@@ -142,6 +142,24 @@
         "type": "github"
       }
     },
+    "nil_ls": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1751341694,
+        "owner": "oxalica",
+        "repo": "nil",
+        "rev": "b043bfe1f3f4c4be4b688e24c5ae96e81f525805",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "ref": "main",
+        "repo": "nil",
+        "type": "github"
+      }
+    },
     "nix-github-actions": {
       "inputs": {
         "nixpkgs": [
@@ -192,6 +210,21 @@
     },
     "nixpkgs_3": {
       "locked": {
+        "lastModified": 1751625545,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c860cf0b3a0829f0f6cf344ca8de83a2bbfab428",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
         "lastModified": 1747327360,
         "owner": "NixOS",
         "repo": "nixpkgs",
@@ -211,7 +244,8 @@
         "colmena": "colmena",
         "devenv": "devenv",
         "git-hooks": "git-hooks",
-        "nixpkgs": "nixpkgs_3",
+        "nil_ls": "nil_ls",
+        "nixpkgs": "nixpkgs_4",
         "pre-commit-hooks": [
           "git-hooks"
         ]

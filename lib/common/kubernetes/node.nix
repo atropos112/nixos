@@ -1,4 +1,6 @@
-_: {
+{lib, ...}: let
+  inherit (import ../../../utils/priorityList.nix {inherit lib;}) listToPriorityList;
+in {
   imports = [
     ./longhorn.nix
     ../../modules/k3s
@@ -19,7 +21,7 @@ _: {
     mode = "0444"; # Read only
   };
 
-  atro.fastfetch.extraModules = [
+  atro.fastfetch.modules = listToPriorityList 1000 [
     {
       "type" = "command";
       "text" = "systemctl is-active k3s";

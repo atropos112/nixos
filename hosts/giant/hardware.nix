@@ -2,7 +2,6 @@ _: {
   imports = [
     ../../lib/common/nvidia.nix
     ../../lib/modules/zfs
-    ../../lib/modules/boot.nix
   ];
 
   atro.boot = {

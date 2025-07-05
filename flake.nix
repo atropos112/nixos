@@ -15,6 +15,12 @@
       url = "github:nix-community/neovim-nightly-overlay";
     };
 
+    # Gives me the pipe operator support
+    nil_ls = {
+      url = "github:oxalica/nil/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -109,6 +115,9 @@
 
             #3. Topology
             inputs.nix-topology.nixosModules.default
+
+            # WIP
+            ./modules
           ];
         }) {}
     );

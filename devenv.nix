@@ -8,13 +8,15 @@
   inherit (inputs.atrolib.lib.devenv.scripts) help runDocs buildDocs;
 in {
   devenv.warnOnNewVersion = false;
+  devenv.debug = true;
+
   packages = [
     inputs.colmena.packages.${pkgs.system}.colmena
   ];
 
   languages.nix = {
     enable = true;
-    lsp.package = pkgs.nil;
+    lsp.package = inputs.nil_ls.outputs.packages.${pkgs.system}.nil;
   };
 
   git-hooks.hooks = {
@@ -23,7 +25,7 @@ in {
     alejandra.enable = true;
     shellcheck.enable = true;
     lint = {
-      enable = true;
+      enable = false; # TODO: Re-enable it once statix supports pipe operators: https://github.com/oppiliappan/statix/pull/102
       package = pkgs.statix;
       entry = "lint";
       pass_filenames = false;
@@ -87,9 +89,7 @@ in {
 
     nx-diff = {
       exec = writeShellScript "nx-diff" ''
-        echo -e "---------- Building... ----------\n"
         build
-        echo -e "---------- Build finished. Computing diff... ---------- \n\n\n"
         nvd diff /run/current-system result
       '';
       description = "Diff the current system with current configuration files";

@@ -2,7 +2,6 @@
   imports = [
     inputs.nixos-hardware.nixosModules.microsoft-surface-common
     ../../lib/modules/zfs
-    ../../lib/modules/boot.nix
   ];
 
   # INFO: Surface doesn't play well with Pipewire not sure why.
