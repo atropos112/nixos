@@ -4,6 +4,7 @@
   lib,
   ...
 }: let
+  inherit (import ../../../utils/priorityList.nix {inherit lib;}) listToPriorityList;
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
   theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
@@ -19,16 +20,17 @@ in {
     inputs.stylix.nixosModules.stylix
     inputs.nix-ld.nixosModules.nix-ld
     inputs.nix-index-database.nixosModules.nix-index
-    ../../modules/extmounts.nix
+    ../../../profiles/externalMounts/all.nix
+    ../../../profiles/kopia/to_rzr.nix
+    ../../../profiles/hyprland
     ../kubernetes/user.nix
     ../../pkgs/kitty.nix
     ../../pkgs/markdown.nix
+    ../../pkgs/nix.nix
     ../../pkgs/docker.nix
     # ../../pkgs/foot.nix # A bit faster startup but no ligatures support
     # ../../pkgs/vscode.nix
-    ../../pkgs/hyprland.nix
     ../../pkgs/zfs.nix
-    ../../modules/kopia.nix
     ../../pkgs/syncthing.nix
     ../../pkgs/waybar
     # ../../pkgs/copyq
@@ -39,6 +41,7 @@ in {
     ../../pkgs/rust.nix
     ../../pkgs/go
     ../../pkgs/zig.nix
+    ../../pkgs/colmena.nix
     ../../pkgs/csharp.nix
     ../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
@@ -73,7 +76,7 @@ in {
   # '';
 
   atro = {
-    fastfetch.extraModules = [
+    fastfetch.modules = listToPriorityList 1000 [
       {
         "type" = "command";
         "text" = "systemctl is-active syncthing";
@@ -83,12 +86,11 @@ in {
       "display"
     ];
 
-    extMounts = {
+    externalMounts = {
       enable = true;
     };
 
     kopia = {
-      enable = true;
       runAs = "root";
       path = "/persistent/";
       ignorePaths = ["Sync" ".venv" ".cache" ".devenv"];
@@ -279,6 +281,7 @@ in {
   programs.fuse.userAllowOther = true;
 
   environment.systemPackages = with pkgs; [
+    tree-sitter
     buildah
 
     # For shell script checking
@@ -437,9 +440,6 @@ in {
     # Interacts with some apps to do correct copy n paste
     wl-clipboard
 
-    # NIX LSP
-    nil
-
     # Allows setting some global flags for applications to interpret, for example dark mode.
     dconf
 
@@ -493,9 +493,6 @@ in {
 
     # Cllium eBPF client tool for kubernetes cluster
     cilium-cli
-
-    # deploying nix builds easily, to many machines at the same time even
-    colmena
 
     #WIP
     hadolint

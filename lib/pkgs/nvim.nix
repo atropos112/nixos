@@ -1,16 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
-  sops.secrets."superMaven/configjson" = {
-    owner = config.users.users.atropos.name;
-  };
-
-  home-manager.users.atropos = {config, ...}: {
-    home.file.".supermaven/config.json".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/superMaven/configjson";
-  };
-
+{pkgs, ...}: {
   programs.neovim = {
     enable = true;
     # Don't want nighltly for 0.12 for now.

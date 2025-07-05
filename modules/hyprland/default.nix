@@ -7,10 +7,11 @@
 }:
 with lib; let
   cfg = config.atro.hyprland;
+  priorityList = import ../../utils/priorityList.nix {inherit lib;};
 in {
   options.atro.hyprland = {
     enable = mkEnableOption "hyprland setup";
-    baseSettings = lib.mkOption {
+    settings = lib.mkOption {
       type = with lib.types; let
         valueType =
           nullOr (oneOf [
@@ -23,34 +24,19 @@ in {
             (listOf valueType)
           ])
           // {
-            description = "Hyprland configuration value";
+            description = "Hyprland configuration values priority list";
           };
       in
-        valueType;
-      default = {};
-    };
-    deviceSpecificSettings = lib.mkOption {
-      type = with lib.types; let
-        valueType =
-          nullOr (oneOf [
-            bool
-            int
-            float
-            str
-            path
-            (attrsOf valueType)
-            (listOf valueType)
-          ])
-          // {
-            description = "Hyprland configuration value";
-          };
-      in
-        valueType;
+        listOf (attrsOf valueType);
       default = {};
     };
   };
 
   config = {
+    assertions = [
+      (priorityList.validatePriorityList cfg.settings)
+    ];
+
     # Duplicating config in both home-manager and nixos programs is not ideal, but it works.
     # Need to use both because home-manager doesn't let me input portalPackage while
     # nixos doesn't let me input settings.
@@ -68,10 +54,7 @@ in {
     home-manager.users.atropos.wayland.windowManager.hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-      settings = lib.mkMerge [
-        cfg.baseSettings
-        cfg.deviceSpecificSettings
-      ];
+      settings = cfg.settings |> priorityList.priorityListToList |> lib.mkMerge;
     };
   };
 }

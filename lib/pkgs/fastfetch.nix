@@ -1,8 +1,11 @@
-_: {
-  imports = [
-    ../modules/fastfetch.nix
-  ];
-  atro.fastfetch.baseModules = [
+# COMPAT
+{lib, ...}: let
+  priorityList = import ../../utils/priorityList.nix {inherit lib;};
+  inherit (priorityList) listToPriorityList;
+in {
+  atro.fastfetch.enable = true;
+
+  atro.fastfetch.modules = listToPriorityList 0 [
     "title"
     "separator" # General OS information
     "uptime"

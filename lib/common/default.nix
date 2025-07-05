@@ -20,8 +20,6 @@
   stateVersion = "25.05";
 in {
   imports = [
-    inputs.impermanence.nixosModules.impermanence # Is used within some modules not necessarily used though.
-    inputs.disko.nixosModules.disko # Is used within some modules not necessarily used though.
     ../pkgs/sopsnix.nix
     ../pkgs/fastfetch.nix
     ../pkgs/atuin.nix

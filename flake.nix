@@ -5,7 +5,10 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
     devenv.url = "github:cachix/devenv";
-    colmena.url = "github:zhaofengli/colmena";
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     nix-ld = {
       url = "github:Mic92/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -13,6 +16,12 @@
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
+    };
+
+    # Gives me the pipe operator support
+    nil_ls = {
+      url = "github:oxalica/nil/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -109,6 +118,9 @@
 
             #3. Topology
             inputs.nix-topology.nixosModules.default
+
+            # WIP
+            ./modules
           ];
         }) {}
     );

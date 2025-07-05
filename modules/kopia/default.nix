@@ -3,8 +3,8 @@
   config,
   pkgs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkOption types mkIf;
   cfg = config.atro.kopia;
 
   # Must have HOME set for kopia to work
@@ -15,8 +15,6 @@ with lib; let
       else "/home/" + cfg.runAs;
   };
 
-  s3Endpoint = "rzr:3900";
-  s3BucketName = "kopia";
   echo = "${pkgs.coreutils}/bin/echo";
   sleep = "${pkgs.coreutils}/bin/sleep";
   rg = "${pkgs.ripgrep}/bin/rg";
@@ -31,9 +29,11 @@ with lib; let
     else ''
       ${kopia} --log-level=debug server start --insecure --address="http://127.0.0.1:51515" --without-password --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
     '';
-  kopiaConnectCmd = ''${kopia} --log-level=debug repository connect s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls'';
+
+  kopiaConnectCmd = ''${kopia} --log-level=debug repository connect s3 --bucket=${cfg.s3.bucketName} --access-key="$KOPIA_ACCESS_KEY" --secret-access-key="$KOPIA_SECRET_ACCESS_KEY" --password="$KOPIA_PASSWORD" --endpoint="${cfg.s3.endpoint}" --disable-tls-verification --disable-tls'';
+
   kopiaCreateRepoCmd = ''
-    ${kopia} --log-level=debug repository create s3 --bucket=${s3BucketName} --access-key="$KOPIA_KEY_ID" --secret-access-key="$KOPIA_KEY" --password="$KOPIA_PASSWORD" --endpoint="${s3Endpoint}" --disable-tls-verification --disable-tls
+    ${kopia} --log-level=debug repository create s3 --bucket=${cfg.s3.bucketName} --access-key="$KOPIA_ACCESS_KEY" --secret-access-key="$KOPIA_SECRET_ACCESS_KEY" --password="$KOPIA_PASSWORD" --endpoint="${cfg.s3.endpoint}" --disable-tls-verification --disable-tls
   '';
 
   ignorePaths = lib.forEach cfg.ignorePaths (path: ''--add-ignore="${path}"'');
@@ -43,16 +43,17 @@ with lib; let
     ${kopiaSetupPolicyPrefix} ${ignorePathsConcated}
   '';
 
+  # WARN: Adding secrets the way it is done is not a good idea, it means they are exposed to anyone with `systemctl status kopia access`
+  # Ideally we would have kopia reading the secrets from a file but as far as I know that is not possible.
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
     # No -e as we expect some commands to fail (e.g. curl or kopiaConnectCmd)
     set -xu
 
     # Initialize variables
-    KOPIA_KEY_ID=$(cat ${config.sops.secrets."kopia/rzr/keyId".path})
-    KOPIA_KEY=$(cat ${config.sops.secrets."kopia/rzr/key".path})
-    KOPIA_PASSWORD=$(cat ${config.sops.secrets."kopia/password".path})
-    KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."kopia/gui/password".path})
-    KOPIA_CONFIG_PATH=$HOME/.config/kopia/repository.config
+    KOPIA_ACCESS_KEY=$(cat ${config.sops.secrets."${cfg.s3.accessKey}".path})
+    KOPIA_SECRET_ACCESS_KEY=$(cat ${config.sops.secrets."${cfg.s3.secretAccessKey}".path})
+    KOPIA_PASSWORD=$(cat ${config.sops.secrets."${cfg.password}".path})
+    KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."${cfg.guiPassword}".path})
 
     # Wait for internet connection, by checking if we can reach a known website
     while ! ${curl} -s -f https://atro.xyz > /dev/null; do
@@ -99,7 +100,6 @@ in {
     enable = mkEnableOption "kopia backup";
     runAs = mkOption {
       type = types.str;
-      default = "atropos";
     };
 
     exposeWebUI = mkOption {
@@ -113,20 +113,49 @@ in {
       type = types.listOf types.str;
       default = [];
     };
+
+    s3 = {
+      endpoint = mkOption {
+        type = types.str;
+      };
+      bucketName = mkOption {
+        type = types.str;
+      };
+
+      accessKey = mkOption {
+        type = types.str;
+        description = "The access key location in sops nix.";
+      };
+
+      secretAccessKey = mkOption {
+        type = types.str;
+        description = "The secret access key location in sops nix.";
+      };
+    };
+
+    password = mkOption {
+      type = types.str;
+      description = "A password location for the kopia repository in sops nix.";
+    };
+
+    guiPassword = mkOption {
+      type = types.str;
+      description = "A password location for the kopia gui in sops nix.";
+    };
   };
 
   config = mkIf cfg.enable {
     sops.secrets = {
-      "kopia/password" = {
+      "${cfg.password}" = {
         owner = cfg.runAs;
       };
-      "kopia/rzr/keyId" = {
+      "${cfg.guiPassword}" = {
         owner = cfg.runAs;
       };
-      "kopia/rzr/key" = {
+      "${cfg.s3.accessKey}" = {
         owner = cfg.runAs;
       };
-      "kopia/gui/password" = {
+      "${cfg.s3.secretAccessKey}" = {
         owner = cfg.runAs;
       };
     };

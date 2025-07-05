@@ -57,7 +57,8 @@ where `orangepi5-sd-image-24.05.20240314.d691274-aarch64-linux.img.zst` is the n
 
 To flash onto nvme, yyou must first flash your SPI flash, to do this install official Orange Pi 5 os first and run `orangepi-config` and flash SPI there.
 
-To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, copy over (using scp/rsync) the `.img.zst` file over SSH to the running Orange Pi 5 and then run the same command as above but instead of `/dev/sda` target the nvme drive. If you have flashed your SPI flash correctly, turning off Orange Pi and removing SD card should be all you need to do after that to force it to boot off nvme.
+To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, copy over (using scp/rsync) the `.img.zst` file over SSH to the running Orange Pi 5 and then run the same command as above but instead of `/dev/sda` target the nvme drive.
+If you have flashed your SPI flash correctly, turning off Orange Pi and removing SD card should be all you need to do after that to force it to boot off nvme.
 
 # How to install on a fresh machine
 
@@ -114,6 +115,30 @@ error: unable to start build process
 
 error. Also have to use `boot` isntead of `switch` because `switch` will try to switch now (rather than after reboot) and will need dbus process with pid 1 to be running which is not the case when you are in chroot.
 More about this can be found [here](https://nixos.wiki/wiki/Change_root).
+
+# Insepct NixOS configuration
+
+To inspect my NixOS configuration, you can use the following command in the root directory of this repository:
+
+```bash
+nix repl .
+```
+
+or start with `nix repl` (without the `.`) and then run `:lf .`
+
+Then follow this up with:
+
+```nix
+nix-repl> colmenaHive.nodes.giant.config
+```
+
+This naturally extends to all other nodes, and gets lazily evaluated.
+
+To refresh the NixOS configuration, you can run:
+
+```nix
+nix-repl> :r
+```
 
 # Acknowledgements
 

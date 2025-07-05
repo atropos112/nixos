@@ -1,8 +1,7 @@
 {inputs, ...}: {
   imports = [
     inputs.nixos-hardware.nixosModules.microsoft-surface-common
-    ../../lib/modules/zfs
-    ../../lib/modules/boot.nix
+    ../../profiles/impermanence/desktop.nix
   ];
 
   # INFO: Surface doesn't play well with Pipewire not sure why.
@@ -13,18 +12,23 @@
   };
   services.pipewire.enable = false;
 
-  atro.hardware.zfs = {
-    disks = {
+  atro = {
+    boot = {
+      enable = true;
+      kernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod"];
+    };
+
+    disko = {
       enable = true;
       hostId = "8f3cc97f";
-      netAtBootForDecryption = false;
-      mainDriveId = "nvme-BA_HFS256GD9TNG-62A0A_MI89N001212209B0R";
+      mode = ""; # no mirroring as it only has one drive.
+      drives = [
+        "nvme-BA_HFS256GD9TNG-62A0A_MI89N001212209B0R"
+      ];
+      drivePartLabels = ["x"];
+      encryption = {
+        enable = true;
+      };
     };
-    impermanence.enable = true;
-  };
-
-  atro.boot = {
-    enable = true;
-    kernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod"];
   };
 }

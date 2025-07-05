@@ -6,10 +6,11 @@
 }:
 with lib; let
   cfg = config.atro.fastfetch;
+  priorityList = import ../../utils/priorityList.nix {inherit lib;};
 in {
   options.atro.fastfetch = {
     enable = mkEnableOption "fastfetch setup";
-    baseModules = lib.mkOption {
+    modules = lib.mkOption {
       type = with lib.types; let
         valueType =
           nullOr (oneOf [
@@ -22,34 +23,19 @@ in {
             (listOf valueType)
           ])
           // {
-            description = "Fastfetch base modules";
+            description = "Fastfetch priority list of modules";
           };
       in
-        valueType;
-      default = {};
-    };
-    extraModules = lib.mkOption {
-      type = with lib.types; let
-        valueType =
-          nullOr (oneOf [
-            bool
-            int
-            float
-            str
-            path
-            (attrsOf valueType)
-            (listOf valueType)
-          ])
-          // {
-            description = "Fastfetch extra modules";
-          };
-      in
-        valueType;
+        listOf (attrsOf valueType);
       default = {};
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
+    assertions = [
+      (priorityList.validatePriorityList cfg.modules)
+    ];
+
     environment.systemPackages = with pkgs; [
       fastfetch
     ];
@@ -60,11 +46,7 @@ in {
         package = pkgs.fastfetch;
         settings = {
           "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
-          "modules" = lib.mkMerge [
-            cfg.baseModules
-            cfg.extraModules
-            ["break"]
-          ];
+          "modules" = (priorityList.priorityListToList cfg.modules) ++ ["break"];
         };
       };
     };
