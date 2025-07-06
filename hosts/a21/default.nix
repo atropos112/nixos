@@ -1,12 +1,11 @@
 _: {
   imports = [
+    ../../lib/common
     ./hardware.nix
-    ../../lib/common/kubernetes/node.nix
-    ../../lib/common/kubernetes/user.nix
+    ../../profiles/kubernetes/server.nix
+    ../../profiles/kubernetes/user.nix
     ../../lib/common/server
   ];
-
-  atro.k3s.role = "server";
 
   topology.self = {
     name = "a21";

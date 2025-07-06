@@ -17,5 +17,6 @@ A bit of an arbitrary separation between this and packages is that a profile
 is likely not going to be selected for every usecase of mine, its a "selection".
 Where as a package implementation is a "this is THE config" for me and will
 definitely be selected for every usecase and be the same.
+
 This distinction is an arbitrary one in a way, I needed to draw a line somewhere
 and this is the line, I like this line, I don't feel strongly about this line.

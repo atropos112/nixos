@@ -1,6 +1,6 @@
 # COMPAT
 {lib, ...}: let
-  priorityList = import ../../utils/priorityList.nix {inherit lib;};
+  priorityList = import ../utils/priorityList.nix {inherit lib;};
   inherit (priorityList) listToPriorityList;
 in {
   atro.fastfetch.enable = true;

@@ -23,10 +23,9 @@ in {
     ../../../profiles/externalMounts/all.nix
     ../../../profiles/kopia/to_rzr.nix
     ../../../profiles/hyprland
-    ../kubernetes/user.nix
-    ../../pkgs/kitty.nix
+    ../../../profiles/kubernetes/user.nix
+    ../../../pkgs/kitty.nix
     ../../pkgs/markdown.nix
-    ../../pkgs/nix.nix
     ../../pkgs/docker.nix
     # ../../pkgs/foot.nix # A bit faster startup but no ligatures support
     # ../../pkgs/vscode.nix
@@ -41,9 +40,8 @@ in {
     ../../pkgs/rust.nix
     ../../pkgs/go
     ../../pkgs/zig.nix
-    ../../pkgs/colmena.nix
     ../../pkgs/csharp.nix
-    ../../pkgs/firefox.nix
+    ../../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
     ../../pkgs/s3.nix
     ../../pkgs/jsonnet.nix
@@ -280,236 +278,241 @@ in {
   # Allowing for "sshfs rzr:/mnt/media /mnt/media -o allow_other" so that docker can use the mount as well not just the user.
   programs.fuse.userAllowOther = true;
 
-  environment.systemPackages = with pkgs; [
-    tree-sitter
-    buildah
+  environment.systemPackages = with pkgs;
+    [
+      tree-sitter
+      buildah
 
-    # For shell script checking
-    shellharden
+      # For shell script checking
+      shellharden
 
-    # VPN clients
-    protonvpn-gui
-    protonvpn-cli
+      # VPN clients
+      protonvpn-gui
+      protonvpn-cli
 
-    cachix
+      cachix
 
-    # Android mounting tool
-    # Can run with:
-    # mkdir temp
-    # go-mtpfs -android temp
-    # Once done, Ctrl + C and umount temp
-    go-mtpfs
+      # Android mounting tool
+      # Can run with:
+      # mkdir temp
+      # go-mtpfs -android temp
+      # Once done, Ctrl + C and umount temp
+      go-mtpfs
 
-    # Clipboard manager
-    cliphist
+      # Clipboard manager
+      cliphist
 
-    # For spaced repetition memorisation
-    anki
+      # For spaced repetition memorisation
+      anki
 
-    # Search for nix packages
-    nix-search-cli
+      # Search for nix packages
+      nix-search-cli
 
-    natscli
+      natscli
 
-    # Net sniffer
-    sniffnet
+      # Net sniffer
+      sniffnet
 
-    signal-desktop
-    zapzap
+      signal-desktop
+      zapzap
 
-    sqlite
+      sqlite
 
-    httpie
-    libsForQt5.qtstyleplugin-kvantum # themes for qt apps
-    (catppuccin-kvantum.override {
-      inherit accent variant;
-    })
-    libsForQt5.qtstyleplugin-kvantum
-    libsForQt5.qt5ct
+      httpie
+      libsForQt5.qtstyleplugin-kvantum # themes for qt apps
+      (catppuccin-kvantum.override {
+        inherit accent variant;
+      })
+      libsForQt5.qtstyleplugin-kvantum
+      libsForQt5.qt5ct
 
-    # For developing
-    protobuf
+      # For developing
+      protobuf
 
-    # For viewing json files
-    jless
+      # For viewing json files
+      jless
 
-    # LSP for nix
-    nixd
+      # LSP for nix
+      nixd
 
-    # To mount remote directories
-    sshfs
+      # To mount remote directories
+      sshfs
 
-    vscode-langservers-extracted
+      vscode-langservers-extracted
 
-    # Project template generator
-    copier
+      # Project template generator
+      copier
 
-    # Basic gpg encryption stuff
-    gnupg
+      # Basic gpg encryption stuff
+      gnupg
 
-    # So that i can call xrandr to instruct xwayland which screen is primary
-    wlr-randr
+      # So that i can call xrandr to instruct xwayland which screen is primary
+      wlr-randr
 
-    # File manager
-    nautilus
+      # File manager
+      nautilus
 
-    # Backup solution
-    kopia
+      # Backup solution
+      kopia
 
-    # Interacts with the service to provide power usage information, e.g. how much battery is left.
-    upower
+      # Interacts with the service to provide power usage information, e.g. how much battery is left.
+      upower
 
-    # To set/get screen brightness
-    brightnessctl
+      # To set/get screen brightness
+      brightnessctl
 
-    # Provide a "shutdown" window for GUI convenience
-    wlogout
+      # Provide a "shutdown" window for GUI convenience
+      wlogout
 
-    # Provides controls for sound related matters
-    pavucontrol
+      # Provides controls for sound related matters
+      pavucontrol
 
-    # Zig
-    zig
+      # Zig
+      zig
 
-    # Polkit authentication for KDE based apps.
-    # Authentication agents are the things that pop up a window asking you for a
-    # password whenever an app wants to elevate its privileges.
-    kdePackages.polkit-kde-agent-1
+      # Polkit authentication for KDE based apps.
+      # Authentication agents are the things that pop up a window asking you for a
+      # password whenever an app wants to elevate its privileges.
+      kdePackages.polkit-kde-agent-1
 
-    # Application killer
-    killall
+      # Application killer
+      killall
 
-    # Keyring needed for some applications (e.g. github copilot)
-    libgnome-keyring
+      # Keyring needed for some applications (e.g. github copilot)
+      libgnome-keyring
 
-    # Javascript runtimes
-    bun
-    nodejs_20
+      # Javascript runtimes
+      bun
+      nodejs_20
 
-    # Get CPU temps etc.
-    lm_sensors
+      # Get CPU temps etc.
+      lm_sensors
 
-    # perf testing of a bash call or multiple functions
-    hyperfine
+      # perf testing of a bash call or multiple functions
+      hyperfine
 
-    # Qogir theme
-    qogir-theme
-    qogir-icon-theme
+      # Qogir theme
+      qogir-theme
+      qogir-icon-theme
 
-    # GTK theme gui manager
-    lxappearance # To run it use: GDK_BACKEND=x11 lxappearance
+      # GTK theme gui manager
+      lxappearance # To run it use: GDK_BACKEND=x11 lxappearance
 
-    # Music player
-    spotify
+      # Music player
+      spotify
 
-    # Matrix client
-    element-desktop
+      # Matrix client
+      element-desktop
 
-    # For better bluetooth controls
-    bluez
+      # For better bluetooth controls
+      bluez
 
-    # QT provides a lot of the GUI stuff
-    libsForQt5.qt5.qtwayland
-    libsForQt5.qt5ct
-    qt6.qtwayland
+      # QT provides a lot of the GUI stuff
+      libsForQt5.qt5.qtwayland
+      libsForQt5.qt5ct
+      qt6.qtwayland
 
-    # Screenshoting tools
-    # Need grim and slurp to use grimshot which does the screenshoting
-    grim
-    slurp
-    sway-contrib.grimshot
+      # Screenshoting tools
+      # Need grim and slurp to use grimshot which does the screenshoting
+      grim
+      slurp
+      sway-contrib.grimshot
 
-    # Sound control via cli (used in bar, and for keyboard shortcuts)
-    pamixer
+      # Sound control via cli (used in bar, and for keyboard shortcuts)
+      pamixer
 
-    # CLI status of storage usage
-    duf
+      # CLI status of storage usage
+      duf
 
-    # Useful tool for finding large files to cut down on storage usage
-    ncdu
+      # Useful tool for finding large files to cut down on storage usage
+      ncdu
 
-    # Hack to deal with some apps not working on X
-    xwayland
+      # Hack to deal with some apps not working on X
+      xwayland
 
-    # Lock screen
-    swaylock-effects
+      # Lock screen
+      swaylock-effects
 
-    # Manages locking when suspending, timeout or other events happen.
-    swayidle
+      # Manages locking when suspending, timeout or other events happen.
+      swayidle
 
-    # Interacts with some apps to do correct copy n paste
-    wl-clipboard
+      # Interacts with some apps to do correct copy n paste
+      wl-clipboard
 
-    # Allows setting some global flags for applications to interpret, for example dark mode.
-    dconf
+      # Allows setting some global flags for applications to interpret, for example dark mode.
+      dconf
 
-    # Nice sys-tray for tailscale
-    tailscale-systray
+      # Nice sys-tray for tailscale
+      tailscale-systray
 
-    # Provides power usage stats and some toggles
-    powertop
+      # Provides power usage stats and some toggles
+      powertop
 
-    # Basic utils like echo and tee. Are available by default but stating it here explicitly to refer it in systemd services (like wakeonusb).
-    coreutils
+      # Basic utils like echo and tee. Are available by default but stating it here explicitly to refer it in systemd services (like wakeonusb).
+      coreutils
 
-    # Watching video player
-    vlc
+      # Watching video player
+      vlc
 
-    # Curl with browser like interfaces
-    curl-impersonate
+      # Curl with browser like interfaces
+      curl-impersonate
 
-    # Youtube (and more) downloader
-    yt-dlp
+      # Youtube (and more) downloader
+      yt-dlp
 
-    # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
-    avizo
+      # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
+      avizo
 
-    # Torrent client
-    transmission_4-gtk
+      # Torrent client
+      transmission_4-gtk
 
-    # Font viewer (have to open twice for some reason)
-    gnome-font-viewer
+      # Font viewer (have to open twice for some reason)
+      gnome-font-viewer
 
-    # Multiplexer for terminal
-    tmux
+      # Multiplexer for terminal
+      tmux
 
-    # pdf viewer
-    zathura
+      # pdf viewer
+      zathura
 
-    # tool for partitioning
-    parted
+      # tool for partitioning
+      parted
 
-    # execution tool (in repos)
-    gnumake
+      # execution tool (in repos)
+      gnumake
 
-    # hacky tool to simulate keyboard inputs
-    wtype
+      # hacky tool to simulate keyboard inputs
+      wtype
 
-    # C++ compiler
-    gcc
+      # C++ compiler
+      gcc
 
-    # proprietary chat client (for external usage)
-    slack
+      # proprietary chat client (for external usage)
+      slack
 
-    # Cllium eBPF client tool for kubernetes cluster
-    cilium-cli
+      # Cllium eBPF client tool for kubernetes cluster
+      cilium-cli
 
-    #WIP
-    hadolint
-    czkawka
-    gum
-    ocaml
-    wpaperd
-    pre-commit
-    argocd
-    statix # to give suggestions on nix stuff
-    deadnix # look for dead nix code
-    alejandra
-    usbimager # etcher equiv
-    nvd # diff for nixos deploys
-    iamb # terminal client for matrix
-    lima
-  ];
+      #WIP
+      hadolint
+      czkawka
+      gum
+      ocaml
+      wpaperd
+      pre-commit
+      argocd
+      statix # to give suggestions on nix stuff
+      deadnix # look for dead nix code
+      alejandra
+      usbimager # etcher equiv
+      nvd # diff for nixos deploys
+      iamb # terminal client for matrix
+      lima
+    ]
+    ++ [
+      inputs.nil_ls.outputs.packages.${pkgs.system}.nil
+      inputs.colmena.packages.${pkgs.system}.colmena
+    ];
 
   systemd = {
     # This is a service that allows you to control with bluetooth headphones (e.g. volume play/stop)

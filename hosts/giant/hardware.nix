@@ -9,7 +9,6 @@ _: {
       enable = true;
       # igc needed to be able to ssh at initrd time (for decryption)
       kernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "igc"];
-      kernelParams = ["ip=dhcp"];
     };
 
     disko = {

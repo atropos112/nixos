@@ -140,6 +140,16 @@ To refresh the NixOS configuration, you can run:
 nix-repl> :r
 ```
 
+# How to verify all is good
+
+You kind of have to "just try" at some point but before that you can run
+
+```bash
+nix flake check --all-systems
+```
+
+optionally passing in `--no-build`.
+
 # Acknowledgements
 
 - I have shamelessly copied a lot from [Srvos](https://github.com/nix-community/srvos), I am grateful for the work they have done.

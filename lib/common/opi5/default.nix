@@ -1,11 +1,10 @@
 _: {
   imports = [
-    ../kubernetes/node.nix
+    ../default.nix
+    ../../../profiles/kubernetes/agent.nix
     ../server
     ./hardware.nix # Non standard, typically this is done from devices/<devicename>/hardware.nix but its the same across and always should be so importing it here instead.
   ];
-
-  atro.k3s.role = "agent";
 
   topology.self = {
     interfaces.eth0.network = "LAN";

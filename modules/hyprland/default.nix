@@ -32,7 +32,7 @@ in {
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
     assertions = [
       (priorityList.validatePriorityList cfg.settings)
     ];

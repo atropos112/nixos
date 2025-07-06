@@ -14,7 +14,15 @@ in {
     };
     kernelParams = mkOption {
       type = types.listOf types.str;
-      default = ["ip=dhcp"];
+      default = [
+        "ip=dhcp"
+        # WARN: If you are in trouble, not being able to pass initrd stage you ca uncomment the
+        # line bellow to allow you to drop into a shell and investigate.
+        # Please do uncomment it once you are done debugging as it is a security risk.
+        # It is a security risk as it allows anyone to drop into a shell as root, no password needed.
+        #
+        # "boot.shell_on_fail" # Allows you to drop in a shell if booting fails in initrd
+      ];
     };
   };
 

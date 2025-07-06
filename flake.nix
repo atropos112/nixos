@@ -73,6 +73,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
+
   outputs = {self, ...} @ inputs: let
     config = {
       allowUnfree = true;
@@ -136,7 +137,7 @@
   in
     {
       # Allows colmena to evaluate the flake purely via `--experimental-flake-eval`.
-      colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
+      colmenaHive = inputs.colmena.lib.makeHive self.colmena;
 
       nixosConfigurations = {
         surface = mkHost "surface" "x86_64-linux";

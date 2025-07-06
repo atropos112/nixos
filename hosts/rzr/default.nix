@@ -2,15 +2,14 @@
   imports = [
     ../../profiles/kopia/to_rzr.nix
     ./hardware.nix
-    ../../lib/common/kubernetes/node.nix
-    ../../lib/common/kubernetes/user.nix
+    ../../lib/common
+    ../../profiles/kubernetes/server.nix
+    ../../profiles/kubernetes/user.nix
     # ../../lib/pkgs/ollama.nix # Running via k8s instead
     ../../lib/pkgs/garage.nix
   ];
 
   atro = {
-    k3s.role = "server";
-
     kopia = {
       enable = true;
       runAs = "root";

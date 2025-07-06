@@ -12,6 +12,7 @@ in {
   nixpkgs.config = nixpkgs-config;
   nix = {
     settings = {
+      download-buffer-size = 524288000;
       log-lines = 25; # The default 10 is too little.
       # download-buffer-size = 1024 * 1024 * 1024; # 1024 MiB, default is 64 MiB
       connect-timeout = 5; # Fallback quickly if substituters are not available.
