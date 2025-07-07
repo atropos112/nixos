@@ -1,4 +1,27 @@
-_: {
+{config, ...}: let
+  inherit (config.networking) hostName;
+  shortHostName =
+    if builtins.substring 0 4 hostName == "atro"
+    then builtins.substring 4 (builtins.stringLength hostName) hostName
+    else hostName;
+in {
+  system = {
+    autoUpgrade = {
+      enable = true;
+      randomizedDelaySec = "120min";
+      operation = "switch"; # Could be "switch" or "boot"
+      allowReboot = false;
+      dates = "Sat, 6:00"; # systemd.time format
+      # 6:00 + 120min delay = [6:00, 8:00]
+
+      # INFO: If the repo was private would have to do something like:
+      # flake = "git+ssh://git@github.com/${username}/${repository}#default";
+      # and then have each node have SSH access to the repo or
+      # have access-tokens = github.com=${SECRET_ACCESS_TOKEN} so it can use Github API.
+
+      flake = "github:atropos112/nixos#${shortHostName}";
+    };
+  };
   systemd = {
     # Given that our systems are headless, emergency mode is useless.
     # We prefer the system to attempt to continue booting so
