@@ -5,7 +5,7 @@
     ../../lib/common
     ../../profiles/kubernetes/server.nix
     ../../profiles/kubernetes/user.nix
-    # ../../lib/pkgs/ollama.nix # Running via k8s instead
+    ../../profiles/kubernetes/nvidia.nix
     ../../lib/pkgs/garage.nix
   ];
 
@@ -35,9 +35,4 @@
     hostName = "atrorzr";
     interfaces.eth0.macAddress = "d0:50:99:96:77:de";
   };
-
-  system.activationScripts.makeNvidiaK3s = ''
-    mkdir -p /var/lib/rancher/k3s/agent/etc/containerd/
-    cp ${./k3s_config.toml.tmpl} /var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl
-  '';
 }
