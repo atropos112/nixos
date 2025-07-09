@@ -7,7 +7,6 @@
   inherit (lib) mkEnableOption mkIf mkOption mapAttrs filterAttrs hasAttr filter;
   inherit (lib.types) str attrsOf submodule listOf package nullOr bool;
   inherit (config.networking) hostName;
-  inherit (builtins) hashString;
   cfg = config.atro.syncthing;
 
   homeDir =
@@ -136,6 +135,9 @@ in {
     services.syncthing = {
       enable = true;
       package = cfg.package;
+      overrideDevices = true;
+      overrideFolders = true;
+
       # Run syncthing first time without the keys, they will appear in .config/syncthing then copy them over and then enable the below to keep them "forever"
       cert = mkIf (cfg.secrets.enable) config.sops.secrets."${cfg.secrets.certPath}".path;
       key = mkIf (cfg.secrets.enable) config.sops.secrets."${cfg.secrets.keyPath}".path;
@@ -170,7 +172,7 @@ in {
             enable = true;
             id =
               if folder.value.id == null
-              then hashString "md5" folder.name
+              then folder.name
               else folder.value.id;
             path = folder.value.path;
             devices = folder.value.devices |> filter deviceEnabled;

@@ -27,6 +27,7 @@ in {
       };
       folders = {
         sync = {
+          id = "ezaua-zrnnt";
           devices = ["cluster" "p9pf" "surface" "giant"];
           path = "/home/atropos/Sync";
         };

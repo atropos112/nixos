@@ -29,7 +29,7 @@ in {
     # ../../pkgs/foot.nix # A bit faster startup but no ligatures support
     # ../../pkgs/vscode.nix
     ../../pkgs/zfs.nix
-    ../../pkgs/syncthing.nix
+    ../../../profiles/syncthing/basic.nix
     ../../pkgs/waybar
     # ../../pkgs/copyq
     ../../pkgs/mako.nix
