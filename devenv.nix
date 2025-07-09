@@ -96,6 +96,101 @@ in {
       '';
       description = "Render the topology image";
     };
+
+    nix-to-json = {
+      # I am 100% committing a nix crime here, embedding nix inside of bash inside of nix
+      # not sure how to make it better though :(
+      exec = writeShellScript "nix-to-json" ''
+        # Get Nix input
+        if [ $# -eq 1 ]; then
+            if [ -f "$1" ]; then
+                nix_input=$(cat "$1")
+            else
+                nix_input="$1"
+            fi
+        elif [ $# -eq 0 ]; then
+            nix_input=$(cat)
+        else
+            echo "Usage: $0 [NIX_EXPRESSION|FILE]" >&2
+            exit 1
+        fi
+
+        # Use nix-instantiate to evaluate and convert to JSON
+        # Load the flake from /home/atropos/nixos/flake.nix for config access
+        nix eval --impure --json --expr  "
+        let
+          flake = builtins.getFlake \"/home/atropos/nixos\";
+          # Try to get the first nixos configuration available
+          configName = builtins.head (builtins.attrNames flake.nixosConfigurations);
+          config = flake.nixosConfigurations.\''${configName}.config;
+          pkgs = import <nixpkgs> {};
+          lib = pkgs.lib;
+        in
+        $nix_input
+        " | jq .
+      '';
+      description = "Transforms nix to json with my nixos flake pre-imported.";
+    };
+
+    nix-to-json-simple = {
+      exec = writeShellScript "nix-to-json-simple" ''
+        # Get Nix input
+        if [ $# -eq 1 ]; then
+            if [ -f "$1" ]; then
+                nix_input=$(cat "$1")
+            else
+                nix_input="$1"
+            fi
+        elif [ $# -eq 0 ]; then
+            nix_input=$(cat)
+        else
+            echo "Usage: $0 [NIX_EXPRESSION|FILE]" >&2
+            exit 1
+        fi
+
+        # Use nix-instantiate to evaluate and convert to JSON
+        nix-instantiate --eval --strict --json --expr "$nix_input" | jq .
+      '';
+      description = "Transforms nix to json, simple, no pre-imports.";
+    };
+
+    json-to-nix = {
+      description = "Transforms JSON to Nix expression";
+      # I am 100% committing a nix crime here, embedding nix inside of bash inside of nix
+      # not sure how to make it better though :(
+      exec = writeShellScript "json-to-nix" ''
+
+        # Get JSON input
+        if [ $# -eq 1 ]; then
+            # For passing in directly
+            json_input="$1"
+        elif [ $# -eq 0 ]; then
+            # For piping
+            json_input=$(cat)
+        else
+            echo "Usage: $0 [JSON_STRING]" >&2
+            exit 1
+        fi
+
+        # Validate JSON
+        if ! echo "$json_input" | jq empty 2>/dev/null; then
+            echo "Error: Invalid JSON input" >&2
+            exit 1
+        fi
+
+        # Escape for Nix string literal
+        escaped_json=$(echo "$json_input" | sed "s/\\\\/\\\\\\\\/g; s/'/\\\\'/g")
+
+        # Use nix-instantiate to evaluate and print the result
+        nix-instantiate --eval --strict --expr "
+        let
+          json = ''' ''${escaped_json} ''';
+          nixValue = builtins.fromJSON json;
+        in
+        nixValue
+        "
+      '';
+    };
   };
 
   enterTest = ''
