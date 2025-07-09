@@ -7,6 +7,11 @@
   inherit (lib) mapAttrs;
 
   inherit (import ../../utils/priorityList.nix {inherit lib;}) listToPriorityList;
+
+  deviceNameToHostName = deviceName:
+    if deviceName == "cluster"
+    then "tcp://syncthing"
+    else "tcp://${deviceName}";
 in {
   /*
   To add a new device, disable the secrets (secrets.enable = false)
@@ -26,10 +31,13 @@ in {
         password = "$2y$12$8NqZv2uGypWM9AfQRoklbeEMZ2wmtPlSdkCu4tkE73VkiYzAXHdg2"; # bcrypt hash of the real password which is in BitWarden
       };
       folders = {
-        sync = {
-          id = "ezaua-zrnnt";
+        manual = {
+          devices = ["p9pf" "surface" "giant"];
+          path = "/home/atropos/Sync/manual";
+        };
+        websites = {
           devices = ["cluster" "p9pf" "surface" "giant"];
-          path = "/home/atropos/Sync";
+          path = "/home/atropos/Sync/websites";
         };
       };
 
@@ -42,7 +50,7 @@ in {
         }
         |> mapAttrs (name: deviceId: {
           id = deviceId;
-          address = "tcp://${name}"; # I used dns for all of these devices so they can resolve each other
+          address = deviceNameToHostName name;
         });
     };
 

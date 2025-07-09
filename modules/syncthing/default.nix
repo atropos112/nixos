@@ -63,6 +63,7 @@ in {
           };
           enable = mkOption {
             type = nullOr bool;
+            default = null;
             description = ''
               Whether to enable this device.
 
@@ -135,9 +136,6 @@ in {
     services.syncthing = {
       enable = true;
       package = cfg.package;
-      overrideDevices = true;
-      overrideFolders = true;
-
       # Run syncthing first time without the keys, they will appear in .config/syncthing then copy them over and then enable the below to keep them "forever"
       cert = mkIf (cfg.secrets.enable) config.sops.secrets."${cfg.secrets.certPath}".path;
       key = mkIf (cfg.secrets.enable) config.sops.secrets."${cfg.secrets.keyPath}".path;
@@ -171,11 +169,11 @@ in {
           |> mapAttrs (name: folder: {
             enable = true;
             id =
-              if folder.value.id == null
-              then folder.name
-              else folder.value.id;
-            path = folder.value.path;
-            devices = folder.value.devices |> filter deviceEnabled;
+              if folder.id == null
+              then name
+              else folder.id;
+            path = folder.path;
+            devices = folder.devices |> filter deviceEnabled;
           });
       };
     };

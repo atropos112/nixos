@@ -550,7 +550,7 @@ in {
         ".local/share/fonts" = {
           enable = true;
           recursive = true;
-          source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/Sync/fonts";
+          source = config.lib.file.mkOutOfStoreSymlink "/home/atropos/Sync/manual/fonts";
         };
         ".config/ZapZap/ZapZap.conf".text = ''
           [main]

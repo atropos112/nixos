@@ -52,21 +52,6 @@ in {
   };
 
   services = {
-    syncthing = {
-      settings = {
-        devices = {
-          giant = {
-            addresses = [
-              "tcp://giant"
-            ];
-            autoAcceptFolders = false; # Can't auto accept as those will be overridden by the config below
-            id = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
-          };
-        };
-        folders.sync.devices = ["giant"]; # Adds to already existing devices
-      };
-    };
-
     tlp.settings = lib.mkForce {
       # INFO: I found the available options in
       # /sys/devices/system/cpu/cpu4/cpufreq/scaling_available_governors
