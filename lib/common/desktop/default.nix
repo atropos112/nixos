@@ -4,7 +4,6 @@
   lib,
   ...
 }: let
-  inherit (import ../../../utils/priorityList.nix {inherit lib;}) listToPriorityList;
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
   theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
@@ -74,16 +73,6 @@ in {
   # '';
 
   atro = {
-    fastfetch.modules = listToPriorityList 1000 [
-      {
-        "type" = "command";
-        "text" = "systemctl is-active syncthing";
-        "key" = "Syncthing";
-      }
-      "separator" # Displays
-      "display"
-    ];
-
     externalMounts = {
       enable = true;
     };

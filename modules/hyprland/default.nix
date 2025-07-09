@@ -4,8 +4,8 @@
   lib,
   config,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.atro.hyprland;
   priorityList = import ../../utils/priorityList.nix {inherit lib;};
 in {
