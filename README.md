@@ -150,6 +150,79 @@ nix flake check --all-systems
 
 optionally passing in `--no-build`.
 
+# Adding a new node
+
+All new nodes should be using impermanence.
+
+You should:
+
+1. Add a line in `flake.nix` something like
+
+```nix
+nixosConfigurations = {
+    ...
+    orth = mkHost "orth" "x86_64-linux";
+    ...
+};
+```
+
+2. Create a new diretory in `hosts` matching the name of the node with `default.nix` and `hardware.nix` files in it. Look at other nodes to get an idea what you need. Typically some imports and
+
+```nix
+networking = {
+    hostName = "orth";
+};
+```
+
+For `hardware.nix` it will very likely look like
+
+```nix
+_: {
+  imports = [
+    ../../profiles/impermanence/basic.nix
+  ];
+
+  atro = {
+    boot.enable = true;
+
+    disko = {
+      enable = true;
+      hostId = "1676722a"; # Id you just made up of same size.
+      mode = "raidz1"; # Depends on how many drives you have.
+      drives = [
+        # Get These by running `ls /dev/disk/by-id/` on the machine you are adding.
+        "nvme-Lexar_SSD_NM620_2TB_NM6760R003099P111D"
+        "nvme-Lexar_SSD_NM620_2TB_NM6760R003317P111D"
+        "nvme-Lexar_SSD_NM620_2TB_NM6760R003360P111D"
+        "nvme-Lexar_SSD_NM620_2TB_NM6760R003472P111D"
+      ];
+    };
+  };
+}
+```
+
+3. Make persistend directory that will be passed into nixos anywhere call it `persistent` and put it in your directory of choice e.g. `/home/atropos/orth/persistent`. In there make `home/atropos/.ssh` and `/root/.ssh` directories and generate ssh keys for both using `ssh-keygen -f id_ed25519 -C "some-menaningful-name"`. Do note the final directory must be called `peristent` so that `/home/atropos/orth/persistent` is ok but `/home/atropos/orth/persistent2` is not. This is because `nixos-anywhere` will map it to directories on the machine and we need that directory to be mapped to `/persistent`.
+
+4. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`, you will need to copy the `secrets.yaml` file contents delete the file and run `edit-secrets` and paste them in so it "accounts" for the new node.
+
+5. `ssh-keygen -f id_ed25519 -C "<some-name>"` and `ssh-keygen -t rsa -f rsa -C "<some-name>"` somewhere, and store those keys in `hostKeys` directory in sops secrets, you can use `edit-secrets` to do this. Delete the files you just generated once you are done.
+
+6. Run `nixos-anywhere` command like so:
+
+```nix
+ sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/orth" --flake .#orth root@9.0.0.134
+```
+
+If you forgot about something, like say, the fact that tailscale key is out of date then you will likely have to run something like
+
+```nix
+sudo nixos-rebuild --flake .#orth --target-host 9.0.0.135 --verbose --build-host localhost switch
+```
+
+after finding out what the IP is of course. I think it might be a good idea to run this once anyway just in case.
+
+Don't forget to disable expiry key in tailscale admin console.
+
 # Acknowledgements
 
 - I have shamelessly copied a lot from [Srvos](https://github.com/nix-community/srvos), I am grateful for the work they have done.

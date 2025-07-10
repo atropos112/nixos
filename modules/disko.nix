@@ -213,18 +213,18 @@ in {
       }
       {
         # If raidz1 mode is used then the number of drives must be greater than 4.
-        assertion = length cfg.drives > 4 || cfg.mode != "raidz1";
-        message = "You must have more than 4 drives to use raidz1 mode.";
+        assertion = length cfg.drives >= 4 || cfg.mode != "raidz1";
+        message = "You must have at least 4 drives to use raidz1 mode.";
       }
       {
         # If raidz2 mode is used then the number of drives must be greater than 6.
-        assertion = length cfg.drives > 6 || cfg.mode != "raidz2";
-        message = "You must have more than 6 drives to use raidz2 mode.";
+        assertion = length cfg.drives >= 6 || cfg.mode != "raidz2";
+        message = "You must have at least 6 drives to use raidz2 mode.";
       }
       {
         # If raidz3 mode is used then the number of drives must be greater than 8.
-        assertion = length cfg.drives > 8 || cfg.mode != "raidz3";
-        message = "You must have more than 8 drives to use raidz3 mode.";
+        assertion = length cfg.drives >= 8 || cfg.mode != "raidz3";
+        message = "You must have at least 8 drives to use raidz3 mode.";
       }
       {
         # hostId must be non empty

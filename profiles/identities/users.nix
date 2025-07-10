@@ -23,6 +23,7 @@ in {
       plugdev.gid = 997;
       polkituser.gid = 996;
       rtkit.gid = 995;
+      dhcpcd.gid = 989;
       sshd.gid = 994;
       resolvconf.gid = 991;
 
@@ -34,6 +35,11 @@ in {
     };
 
     users = {
+      dhcpcd = {
+        uid = 997;
+        # Different setups will make it part of different groups.
+      };
+
       nm-iodine = {
         uid = 999;
         group = "networkmanager";

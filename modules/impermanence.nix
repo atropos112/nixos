@@ -25,10 +25,7 @@ It assumes
       ".local/share"
     ]
     ++ cfg.home.ensureDirsExist;
-  mkDirForensureDirsExist =
-    if cfg.home.ensureDirsExist != []
-    then "mkdir -p ${mkDirsForHome |> map (d: "/home/${cfg.userName}/" + d) |> concatStringsSep " "}"
-    else "";
+  mkDirForensureDirsExist = "mkdir -p ${mkDirsForHome |> map (d: "/home/${cfg.userName}/" + d) |> concatStringsSep " "}";
   initrdScript = ''
     echo "--------------------------------------------------"
     echo "Setting up impermanence..."
