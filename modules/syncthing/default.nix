@@ -94,7 +94,13 @@ in {
           };
         };
       });
-      description = "Syncthing folders to sync.";
+      description = ''
+        Syncthing folders to sync.
+
+        Do note if the device you are deploying this module to is not in the list it won't have that folder.
+
+        Device names are done via hostnames, please do not change them in UI.
+      '';
     };
     gui = {
       address = mkOption {
@@ -166,6 +172,7 @@ in {
 
         folders =
           cfg.folders
+          |> filterAttrs (_: folder: builtins.elem hostName folder.devices)
           |> mapAttrs (name: folder: {
             enable = true;
             id =

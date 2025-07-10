@@ -5,8 +5,9 @@
 # {priority = 3; value = 3;},
 # ];
 # It must have a unique priority to avoid undefined behavior.
-{lib}:
-with lib; let
+{lib}: let
+  inherit (lib) map sort concatStringsSep unique length;
+  inherit (builtins) toString;
   # Given a priority list, this will return a list of values sorted by priority.
   # With smallest priority first.
   # To make a string from this can do something like this:
@@ -22,30 +23,8 @@ in {
   #   ...
   # ];
   validatePriorityList = priorityList: {
-    assertion = let
-      priorities = map (item: item.priority) priorityList;
-      uniquePriorities = unique priorities;
-    in
-      length priorities == length uniquePriorities;
-
-    message = let
-      priorities = map (item: item.priority) priorityList;
-
-      # Find duplicates with their values
-      duplicateInfo =
-        filter
-        (info: info.count > 1)
-        (map (p: {
-          priority = p;
-          count = count (x: x == p) priorities;
-          values = map (item: item.value) (filter (item: item.priority == p) priorityList);
-        }) (unique priorities));
-
-      formatDuplicate = info: "priority ${toString info.priority} (used by: ${concatStringsSep ", " (map (v: "\"${v}\"") info.values)})";
-    in ''
-      myModule.priorityString.items: Duplicate priorities found:
-      ${concatStringsSep "\n  " (map formatDuplicate duplicateInfo)}
-    '';
+    assertion = (priorityList |> map (item: item.priority) |> unique |> length) == (priorityList |> length);
+    message = "Priority list must have unique priorities. Duplicates found. The priorities are: ${priorityList |> map (i: toString i.priority) |> concatStringsSep ", "}";
   };
 
   # Convinience function to convert a priority list to a string by \n concats.

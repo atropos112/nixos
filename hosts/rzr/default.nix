@@ -7,6 +7,7 @@
     ../../profiles/kubernetes/user.nix
     ../../profiles/kubernetes/nvidia.nix
     ../../lib/pkgs/garage.nix
+    ../../profiles/syncthing/basic.nix
   ];
 
   atro = {

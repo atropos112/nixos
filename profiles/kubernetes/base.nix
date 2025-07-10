@@ -45,7 +45,7 @@ in {
     mode = "0444"; # Read only
   };
 
-  atro.fastfetch.modules = listToPriorityList 1000 [
+  atro.fastfetch.modules = listToPriorityList 2000 [
     {
       "type" = "command";
       "text" = "systemctl is-active k3s";

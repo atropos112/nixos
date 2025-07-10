@@ -16,6 +16,7 @@ in {
   imports = [
     ./hardware.nix
     ../../lib/common/desktop
+    ../../profiles/syncthing/basic.nix
   ];
 
   nix = {
