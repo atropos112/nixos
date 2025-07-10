@@ -7,10 +7,9 @@
   ];
 in {
   imports = [
-    ../../lib/common/nvidia.nix
-    ../../lib/common/server/amd64_hardware.nix
-    ../../lib/common/server
-    ../../lib/pkgs/zfs.nix
+    ../../profiles/common/amd64_hardware.nix
+    ../../profiles/nvidia.nix
+    ../../profiles/zfs.nix
   ];
   hardware.nvidia.powerManagement.enable = false;
 

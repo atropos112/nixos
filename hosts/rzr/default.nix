@@ -1,13 +1,14 @@
 {pkgs, ...}: {
   imports = [
-    ../../profiles/kopia/to_rzr.nix
     ./hardware.nix
-    ../../lib/common
+    ../../profiles/common/basic.nix
+    ../../profiles/common/server.nix
+    ../../profiles/kopia/to_rzr.nix
     ../../profiles/kubernetes/server.nix
     ../../profiles/kubernetes/user.nix
     ../../profiles/kubernetes/nvidia.nix
-    ../../lib/pkgs/garage.nix
-    ../../profiles/syncthing/basic.nix
+    ../../profiles/garage.nix
+    ../../profiles/syncthing.nix
   ];
 
   atro = {

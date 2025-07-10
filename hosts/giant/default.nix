@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   imports = [
     ./hardware.nix
-    ../../lib/common/desktop
-    ../../profiles/syncthing/basic.nix
+    ../../profiles/common/desktop
+    ../../profiles/syncthing.nix
   ];
   topology.self = {
     interfaces = {

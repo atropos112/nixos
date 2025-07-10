@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ../../lib/common/nvidia.nix
+    ../../profiles/nvidia.nix
     ../../profiles/impermanence/desktop.nix
   ];
 

@@ -106,22 +106,14 @@
           inherit system;
           specialArgs = passThroughArgs system;
           modules = [
-            #1. Home-manager
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useUserPackages = true;
-              };
-            }
+            #1. Secrets
+            ./secrets
 
-            #2. Loading device specific configuration
-            ./hosts/${hostName}
-
-            #3. Topology
-            inputs.nix-topology.nixosModules.default
-
-            # WIP
+            #2. Modules
             ./modules
+
+            #3. Load full configuration
+            ./hosts/${hostName}
           ];
         }) {}
     );
@@ -184,8 +176,8 @@
         };
 
         modules = [
-          ./lib/topology/networks.nix
-          ./lib/topology/services.nix
+          ./topology/networks.nix
+          ./topology/services.nix
           {inherit (self) nixosConfigurations;}
         ];
       };

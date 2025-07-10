@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ../../lib/common/server/amd64_hardware.nix
+    ../../profiles/common/amd64_hardware.nix
   ];
   fileSystems = {
     "/" = {

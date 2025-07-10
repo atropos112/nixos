@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ../../lib/common/opi5
+    ../../profiles/common/opi5
   ];
 
   topology.self = {
