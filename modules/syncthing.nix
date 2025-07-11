@@ -29,16 +29,6 @@ in {
       description = "The user to run syncthing as.";
     };
     secrets = {
-      enable = mkOption {
-        type = bool;
-        default = true;
-        description = ''
-          Whether to enable SopsNix secrets for syncthing.
-
-          It is strongly recommended to leave it as `true` otherwise you will have randomness in your syncthing configuration.
-          The only time its necessary to set it to `false` is when you are adding a new device that doesn't have a certificate, key and device ID yet.
-        '';
-      };
       certPath = mkOption {
         type = str;
         default = "syncthing/${hostName}/cert";
@@ -126,7 +116,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    sops.secrets = mkIf cfg.secrets.enable {
+    sops.secrets = {
       "${cfg.secrets.certPath}" = {
         owner = config.users.users."${cfg.userName}".name;
         group = config.users.users."${cfg.userName}".name;
@@ -154,8 +144,8 @@ in {
       enable = true;
       package = cfg.package;
       # Run syncthing first time without the keys, they will appear in .config/syncthing then copy them over and then enable the below to keep them "forever"
-      cert = mkIf (cfg.secrets.enable) config.sops.secrets."${cfg.secrets.certPath}".path;
-      key = mkIf (cfg.secrets.enable) config.sops.secrets."${cfg.secrets.keyPath}".path;
+      cert = config.sops.secrets."${cfg.secrets.certPath}".path;
+      key = config.sops.secrets."${cfg.secrets.keyPath}".path;
       overrideDevices = true;
       overrideFolders = true;
       configDir = "${homeDir}/.config/syncthing";
