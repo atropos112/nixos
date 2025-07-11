@@ -4,6 +4,8 @@
     usePredictableInterfaceNames = false;
     nftables.enable = true;
     firewall.enable = false;
+    nameservers = ["127.0.0.1"];
+    networkmanager.appendNameservers = ["127.0.0.1"];
     enableIPv6 = false;
     # Some time servers just to be sure
     timeServers =
@@ -34,5 +36,22 @@
 
     # What does it mean to be online?
     network.wait-online.enable = false;
+  };
+
+  services = {
+    dnsproxy = {
+      enable = true; # Turn on the dnsproxy service
+      settings = {
+        listen-addrs = ["127.0.0.1"]; # Listens on your local computer (127.0.0.1).
+        listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
+
+        # 🌐 **Encrypted DNS protocols (choose one or more)**
+        upstream = [
+          "https://opnsense.zapus-perch.ts.net:9443/dns-query"
+          "https://opiz2.zapus-perch.ts.net:9443/dns-query"
+        ];
+      };
+      flags = ["--verbose"]; # Adds verbose logging to help debug (optional).
+    };
   };
 }

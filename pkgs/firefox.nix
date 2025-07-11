@@ -162,9 +162,9 @@ in {
           "layout.spellcheckDefault" = "1";
 
           # Custom DNS over HTTPS
-          "network.trr.custom_uri" = "https://dns.atro.xyz:9443/dns-query";
+          "network.trr.custom_uri" = "https://opnsense.zapus-perch.ts.net:9443/dns-query";
           "network.trr.mode" = 3; # Max protection use TRR first, complain if can't and fallback on user accept only
-          "network.trr.uri" = "https://dns.atro.xyz:9443/dns-query";
+          "network.trr.uri" = "https://opnsense.zapus-perch.ts.net:9443/dns-query";
           "network.dns.disableIPv6" = true; # Disable IPv6
           "doh-rollout.disable-heuristics" = true;
 
