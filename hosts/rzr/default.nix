@@ -25,6 +25,7 @@
         capacity = "2T";
       };
       metadataDir = "/home/atropos/garage_metadata"; # Directory where Garage stores its metadata (need high speed)
+      rpcPublicAddr = "rzr:3901";
     };
   };
 

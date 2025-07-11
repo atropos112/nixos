@@ -20,7 +20,7 @@
     replication_factor = 1; # Number of copies of data
 
     rpc_bind_addr = "[::]:3901";
-    rpc_public_addr = "127.0.0.1:3901";
+    rpc_public_addr = cfg.rpcPublicAddr;
     rpc_secret_file = config.sops.secrets."${cfg.secrets.rpcSecret}".path;
 
     s3_api = {
@@ -66,6 +66,9 @@ in {
       type = types.package;
       default = pkgs.garage_2;
       description = "Garage package to use";
+    };
+    rpcPublicAddr = mkOption {
+      type = types.str;
     };
     secrets = {
       rpcSecret = mkOption {

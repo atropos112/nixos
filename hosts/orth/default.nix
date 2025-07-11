@@ -3,6 +3,7 @@ _: {
     ../../profiles/common/basic.nix
     ../../profiles/common/server.nix
     ../../profiles/services/garage.nix
+    ../../profiles/services/syncthing.nix
     ./hardware.nix
   ];
 
@@ -16,6 +17,7 @@ _: {
         capacity = "4T";
       };
       metadataDir = "/persistent/garage/metadata";
+      rpcPublicAddr = "orth:3901";
     };
   };
 

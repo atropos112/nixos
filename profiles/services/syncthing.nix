@@ -10,6 +10,11 @@
     if deviceName == "cluster"
     then "tcp://syncthing"
     else "tcp://${deviceName}";
+
+  syncDir =
+    if config.atro.impermanence.enable
+    then "/persistent/home/atropos/Sync"
+    else "/home/atropos/Sync";
 in {
   /*
   To add a new device you will need cert, key and device ID.
@@ -34,12 +39,12 @@ in {
 
       folders = {
         manual = {
-          devices = ["p9pf" "surface" "giant" "atrorzr"];
-          path = "/home/atropos/Sync/manual";
+          devices = ["p9pf" "surface" "giant" "atrorzr" "orth"];
+          path = "${syncDir}/manual";
         };
         websites = {
           devices = ["cluster" "p9pf" "surface"];
-          path = "/home/atropos/Sync/websites";
+          path = "${syncDir}/websites";
         };
       };
 
@@ -50,6 +55,7 @@ in {
           surface = "UWJRHPP-IDPIB5H-W2PZTLG-7NN2RNU-HCV54T5-4LY64YB-NYQX7W3-JRHNGAS";
           giant = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
           atrorzr = "HBYTR3Y-VO3BX62-M4TX7IW-COBUIPN-FYDVFPB-P76WM4U-E4DYTEH-32FFXQO";
+          orth = "QQ2BVQH-NLCNB4C-JS7CGGN-C6F23KJ-AOVFXVL-4LGZLDW-U66UKGO-QUFVJA6";
         }
         |> mapAttrs (name: deviceId: {
           id = deviceId;
