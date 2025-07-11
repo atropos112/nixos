@@ -18,6 +18,14 @@
       exposeWebUI = true;
       path = "/mnt/photos/";
     };
+
+    garage = {
+      data = {
+        dir = "/mnt/garage"; # Where data lives (need high capacity)
+        capacity = "2T";
+      };
+      metadataDir = "/home/atropos/garage_metadata"; # Directory where Garage stores its metadata (need high speed)
+    };
   };
 
   environment.systemPackages = with pkgs; [
