@@ -149,6 +149,9 @@ in {
 
     systemPackages = with pkgs;
       [
+        # For IO monitoring
+        iotop
+
         # Data processors for json, yaml, xml etc.
         jq
         yq
