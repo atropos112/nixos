@@ -2,7 +2,7 @@
   imports = [
     ./hardware.nix
     ../../profiles/common/desktop
-    ../../profiles/syncthing.nix
+    ../../profiles/services/syncthing.nix
   ];
   topology.self = {
     interfaces = {

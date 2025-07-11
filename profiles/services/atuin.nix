@@ -49,6 +49,17 @@
     };
   };
 
+  atro.fastfetch.modules = [
+    {
+      priority = 1003;
+      value = {
+        "type" = "command";
+        "text" = "systemctl is-active --user atuin-syncer";
+        "key" = "Atuin";
+      };
+    }
+  ];
+
   systemd.user = {
     sockets = {
       atuin-syncer = {

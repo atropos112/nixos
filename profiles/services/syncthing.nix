@@ -6,8 +6,6 @@
   inherit (config.networking) hostName;
   inherit (lib) mapAttrs;
 
-  inherit (import ../utils/priorityList.nix {inherit lib;}) listToPriorityList;
-
   deviceNameToHostName = deviceName:
     if deviceName == "cluster"
     then "tcp://syncthing"
@@ -58,15 +56,5 @@ in {
           address = deviceNameToHostName name;
         });
     };
-
-    fastfetch.modules = listToPriorityList 1000 [
-      {
-        "type" = "command";
-        "text" = "systemctl is-active syncthing";
-        "key" = "Syncthing";
-      }
-      "separator" # Displays
-      "display"
-    ];
   };
 }

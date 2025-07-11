@@ -2,7 +2,7 @@ _: {
   imports = [
     ../../profiles/common/basic.nix
     ../../profiles/common/server.nix
-    ../../profiles/garage.nix
+    ../../profiles/services/garage.nix
     ./hardware.nix
   ];
 

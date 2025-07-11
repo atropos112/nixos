@@ -37,7 +37,7 @@ in {
     users = {
       dhcpcd = {
         uid = 997;
-        # Different setups will make it part of different groups.
+        group = "dhcpcd";
       };
 
       nm-iodine = {

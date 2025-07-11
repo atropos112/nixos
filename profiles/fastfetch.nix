@@ -30,26 +30,6 @@ in {
       "wifi"
       "bluetooth"
       "separator" # Regular services
-      {
-        "type" = "command";
-        "text" = "systemctl is-active attic-client";
-        "key" = "Attic";
-      }
-      {
-        "type" = "command";
-        "text" = "systemctl is-active --user atuin-daemon";
-        "key" = "Atuin";
-      }
-      {
-        "type" = "command";
-        "text" = "systemctl is-active docker";
-        "key" = "Docker";
-      }
-      {
-        "type" = "command";
-        "text" = "systemctl is-active kopia";
-        "key" = "Kopia";
-      }
     ];
   };
 }

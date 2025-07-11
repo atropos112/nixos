@@ -28,6 +28,17 @@ in {
     group = config.users.users.atropos.name;
   };
 
+  atro.fastfetch.modules = [
+    {
+      priority = 1002;
+      value = {
+        "type" = "command";
+        "text" = "systemctl is-active attic-client";
+        "key" = "Attic";
+      };
+    }
+  ];
+
   systemd.user.services.attic-connect = {
     description = "Connect to Attic";
     after = ["network.target"];

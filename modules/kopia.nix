@@ -160,6 +160,17 @@ in {
       };
     };
 
+    atro.fastfetch.modules = [
+      {
+        priority = 1004;
+        value = {
+          "type" = "command";
+          "text" = "systemctl is-active kopia";
+          "key" = "Kopia";
+        };
+      }
+    ];
+
     systemd.services.kopia = mkIf (cfg.runAs
       == "root")
     kopiaService;

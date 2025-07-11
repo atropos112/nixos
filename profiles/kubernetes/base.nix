@@ -5,7 +5,6 @@
   ...
 }: let
   inherit (config.networking) hostName;
-  inherit (import ../../utils/priorityList.nix {inherit lib;}) listToPriorityList;
 
   # Special case... I know, I have regrets.
   nodeName =
@@ -44,12 +43,14 @@ in {
     path = "/home/atropos/.kube/config";
     mode = "0444"; # Read only
   };
-
-  atro.fastfetch.modules = listToPriorityList 2000 [
+  atro.fastfetch.modules = [
     {
-      "type" = "command";
-      "text" = "systemctl is-active k3s";
-      "key" = "K3s";
+      priority = 1005;
+      value = {
+        "type" = "command";
+        "text" = "systemctl is-active k3s";
+        "key" = "K3s";
+      };
     }
   ];
 }

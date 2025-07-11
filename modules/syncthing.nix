@@ -139,6 +139,17 @@ in {
       };
     };
 
+    atro.fastfetch.modules = [
+      {
+        priority = 1001;
+        value = {
+          "type" = "command";
+          "text" = "systemctl is-active syncthing";
+          "key" = "Syncthing";
+        };
+      }
+    ];
+
     services.syncthing = {
       enable = true;
       package = cfg.package;

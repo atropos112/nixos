@@ -27,13 +27,13 @@ in {
     ../identities/known_hosts.nix
     ../networking.nix
     ../fastfetch.nix
+    ../services/atuin.nix
+    ../services/attic-client.nix
 
     # Packages
-    ../../pkgs/atuin.nix
     ../../pkgs/git.nix
     ../../pkgs/starship.nix
     ../../pkgs/htop.nix
-    ../../pkgs/attic-client.nix
     ../../pkgs/nvim.nix
     ../../pkgs/tmux.nix
     ../../pkgs/alloy
@@ -121,6 +121,17 @@ in {
       dockerCompat = true; # alias docker -> podman
     };
   };
+
+  atro.fastfetch.modules = [
+    {
+      priority = 1000;
+      value = {
+        "type" = "command";
+        "text" = "systemctl is-active podman";
+        "key" = "Podman";
+      };
+    }
+  ];
 
   environment = {
     etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
