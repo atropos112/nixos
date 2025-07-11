@@ -54,7 +54,9 @@
       priority = 1003;
       value = {
         "type" = "command";
-        "text" = "systemctl is-active --user atuin-syncer";
+        # not using systemctl is-active --user atuin-syncer
+        # because it doesn't work on SSH (turns alive momentarily after login)
+        "text" = "pgrep -f 'atuin daemon' > /dev/null && echo 'active' || echo 'inactive'";
         "key" = "Atuin";
       };
     }
