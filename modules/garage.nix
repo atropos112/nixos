@@ -43,6 +43,8 @@
     admin = {
       api_bind_addr = "[::]:3903";
       admin_token_file = config.sops.secrets."${cfg.secrets.adminToken}".path;
+      trace_sink = lib.mkIf (cfg.traceSink != null) cfg.traceSink;
+
       # Do not need token on metrics endpoint
       # metrics_token_file = "nope";
     };
@@ -50,6 +52,11 @@
 in {
   options.atro.garage = {
     enable = mkEnableOption "Enable Garage service";
+    traceSink = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "Trace sink for Garage service";
+    };
     data = {
       dir = mkOption {
         type = types.str;

@@ -7,6 +7,7 @@
         rpcSecret = "garage/rpcSecret";
         adminToken = "garage/adminToken";
       };
+      traceSink = "http://127.0.0.1:4317";
     };
 
     alloy.configs = [
