@@ -36,7 +36,7 @@ in {
     ../../pkgs/htop.nix
     ../../pkgs/nvim.nix
     ../../pkgs/tmux.nix
-    ../../pkgs/alloy
+    ../../profiles/alloy
   ];
 
   # Secrets that don't fit in other modules/pkgs

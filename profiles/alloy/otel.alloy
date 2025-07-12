@@ -1,0 +1,28 @@
+otelcol.exporter.otlp "default" {
+  client {
+    endpoint = "otel:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+otelcol.processor.batch "default" {
+  output {
+    metrics = [otelcol.exporter.otlp.default.input]
+    traces = [otelcol.exporter.otlp.default.input]
+    logs = [otelcol.exporter.otlp.default.input]
+  }
+}
+
+otelcol.receiver.prometheus "default" {
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+  }
+}
+
+otelcol.receiver.loki "default" {
+  output {
+    logs = [otelcol.processor.batch.default.input]
+  }
+}

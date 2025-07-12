@@ -1,0 +1,74 @@
+discovery.docker "linux" {
+  host = "unix:///var/run/docker.sock"
+  refresh_interval = "15s"
+}
+
+loki.source.docker "default" {
+  host       = "unix:///var/run/docker.sock"
+  relabel_rules = loki.relabel.docker.rules
+  targets    = discovery.docker.linux.targets
+  forward_to = [otelcol.receiver.loki.default.receiver]
+}
+
+
+loki.relabel "docker" {
+	forward_to = []
+	rule {
+		target_label = "job"
+		replacement = "docker"
+	}
+
+
+	rule {
+		target_label = "hostname"
+		replacement = constants.hostname
+	}
+
+	rule {
+		target_label = "instance"
+		replacement = constants.hostname
+	}
+
+
+	rule {
+		source_labels = ["__meta_docker_container_name"]
+		regex = "/(.*)"
+		target_label = "service_name"
+	}
+
+
+	rule {
+		source_labels = ["__meta_docker_container_log_stream"]
+		target_label = "stream"
+	}
+}
+
+loki.relabel "journal" {
+	forward_to = []
+	rule {
+		target_label = "job"
+		replacement = "journal"
+	}
+
+
+	rule {
+		target_label = "hostname"
+		replacement = constants.hostname
+	}
+
+	rule {
+		target_label = "instance"
+		replacement = constants.hostname
+	}
+
+	rule {
+		source_labels = ["__journal__systemd_unit"]
+		target_label  = "service_name"
+	}
+}
+
+loki.source.journal "read"  {
+	relabel_rules = loki.relabel.journal.rules
+	labels        = {component = "loki.source.journal"}
+	forward_to = [otelcol.receiver.loki.default.receiver]
+}
