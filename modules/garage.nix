@@ -44,7 +44,6 @@
       api_bind_addr = "[::]:3903";
       admin_token_file = config.sops.secrets."${cfg.secrets.adminToken}".path;
       trace_sink = lib.mkIf (cfg.traceSink != null) cfg.traceSink;
-
       # Do not need token on metrics endpoint
       # metrics_token_file = "nope";
     };
