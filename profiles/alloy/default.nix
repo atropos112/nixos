@@ -5,9 +5,9 @@ in {
   atro.alloy = {
     enable = true;
     configs = listToPriorityList 0 [
-      ./otel.nix
-      ./prometheus.nix
-      ./loki.nix
+      ./otel.alloy
+      ./metrics.alloy
+      ./logs.alloy
     ];
   };
 }
