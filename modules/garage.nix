@@ -15,9 +15,11 @@
       }
     ];
     metadata_dir = cfg.metadataDir; # Where metadata lives (need high speed)
-    db_engine = "sqlite"; # Database engine
+    db_engine = "lmdb"; # Database engine
+    block_size = "10MiB"; # Size of each block
+    use_local_tz = false;
 
-    replication_factor = 1; # Number of copies of data
+    replication_factor = 2; # Number of copies of data
 
     rpc_bind_addr = "[::]:3901";
     rpc_public_addr = cfg.rpcPublicAddr;
