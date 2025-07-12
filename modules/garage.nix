@@ -107,5 +107,16 @@ in {
       # debug is nice but it's a bit too verbose
       logLevel = "info";
     };
+
+    atro.fastfetch.modules = [
+      {
+        priority = 1006;
+        value = {
+          "type" = "command";
+          "text" = "systemctl is-active garage";
+          "key" = "Garage";
+        };
+      }
+    ];
   };
 }
