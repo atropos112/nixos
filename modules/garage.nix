@@ -67,11 +67,6 @@ in {
       default = pkgs.garage_2;
       description = "Garage package to use";
     };
-    allowUser = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Allow the user to run Garage commands";
-    };
     rpcPublicAddr = mkOption {
       type = types.str;
     };
@@ -110,17 +105,5 @@ in {
       # debug is nice but it's a bit too verbose
       logLevel = "info";
     };
-
-    security.sudo.extraRules = mkIf cfg.allowUser [
-      {
-        commands = [
-          {
-            command = "${lib.getExe cfg.package}";
-            options = ["NOPASSWD"];
-          }
-        ];
-        groups = ["wheel"];
-      }
-    ];
   };
 }
