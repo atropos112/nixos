@@ -4,6 +4,7 @@ _: {
     ../../profiles/common/server.nix
     ../../profiles/services/garage.nix
     ../../profiles/services/syncthing.nix
+    ../../pkgs/adguardhome.nix
     ./hardware.nix
   ];
 
