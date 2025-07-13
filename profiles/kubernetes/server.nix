@@ -25,6 +25,7 @@ in {
           "local-storage"
           "network-policy"
           "kube-proxy"
+          "coredns"
         ];
         write-kubeconfig-mode = 644;
         kube-apiserver-arg = [
