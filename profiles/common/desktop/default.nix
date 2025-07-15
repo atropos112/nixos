@@ -35,6 +35,7 @@ in {
     ../../../pkgs/tofi.nix
     ../../../pkgs/firefox.nix
     ../../../pkgs/direnv.nix
+    ../../../pkgs/nixSearchTV.nix
   ];
 
   stylix = {

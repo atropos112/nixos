@@ -100,7 +100,6 @@ in {
 
           # Nix based
           nxsh = ''cached-nix-shell --command zsh -p '';
-          ns = ''nix-search'';
 
           y = "yazi";
 

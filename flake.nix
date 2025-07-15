@@ -4,6 +4,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nix-search-tv.url = "github:3timeslazy/nix-search-tv";
     devenv.url = "github:cachix/devenv";
     colmena = {
       url = "github:zhaofengli/colmena";
