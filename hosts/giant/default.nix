@@ -3,7 +3,14 @@
     ./hardware.nix
     ../../profiles/common/desktop
     ../../profiles/services/syncthing.nix
+    ../../pkgs/ollama.nix
   ];
+
+  services.ollama.loadModels = [
+    "gemma3:27b-it-q4_K_M"
+    "qwen3:32b-q8_0"
+  ];
+
   topology.self = {
     interfaces = {
       eth0.network = "GIANT";

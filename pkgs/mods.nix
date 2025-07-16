@@ -13,6 +13,7 @@ in {
 
   home-manager.users.atropos.programs = {
     zsh.shellAliases = {
+      # Passing in secrets regardless if using anthropic or ollama just because its easier.
       m = "ANTHROPIC_API_KEY=$(cat ${apiTokenPath}) ${lib.getExe pkgs.mods}";
       mc = "m -C";
     };
@@ -36,7 +37,8 @@ in {
         topk = 50;
         # TopP, an alternative to temperature that narrows response, from 0.0 to 1.0.
         topp = 1;
-        default-model = "claude-opus-4-20250514";
+        default-model = "gemma3:27b-it-q4_K_M";
+        # default-model = "claude-opus-4-20250514";
         apis = {
           anthropic = {
             api-key = null;
@@ -52,10 +54,16 @@ in {
             };
           };
           ollama = {
-            base-url = "http://ollama:11434";
+            base-url = "http://localhost:11434/api";
             models = {
-              gemma3n = {
-                model = "gemma3n:latest";
+              # Thinking model
+              "qwen3:32b-q8_0" = {
+                model = "qwen3:32b-q8_0";
+                max-input-chars = 650000;
+              };
+              # Gemma 3 model
+              "gemma3:27b-it-q4_K_M" = {
+                model = "gemma3:27b-it-q4_K_M";
                 max-input-chars = 650000;
               };
             };
