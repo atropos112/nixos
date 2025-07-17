@@ -70,7 +70,6 @@
     cudaPackages.cudnn
     super-slicer-beta
     nvitop
-    ollama-cuda
   ];
 
   powerManagement = {

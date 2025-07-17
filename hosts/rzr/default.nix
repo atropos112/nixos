@@ -9,6 +9,11 @@
     ../../profiles/kubernetes/nvidia.nix
     ../../profiles/services/garage.nix
     ../../profiles/services/syncthing.nix
+    ../../pkgs/ollama.nix
+  ];
+
+  services.ollama.loadModels = [
+    "gemma3n:latest"
   ];
 
   atro = {

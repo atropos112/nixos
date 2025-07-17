@@ -54,7 +54,7 @@ in {
             };
           };
           ollama = {
-            base-url = "http://ollama:11434/api";
+            base-url = "http://rzr.zapus-perch.ts.net:11434/api";
             models = {
               "gemma3n:latest" = {
                 model = "gemma3n:latest";

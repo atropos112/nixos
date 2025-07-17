@@ -5,7 +5,7 @@
   # https://github.com/ollama/ollama/issues/5700
   # And yet for some reason they decided for the check to stay and ZFS people screw you basically
   # So I forked it and removed that stupid check.
-  customOllama = pkgs.ollama.overrideAttrs (_: {
+  customOllama = pkgs.ollama-cuda.overrideAttrs (_: {
     src = pkgs.fetchFromGitHub {
       owner = "atropos112";
       repo = "ollama";
@@ -22,4 +22,8 @@ in {
     port = 11434;
     acceleration = "cuda";
   };
+
+  environment.systemPackages = [
+    customOllama
+  ];
 }
