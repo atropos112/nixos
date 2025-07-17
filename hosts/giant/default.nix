@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     ./hardware.nix
     ../../profiles/common/desktop
@@ -7,9 +11,32 @@
   ];
 
   services.ollama.loadModels = [
-    "gemma3:27b-it-q4_K_M"
-    "qwen3:32b-q8_0"
+    "gemma3:27b-it-q4_K_M" # Fast model
+    "deepseek-r1:32b" # Thinking model (slower)
   ];
+
+  home-manager.users.atropos.programs = {
+    mods = {
+      settings = {
+        default-model = lib.mkForce "gemma3:27b-it-q4_K_M";
+        apis.ollama = lib.mkForce {
+          base-url = "http://localhost:11434/api";
+          models = {
+            # Thinking model
+            "qwen3:32b-q8_0" = {
+              model = "qwen3:32b-q8_0";
+              max-input-chars = 650000;
+            };
+            # Gemma 3 model
+            "gemma3:27b-it-q4_K_M" = {
+              model = "gemma3:27b-it-q4_K_M";
+              max-input-chars = 650000;
+            };
+          };
+        };
+      };
+    };
+  };
 
   topology.self = {
     interfaces = {

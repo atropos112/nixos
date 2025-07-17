@@ -37,7 +37,7 @@ in {
         topk = 50;
         # TopP, an alternative to temperature that narrows response, from 0.0 to 1.0.
         topp = 1;
-        default-model = "gemma3:27b-it-q4_K_M";
+        default-model = "claude-sonnet-4-20250514";
         # default-model = "claude-opus-4-20250514";
         apis = {
           anthropic = {
@@ -54,16 +54,10 @@ in {
             };
           };
           ollama = {
-            base-url = "http://localhost:11434/api";
+            base-url = "http://ollama:11434/api";
             models = {
-              # Thinking model
-              "qwen3:32b-q8_0" = {
-                model = "qwen3:32b-q8_0";
-                max-input-chars = 650000;
-              };
-              # Gemma 3 model
-              "gemma3:27b-it-q4_K_M" = {
-                model = "gemma3:27b-it-q4_K_M";
+              "gemma3n:latest" = {
+                model = "gemma3n:latest";
                 max-input-chars = 650000;
               };
             };
