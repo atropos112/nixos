@@ -159,9 +159,6 @@ in {
 
         docker-client
 
-        # TUI for systemd
-        isd
-
         # Utilities like iostat, pidstat, sar etc.
         sysstat
 
@@ -264,6 +261,7 @@ in {
       ++ [
         inputs.eza.packages.${pkgs.system}.default
         inputs.devenv.packages.${pkgs.system}.default
+        inputs.isd.packages.${pkgs.system}.default
       ];
   };
 

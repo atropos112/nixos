@@ -223,6 +223,18 @@ after finding out what the IP is of course. I think it might be a good idea to r
 
 Don't forget to disable expiry key in tailscale admin console.
 
+# I've updated and am now seeing "a package is broken" how to deal with this?
+
+You have a package that has a broken dependency, probably need to remove the app or use an older version (or newer if possible).
+
+Run
+
+```bash
+nix-tree '.#nixosConfigurations.giant.config.system.build.toplevel' --impure --derivation
+```
+
+(or other node) and then '/' and search for the broken package you saw in the error message to see what depends on it.
+
 # Acknowledgements
 
 - I have shamelessly copied a lot from [Srvos](https://github.com/nix-community/srvos), I am grateful for the work they have done.
