@@ -38,7 +38,6 @@ in {
         # TopP, an alternative to temperature that narrows response, from 0.0 to 1.0.
         topp = 1;
         default-model = "claude-sonnet-4-20250514";
-        # default-model = "claude-opus-4-20250514";
         apis = {
           anthropic = {
             api-key = null;
@@ -54,7 +53,7 @@ in {
             };
           };
           ollama = {
-            base-url = "http://rzr.zapus-perch.ts.net:11434/api";
+            base-url = "http://ollama:11434/api";
             models = {
               "gemma3n:latest" = {
                 model = "gemma3n:latest";
