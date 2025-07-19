@@ -34,9 +34,6 @@ in {
       OverrideFirstRunPage = "";
       OverridePostUpdatePage = "";
       DontCheckDefaultBrowser = true;
-      # DNSOverHTTPS = {
-      #   Enabled = true;
-      # };
       DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
       DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
       SearchBar = "unified"; # alternative: "separate"
@@ -61,6 +58,9 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
+          # Remove paywal
+          "remove-paywall@example.com"
+
           # Add custom search engine (to add Searx)
           "{af37054b-3ace-46a2-ac59-709e4412bec6}"
 
