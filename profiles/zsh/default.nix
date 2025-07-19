@@ -110,6 +110,9 @@ in {
 
           # Have to sudo for access, and have to use tiny-skia as otherwise it shows black window.
           sniff = "sudo -E ICED_BACKEND=tiny-skia sniffnet";
+
+          # Get weather of where you are (IP wise).
+          weather = "curl wttr.in";
         };
         initContent = ''
           # If not running interactively do nothing.
