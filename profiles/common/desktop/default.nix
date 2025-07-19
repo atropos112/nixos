@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  pkgs-stable,
   lib,
   ...
 }: let
@@ -491,6 +492,7 @@ in {
     ++ [
       inputs.nil_ls.outputs.packages.${pkgs.system}.nil
       inputs.colmena.packages.${pkgs.system}.colmena
+      pkgs-stable.texliveFull # Because pkgs texliveFull is broken.
     ];
 
   systemd = {
