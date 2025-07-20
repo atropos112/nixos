@@ -10,10 +10,13 @@
     ../../pkgs/ollama.nix
   ];
 
-  services.ollama.loadModels = [
-    "gemma3:27b-it-q4_K_M" # Fast model
-    "deepseek-r1:32b" # Thinking model (slower)
-  ];
+  services.ollama = {
+    loadModels = [
+      "gemma3:27b-it-q4_K_M" # Fast model
+      "deepseek-r1:32b" # Thinking model (slower)
+    ];
+    models = "/persistent/var/lib/private/ollama/models";
+  };
 
   home-manager.users.atropos.programs = {
     mods = {

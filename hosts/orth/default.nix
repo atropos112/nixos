@@ -18,7 +18,6 @@ _: {
         capacity = "4T";
       };
       metadataDir = "/persistent/garage/metadata";
-      rpcPublicAddr = "orth:3901";
     };
   };
 
