@@ -11,7 +11,10 @@
     nvtopPackages.nvidia
   ];
 
-  boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
+  boot = {
+    kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
+    blacklistedKernelModules = ["nouveau"];
+  };
 
   services.xserver.videoDrivers = ["nvidia"];
 
@@ -29,7 +32,7 @@
       };
       open = false;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
 
     graphics = {
