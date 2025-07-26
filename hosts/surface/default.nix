@@ -58,7 +58,7 @@ in {
       # /sys/devices/system/cpu/cpu4/cpufreq/scaling_available_governors
       # And they are:
       # performance powersave
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
       # INFO: I found the avaiable options in

@@ -70,8 +70,12 @@ in {
 
     kopia = {
       runAs = "root";
-      path = "/persistent/";
-      ignorePaths = ["Sync" ".venv" ".cache" ".devenv"];
+      backups = [
+        {
+          path = "/persistent/";
+          ignores = ["Sync" ".venv" ".cache" ".devenv"];
+        }
+      ];
     };
   };
 

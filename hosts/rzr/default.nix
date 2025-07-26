@@ -21,10 +21,16 @@
 
   atro = {
     kopia = {
-      enable = true;
       runAs = "root";
       exposeWebUI = true;
-      path = "/mnt/photos/";
+      backups = [
+        {
+          path = "/mnt/photos/";
+        }
+        {
+          path = "/home/atropos/local_pvcs";
+        }
+      ];
     };
 
     garage = {

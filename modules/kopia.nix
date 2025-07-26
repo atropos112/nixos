@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib) mkEnableOption mkOption types mkIf map concatMapStrings;
   cfg = config.atro.kopia;
 
   # Must have HOME set for kopia to work
@@ -36,12 +36,14 @@
     ${kopia} --log-level=debug repository create s3 --bucket=${cfg.s3.bucketName} --access-key="$KOPIA_ACCESS_KEY" --secret-access-key="$KOPIA_SECRET_ACCESS_KEY" --password="$KOPIA_PASSWORD" --endpoint="${cfg.s3.endpoint}" --disable-tls-verification --disable-tls
   '';
 
-  ignorePaths = lib.forEach cfg.ignorePaths (path: ''--add-ignore="${path}"'');
-  ignorePathsConcated = lib.concatMapStrings (x: " " + x) ignorePaths;
-  kopiaSetupPolicyPrefix = ''${kopia} policy set ${cfg.path} --snapshot-time-crontab="0 */6 * * *" --compression="pgzip-best-compression" '';
-  kopiaSetupPolicy = ''
-    ${kopiaSetupPolicyPrefix} ${ignorePathsConcated}
-  '';
+  ignorePaths = paths:
+    paths
+    |> map (path: ''--add-ignore="${path}"'')
+    |> concatMapStrings (p: " " + p);
+  kopiaSetupPolicies = backups:
+    backups
+    |> map (backup: ''${kopia} policy set "${backup.path}" --snapshot-time-crontab="${backup.cron}" --compression="pgzip-best-compression" '' + (ignorePaths backup.ignores))
+    |> concatMapStrings (p: "\n" + p);
 
   # WARN: Adding secrets the way it is done is not a good idea, it means they are exposed to anyone with `systemctl status kopia access`
   # Ideally we would have kopia reading the secrets from a file but as far as I know that is not possible.
@@ -61,7 +63,7 @@
       ${sleep} 10
     done
 
-    ${kopiaSetupPolicy}
+    ${kopiaSetupPolicies cfg.backups}
 
     ${echo} "Internet connection established."}
 
@@ -106,12 +108,30 @@ in {
       type = types.bool;
       default = false;
     };
-    path = mkOption {
-      type = types.str;
-    };
-    ignorePaths = mkOption {
-      type = types.listOf types.str;
-      default = [];
+    backups = mkOption {
+      type = types.listOf (types.submodule {
+        options = {
+          path = mkOption {
+            type = types.str;
+            description = "Path to backup";
+            example = "/home/user/documents";
+          };
+
+          ignores = mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "List of patterns to ignore";
+            example = ["*.tmp" "*.log" ".cache/*"];
+          };
+
+          cron = mkOption {
+            type = types.str;
+            description = "Cron schedule for the backup";
+            example = "0 2 * * *";
+            default = "0 */6 * * *"; # Default to every 6 hours
+          };
+        };
+      });
     };
 
     s3 = {
