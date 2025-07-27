@@ -1,4 +1,4 @@
-_: {
+{pkgs, ...}: {
   imports = [
     ../../profiles/common/basic.nix
     ../../profiles/common/server.nix
@@ -6,6 +6,10 @@ _: {
     ../../profiles/services/syncthing.nix
     ../../pkgs/adguardhome.nix
     ./hardware.nix
+  ];
+
+  environment.systemPackages = with pkgs; [
+    yt-dlp
   ];
 
   atro = {
