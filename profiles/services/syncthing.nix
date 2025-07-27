@@ -44,6 +44,7 @@ in {
         };
         websites = {
           devices = ["cluster" "p9pf" "surface"];
+          type = "receiveonly";
           path = "${syncDir}/websites";
         };
       };

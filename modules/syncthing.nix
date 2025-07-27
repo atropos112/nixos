@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOption mapAttrs filterAttrs hasAttr filter;
-  inherit (lib.types) str attrsOf submodule listOf package nullOr bool;
+  inherit (lib.types) str attrsOf submodule listOf package nullOr bool enum;
   inherit (config.networking) hostName;
   cfg = config.atro.syncthing;
 
@@ -81,6 +81,16 @@ in {
             type = nullOr str;
             default = null;
             description = "ID of the folder, used to identify it in syncthing.";
+          };
+          type = mkOption {
+            default = "sendreceive";
+            description = "Type of the folder sync.";
+            type = enum [
+              "sendreceive"
+              "sendonly"
+              "receiveonly"
+              "receiveencrypted"
+            ];
           };
         };
       });
@@ -181,6 +191,7 @@ in {
               then name
               else folder.id;
             path = folder.path;
+            type = folder.type;
             devices = folder.devices |> filter deviceEnabled;
           });
       };
