@@ -66,7 +66,7 @@ in {
       # And they are:
       # default performance balance_performance balance_power power
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_performance";
 
       USB_AUTOSUSPEND = 1;
       USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 0;
