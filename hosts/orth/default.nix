@@ -8,6 +8,15 @@
     ./hardware.nix
   ];
 
+  services = {
+    # Is outside of my main location.
+    tailscale = {
+      extraUpFlags = [
+        "--accept-routes"
+      ];
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     yt-dlp
   ];
