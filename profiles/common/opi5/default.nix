@@ -3,7 +3,7 @@ _: {
     ../basic.nix
     ../../kubernetes/agent.nix
     ../server.nix
-    ./hardware.nix # Non standard, typically this is done from devices/<devicename>/hardware.nix but its the same across and always should be so importing it here instead.
+    ../arm64_hardware.nix # Non standard, typically this is done from devices/<devicename>/hardware.nix but its the same across and always should be so importing it here instead.
   ];
 
   topology.self = {

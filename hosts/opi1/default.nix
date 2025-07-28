@@ -1,6 +1,7 @@
 _: {
   imports = [
     ../../profiles/common/opi5
+    ./hardware.nix
   ];
   topology.self = {
     name = "opi1";
