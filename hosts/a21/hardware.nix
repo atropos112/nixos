@@ -8,11 +8,11 @@ _: {
       fsType = "ext4";
     };
     "/mnt/ssd1" = {
-      device = "/dev/disk/by-uuid/7d378c7f-6732-499a-98da-a9ee7feba1e9";
+      device = "/dev/disk/by-uuid/8551379f-cbef-4b8c-b4e8-5aacfd51b3f5";
       fsType = "ext4";
     };
     "/mnt/ssd2" = {
-      device = "/dev/disk/by-uuid/d074aa4e-433c-40ff-a079-e719e079c4fc";
+      device = "/dev/disk/by-uuid/b050f0b6-1fa2-406f-93bd-68efb241062e";
       fsType = "ext4";
     };
     "/boot" = {
