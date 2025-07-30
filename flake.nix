@@ -119,7 +119,6 @@
           ];
         }) {}
     );
-
     # Little hack to get colmena to work with nixos-rebuild switch interoperably.
     conf = self.nixosConfigurations;
   in

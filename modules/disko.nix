@@ -257,7 +257,8 @@ in {
       inherit (cfg) hostId;
     };
     boot = {
-      supportedFilesystems = ["zfs"];
+      supportedFilesystems.zfs = true;
+      initrd.supportedFilesystems.zfs = true;
       loader = {
         generationsDir.copyKernels = true;
         efi = {
