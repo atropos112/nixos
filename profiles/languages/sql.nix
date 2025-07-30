@@ -7,5 +7,8 @@
 
     # psql to connect to postgres databases
     postgresql
+
+    # SQL language server
+    sqls
   ];
 }
