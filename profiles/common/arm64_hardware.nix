@@ -1,20 +1,13 @@
-{pkgs, ...}: let
-  filesystems = [
-    "ext4"
-    "zfs"
+{pkgs, ...}: {
+  imports = [
+    ../../profiles/zfs.nix
   ];
-in {
   # swapDevices = [
   #   {
   #     device = "/var/lib/swapfile";
   #     size = 16 * 1024;
   #   }
   # ];
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = filesystems;
-    initrd = {
-      supportedFilesystems = filesystems;
-    };
-  };
+
+  boot.kernelPackages = pkgs.linuxPackages_6_15;
 }

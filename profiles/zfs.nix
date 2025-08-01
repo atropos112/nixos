@@ -2,6 +2,9 @@
   boot = {
     zfs.forceImportRoot = false;
     zfs.package = pkgs.zfs;
+    loader.grub.zfsSupport = true;
+    supportedFilesystems.zfs = true;
+    initrd.supportedFilesystems.zfs = true;
   };
 
   environment.systemPackages = with pkgs; [

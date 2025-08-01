@@ -1,6 +1,7 @@
 {
   description = "Minimal NixOS installation media";
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
   outputs = {
     self,
     nixpkgs,
@@ -24,7 +25,7 @@
               Kernel=latest
             '';
             boot = {
-              kernelPackages = pkgs.linuxPackages_latest;
+              kernelPackages = pkgs.linuxPackages_6_16;
               supportedFilesystems = {
                 ext4 = lib.mkForce true;
                 zfs = lib.mkForce true;

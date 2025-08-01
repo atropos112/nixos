@@ -3,6 +3,7 @@
     # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
     isd.url = "github:isd-project/isd";
     nix-search-tv.url = "github:3timeslazy/nix-search-tv";
@@ -98,6 +99,9 @@
         inherit system config;
       };
       pkgs2311 = import inputs.nixpkgs2311 {
+        inherit system config;
+      };
+      pkgs-master = import inputs.nixpkgs-master {
         inherit system config;
       };
     };
