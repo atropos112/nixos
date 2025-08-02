@@ -5,9 +5,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
-    isd.url = "github:isd-project/isd";
     nix-search-tv.url = "github:3timeslazy/nix-search-tv";
-    devenv.url = "github:cachix/devenv";
     colmena = {
       url = "github:zhaofengli/colmena";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -63,11 +61,6 @@
     flake-utils.url = "github:numtide/flake-utils";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    eza = {
-      url = "github:eza-community/eza";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
