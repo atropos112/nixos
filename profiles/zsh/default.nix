@@ -20,7 +20,7 @@ in {
 
       zsh = {
         enable = true;
-        dotDir = ".config/zsh";
+        dotDir = "/home/atropos/.config/zsh";
         oh-my-zsh = {
           enable = true;
           # Can find a full list of plugins here https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins

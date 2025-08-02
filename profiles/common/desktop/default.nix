@@ -492,10 +492,10 @@ in {
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
       lima
+      colmena
     ]
     ++ [
       inputs.nil_ls.outputs.packages.${pkgs.system}.nil
-      inputs.colmena.packages.${pkgs.system}.colmena
       pkgs-stable.texliveFull # Because pkgs texliveFull is broken.
     ];
 

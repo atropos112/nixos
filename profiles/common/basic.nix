@@ -52,7 +52,9 @@ in {
   # To avoid the "too many open files" error
   # This is equivalent to `ulimit -n 16192:1048576`
   # Or setting `DefaultLimitNOFILE=16192:1048576` in /etc/systemd/system.conf
-  systemd.extraConfig = "DefaultLimitNOFILE=16192:1048576";
+  systemd.settings.Manager = {
+    DefaultLimitNOFILE = "16192:1048576";
+  };
 
   topology.self = {
     interfaces = {
@@ -149,6 +151,9 @@ in {
 
     systemPackages = with pkgs;
       [
+        # Tui for systemctl
+        systemctl-tui
+
         # For IO monitoring
         iotop
 

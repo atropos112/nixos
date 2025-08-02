@@ -9,7 +9,7 @@
     src = pkgs.fetchFromGitHub {
       owner = "atropos112";
       repo = "ollama";
-      rev = "47505f66cb9391f589ef12ce868938d0dd9c48ea"; # Specific commit hash
+      rev = "58667de2b382e4753c25a94345176985e57ff9f9"; # Specific commit hash
       hash = "sha256-C5IdGxTeo6SXSUA4AeVtGSlSG5FfYuf/MTZWDNzR1rs=";
       fetchSubmodules = true;
     };
