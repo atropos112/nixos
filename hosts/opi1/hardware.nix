@@ -2,7 +2,7 @@ _: {
   atro = {
     boot = {
       enable = true;
-      kernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod"];
+      kernelModules = [];
     };
 
     disko = {
@@ -10,7 +10,7 @@ _: {
       hostId = "8f3cc91f";
       mode = ""; # no mirroring as it only has one drive.
       drives = [
-        "nvme-CT1000P310SSD2_25205009A3D1"
+        "nvme-KBG40ZNS256G_NVMe_KIOXIA_256GB_313PD383QL42"
       ];
       encryption = {
         enable = false;
