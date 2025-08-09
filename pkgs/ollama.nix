@@ -10,7 +10,7 @@
       owner = "atropos112";
       repo = "ollama";
       rev = "58667de2b382e4753c25a94345176985e57ff9f9"; # Specific commit hash
-      hash = "sha256-C5IdGxTeo6SXSUA4AeVtGSlSG5FfYuf/MTZWDNzR1rs=";
+      hash = "sha256-7F4YoQ2+ya/AO98ELfrSiDWfvaCpY3wmH0EXCJasHyU=";
       fetchSubmodules = true;
     };
   });

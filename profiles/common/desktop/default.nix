@@ -471,12 +471,6 @@ in {
       # C++ compiler
       gcc
 
-      # proprietary chat client (for external usage)
-      slack
-
-      # Cllium eBPF client tool for kubernetes cluster
-      cilium-cli
-
       #WIP
       hadolint
       czkawka
