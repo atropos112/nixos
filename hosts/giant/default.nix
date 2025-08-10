@@ -13,6 +13,7 @@
   services.ollama = {
     loadModels = [
       "gemma3:27b-it-q4_K_M" # Fast model
+      "gpt-oss:20b" # Fast model
       "deepseek-r1:32b" # Thinking model (slower)
     ];
     models = "/persistent/var/lib/private/ollama/models";
