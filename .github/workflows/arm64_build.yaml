@@ -33,7 +33,7 @@ jobs:
           large-packages: true
           swap-storage: true
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install Nix with KVM enabled
         uses: cachix/install-nix-action@v31
         with:
