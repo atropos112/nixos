@@ -2,17 +2,17 @@
 
 function rebase-node {
 	set -xeuo pipefail
-	NODE_NAME="$1"
+	export NODE_NAME="$1"
 
 	if [ -z "$NODE_NAME" ]; then
 		echo "Usage: rebase-node <node-name>"
-		return 1
+		exit 1
 	fi
 
 	# if hostname == NODE_NAME, then return 1
 	if [ "$(hostname)" = "$NODE_NAME" ]; then
 		echo "You are already on the node $NODE_NAME"
-		return 1
+		exit 1
 	fi
 
 	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/projects/ "$NODE_NAME:/persistent/home/atropos/projects"
