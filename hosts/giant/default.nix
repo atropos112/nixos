@@ -77,6 +77,7 @@
     cudaPackages.cudnn
     super-slicer-beta
     nvitop
+    zoom-us
   ];
 
   powerManagement = {

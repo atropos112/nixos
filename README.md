@@ -203,14 +203,14 @@ _: {
 
 3. Make persistend directory that will be passed into nixos anywhere call it `persistent` and put it in your directory of choice e.g. `/home/atropos/orth/persistent`. In there make `home/atropos/.ssh` and `/root/.ssh` directories and generate ssh keys for both using `ssh-keygen -f id_ed25519 -C "some-menaningful-name"`. Do note the final directory must be called `peristent` so that `/home/atropos/orth/persistent` is ok but `/home/atropos/orth/persistent2` is not. This is because `nixos-anywhere` will map it to directories on the machine and we need that directory to be mapped to `/persistent`.
 
-4. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`, you will need to copy the `secrets.yaml` file contents delete the file and run `edit-secrets` and paste them in so it "accounts" for the new node.
+4. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`. Once added you will need to `nix-shell -p sops --run "sops updatekeys secrets/secrets.yaml"` to update the keys in the `secrets.yaml` file with the new key updates.
 
 5. `ssh-keygen -f id_ed25519 -C "<some-name>"` and `ssh-keygen -t rsa -f rsa -C "<some-name>"` somewhere, and store those keys in `hostKeys` directory in sops secrets, you can use `edit-secrets` to do this. Delete the files you just generated once you are done.
 
 6. Run `nixos-anywhere` command like so:
 
 ```nix
- sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/orth" --flake .#orth root@9.0.0.134
+ sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/orth" --no-substitute-on-destination --flake .#orth root@9.0.0.134
 ```
 
 If you forgot about something, like say, the fact that tailscale key is out of date then you will likely have to run something like

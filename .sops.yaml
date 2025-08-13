@@ -2,8 +2,10 @@
 keys:
   - &atropos_giant age174kjg9ld2nc5tryd6qactvt9sn5gxke5dsjkegeq305lq9z5acjsans0vh
   - &atropos_surface age174kjg9ld2nc5tryd6qactvt9sn5gxke5dsjkegeq305lq9z5acjsans0vh
-  - &root_surface age10uymjvu30hxsdyzwm8y8ahzkwklc5du0z5u0dlq7zrgzwu2z553sjz6n50
+  - &atropos_frame age1jg30cdlum9r5ugejc8s2t72r9hc2jn2uhx9w0pwyf6d50sx0auws2v05ts
   - &root_giant age1rmkhd9zsr9grlzgrlm2ff3wl3kr7fs6nx38m4snt9cpnmys8w32qqfnz3y
+  - &root_surface age10uymjvu30hxsdyzwm8y8ahzkwklc5du0z5u0dlq7zrgzwu2z553sjz6n50
+  - &root_frame age1xjv9vg7jcqwycuzw5jyeklzlcm4km0423nfflfueshgygh90tftsc6q6w6
   - &root_rzr age1tq8v7hmt8cp0r5kqyjahjz93dhr5wqd78dkjsqfeq65sr78s43zqgcmhpv
   - &root_smol age1fduwkftwg0e9vzdslt58r0a62nlr0ncz7wvpjx0vy38lrmateshsjthslp
   - &root_a21 age10v4ljkg3563xn2vw93gjvkmvt5e4l2r60a8v72fc9r2s5e20yf4qffjrx3
@@ -19,8 +21,10 @@ creation_rules:
       - age:
           - *atropos_giant
           - *atropos_surface
+          - *atropos_frame
           - *root_surface
           - *root_giant
+          - *root_frame
           - *root_rzr
           - *root_smol
           - *root_a21

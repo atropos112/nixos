@@ -11,6 +11,11 @@
   juicessh = {
     publicKeyAtropos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKLyjGaUMq7SWWUXdew/+E213/KCUDB1D59iEOhE6gyB atropos@giant";
   };
+
+  frame = {
+    publicKeyAtropos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE+FaReQJ2Hq3SgohUA14s2lBVN/u5RHz/uwFD4l9CKv frame";
+    publicKeyRoot = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJUDHj3jPKwDA/LokVEH+b7i2cdY0UrGBqmGgvP/mgcr frame";
+  };
 in {
   users = {
     mutableUsers = false;
@@ -67,6 +72,7 @@ in {
           authorizedKeys.keys = [
             giant.publicKeyRoot
             surface.publicKeyRoot
+            frame.publicKeyRoot
           ];
         };
       };
@@ -85,6 +91,7 @@ in {
             giant.publicKeyAtropos
             surface.publicKeyAtropos
             juicessh.publicKeyAtropos
+            frame.publicKeyAtropos
           ];
         };
       };

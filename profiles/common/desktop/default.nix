@@ -190,21 +190,6 @@ in {
     # Bluetooth manager
     blueman.enable = true;
 
-    # For power usage settings, what governor when, what cpu freq etc.
-    tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
-
-        USB_AUTOSUSPEND = 1;
-        USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 0;
-      };
-    };
-
     # For security purposes some apps (e.g. github copilot) require keyring.
     gnome.gnome-keyring.enable = true;
 
@@ -486,10 +471,10 @@ in {
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
       lima
-      colmena
     ]
     ++ [
       inputs.nil_ls.outputs.packages.${pkgs.system}.nil
+      inputs.colmena.outputs.packages.${pkgs.system}.colmena
       pkgs-stable.texliveFull # Because pkgs texliveFull is broken.
     ];
 

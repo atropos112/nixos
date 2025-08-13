@@ -39,11 +39,11 @@ in {
 
       folders = {
         manual = {
-          devices = ["p9pf" "surface" "giant" "atrorzr" "orth"];
+          devices = ["p9pf" "surface" "giant" "atrorzr" "orth" "frame"];
           path = "${syncDir}/manual";
         };
         websites = {
-          devices = ["cluster" "p9pf" "surface"];
+          devices = ["cluster" "p9pf" "surface" "frame"];
           type = "receiveonly";
           path = "${syncDir}/websites";
         };
@@ -57,6 +57,7 @@ in {
           giant = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
           atrorzr = "HBYTR3Y-VO3BX62-M4TX7IW-COBUIPN-FYDVFPB-P76WM4U-E4DYTEH-32FFXQO";
           orth = "QQ2BVQH-NLCNB4C-JS7CGGN-C6F23KJ-AOVFXVL-4LGZLDW-U66UKGO-QUFVJA6";
+          frame = "CZ6DCWH-QMSPJOQ-SL5IGI7-IJLZRVW-2VSUMVY-S7CMCOL-R3ETJSP-MG4M5AS";
         }
         |> mapAttrs (name: deviceId: {
           id = deviceId;

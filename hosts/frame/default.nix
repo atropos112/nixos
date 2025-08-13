@@ -1,94 +1,24 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
-  buildMachinesMap = lib.map (x: {
-    inherit (x) hostName maxJobs speedFactor;
-    system = "x86_64-linux";
-    protocol = "ssh-ng";
-    supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-    mandatoryFeatures = [];
-    sshKey = "/root/.ssh/id_ed25519";
-    sshUser = "root";
-  });
-in {
+{pkgs, ...}: {
   imports = [
     ./hardware.nix
     ../../profiles/common/desktop
     ../../profiles/services/syncthing.nix
   ];
 
-  nix = {
-    # WARN: Turned off distributed builds as its easier to simply build on giant and then copy over via
-    # sudo nixos-rebuild switch --flake .#surface --target-host surface --build-host localhost --fallback
-    # And the only benefit this distributed build has is that I can use colmena but that doesn't work that well
-    # either because I can't use "--fallback" with it.
-    distributedBuilds = false;
-    extraOptions = ''
-      builders-use-substitutes = true
-    '';
-    buildMachines = buildMachinesMap [
-      {
-        hostName = "rzr";
-        maxJobs = 3;
-        speedFactor = 4;
-      }
-      {
-        hostName = "a21";
-        maxJobs = 2;
-        speedFactor = 3;
-      }
-      {
-        hostName = "smol";
-        maxJobs = 2;
-        speedFactor = 2;
-      }
-      {
-        hostName = "giant";
-        maxJobs = 4;
-        speedFactor = 8;
-      }
-    ];
-  };
-
-  services = {
-    tlp = {
-      enable = true;
-      settings = lib.mkForce {
-        # INFO: I found the available options in
-        # /sys/devices/system/cpu/cpu4/cpufreq/scaling_available_governors
-        # And they are:
-        # performance powersave
-        CPU_SCALING_GOVERNOR_ON_AC = "powersave";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-        # INFO: I found the avaiable options in
-        # /sys/devices/system/cpu/cpu4/cpufreq/energy_performance_available_preferences
-        # And they are:
-        # default performance balance_performance balance_power power
-        CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_performance";
-
-        USB_AUTOSUSPEND = 1;
-        USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN = 0;
-      };
-    };
-  };
   topology.self = {
     interfaces = {
       wifi = {
         network = "WLAN";
         type = "wifi";
       };
-      tailscale0.addresses = ["surface"];
+      tailscale0.addresses = ["frame"];
     };
-    hardware.info = "i7-8650U, 16GB, GTX1060";
+    hardware.info = "Ryzen AI 5 340, 32GB";
   };
   powerManagement.enable = true;
 
   networking = {
-    hostName = "surface";
+    hostName = "frame";
     # Its not really ethernet its wifi.
     # interfaces.eth0.macAddress = "";
   };
@@ -101,16 +31,6 @@ in {
   };
 
   systemd.services = {
-    # This service sets all usb ports to wakeon so that a key press can get out of suspended state
-    wakeonusb = {
-      description = "Set all usb's to WakeOn Enabled";
-      after = ["network.target" "sound.target"];
-      wantedBy = ["default.target"];
-      script = with pkgs; ''
-        ${coreutils}/bin/echo enabled | ${coreutils}/bin/tee /sys/bus/usb/devices/*/power/wakeup
-      '';
-    };
-
     fusuma = {
       description = "Trackpad Gestures";
       after = ["network.target" "sound.target"];
@@ -141,10 +61,6 @@ in {
       variant = "colemak,intl";
       options = "grp:win_space_toggle";
     };
-    thermald = {
-      enable = true;
-      configFile = ./thermal-conf.xml;
-    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -157,7 +73,7 @@ in {
       priority = 1;
       value = {
         monitor = [
-          "eDP-1,3240x2160@60,0x0,1.8,bitdepth,10"
+          "eDP-1,2880x1920@120,0x0,1.0,bitdepth,10" # main monitor
           "DP-2,1440x900@60,1800x0,1.0,bitdepth,10" # monitor in Stoke
           # "DP-1,1920x1080@60,1800x0,1.0,bitdepth,10" # monitor in Ndg
         ];

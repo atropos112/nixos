@@ -125,6 +125,7 @@
 
       nixosConfigurations = {
         surface = mkHost "surface" "x86_64-linux";
+        frame = mkHost "frame" "x86_64-linux";
         giant = mkHost "giant" "x86_64-linux";
         smol = mkHost "smol" "x86_64-linux";
         a21 = mkHost "a21" "x86_64-linux";
