@@ -118,13 +118,5 @@
     }
   ];
 
-  home-manager.users.atropos.programs.waybar = {
-    settings = {
-      mainBar = {
-        network = {
-          interface = "mlan0";
-        };
-      };
-    };
-  };
+  home-manager.users.atropos.programs.waybar.settings.mainBar.network.interface = "wlan0";
 }
