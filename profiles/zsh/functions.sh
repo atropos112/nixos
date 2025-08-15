@@ -19,7 +19,6 @@ function rebase-node {
 	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/nixos/ "$NODE_NAME:/persistent/home/atropos/nixos"
 	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/.config/nvim/ "$NODE_NAME:/persistent/home/atropos/.config/nvim"
 
-	/run/current-system/sw/bin/ssh "$NODE_NAME" "rm -rf .mozilla/*"
 	rsync -av --delete /home/atropos/.mozilla/ "$NODE_NAME:/persistent/home/atropos/.mozilla"
 }
 
