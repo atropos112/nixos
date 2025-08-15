@@ -2,13 +2,13 @@
   environment.systemPackages = with pkgs; [
     # csharp lsp
     csharp-ls
+    csharpier
+    omnisharp-roslyn
 
     # Dotnet SDK
-    dotnet-sdk_8
-    dotnet-sdk # this is 6
+    dotnet-sdk
 
     # Dotnet runtime
-    dotnet-runtime_8
-    dotnet-runtime # this is 6
+    dotnet-runtime
   ];
 }

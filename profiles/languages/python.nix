@@ -1,13 +1,21 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # Python
-    (python312.withPackages (ps: with ps; [pandas numpy]))
+    (python313.withPackages (ps:
+      with ps; [
+        pandas
+        numpy
+      ]))
 
     ruff
     poetry
     uv # pip but faster.
-  ];
 
+    basedpyright
+
+    python313Packages.python-lsp-server
+    python313Packages.debugpy
+  ];
   home-manager.users.atropos.programs.poetry = {
     enable = true;
     package = pkgs.poetry;
