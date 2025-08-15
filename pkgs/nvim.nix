@@ -8,7 +8,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # go implem
-    impl
+    codespell
   ];
 }

@@ -5,5 +5,6 @@
 
     # yaml formatter
     yamlfix
+    yamlfmt
   ];
 }
