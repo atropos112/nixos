@@ -5,5 +5,7 @@
 
     # Linter
     hadolint
+
+    dockerfile-language-server-nodejs
   ];
 }

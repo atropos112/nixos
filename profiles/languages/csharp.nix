@@ -10,5 +10,7 @@
 
     # Dotnet runtime
     dotnet-runtime
+
+    netcoredbg
   ];
 }
