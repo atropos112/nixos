@@ -150,7 +150,7 @@
             allowLocalDeployment = true;
             targetUser = "root";
             buildOnTarget = true;
-            targetHost = "9.0.0.153";
+            targetHost = name;
           };
           nixpkgs.system = value.config.nixpkgs.system;
           imports = value._module.args.modules;

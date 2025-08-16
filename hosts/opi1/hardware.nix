@@ -2,7 +2,7 @@ _: {
   atro = {
     boot = {
       enable = true;
-      kernelModules = [];
+      kernelModules = ["phy_rockchip_naneng_combphy"];
     };
 
     disko = {
