@@ -2,6 +2,7 @@ _: {
   imports = [
     ../../profiles/common/opi5
     ./hardware.nix
+    ../../profiles/impermanence/server.nix
   ];
 
   nixpkgs.config = {

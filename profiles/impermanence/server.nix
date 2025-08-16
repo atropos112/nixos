@@ -1,0 +1,23 @@
+_: {
+  imports = [
+    ./basic.nix
+  ];
+
+  atro.impermanence = {
+    global = {
+      dirs = [
+        "/opt/local-path-provisioner" # Local path provisioner
+        "/etc/rancher/k3s" # K3s config
+        "/etc/rancher/node" # K3s node config
+        "/var/lib/rancher/k3s" # K3s data
+        "/var/lib/longhorn" # Longhorn storage for persistent volumes
+      ];
+    };
+    home = {
+      dirs = [
+        ".ollama" # Ollama cache
+        ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...
+      ];
+    };
+  };
+}
