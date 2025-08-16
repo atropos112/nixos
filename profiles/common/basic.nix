@@ -266,6 +266,9 @@ in {
     ];
   };
 
+  # This is a workaround since we restart igc module on resume
+  systemd.services.chronyd.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 30";
+
   services = {
     # NTP (time syncing) service
     # systemd-timesyncd is used by default unless something else is set (e.g. chrony)

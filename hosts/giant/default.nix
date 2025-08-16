@@ -66,9 +66,6 @@
           ${coreutils}/bin/echo disabled | ${coreutils}/bin/tee /sys/bus/usb/devices/*/power/wakeup
         '';
       };
-
-      # This is a workaround since we restart igc module on resume
-      chronyd.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 30";
     };
   };
 
