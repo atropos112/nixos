@@ -32,7 +32,9 @@ in {
     serverAddr = "https://11.0.0.11:6443";
     tokenFile = config.sops.secrets."k3s/token".path;
     package = pkgs.k3s;
-    extraFlags = "--node-name=${nodeName}";
+    extraFlags = [
+      "--node-name ${nodeName}"
+    ];
   };
 
   # Needed for grafana alloy but also convininient.
