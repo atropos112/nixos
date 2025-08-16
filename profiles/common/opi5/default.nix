@@ -3,7 +3,6 @@ _: {
     ../basic.nix
     ../../kubernetes/agent.nix
     ../server.nix
-    ../arm64_hardware.nix
   ];
 
   topology.self = {

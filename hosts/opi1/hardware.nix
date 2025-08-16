@@ -1,9 +1,8 @@
 _: {
   atro = {
-    boot = {
-      enable = true;
-      kernelModules = ["phy_rockchip_naneng_combphy"];
-    };
+    imports = [
+      ../../profiles/common/opi5/hardware.nix
+    ];
 
     disko = {
       enable = true;
