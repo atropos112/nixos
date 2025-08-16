@@ -1,9 +1,8 @@
 _: {
+  imports = [
+    ../../profiles/common/opi5/hardware.nix
+  ];
   atro = {
-    imports = [
-      ../../profiles/common/opi5/hardware.nix
-    ];
-
     disko = {
       enable = true;
       hostId = "8f3cc91f";

@@ -140,7 +140,7 @@ in {
         };
         connections = {
           "1" = mkConnection "atroopi4" "eth0";
-          "2" = mkConnection "atroopi1" "eth0";
+          "2" = mkConnection "opi1" "eth0";
           "3" = mkConnection "atroopi3" "eth0";
           "4" = mkConnection "atroopi2" "eth0";
           "5" = mkConnection "atrorzr" "eth0";

@@ -20,6 +20,6 @@ _: {
 
   networking = {
     # interfaces.eth0.macAddress = "7e:7d:fe:73:bf:61";
-    hostName = "atroopi1";
+    hostName = "opi1";
   };
 }
