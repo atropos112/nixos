@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   imports = [
     ../../profiles/zfs.nix
   ];
@@ -8,6 +8,5 @@
   #     size = 16 * 1024;
   #   }
   # ];
-
-  boot.kernelPackages = pkgs.linuxPackages_6_16;
+  boot.initrd.availableKernelModules = ["phy_rockchip_naneng_combphy"];
 }

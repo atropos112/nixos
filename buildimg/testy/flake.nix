@@ -25,7 +25,7 @@
               Kernel=latest
             '';
             boot = {
-              kernelPackages = pkgs.linuxPackages_6_16;
+              kernelPackages = pkgs.linuxPackages_6_15;
               supportedFilesystems = {
                 ext4 = lib.mkForce true;
                 zfs = lib.mkForce true;
