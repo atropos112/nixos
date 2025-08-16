@@ -1,18 +1,14 @@
 _: {
   imports = [
     ../../profiles/common/opi5
+    ./hardware.nix
+    ../../profiles/impermanence/server.nix
   ];
 
-  topology.self = {
-    name = "opi3";
-    interfaces = {
-      tailscale0.addresses = ["opi3"];
-      eth0.addresses = ["9.0.0.7"];
-    };
-  };
+  topology.self.interfaces.eth0.addresses = ["9.0.0.7"];
 
   networking = {
     interfaces.eth0.macAddress = "aa:01:57:1d:74:15";
-    hostName = "atroopi3";
+    hostName = "opi3";
   };
 }

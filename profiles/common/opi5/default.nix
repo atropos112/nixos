@@ -1,4 +1,4 @@
-_: {
+{config, ...}: {
   imports = [
     ../basic.nix
     ../../kubernetes/agent.nix
@@ -6,7 +6,11 @@ _: {
   ];
 
   topology.self = {
-    interfaces.eth0.network = "LAN";
+    name = config.networking.hostName;
+    interfaces = {
+      tailscale0.addresses = [config.networking.hostName];
+      eth0.network = "LAN";
+    };
     hardware.info = "RK3588S, 16GB (DDR4), Orange Pi 5, K8s Worker";
   };
 

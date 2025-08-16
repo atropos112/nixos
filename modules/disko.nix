@@ -202,6 +202,11 @@ in {
         message = "You must have at least one authorized key to use netAtBootForDecryption.";
       }
       {
+        # Some drives must be specified.
+        assertion = (length cfg.drives) > 0;
+        message = "You must specify at least one drive.";
+      }
+      {
         # If more than one drive mode must not be set to ""
         assertion = (length cfg.drives) == 1 || cfg.mode != "";
         message = "Stripped mode is not supported with multiple drives.";

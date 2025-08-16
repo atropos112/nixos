@@ -3,7 +3,7 @@ _: {
     ../../profiles/common/opi5/hardware.nix
   ];
   atro.disko = {
-    hostId = "8f3cc91f";
+    hostId = "8f3cu82f";
     drives = [
     ];
   };

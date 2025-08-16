@@ -131,9 +131,9 @@
         a21 = mkHost "a21" "x86_64-linux";
         rzr = mkHost "rzr" "x86_64-linux";
         opi1 = mkHost "opi1" "aarch64-linux";
-        # opi2 = mkHost "opi2" "aarch64-linux";
-        # opi3 = mkHost "opi3" "aarch64-linux";
-        # opi4 = mkHost "opi4" "aarch64-linux";
+        opi2 = mkHost "opi2" "aarch64-linux";
+        opi3 = mkHost "opi3" "aarch64-linux";
+        opi4 = mkHost "opi4" "aarch64-linux";
         orth = mkHost "orth" "x86_64-linux";
       };
 
@@ -150,7 +150,7 @@
             allowLocalDeployment = true;
             targetUser = "root";
             buildOnTarget = true;
-            targetHost = "9.0.0.155";
+            targetHost = name;
           };
           nixpkgs.system = value.config.nixpkgs.system;
           imports = value._module.args.modules;
