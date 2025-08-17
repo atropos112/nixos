@@ -3,9 +3,9 @@ _: {
     ../../profiles/common/opi5/hardware.nix
   ];
   atro.disko = {
-    hostId = "8f3cu82f";
+    hostId = "4671711a";
     drives = [
-      "AAAA"
+      "nvme-CT1000P310SSD2_25205025897F"
     ];
   };
 }

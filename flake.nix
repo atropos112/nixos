@@ -99,23 +99,44 @@
       };
     };
 
+    mkImage = name: system: (
+      (_:
+        inputs.nixpkgs-unstable.lib.nixosSystem {
+          inherit system;
+          specialArgs = passThroughArgs system;
+          modules = [
+            # 1. Secrets
+            # Unlike in mkHost, we only load the module as install image should not need secrets.
+            # If a secret is attempted to be used, it will fail at build time, this is by design.
+            (inputs.sops-nix.nixosModules.sops)
+
+            # 2. Modules
+            ./modules
+
+            # 3. Load image configuration
+            ./images/${name}
+          ];
+        }) {}
+    );
+
     mkHost = hostName: system: (
       (_:
         inputs.nixpkgs-unstable.lib.nixosSystem {
           inherit system;
           specialArgs = passThroughArgs system;
           modules = [
-            #1. Secrets
+            # 1. Secrets
             ./secrets
 
-            #2. Modules
+            # 2. Modules
             ./modules
 
-            #3. Load full configuration
+            # 3. Load full configuration
             ./hosts/${hostName}
           ];
         }) {}
     );
+
     # Little hack to get colmena to work with nixos-rebuild switch interoperably.
     conf = self.nixosConfigurations;
   in
@@ -135,6 +156,9 @@
         opi3 = mkHost "opi3" "aarch64-linux";
         opi4 = mkHost "opi4" "aarch64-linux";
         orth = mkHost "orth" "x86_64-linux";
+        # To build the opi5Image run:
+        # nix build .#nixosConfigurations.imageOpi5.config.system.build.isoImage
+        imageOpi5 = mkImage "opi5" "aarch64-linux";
       };
 
       colmena =

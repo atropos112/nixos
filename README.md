@@ -39,26 +39,29 @@ sudo colmena apply --on "opi-*"
 
 # Building image for Orange Pi 5
 
-There are very small differences between my Orange Pi 5's, I have 4 of them and other than hostnames the setups are effectively the same. To build an image, head to root directory of this repo and run
+When trying to install NixOS on Orange Pi 5 using normal arm64 image from the official website, you will likely encounter some of the following issues:
+
+- LTS version of NixOS is too old or doesn't have ZFS support in the installer image.
+- The latest version of linux kernel is not old enough but doesn't have ZFS on installer image.
+- You are not able to SSH as root user unless you manually do `sudo su` and then `passwd` so you need to plug Orange Pi 5 into a monitor and keyboard which is a pain.
+
+By building my image you will avoid all of those issues, because it will have my public SSH keys in the `authorized_keys` and it will have ZFS support.
+
+Do mind you might have to bump the linux kernel version before building the image.
+
+To build the image simply run
 
 ```bash
-nix build .#sdImage-opi4
+nix build .#nixosConfigurations.opi5Image.config.system.build.isoImage
 ```
 
-to build image for opi4 (Orange Pi 5 number 4), analogous commands to build for opi1, opi2 and opi3. This will take couple minutes and eventually produce a file in `result/sd-image` that ends with `.img.zst`.
-
-At this point plug in the SD card, check `lsblk` to see where it is. Suppose its at `/dev/sda` then to flash you will have to run
+Once built you can flash it onto a USB stick with
 
 ```bash
-zstdcat orangepi5-sd-image-24.05.20240314.d691274-aarch64-linux.img.zst | sudo dd status=progress bs=8M of=/dev/sda
+sudo dd bs=4M conv=fsync oflag=direct status=progress if=<name-of-iso-file-in-results-dir> of=</dev/sdX>
 ```
 
-where `orangepi5-sd-image-24.05.20240314.d691274-aarch64-linux.img.zst` is the name of the file that was generated with `nix build` command.
-
-To flash onto nvme, yyou must first flash your SPI flash, to do this install official Orange Pi 5 os first and run `orangepi-config` and flash SPI there.
-
-To flash this onto nvme, your best bet is to run Orangi Pi 5 of that SD card, copy over (using scp/rsync) the `.img.zst` file over SSH to the running Orange Pi 5 and then run the same command as above but instead of `/dev/sda` target the nvme drive.
-If you have flashed your SPI flash correctly, turning off Orange Pi and removing SD card should be all you need to do after that to force it to boot off nvme.
+And you are ready to boot into it if your Orange Pi 5 has edk2-rk3588 (UEFI) flashed onto SPI flash, more on that see [edk2 flashing section](#flashing-edk2-rk3588-uefi-to-orange-pi-5).
 
 # How to install on a fresh machine
 

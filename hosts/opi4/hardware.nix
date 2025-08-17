@@ -3,9 +3,9 @@ _: {
     ../../profiles/common/opi5/hardware.nix
   ];
   atro.disko = {
-    hostId = "8u3cu11a";
+    hostId = "5511171b";
     drives = [
-      "AAAA"
+      "nvme-Corsair_MP600_MINI_A936B52200CFWZ"
     ];
   };
 }
