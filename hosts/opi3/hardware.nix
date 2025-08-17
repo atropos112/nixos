@@ -5,6 +5,7 @@ _: {
   atro.disko = {
     hostId = "8u3cu82a";
     drives = [
+      "AAAA"
     ];
   };
 }

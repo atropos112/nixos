@@ -32,10 +32,9 @@
 
       # Services that are only restarted might be not able to resolve when resolved is stopped before
       systemd-resolved.stopIfChanged = false;
-    };
 
-    # What does it mean to be online?
-    network.wait-online.enable = false;
+      systemd-networkd-wait-online.enable = true;
+    };
   };
 
   # services = {

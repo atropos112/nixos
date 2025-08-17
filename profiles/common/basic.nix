@@ -267,7 +267,14 @@ in {
   };
 
   # This is a workaround since we restart igc module on resume
-  systemd.services.chronyd.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 30";
+  systemd.services.chronyd = {
+    serviceConfig.ExecStartPre = [
+      "${pkgs.chrony}/bin/chronyd -q 'server time-a-g.nist.gov iburst'"
+      "${pkgs.coreutils}/bin/sleep 5"
+    ]; # for good measure
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+  };
 
   services = {
     # NTP (time syncing) service

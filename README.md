@@ -86,6 +86,45 @@ I had this fail on me once because i didn't have permission to all the stuff ins
 
 During this process if doing on desktop will be asked for password for zfs encryption. for ext4 nothing
 
+# Flashing edk2-rk3588 (UEFI) to Orange Pi 5
+
+This assumes you have something already running on Orange Pi 5, like NixOS or Armbian.
+If you don't consult [external section in radxa website](https://docs.radxa.com/en/rock5/lowlevel-development/bootloader_spi_flash?method=external).
+
+On the Orange Pi 5:
+
+```bash
+wget https://dl.radxa.com/rock5/sw/images/others/zero.img.gz
+```
+
+extract the image and check it matches the checksum mentioned on the [website](https://docs.radxa.com/en/rock5/lowlevel-development/bootloader_spi_flash?method=simple).
+
+Find corresponding SPI flash by running `ls /dev/mtdblock*` and then seeing one result, likely `/dev/mtdblock0`.
+
+Then run the following command to flash the image:
+
+```bash
+sudo dd if=zero.img of=/dev/mtdblock0
+```
+
+This might take few minutes. Now confirm md5sums of both the image and what is on the SPI flash:
+
+```bash
+sudo md5sum /dev/mtdblock0 zero.img
+```
+
+If the md5sums don't match, flash `zero.img` again as it means you likely now have corrupted SPI state. Now we are ready to flash the real thing.
+
+Go to [edk2-rk3588](https://github.com/edk2-porting/edk2-rk3588/releases) and get the latest release.Make sure to get the Orange Pi 5 one.
+
+Now run
+
+```bash
+sudo dd if=<edk2-porting-file-name> of=/dev/mtdblock0
+```
+
+Again, this might take few minutes. Running md5sum to check it was flashed proprely won't work, not sure why. I tried it before and saw hash differed even after many attempts but after rebooting everything worked no problem.
+
 # Work to be done
 
 - Orange Pi Zero 2W setup is not working it needs fixing.
