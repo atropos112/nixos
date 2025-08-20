@@ -140,7 +140,7 @@ in {
     rtkit.enable = true; # Recommended for pipewire
     pam.services = {
       gdm.enableGnomeKeyring = true; # To make the keyring work, for things like github copilot
-      swaylock = {}; # To make swaylock respect my password
+      swaylock = {}; # To make swaylock respect my password or fprintd if exists
     };
   };
 
@@ -631,7 +631,7 @@ in {
           "datestr" = "%a %B %e";
           "timestr" = "%I:%M %p";
           "fade-in" = 0.2;
-          "ignore-empty-password" = true;
+          "ignore-empty-password" = false;
           "font-size" = 32;
         };
       };
