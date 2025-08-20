@@ -26,6 +26,7 @@
   environment.persistence."/persistent" = {
     # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
     directories = [
+      "/var/lib/fprint"
       "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
     ];
   };
@@ -42,6 +43,9 @@
   };
 
   services = {
+    # INFO: To register a fingerprint run `sudo fprintd-enroll <username>`
+    # This will save data to /var/lib/fprint , if doing persistence you will need to persist that
+    fprintd.enable = true; # Already enabled by nixos hardware but wanted to be explicit
     # vpn mesh to connect to other devices
     tailscale = {
       extraUpFlags = [
