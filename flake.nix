@@ -2,9 +2,7 @@
   inputs = {
     # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs2311.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nix-search-tv.url = "github:3timeslazy/nix-search-tv";
     colmena = {
       url = "github:zhaofengli/colmena";
@@ -17,6 +15,12 @@
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
+    };
+
+    systems.url = "github:nix-systems/default";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
     };
 
     # Gives me the pipe operator support
@@ -58,7 +62,6 @@
       url = "github:oddlama/nix-topology";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    flake-utils.url = "github:numtide/flake-utils";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -89,12 +92,6 @@
         inherit system config;
       };
       pkgs-stable = import inputs.nixpkgs-stable {
-        inherit system config;
-      };
-      pkgs2311 = import inputs.nixpkgs2311 {
-        inherit system config;
-      };
-      pkgs-master = import inputs.nixpkgs-master {
         inherit system config;
       };
     };
@@ -181,12 +178,15 @@
         })
         conf;
     }
-    // inputs.flake-utils.lib.eachDefaultSystem (system: {
+    # eachDefaultSystem maps packages.hello to packages.<system>.hello
+    // inputs.flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import inputs.nixpkgs-unstable {
+        inherit system;
+        overlays = [inputs.nix-topology.overlays.default];
+      };
+    in {
       topology = import inputs.nix-topology {
-        pkgs = import inputs.nixpkgs-unstable {
-          inherit system;
-          overlays = [inputs.nix-topology.overlays.default];
-        };
+        inherit pkgs;
 
         modules = [
           ./topology/networks.nix
@@ -194,5 +194,6 @@
           {inherit (self) nixosConfigurations;}
         ];
       };
+      devShells.default = import ./shell.nix {inherit pkgs;};
     });
 }

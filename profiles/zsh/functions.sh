@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function rebase-node {
-	set -xeuo pipefail
+	set -x
 	export NODE_NAME="$1"
 
 	if [ -z "$NODE_NAME" ]; then
