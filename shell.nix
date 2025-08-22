@@ -1,6 +1,6 @@
 {pkgs}: let
   testy = pkgs.writeShellScriptBin "testy" ''
-    echo hi
+    echo "hi there"
   '';
 in
   pkgs.mkShell {
@@ -13,6 +13,6 @@ in
     ];
 
     shellHook = ''
-      echo "Welcome to the development environment!!!"
+      echo "Welcome to the development environment!!"
     '';
   }
