@@ -15,7 +15,7 @@
 in {
   imports = [
     ./hardware.nix
-    ../../profiles/common/desktop
+    ../../profiles/common/laptop.nix
     ../../profiles/services/syncthing.nix
   ];
 
@@ -93,13 +93,6 @@ in {
     # interfaces.eth0.macAddress = "";
   };
 
-  environment.persistence."/persistent" = {
-    # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
-    directories = [
-      "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
-    ];
-  };
-
   systemd.services = {
     # This service sets all usb ports to wakeon so that a key press can get out of suspended state
     wakeonusb = {
@@ -110,47 +103,12 @@ in {
         ${coreutils}/bin/echo enabled | ${coreutils}/bin/tee /sys/bus/usb/devices/*/power/wakeup
       '';
     };
-
-    fusuma = {
-      description = "Trackpad Gestures";
-      after = ["network.target" "sound.target"];
-      wantedBy = ["default.target"];
-      script = with pkgs; ''
-        ${fusuma}/bin/fusuma
-      '';
-    };
   };
 
-  services = {
-    # vpn mesh to connect to other devices
-    tailscale = {
-      extraUpFlags = [
-        "--accept-routes"
-      ];
-    };
-
-    # To provide information about the battery (e.g. how much % is left)
-    upower = {
-      enable = true;
-    };
-
-    # IX Server does a lot, used for keyboard settings here and to select the display manager (Login screen)
-    # Note, the keyboard settings are for stuff it controls like GDM, onced logged in, DE (e.g. HyprLand) takes over and that can dictate the keyboard.
-    xserver.xkb = {
-      layout = "us,us";
-      variant = "colemak,intl";
-      options = "grp:win_space_toggle";
-    };
-    thermald = {
-      enable = true;
-      configFile = ./thermal-conf.xml;
-    };
+  services.thermald = {
+    enable = true;
+    configFile = ./thermal-conf.xml;
   };
-
-  environment.systemPackages = with pkgs; [
-    # trackpad gestures
-    fusuma
-  ];
 
   atro.hyprland.settings = [
     {

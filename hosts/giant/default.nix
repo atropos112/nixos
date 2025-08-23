@@ -5,7 +5,7 @@
 }: {
   imports = [
     ./hardware.nix
-    ../../profiles/common/desktop
+    ../../profiles/common/desktop.nix
     ../../profiles/services/syncthing.nix
     ../../pkgs/ollama.nix
   ];

@@ -1,7 +1,7 @@
-{pkgs, ...}: {
+_: {
   imports = [
     ./hardware.nix
-    ../../profiles/common/desktop
+    ../../profiles/common/laptop.nix
     ../../profiles/services/syncthing.nix
   ];
 
@@ -27,50 +27,14 @@
     # INFO: User dirs are relative to their home directory i.e. .ssh -> /home/atropos/.ssh
     directories = [
       "/var/lib/fprint"
-      "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
     ];
   };
 
-  systemd.services = {
-    fusuma = {
-      description = "Trackpad Gestures";
-      after = ["network.target" "sound.target"];
-      wantedBy = ["default.target"];
-      script = with pkgs; ''
-        ${fusuma}/bin/fusuma
-      '';
-    };
-  };
+  # INFO: To register a fingerprint run `sudo fprintd-enroll <username>`
+  # This will save data to /var/lib/fprint , if doing persistence you will need to persist that
+  services.fprintd.enable = true; # Already enabled by nixos hardware but wanted to be explicit
 
-  services = {
-    # INFO: To register a fingerprint run `sudo fprintd-enroll <username>`
-    # This will save data to /var/lib/fprint , if doing persistence you will need to persist that
-    fprintd.enable = true; # Already enabled by nixos hardware but wanted to be explicit
-    # vpn mesh to connect to other devices
-    tailscale = {
-      extraUpFlags = [
-        "--accept-routes"
-      ];
-    };
-
-    # To provide information about the battery (e.g. how much % is left)
-    upower = {
-      enable = true;
-    };
-
-    # IX Server does a lot, used for keyboard settings here and to select the display manager (Login screen)
-    # Note, the keyboard settings are for stuff it controls like GDM, onced logged in, DE (e.g. HyprLand) takes over and that can dictate the keyboard.
-    xserver.xkb = {
-      layout = "us,us";
-      variant = "colemak,intl";
-      options = "grp:win_space_toggle";
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    # trackpad gestures
-    fusuma
-  ];
+  home-manager.users.atropos.programs.waybar.settings.mainBar.network.interface = "wlan0";
 
   atro.hyprland.settings = [
     {
@@ -121,6 +85,4 @@
       };
     }
   ];
-
-  home-manager.users.atropos.programs.waybar.settings.mainBar.network.interface = "wlan0";
 }

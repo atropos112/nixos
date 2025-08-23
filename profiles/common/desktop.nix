@@ -16,28 +16,28 @@
   };
 in {
   imports = [
-    ../basic.nix
+    ./basic.nix
     inputs.stylix.nixosModules.stylix
     inputs.nix-ld.nixosModules.nix-ld
     inputs.nix-index-database.nixosModules.nix-index
     # Profiles
-    ../../externalMounts/all.nix
-    ../../kopia/to_rzr.nix
-    ../../hyprland.nix
-    ../../kubernetes/user.nix
-    ../../languages/all.nix
-    ../../zfs.nix
-    ../../identities/infisical.nix
+    ../externalMounts/all.nix
+    ../kopia/to_rzr.nix
+    ../hyprland.nix
+    ../kubernetes/user.nix
+    ../languages/all.nix
+    ../zfs.nix
+    ../identities/infisical.nix
 
     # Packages
-    ../../../pkgs/kitty.nix
-    ../../../pkgs/waybar
-    ../../../pkgs/mako.nix
-    ../../../pkgs/tofi.nix
-    ../../../pkgs/firefox.nix
-    ../../../pkgs/direnv.nix
-    ../../../pkgs/nixSearchTV.nix
-    ../../../pkgs/mods.nix
+    ../../pkgs/kitty.nix
+    ../../pkgs/waybar
+    ../../pkgs/mako.nix
+    ../../pkgs/tofi.nix
+    ../../pkgs/firefox.nix
+    ../../pkgs/direnv.nix
+    ../../pkgs/nixSearchTV.nix
+    ../../pkgs/mods.nix
   ];
 
   stylix = {
