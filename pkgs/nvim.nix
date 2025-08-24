@@ -1,8 +1,11 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   programs.neovim = {
     enable = true;
-    # Don't want nighltly for 0.12 for now.
-    # package = pkgs.neovim; # inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default; # pkgs.neovim for stable
     viAlias = true;
     vimAlias = true;
   };
