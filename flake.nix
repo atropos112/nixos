@@ -111,7 +111,7 @@
             ./modules
 
             # 3. Load image configuration
-            ./images/${name}
+            ./images/${name}.nix
           ];
         }) {}
     );
@@ -156,6 +156,10 @@
         # To build the opi5Image run:
         # nix build .#nixosConfigurations.imageOpi5.config.system.build.isoImage
         imageOpi5 = mkImage "opi5" "aarch64-linux";
+
+        # To build the opiz2wImage run:
+        # nix build .#nixosConfigurations.imageOpiz2w.config.system.build.sdImage
+        imageOpiz2w = mkImage "opiz2w" "aarch64-linux";
       };
 
       colmena =

@@ -7,7 +7,7 @@
 in {
   imports = [
     (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
-    ../../profiles/identities/users.nix
+    ../profiles/identities/users.nix
   ];
   environment.systemPackages = [pkgs.neovim];
   environment.etc."nixos-generate-config.conf".text = ''
