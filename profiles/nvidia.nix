@@ -16,6 +16,8 @@
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware = {
+    # Can then run containers with GPU access, e.g.
+    # podman run --rm --device nvidia.com/gpu=all --security-opt=label=disable ubuntu nvidia-smi -L
     nvidia-container-toolkit = {
       enable = true;
       mount-nvidia-executables = true;
