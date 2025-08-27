@@ -153,9 +153,10 @@
         opi3 = mkHost "opi3" "aarch64-linux";
         opi4 = mkHost "opi4" "aarch64-linux";
         orth = mkHost "orth" "x86_64-linux";
-        # To build the imageZfs run:
-        # nix build .#nixosConfigurations.imageZfs.config.system.build.isoImage
-        imageZfs = mkImage "zfs" "aarch64-linux";
+        # To build the imageZfsArm run:
+        # nix build .#nixosConfigurations.imageZfsArm.config.system.build.isoImage
+        imageZfsArm = mkImage "zfs" "aarch64-linux";
+        imageZfsAmd = mkImage "zfs" "x86_64-linux";
 
         # To build the opiz2wImage run:
         # nix build .#nixosConfigurations.imageOpiz2w.config.system.build.sdImage

@@ -14,6 +14,10 @@ in {
     lsp.package = inputs.nil_ls.outputs.packages.${pkgs.system}.nil;
   };
 
+  packages = with pkgs; [
+    nix-output-monitor
+  ];
+
   git-hooks.hooks = {
     inherit (inputs.atrolib.lib.devenv.git-hooks.hooks) gitleaks markdownlint;
     deadnix.enable = true;
