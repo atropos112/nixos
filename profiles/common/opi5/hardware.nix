@@ -10,7 +10,7 @@ _: {
       kernelModules = ["phy_rockchip_naneng_combphy"];
     };
 
-    disko = {
+    diskoZfsRoot = {
       enable = true;
       mode = ""; # no mirroring as it only has one drive.
       encryption = {

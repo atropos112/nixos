@@ -11,7 +11,7 @@ _: {
       kernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "igc"];
     };
 
-    disko = {
+    diskoZfsRoot = {
       enable = true;
       hostId = "9676761a";
       mode = "mirror";

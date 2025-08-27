@@ -5,12 +5,6 @@
   ...
 }: let
   inherit (config.networking) hostName;
-
-  # Special case... I know, I have regrets.
-  nodeName =
-    if hostName == "atroa21"
-    then "atro21"
-    else hostName;
 in {
   imports = [
     ./longhorn.nix
@@ -20,11 +14,11 @@ in {
 
   # Overriding the default config to include docker for docker socket access
   systemd.services.alloy.environment = lib.mkForce {
-    K8S_NODE_NAME = nodeName;
+    K8S_NODE_NAME = hostName;
   };
 
   environment.sessionVariables = {
-    K8S_NODE_NAME = nodeName;
+    K8S_NODE_NAME = hostName;
   };
 
   services.k3s = {
@@ -33,7 +27,7 @@ in {
     tokenFile = config.sops.secrets."k3s/token".path;
     package = pkgs.k3s;
     extraFlags = [
-      "--node-name ${nodeName}"
+      "--node-name ${hostName}"
     ];
   };
 

@@ -18,7 +18,7 @@
       kernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod"];
     };
 
-    disko = {
+    diskoZfsRoot = {
       enable = true;
       hostId = "8f3cc97f";
       mode = ""; # no mirroring as it only has one drive.

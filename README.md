@@ -52,7 +52,7 @@ Do mind you might have to bump the linux kernel version before building the imag
 To build the image simply run
 
 ```bash
-nix build .#nixosConfigurations.opi5Image.config.system.build.isoImage
+nix build .#nixosConfigurations.imageZfs.config.system.build.isoImage
 ```
 
 Once built you can flash it onto a USB stick with

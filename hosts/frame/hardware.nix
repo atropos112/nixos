@@ -14,7 +14,7 @@
       enable = true;
     };
 
-    disko = {
+    diskoZfsRoot = {
       enable = true;
       hostId = "8f3aa99f";
       mode = ""; # no mirroring as it only has one drive.

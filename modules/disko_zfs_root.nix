@@ -13,7 +13,7 @@ that I am willing to waste on redundancy and simplicity.
 }: let
   inherit (lib) mkIf mkEnableOption mkOption types length mod unique filter tail imap1 head optionalAttrs listToAttrs imap0;
   inherit (builtins) toString stringLength elemAt;
-  cfg = config.atro.disko;
+  cfg = config.atro.diskoZfsRoot;
   diskCfg = bootName: id: {
     type = "disk";
     device = "/dev/disk/by-id/${id}";
@@ -92,7 +92,7 @@ in {
     inputs.disko.nixosModules.disko # Is used within some modules not necessarily used though.
   ];
 
-  options.atro.disko = {
+  options.atro.diskoZfsRoot = {
     enable = mkEnableOption "zfs as root";
     hostId = mkOption {
       type = types.str;

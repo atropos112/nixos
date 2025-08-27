@@ -5,6 +5,7 @@ _: {
     ../../profiles/common/server.nix
     ../../profiles/kubernetes/server.nix
     ../../profiles/kubernetes/user.nix
+    ../../profiles/impermanence/server.nix
   ];
 
   topology.self = {
@@ -17,7 +18,7 @@ _: {
   };
 
   networking = {
-    hostName = "atroa21";
+    hostName = "a21";
     interfaces.eth0.macAddress = "3c:7c:3f:0f:50:db";
   };
 }

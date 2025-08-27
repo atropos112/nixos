@@ -139,12 +139,12 @@ in {
           };
         };
         connections = {
-          "1" = mkConnection "atroopi4" "eth0";
+          "1" = mkConnection "opi4" "eth0";
           "2" = mkConnection "opi1" "eth0";
-          "3" = mkConnection "atroopi3" "eth0";
-          "4" = mkConnection "atroopi2" "eth0";
+          "3" = mkConnection "opi3" "eth0";
+          "4" = mkConnection "opi2" "eth0";
           "5" = mkConnection "atrorzr" "eth0";
-          "6" = mkConnection "atroa21" "eth0";
+          "6" = mkConnection "a21" "eth0";
           "7" = mkConnection "atrosmol" "eth0";
           "8" = mkConnection "router" "mce1";
         };
