@@ -11,10 +11,11 @@ _: {
       device = "/dev/disk/by-uuid/8551379f-cbef-4b8c-b4e8-5aacfd51b3f5";
       fsType = "ext4";
     };
-    "/mnt/ssd2" = {
-      device = "/dev/disk/by-uuid/b050f0b6-1fa2-406f-93bd-68efb241062e";
-      fsType = "ext4";
-    };
+    # That SSD is broken.
+    # "/mnt/ssd2" = {
+    #   device = "/dev/disk/by-uuid/b050f0b6-1fa2-406f-93bd-68efb241062e";
+    #   fsType = "ext4";
+    # };
     "/boot" = {
       device = "/dev/disk/by-uuid/D09B-864F";
       fsType = "vfat";
