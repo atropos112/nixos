@@ -14,7 +14,7 @@ _: {
       mode = ""; # no mirroring as it only has one drive.
       hostId = "8f5bb92f";
       drives = [
-        "TBD-INTERNAL-NVME"
+        "nvme-CT500P3PSSD8_2333E86D866C"
       ];
       encryption = {
         enable = false;
@@ -24,7 +24,7 @@ _: {
 
   disko.devices.disk.longhorn = {
     type = "disk";
-    device = "TBD-EXTERNAL-SSD";
+    device = "/dev/disk/by-id/ata-ST2000LM007-1R8174_ZDZTCS7D";
     content = {
       type = "gpt";
       partitions.longhorn = {
