@@ -1,10 +1,11 @@
 _: {
   imports = [
+    ./hardware.nix
     ../../profiles/common/basic.nix
     ../../profiles/common/server.nix
     ../../profiles/kubernetes/server.nix
     ../../profiles/kubernetes/user.nix
-    ./hardware.nix
+    ../../profiles/impermanence/server.nix
   ];
 
   topology.self = {

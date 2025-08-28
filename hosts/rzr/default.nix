@@ -9,6 +9,7 @@
     ../../profiles/kubernetes/nvidia.nix
     ../../profiles/services/garage.nix
     ../../profiles/services/syncthing.nix
+    ../../profiles/impermanence/server.nix
     # Sadly ollama doesn't seem to work on this GPU :/
     # Getting kernel not found errors :/
     # Instead having it work through k8s.
@@ -25,20 +26,20 @@
       exposeWebUI = true;
       backups = [
         {
-          path = "/mnt/photos/";
+          path = "/mnt/hdd/photos/";
         }
         {
-          path = "/home/atropos/local_pvcs";
+          path = "/persistent/local_vols";
         }
       ];
     };
 
     garage = {
       data = {
-        dir = "/mnt/garage"; # Where data lives (need high capacity)
+        dir = "/mnt/hdd/garage"; # Where data lives (need high capacity)
         capacity = "2T";
       };
-      metadataDir = "/home/atropos/garage_metadata"; # Directory where Garage stores its metadata (need high speed)
+      metadataDir = "/persistent/garage_metadata"; # Directory where Garage stores its metadata (need high speed)
     };
   };
 
@@ -56,7 +57,7 @@
   };
 
   networking = {
-    hostName = "atrorzr";
+    hostName = "rzr";
     interfaces.eth0.macAddress = "d0:50:99:96:77:de";
   };
 }
