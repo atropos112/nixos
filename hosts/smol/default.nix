@@ -17,7 +17,7 @@ _: {
   };
 
   networking = {
-    hostName = "atrosmol";
+    hostName = "smol";
     interfaces.eth0.macAddress = "2c:f0:5d:26:8d:da";
   };
 }

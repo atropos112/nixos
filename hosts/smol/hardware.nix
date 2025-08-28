@@ -1,22 +1,39 @@
 _: {
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/e3162d61-e341-404f-b88c-a135f9a38829";
-      fsType = "ext4";
+  imports = [
+    ../../profiles/zfs.nix
+  ];
+
+  atro = {
+    boot = {
+      enable = true;
     };
-    "/mnt/ssd1" = {
-      device = "/dev/disk/by-uuid/39a765c8-f391-4efc-b824-46dd0730e0bd";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/8531-49E2";
-      fsType = "vfat";
+
+    diskoZfsRoot = {
+      enable = true;
+      mode = ""; # no mirroring as it only has one drive.
+      hostId = "5d1fb93f";
+      drives = [
+        "INTERNAL-NVME"
+      ];
+      encryption = {
+        enable = false;
+      };
     };
   };
 
-  swapDevices = [
-    {
-      device = "/dev/disk/by-uuid/c9c0cb52-cb06-483d-b957-fd46d7893a70";
-    }
-  ];
+  disko.devices.disk.longhorn = {
+    type = "disk";
+    device = "/dev/disk/by-id/INTERNAL-SSD";
+    content = {
+      type = "gpt";
+      partitions.longhorn = {
+        size = "100%";
+        content = {
+          type = "filesystem";
+          format = "ext4";
+          mountpoint = "/mnt/longhorn";
+        };
+      };
+    };
+  };
 }

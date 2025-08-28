@@ -6,7 +6,7 @@ _: {
   atro = {
     boot.enable = true;
 
-    disko = {
+    diskoZfsRoot = {
       enable = true;
       hostId = "1676722a";
       mode = "raidz1";

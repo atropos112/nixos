@@ -145,7 +145,7 @@ in {
           "4" = mkConnection "opi2" "eth0";
           "5" = mkConnection "atrorzr" "eth0";
           "6" = mkConnection "a21" "eth0";
-          "7" = mkConnection "atrosmol" "eth0";
+          "7" = mkConnection "smol" "eth0";
           "8" = mkConnection "router" "mce1";
         };
       };
