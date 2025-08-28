@@ -1,6 +1,5 @@
 _: {
   imports = [
-    ../../profiles/common/amd64_hardware.nix
     ../../profiles/zfs.nix
   ];
 

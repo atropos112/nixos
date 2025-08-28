@@ -3,6 +3,8 @@
   pkgs,
   ...
 }: {
+  atro.boot.kernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "zfs" "dm_crypt"];
+
   environment.systemPackages = with pkgs; [
     openiscsi
     nfs-utils

@@ -1,8 +1,4 @@
 _: {
-  imports = [
-    ../../profiles/common/amd64_hardware.nix
-  ];
-
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-uuid/e3162d61-e341-404f-b88c-a135f9a38829";

@@ -7,7 +7,6 @@
   ];
 in {
   imports = [
-    ../../profiles/common/amd64_hardware.nix
     ../../profiles/nvidia.nix
     ../../profiles/zfs.nix
   ];
