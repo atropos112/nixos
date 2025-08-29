@@ -39,7 +39,7 @@ in {
 
       folders = {
         manual = {
-          devices = ["p9pf" "surface" "giant" "atrorzr" "orth" "frame"];
+          devices = ["p9pf" "surface" "giant" "rzr" "orth" "frame"];
           path = "${syncDir}/manual";
         };
         websites = {
@@ -55,7 +55,7 @@ in {
           p9pf = "ZSU4XYD-YTVHULA-UPB43OX-HABOH37-3QSDCYJ-56TGMCQ-IWR73HI-DXKCJAF";
           surface = "UWJRHPP-IDPIB5H-W2PZTLG-7NN2RNU-HCV54T5-4LY64YB-NYQX7W3-JRHNGAS";
           giant = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
-          atrorzr = "HBYTR3Y-VO3BX62-M4TX7IW-COBUIPN-FYDVFPB-P76WM4U-E4DYTEH-32FFXQO";
+          rzr = "HBYTR3Y-VO3BX62-M4TX7IW-COBUIPN-FYDVFPB-P76WM4U-E4DYTEH-32FFXQO";
           orth = "QQ2BVQH-NLCNB4C-JS7CGGN-C6F23KJ-AOVFXVL-4LGZLDW-U66UKGO-QUFVJA6";
           frame = "CZ6DCWH-QMSPJOQ-SL5IGI7-IJLZRVW-2VSUMVY-S7CMCOL-R3ETJSP-MG4M5AS";
         }

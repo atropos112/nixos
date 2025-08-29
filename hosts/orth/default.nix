@@ -47,4 +47,12 @@
     hostName = "orth";
     interfaces.eth0.macAddress = "a8:b8:e0:08:04:07";
   };
+
+  services.cron = {
+    enable = true;
+    # Reboot every day at 7:30am just in case connection is lost.
+    systemCronJobs = [
+      "30 7 * * * root reboot"
+    ];
+  };
 }

@@ -29,7 +29,7 @@
     diskoZfsRoot = {
       enable = true;
       mode = ""; # no mirroring as it only has one drive.
-      hostId = "8f3bb97f";
+      hostId = "8425e349";
       drives = [
         "nvme-eui.0025385711b22693"
       ];
