@@ -5,6 +5,6 @@
     bacon
     rustc
     rustfmt
-    vscode-extensions.vadimcn.vscode-lldb
+    vscode-extensions.vadimcn.vscode-lldb.adapter
   ];
 }

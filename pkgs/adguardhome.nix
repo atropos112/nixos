@@ -6,7 +6,7 @@
     package = pkgs-stable.adguardhome;
     port = 3000; # The web interface port
     host = "0.0.0.0";
-    mutableSettings = true; # Will allow external-dns to add some DNS rewrites etc.
+    mutableSettings = false; # Will allow external-dns to add some DNS rewrites etc.
     settings = {
       auth_attempts = 5;
       block_auth_min = 15;
@@ -47,9 +47,9 @@
         bind_hosts = ["0.0.0.0"];
         blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
         bogus_nxdomain = [];
-        bootstrap_dns = ["9.9.9.10" "149.112.112.10" "2620:fe::10" "2620:fe::fe:10"];
+        bootstrap_dns = [];
         bootstrap_prefer_ipv6 = false;
-        cache_optimistic = false;
+        cache_optimistic = true;
         cache_size = 4194304;
         cache_ttl_max = 0;
         cache_ttl_min = 0;
@@ -80,7 +80,12 @@
         serve_http3 = false;
         serve_plain_dns = true;
         trusted_proxies = ["127.0.0.0/8" "::1/128"];
-        upstream_dns = ["tcp://9.0.0.1:5553" "tcp://100.91.21.102:5553" "tcp://100.121.143.30:5553" "tcp://192.168.68.58:5553"];
+        upstream_dns = [
+          "tcp://9.0.0.1:5553" # Opnsense local IP unbound
+          "tcp://100.91.21.102:5553" # Opnsense tailscale IP unbound
+          "tcp://192.168.68.53:5553" # Orth local IP unbound
+          "tcp://100.124.150.44:5553" # Orth tailscale IP unbound
+        ];
         upstream_dns_file = "";
         upstream_mode = "parallel";
         upstream_timeout = "10s";

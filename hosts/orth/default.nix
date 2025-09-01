@@ -5,6 +5,7 @@
     ../../profiles/services/garage.nix
     ../../profiles/services/syncthing.nix
     ../../pkgs/adguardhome.nix
+    ../../pkgs/unbound.nix
     ./hardware.nix
   ];
 
