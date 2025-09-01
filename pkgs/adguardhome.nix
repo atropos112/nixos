@@ -1,9 +1,21 @@
-{pkgs-stable, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  atro.impermanence.global = lib.mkIf config.atro.impermanence.enable {
+    dirs = [
+      {
+        directory = "/var/lib/private/AdGuardHome"; # Adguard home dir
+        mode = "0700";
+      }
+    ];
+  };
+
   services.adguardhome = {
     enable = true;
-    # WARN: Have to use pkgs-stable as on the unstable branch the version is showing as ""
-    # and as a result adguardhome-sync is refusing to sync.
-    package = pkgs-stable.adguardhome;
+    package = pkgs.adguardhome;
     port = 3000; # The web interface port
     host = "0.0.0.0";
     mutableSettings = true; # Will allow external-dns to add some DNS rewrites etc.

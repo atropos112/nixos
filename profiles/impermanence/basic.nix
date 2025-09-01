@@ -6,7 +6,6 @@ _: {
       dirs = [
         "/root/.ssh" # Root SSH keys (used during age key decryption)
         "/var/lib/tailscale" # Tailscale login state. Tried doing ephemeral, comes with bunch of issues...
-        # "/var/lib/private/ollama" # Ollama models and state
       ];
       files = [
         "/etc/machine-id" # Some apps rely on this being fixed.

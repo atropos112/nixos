@@ -62,12 +62,17 @@ It assumes
     echo "Unmounting home..."
     umount /home
 
+    echo "Fixing permissions for other dirs..."
+    mkdir -p /persistent/var/lib/private
+    chmod 700 /persistent/var/lib/private
+
     echo "Unmounting persistent..."
     umount /persistent
 
     echo "Permissions fixed."
     echo "--------------------------------------------------"
   '';
+  objType = types.listOf (types.oneOf [types.str types.attrs]);
 in {
   imports = [
     inputs.impermanence.nixosModules.impermanence
@@ -90,7 +95,7 @@ in {
     };
     global = {
       dirs = mkOption {
-        type = types.listOf types.str;
+        type = objType;
         default = [];
         description = ''
           List of global directories to map.
@@ -101,7 +106,7 @@ in {
         '';
       };
       files = mkOption {
-        type = types.listOf types.str;
+        type = objType;
         default = [];
         description = ''
           List of global files to map.
@@ -113,7 +118,7 @@ in {
     };
     home = {
       dirs = mkOption {
-        type = types.listOf types.str;
+        type = objType;
         default = [];
         description = ''
           List of home directories to map.
@@ -134,7 +139,7 @@ in {
         '';
       };
       files = mkOption {
-        type = types.listOf types.str;
+        type = objType;
         default = [];
         description = ''
           List of home files to map.
