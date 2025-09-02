@@ -11,12 +11,6 @@
   homeDirectory = "/home/${homeUser}";
   rootHomeUser = "root";
   rootHomeDirectory = "/root";
-
-  inherit (config.networking) hostName;
-  shortHostName =
-    if builtins.substring 0 4 hostName == "atro"
-    then builtins.substring 4 (builtins.stringLength hostName) hostName
-    else hostName;
   stateVersion = "25.05";
 in {
   imports = [
@@ -288,7 +282,7 @@ in {
       authKeyFile = config.sops.secrets."tailscale/key".path;
       package = pkgs.tailscale;
       extraUpFlags = [
-        "--hostname=${shortHostName}"
+        "--hostname=${config.networking.hostName}"
       ];
     };
 

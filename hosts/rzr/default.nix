@@ -36,7 +36,7 @@
 
     garage = {
       data = {
-        dir = "/mnt/hdd/garage"; # Where data lives (need high capacity)
+        dir = "/mnt/hdd/garage_data"; # Where data lives (need high capacity)
         capacity = "2T";
       };
       metadataDir = "/persistent/garage_metadata"; # Directory where Garage stores its metadata (need high speed)

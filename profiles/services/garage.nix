@@ -2,13 +2,7 @@
   pkgs,
   config,
   ...
-}: let
-  inherit (config.networking) hostName;
-  shortHostName =
-    if builtins.substring 0 4 hostName == "atro"
-    then builtins.substring 4 (builtins.stringLength hostName) hostName
-    else hostName;
-in {
+}: {
   atro = {
     garage = {
       enable = true;
@@ -18,7 +12,7 @@ in {
         adminToken = "garage/adminToken";
       };
       traceSink = "http://127.0.0.1:4317";
-      rpcPublicAddr = "${shortHostName}:3901"; # Using tailscale address.
+      rpcPublicAddr = "${config.networking.hostName}:3901"; # Using tailscale address.
     };
 
     alloy.configs = [

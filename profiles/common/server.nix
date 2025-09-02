@@ -1,10 +1,4 @@
-{config, ...}: let
-  inherit (config.networking) hostName;
-  shortHostName =
-    if builtins.substring 0 4 hostName == "atro"
-    then builtins.substring 4 (builtins.stringLength hostName) hostName
-    else hostName;
-in {
+{config, ...}: {
   system = {
     autoUpgrade = {
       enable = true;
@@ -19,7 +13,7 @@ in {
       # and then have each node have SSH access to the repo or
       # have access-tokens = github.com=${SECRET_ACCESS_TOKEN} so it can use Github API.
 
-      flake = "github:atropos112/nixos#${shortHostName}";
+      flake = "github:atropos112/nixos#${config.networking.hostName}";
     };
   };
 
