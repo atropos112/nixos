@@ -29,7 +29,7 @@
           path = "/mnt/hdd/photos/";
         }
         {
-          path = "/persistent/local_vols";
+          path = "/persistent/local_pvcs";
         }
       ];
     };

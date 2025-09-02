@@ -73,7 +73,7 @@ in {
       backups = [
         {
           path = "/persistent/";
-          ignores = ["Sync" ".venv" ".cache" ".devenv"];
+          ignores = ["Sync" ".venv" ".cache" ".devenv" ".devenv*"];
         }
       ];
     };
