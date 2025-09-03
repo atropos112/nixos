@@ -17,6 +17,14 @@ _: {
   };
   powerManagement.enable = true;
 
+  users = {
+    groups.fwupd-refresh.gid = 988;
+    users.fwupd-refresh = {
+      uid = 996;
+      group = "fwupd-refresh";
+    };
+  };
+
   networking = {
     hostName = "frame";
     # Its not really ethernet its wifi.
