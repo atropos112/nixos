@@ -60,6 +60,12 @@
         cache_size = 4194304;
         cache_ttl_max = 0;
         cache_ttl_min = 0;
+        allowed_clients = [
+          "100.64.0.0/10"
+          "127.0.0.1/24"
+          "9.0.0.0/8"
+          "192.168.0.0/16"
+        ];
         disallowed_clients = [];
         dns64_prefixes = [];
         enable_dnssec = false;

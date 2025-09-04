@@ -160,10 +160,8 @@ in {
           # Disable spellchecker
           "layout.spellcheckDefault" = "1";
 
-          # Custom DNS over HTTPS
-          "network.trr.custom_uri" = "https://opnsense.zapus-perch.ts.net:9443/dns-query";
-          "network.trr.mode" = 3; # Max protection use TRR first, complain if can't and fallback on user accept only
-          "network.trr.uri" = "https://opnsense.zapus-perch.ts.net:9443/dns-query";
+          # Plain DNS as my PLain DNS is over Tailscale anyway
+          "network.trr.mode" = 5;
           "network.dns.disableIPv6" = true; # Disable IPv6
           "doh-rollout.disable-heuristics" = true;
 
