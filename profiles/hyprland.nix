@@ -132,11 +132,6 @@ _: {
             preserve_split = true; # you probably want this
           };
 
-          gestures = {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            workspace_swipe = false;
-          };
-
           "$mainMod" = "SUPER";
 
           input = {
