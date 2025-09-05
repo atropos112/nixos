@@ -16,7 +16,7 @@
       "gpt-oss:20b" # Fast model
       "deepseek-r1:32b" # Thinking model (slower)
     ];
-    models = "/persistent/var/lib/private/ollama/models";
+    models = "/persistent/ollama/models";
   };
 
   home-manager.users.atropos.programs = {
