@@ -20,6 +20,24 @@
   rg = "${pkgs.ripgrep}/bin/rg";
   kopia = "${pkgs.kopia}/bin/kopia";
   curl = "${pkgs.curl}/bin/curl";
+  nmcli = "${pkgs.networkmanager}/bin/nmcli";
+  beforeSnapshotScript = "${pkgs.writeShellScript "before-snapshot" ''
+    if [ -z "${cfg.networkInterface}" ]; then
+      # No interface specified, always proceed
+      exit 0
+    fi
+
+    # IS_METERED will be "yes", "no" or "unknown"
+    IS_METERED=${nmcli} -t -f GENERAL.METERED dev show ${cfg.networkInterface} | cut -d: -f2 | cut -d' ' -f1
+
+    if [ "$IS_METERED" = "yes" ]; then
+      ${echo} "On a metered connection, skipping backup"
+      exit 1
+    fi
+
+    echo "Not on a metered connection, proceeding with backup"
+    exit 0
+  ''}";
 
   kopiaWebUICmd =
     if cfg.exposeWebUI
@@ -42,7 +60,7 @@
     |> concatMapStrings (p: " " + p);
   kopiaSetupPolicies = backups:
     backups
-    |> map (backup: ''${kopia} policy set "${backup.path}" --snapshot-time-crontab="${backup.cron}" --compression="pgzip-best-compression" '' + (ignorePaths backup.ignores))
+    |> map (backup: ''${kopia} policy set "${backup.path}" --snapshot-time-crontab="${backup.cron}" --before-folder-action="${beforeSnapshotScript}" --compression="pgzip-best-compression" '' + (ignorePaths backup.ignores))
     |> concatMapStrings (p: "\n" + p);
 
   # WARN: Adding secrets the way it is done is not a good idea, it means they are exposed to anyone with `systemctl status kopia access`
@@ -107,6 +125,11 @@ in {
     exposeWebUI = mkOption {
       type = types.bool;
       default = false;
+    };
+    networkInterface = mkOption {
+      type = types.str;
+      default = "";
+      description = "The network interface to check for metered connection";
     };
     backups = mkOption {
       type = types.listOf (types.submodule {

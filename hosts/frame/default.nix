@@ -44,6 +44,8 @@ _: {
 
   home-manager.users.atropos.programs.waybar.settings.mainBar.network.interface = "wlan0";
 
+  atro.kopia.networkInterface = "wlan0";
+
   atro.hyprland.settings = [
     {
       priority = 1;
