@@ -1,4 +1,8 @@
 _: {
+  home-manager.users.atropos.programs.zsh.shellAliases = {
+    fix-vertical-line = ''hyprctl dispatch dpms off && sleep 1 && hyprctl dispatch dpms on'';
+  };
+
   atro.hyprland = {
     enable = true;
     settings = [
