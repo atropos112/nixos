@@ -25,6 +25,7 @@ in {
         "https://nix-community.cachix.org" # Nix community Cachix server
         "https://devenv.cachix.org" # Devenv Cachix server
         "https://nixpkgs-python.cachix.org" # Python Cachix server
+        "https://statix.cachix.org" # Statix Cachix server
       ];
 
       trusted-public-keys = [
@@ -33,6 +34,7 @@ in {
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" # Nix community Cachix server
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" # Devenv Cachix server
         "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" # Python Cachix server
+        "statix.cachix.org-1:Z9E/g1YjCjU117QOOt07OjhljCoRZddiAm4VVESvais=" # Statix Cachix server
       ];
 
       builders-use-substitutes = true;

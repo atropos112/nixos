@@ -58,6 +58,7 @@
     paths
     |> map (path: ''--add-ignore="${path}"'')
     |> concatMapStrings (p: " " + p);
+
   kopiaSetupPolicies = backups:
     backups
     |> map (backup: ''${kopia} policy set "${backup.path}" --snapshot-time-crontab="${backup.cron}" --before-folder-action="${beforeSnapshotScript}" --compression="pgzip-best-compression" '' + (ignorePaths backup.ignores))

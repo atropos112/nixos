@@ -7,4 +7,6 @@ inputs:
     url: github:atropos112/atronixlib
   nil_ls:
     url: github:oxalica/nil/main
+  statix:
+    url: github:oppiliappan/statix/master
 allowUnfree: true
