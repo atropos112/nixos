@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     # Python
     (python313.withPackages (ps:
@@ -8,7 +13,6 @@
       ]))
 
     ruff
-    poetry
     uv # pip but faster.
 
     basedpyright
@@ -16,15 +20,6 @@
     python313Packages.python-lsp-server
     python313Packages.debugpy
   ];
-  home-manager.users.atropos.programs.poetry = {
-    enable = true;
-    package = pkgs.poetry;
-    settings = {
-      virtualenvs = {
-        in-project = true;
-        prefer-active-python = true;
-        use-poetry-python = false;
-      };
-    };
-  };
+
+  environment.sessionVariables.UV_CACHE_DIR = lib.mkIf config.atro.impermanence.enable "/persistent/uv_cache_dir";
 }
