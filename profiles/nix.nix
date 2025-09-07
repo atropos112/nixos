@@ -26,6 +26,7 @@ in {
         "https://devenv.cachix.org" # Devenv Cachix server
         "https://nixpkgs-python.cachix.org" # Python Cachix server
         "https://statix.cachix.org" # Statix Cachix server
+        "https://cuda-maintainers.cachix.org" # CUDA Cachix server
       ];
 
       trusted-public-keys = [
@@ -35,6 +36,7 @@ in {
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" # Devenv Cachix server
         "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" # Python Cachix server
         "statix.cachix.org-1:Z9E/g1YjCjU117QOOt07OjhljCoRZddiAm4VVESvais=" # Statix Cachix server
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E=" # CUDA Cachix server
       ];
 
       builders-use-substitutes = true;
