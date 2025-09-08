@@ -22,6 +22,10 @@ in {
       "alt+right" = ''send_text all \x05'';
     };
     settings = {
+      # Cursor trail
+      cursor_trail = 3;
+      cursor_trail_decay = "0.1 0.4";
+
       #general
       disable_ligatures = "never";
       enable_audio_bell = false;
