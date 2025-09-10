@@ -1,11 +1,24 @@
-{options, ...}: {
+{
+  options,
+  config,
+  ...
+}: {
   # Networking basics (hostname excluded)
   networking = {
     usePredictableInterfaceNames = false;
     nftables.enable = true;
     firewall.enable = false;
-    # nameservers = ["127.0.0.1"];
-    # networkmanager.appendNameservers = ["127.0.0.1"];
+    nameservers = ["127.0.0.1"];
+    networkmanager.appendNameservers = ["127.0.0.1"];
+    resolvconf = {
+      # This config (with tailsacle) will result in a /etc/resolv.conf like this:
+      # search zapus-perch.ts.net
+      # nameserver 127.0.0.1
+      # options edns0 trust-ad
+
+      useLocalResolver = true;
+      dnsExtensionMechanism = true;
+    };
     enableIPv6 = false;
     # Some time servers just to be sure
     timeServers =
@@ -37,24 +50,27 @@
     };
   };
 
-  # services = {
-  #   dnsproxy = {
-  #     enable = true; # Turn on the dnsproxy service
-  #     settings = {
-  #       cache = true; # Enables caching of DNS responses.
-  #       cache-max-ttl = 600; # Sets the maximum time-to-live for cached entries to 10 minutes.
-  #       cache-optimistic = true; # Responds from cache even when the entries are expired but then refreshes them.
-  #       cache-size = 4194304; # Sets the cache size to 4 MiB.
-  #       fallback = ["9.9.9.9"]; # Fallback DNS server if upstreams fail.
-  #       listen-addrs = ["0.0.0.0"]; # Listens on your local computer (127.0.0.1).
-  #       listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
-  #       upstream = [
-  #         "https://opnsense.zapus-perch.ts.net:9443/dns-query"
-  #         "https://opiz2.zapus-perch.ts.net:9443/dns-query"
-  #       ];
-  #       upstream-mode = "parallel";
-  #       verbose = true;
-  #     };
-  #   };
-  # };
+  services = {
+    dnsproxy = {
+      enable = !config.services.adguardhome.enable; # Turn on the dnsproxy service if its not running adguardhome directly
+      settings = {
+        cache = true; # Enables caching of DNS responses.
+        cache-max-ttl = 600; # Sets the maximum time-to-live for cached entries to 10 minutes.
+        cache-optimistic = true; # Responds from cache even when the entries are expired but then refreshes them.
+        cache-size = 4194304; # Sets the cache size to 4 MiB.
+        fallback = ["9.9.9.9"]; # Fallback DNS server if upstreams fail.
+        listen-addrs = ["127.0.0.1"]; # Listens on your local computer (127.0.0.1).
+        listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
+        upstream = [
+          # Locals
+          "9.0.0.1"
+          "192.168.68.53"
+          # Tailscale
+          "100.100.100.100"
+        ];
+        upstream-mode = "parallel";
+        verbose = true;
+      };
+    };
+  };
 }
