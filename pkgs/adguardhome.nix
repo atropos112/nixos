@@ -59,7 +59,7 @@
         cache_optimistic = false; # Serve stale cache if upstream times out, flaky sometimes
         cache_size = 4194304;
         cache_ttl_max = 30; # Has to reasonably small as most devices have their own caching DNS resolver anyway
-        cache_ttl_min = 0;
+        cache_ttl_min = 1;
         allowed_clients = [
           "100.64.0.0/10"
           "127.0.0.1/24"
@@ -87,10 +87,9 @@
         serve_plain_dns = true;
         trusted_proxies = ["127.0.0.0/8" "::1/128"];
         upstream_dns = [
-          "tcp://9.0.0.1:5553" # Opnsense local IP unbound
-          "tcp://100.91.21.102:5553" # Opnsense tailscale IP unbound
-          "tcp://192.168.68.53:5553" # Orth local IP unbound
-          "tcp://100.124.150.44:5553" # Orth tailscale IP unbound
+          "127.0.0.1:5553" # Unbound local
+          "100.91.21.102:5553" # Opnsense tailscale IP unbound
+          "100.124.150.44:5553" # Orth tailscale IP unbound
         ];
         upstream_mode = "parallel";
         upstream_timeout = "10s";
