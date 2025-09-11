@@ -56,9 +56,9 @@
         aaaa_disabled = false;
         anonymize_client_ip = false;
         bind_hosts = ["0.0.0.0"];
-        cache_optimistic = true;
+        cache_optimistic = false; # Serve stale cache if upstream times out, flaky sometimes
         cache_size = 4194304;
-        cache_ttl_max = 0;
+        cache_ttl_max = 30; # Has to reasonably small as most devices have their own caching DNS resolver anyway
         cache_ttl_min = 0;
         allowed_clients = [
           "100.64.0.0/10"
