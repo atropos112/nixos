@@ -55,7 +55,7 @@
       enable = !config.services.adguardhome.enable; # Turn on the dnsproxy service if its not running adguardhome directly
       settings = {
         cache = true; # Enables caching of DNS responses.
-        cache-max-ttl = 600; # Sets the maximum time-to-live for cached entries to 10 minutes.
+        cache-max-ttl = 300; # Sets the maximum time-to-live for cached entries to 5 minutes.
         cache-optimistic = true; # Responds from cache even when the entries are expired but then refreshes them.
         cache-size = 4194304; # Sets the cache size to 4 MiB.
         fallback = ["9.9.9.9"]; # Fallback DNS server if upstreams fail.
