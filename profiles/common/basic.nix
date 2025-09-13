@@ -19,7 +19,7 @@ in {
     ../nix.nix
     ../identities/users.nix
     ../identities/known_hosts.nix
-    ../networking.nix
+    ../networking
     ../fastfetch.nix
     ../services/atuin.nix
     ../services/attic-client.nix
