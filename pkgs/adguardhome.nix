@@ -90,6 +90,7 @@
           "127.0.0.1:5553" # Unbound local
           "100.91.21.102:5553" # Opnsense tailscale IP unbound
           "100.124.150.44:5553" # Orth tailscale IP unbound
+          "[/ts.net/zapus-perch.ts.net/]100.100.100.100" # Tailscale DNS (careful, dns-override points to this so we are close to infinite loop territory)
         ];
         upstream_mode = "parallel";
         upstream_timeout = "10s";
