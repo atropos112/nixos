@@ -64,7 +64,7 @@ in {
         connections = mkConnection "router" "igc0";
       };
 
-      op8p = {
+      p9pf = {
         name = "p9pf";
         deviceType = "device";
         hardware.info = "Pixen 9 Pro Fold";

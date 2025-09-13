@@ -28,6 +28,7 @@
       upstream = [
         # Tailscale
         "100.100.100.100"
+        "[/zapus-perch.ts.net/]100.100.100.100"
       ];
       upstream-mode = "parallel";
       verbose = true;
