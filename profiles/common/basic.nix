@@ -283,6 +283,7 @@ in {
       package = pkgs.tailscale;
       extraUpFlags = [
         "--hostname=${config.networking.hostName}"
+        "--accept-dns=false" # This is done manually in the networking/dns.nix
       ];
     };
 
