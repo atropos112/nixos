@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   nameservers =
     if config.services.adguardhome.enable
     then ["100.100.100.100" "127.0.0.1"]
@@ -16,7 +20,7 @@ in {
     networkmanager.appendNameservers = nameservers;
     resolvconf = {
       # I disabled resolvconf in favour of setting it myself as this removes the "magic" of who is first. If someone overwrites it then reslovconf overwrites it again you don't know what has happened, this way you do, as the environment.etc is always first so if anything overwrites it it will be obvious.
-      enable = false; # Written manually above
+      enable = lib.mkForce false; # Written manually above
       # # This config (with tailsacle) will result in a /etc/resolv.conf like this:
       # search zapus-perch.ts.net
       # nameserver 127.0.0.1
