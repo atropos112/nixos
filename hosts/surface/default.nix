@@ -17,6 +17,7 @@ in {
     ./hardware.nix
     ../../profiles/common/laptop.nix
     ../../profiles/services/syncthing.nix
+    ../../profiles/networking/dns_remote.nix
   ];
 
   nix = {

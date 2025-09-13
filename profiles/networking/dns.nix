@@ -40,8 +40,6 @@ in {
       listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
       upstream = [
         # Tailscale
-        "100.91.21.102" # OpnSense
-        "100.124.150.44" # Orth
         "[/zapus-perch.ts.net/]100.100.100.100"
       ];
       upstream-mode = "parallel";
