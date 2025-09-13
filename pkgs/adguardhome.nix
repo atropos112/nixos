@@ -61,10 +61,10 @@
         cache_ttl_max = 30; # Has to reasonably small as most devices have their own caching DNS resolver anyway
         cache_ttl_min = 1;
         allowed_clients = [
-          "100.64.0.0/10"
-          "127.0.0.1/24"
-          "9.0.0.0/8"
-          "192.168.0.0/16"
+          "100.64.0.0/10" # Tailscale
+          "127.0.0.1/24" # Localhost
+          "9.0.0.0/8" # Home network at my place
+          "192.168.0.0/16" # Home network at parents
         ];
         disallowed_clients = [];
         dns64_prefixes = [];
