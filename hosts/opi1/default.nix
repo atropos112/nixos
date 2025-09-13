@@ -3,7 +3,7 @@ _: {
     ../../profiles/common/opi5
     ./hardware.nix
     ../../profiles/impermanence/server.nix
-    ../../profiles/networking/dns_london.nix
+    ../../profiles/networking/dns/london.nix
   ];
 
   topology.self.interfaces.eth0.addresses = ["9.0.0.5"];

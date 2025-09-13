@@ -7,7 +7,7 @@
     ../../pkgs/adguardhome.nix
     ../../pkgs/unbound.nix
     ./hardware.nix
-    ../../profiles/networking/dns_stoke.nix
+    ../../profiles/networking/dns/stoke.nix
   ];
 
   services = {

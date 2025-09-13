@@ -3,7 +3,7 @@ _: {
     ./hardware.nix
     ../../profiles/common/laptop.nix
     ../../profiles/services/syncthing.nix
-    ../../profiles/networking/dns_remote.nix
+    ../../profiles/networking/dns/remote.nix
   ];
 
   topology.self = {

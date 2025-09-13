@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ./dns.nix
+    ./dns
     ./ntp.nix
   ];
 

@@ -8,7 +8,7 @@
     ../../profiles/common/desktop.nix
     ../../profiles/services/syncthing.nix
     ../../pkgs/ollama.nix
-    ../../profiles/networking/dns_london.nix
+    ../../profiles/networking/dns/london.nix
   ];
 
   services.ollama = {
