@@ -10,6 +10,7 @@
     ../../profiles/services/garage.nix
     ../../profiles/services/syncthing.nix
     ../../profiles/impermanence/server.nix
+    ../../profiles/networking/dns_london.nix
     # Sadly ollama doesn't seem to work on this GPU :/
     # Getting kernel not found errors :/
     # Instead having it work through k8s.

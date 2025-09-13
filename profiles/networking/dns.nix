@@ -26,9 +26,6 @@
       listen-addrs = ["127.0.0.1"]; # Listens on your local computer (127.0.0.1).
       listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
       upstream = [
-        # Locals
-        # "9.0.0.1"
-        # "192.168.68.53"
         # Tailscale
         "100.100.100.100"
       ];

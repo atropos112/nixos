@@ -6,6 +6,7 @@ _: {
     ../../profiles/kubernetes/server.nix
     ../../profiles/kubernetes/user.nix
     ../../profiles/impermanence/server.nix
+    ../../profiles/networking/dns_london.nix
   ];
 
   topology.self = {
