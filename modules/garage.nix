@@ -184,7 +184,7 @@ in {
 
             if [[ "$should_exist" == "false" ]]; then
               echo "Removing bucket $bucket"
-              # garage bucket delete --yes "$bucket"
+              garage bucket delete --yes "$bucket"
             fi
           done
         '';
@@ -252,7 +252,7 @@ in {
 
                 if [[ "$should_have_access" == "false" ]]; then
                   echo "Removing access for key ${lib.escapeShellArg keyName} from bucket $current_bucket"
-                  # garage bucket deny --key ${lib.escapeShellArg keyName} $current_bucket
+                  garage bucket deny --key ${lib.escapeShellArg keyName} $current_bucket
                 fi
               done
             '')
@@ -270,7 +270,7 @@ in {
 
              if [[ "$should_exist" == "false" ]]; then
                echo "Removing key $key"
-               # garage key delete --yes "$key"
+               garage key delete --yes "$key"
              fi
            done
         '';
