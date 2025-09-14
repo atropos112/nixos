@@ -13,6 +13,24 @@
       };
       traceSink = "http://127.0.0.1:4317";
       rpcPublicAddr = "${config.networking.hostName}:3901"; # Using tailscale address.
+      keys = {
+        k8s = [
+          "loki-chunks"
+          "loki-admin"
+          "loki-ruler"
+          "psql"
+          "attic"
+          "awf"
+          "pyroscope"
+          "tempo"
+          "longhorn"
+          "synapse"
+          "influxdb"
+        ];
+        nixos = [
+          "kopia"
+        ];
+      };
       buckets = [
         "loki-chunks"
         "loki-admin"

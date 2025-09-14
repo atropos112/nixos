@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib) mkEnableOption mkOption types mkIf attrValues flatten elem;
   cfg = config.atro.garage;
 
   settings = {
@@ -70,6 +70,15 @@ in {
       type = types.listOf types.str;
       description = "List of buckets to create";
     };
+    keys = mkOption {
+      type = types.attrsOf (types.listOf types.str);
+      default = {};
+      description = "Keys and their associated buckets. Each key gets full access (read/write/owner) to its listed buckets.";
+      example = {
+        my_key_name = ["bucket1" "bucket2"];
+        my_other_key = ["bucket2" "bucket3"];
+      };
+    };
     metadataDir = mkOption {
       type = types.str;
       description = "Directory where Garage stores its metadata";
@@ -97,9 +106,22 @@ in {
   config = mkIf cfg.enable {
     assertions = [
       {
-        # If cfg.enable is true, cfg.buckets must not be empty
-        assertion = cfg.enable -> (cfg.buckets != []);
+        # buckets must not be empty
+        assertion = cfg.buckets != [];
         message = "If Garage is enabled, at least one bucket must be specified in atro.garage.buckets";
+      }
+      {
+        # keys must not be empty
+        assertion = builtins.length (lib.attrsToList cfg.keys) > 0;
+        message = "If Garage is enabled, at least one key must be specified in atro.garage.keys";
+      }
+      {
+        assertion = let
+          allKeyBuckets = cfg.keys |> attrValues |> flatten;
+          invalidBuckets = builtins.filter (bucket: !(elem bucket cfg.buckets)) allKeyBuckets;
+        in
+          invalidBuckets == [];
+        message = "All buckets referenced in keys must exist in the buckets list";
       }
     ];
 
@@ -107,64 +129,152 @@ in {
       cfg.package
     ];
 
-    systemd.services.garage-buckets = {
-      description = "Create Garage buckets";
-      after = ["garage.service"];
-      wants = ["garage.service"];
-      wantedBy = ["multi-user.target"];
+    systemd.services = {
+      garage-buckets = {
+        description = "Create Garage buckets";
+        after = ["garage.service"];
+        wants = ["garage.service"];
+        wantedBy = ["multi-user.target"];
 
-      path = [cfg.package pkgs.gawk pkgs.coreutils];
+        path = [cfg.package pkgs.gawk pkgs.coreutils];
 
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        User = "root";
-        Group = "root";
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          User = "root";
+          Group = "root";
+        };
+
+        script = ''
+          garage status
+
+          # Checking repeatedly with garage status until getting 0 exit code
+          while ! garage status >/dev/null 2>&1; do
+            echo "Garage not yet operational, waiting..."
+            echo "Current garage status output:"
+            garage status 2>&1 || true
+            echo "---"
+            sleep 5
+          done
+          echo "Garage is operational, proceeding with bucket management."
+
+          # Get list of existing buckets
+          existing_buckets=$(garage bucket list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
+
+          # Create buckets that should exist
+          ${lib.concatMapStringsSep "\n" (bucket: ''
+              if [[ "$(garage bucket info ${lib.escapeShellArg bucket} 2>&1 >/dev/null)" == *"Bucket not found"* ]]; then
+                echo "Creating bucket ${lib.escapeShellArg bucket}"
+                garage bucket create ${lib.escapeShellArg bucket}
+              else
+                echo "Bucket ${lib.escapeShellArg bucket} already exists"
+              fi
+            '')
+            cfg.buckets}
+
+          # Remove buckets that shouldn't exist
+          for bucket in $existing_buckets; do
+            should_exist=false
+            ${lib.concatMapStringsSep "\n" (bucket: ''
+              if [[ "$bucket" == ${lib.escapeShellArg bucket} ]]; then
+                should_exist=true
+              fi
+            '')
+            cfg.buckets}
+
+            if [[ "$should_exist" == "false" ]]; then
+              echo "Removing bucket $bucket"
+              # garage bucket delete --yes "$bucket"
+            fi
+          done
+        '';
       };
 
-      script = ''
-        garage status
+      garage-keys = {
+        description = "Create Garage keys and set permissions";
+        after = ["garage-buckets.service"];
+        wants = ["garage-buckets.service"];
+        requires = ["garage-buckets.service"];
+        wantedBy = ["multi-user.target"];
 
-        # Checking repeatedly with garage status until getting 0 exit code
-        while ! garage status >/dev/null 2>&1; do
-          echo "Garage not yet operational, waiting..."
-          echo "Current garage status output:"
-          garage status 2>&1 || true
-          echo "---"
-          sleep 5
-        done
-        echo "Garage is operational, proceeding with bucket management."
+        path = [cfg.package pkgs.gawk pkgs.coreutils];
 
-        # Get list of existing buckets
-        existing_buckets=$(garage bucket list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          User = "root";
+          Group = "root";
+        };
 
-        # Create buckets that should exist
-        ${lib.concatMapStringsSep "\n" (bucket: ''
-            if [[ "$(garage bucket info ${lib.escapeShellArg bucket} 2>&1 >/dev/null)" == *"Bucket not found"* ]]; then
-              echo "Creating bucket ${lib.escapeShellArg bucket}"
-              garage bucket create ${lib.escapeShellArg bucket}
-            else
-              echo "Bucket ${lib.escapeShellArg bucket} already exists"
-            fi
-          '')
-          cfg.buckets}
+        script = ''
+          garage key list
+          echo "Managing keys..."
 
-        # Remove buckets that shouldn't exist
-        for bucket in $existing_buckets; do
-          should_exist=false
-          ${lib.concatMapStringsSep "\n" (bucket: ''
-            if [[ "$bucket" == ${lib.escapeShellArg bucket} ]]; then
-              should_exist=true
-            fi
-          '')
-          cfg.buckets}
+           # Get list of existing keys
+           existing_keys=$(garage key list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
 
-          if [[ "$should_exist" == "false" ]]; then
-            echo "Removing bucket $bucket"
-            # garage bucket delete --yes "$bucket"
-          fi
-        done
-      '';
+           # Create keys that should exist
+           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+              if [[ "$(garage key info ${lib.escapeShellArg keyName} 2>&1)" == *"Key not found"* ]]; then
+                echo "Creating key ${lib.escapeShellArg keyName}"
+                garage key create ${lib.escapeShellArg keyName}
+              else
+                echo "Key ${lib.escapeShellArg keyName} already exists"
+              fi
+            '')
+            cfg.keys)}
+
+           # Set up key permissions for buckets
+           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (
+              keyName: buckets:
+                lib.concatMapStringsSep "\n" (bucket: ''
+                  echo "Granting full access to key ${lib.escapeShellArg keyName} for bucket ${lib.escapeShellArg bucket}"
+                  garage bucket allow --read --write --owner --key ${lib.escapeShellArg keyName} ${lib.escapeShellArg bucket}
+                '')
+                buckets
+            )
+            cfg.keys)}
+
+           # Remove permissions from buckets that are no longer associated with keys
+           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+              # Get current buckets this key has access to
+              current_buckets=$(garage key info ${lib.escapeShellArg keyName} | grep -A 1000 "==== BUCKETS FOR THIS KEY ====" | tail -n +3 | awk '{print $3}' | grep -v '^$' || true)
+
+              # Remove access from buckets not in the desired list
+              for current_bucket in $current_buckets; do
+                should_have_access=false
+                ${lib.concatMapStringsSep "\n" (bucket: ''
+                  if [[ "$current_bucket" == ${lib.escapeShellArg bucket} ]]; then
+                    should_have_access=true
+                  fi
+                '')
+                buckets}
+
+                if [[ "$should_have_access" == "false" ]]; then
+                  echo "Removing access for key ${lib.escapeShellArg keyName} from bucket $current_bucket"
+                  # garage bucket deny --key ${lib.escapeShellArg keyName} $current_bucket
+                fi
+              done
+            '')
+            cfg.keys)}
+
+           # Remove keys that shouldn't exist
+           for key in $existing_keys; do
+             should_exist=false
+             ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+              if [[ "$key" == ${lib.escapeShellArg keyName} ]]; then
+                should_exist=true
+              fi
+            '')
+            cfg.keys)}
+
+             if [[ "$should_exist" == "false" ]]; then
+               echo "Removing key $key"
+               # garage key delete --yes "$key"
+             fi
+           done
+        '';
+      };
     };
 
     sops.secrets = {
