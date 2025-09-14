@@ -66,6 +66,10 @@ in {
         description = "Capacity of the Garage data directory";
       };
     };
+    buckets = mkOption {
+      type = types.listOf types.str;
+      description = "List of buckets to create";
+    };
     metadataDir = mkOption {
       type = types.str;
       description = "Directory where Garage stores its metadata";
@@ -91,9 +95,77 @@ in {
   };
 
   config = mkIf cfg.enable {
+    assertions = [
+      {
+        # If cfg.enable is true, cfg.buckets must not be empty
+        assertion = cfg.enable -> (cfg.buckets != []);
+        message = "If Garage is enabled, at least one bucket must be specified in atro.garage.buckets";
+      }
+    ];
+
     environment.systemPackages = [
       cfg.package
     ];
+
+    systemd.services.garage-buckets = {
+      description = "Create Garage buckets";
+      after = ["garage.service"];
+      wants = ["garage.service"];
+      wantedBy = ["multi-user.target"];
+
+      path = [cfg.package pkgs.gawk pkgs.coreutils];
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        User = "root";
+        Group = "root";
+      };
+
+      script = ''
+        garage status
+
+        # Checking repeatedly with garage status until getting 0 exit code
+        while ! garage status >/dev/null 2>&1; do
+          echo "Garage not yet operational, waiting..."
+          echo "Current garage status output:"
+          garage status 2>&1 || true
+          echo "---"
+          sleep 5
+        done
+        echo "Garage is operational, proceeding with bucket management."
+
+        # Get list of existing buckets
+        existing_buckets=$(garage bucket list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
+
+        # Create buckets that should exist
+        ${lib.concatMapStringsSep "\n" (bucket: ''
+            if [[ "$(garage bucket info ${lib.escapeShellArg bucket} 2>&1 >/dev/null)" == *"Bucket not found"* ]]; then
+              echo "Creating bucket ${lib.escapeShellArg bucket}"
+              garage bucket create ${lib.escapeShellArg bucket}
+            else
+              echo "Bucket ${lib.escapeShellArg bucket} already exists"
+            fi
+          '')
+          cfg.buckets}
+
+        # Remove buckets that shouldn't exist
+        for bucket in $existing_buckets; do
+          should_exist=false
+          ${lib.concatMapStringsSep "\n" (bucket: ''
+            if [[ "$bucket" == ${lib.escapeShellArg bucket} ]]; then
+              should_exist=true
+            fi
+          '')
+          cfg.buckets}
+
+          if [[ "$should_exist" == "false" ]]; then
+            echo "Removing bucket $bucket"
+            # garage bucket delete --yes "$bucket"
+          fi
+        done
+      '';
+    };
 
     sops.secrets = {
       "${cfg.secrets.rpcSecret}" = {};
