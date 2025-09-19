@@ -27,6 +27,7 @@ in {
         "https://nixpkgs-python.cachix.org" # Python Cachix server
         "https://statix.cachix.org" # Statix Cachix server
         "https://cuda-maintainers.cachix.org" # CUDA Cachix server
+        "https://pre-commit-hooks.cachix.org" # pre-commit-hooks Cachix server
       ];
 
       trusted-public-keys = [
@@ -37,6 +38,7 @@ in {
         "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" # Python Cachix server
         "statix.cachix.org-1:Z9E/g1YjCjU117QOOt07OjhljCoRZddiAm4VVESvais=" # Statix Cachix server
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E=" # CUDA Cachix server
+        "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc=" # pre-commit-hooks Cachix server
       ];
 
       builders-use-substitutes = true;
