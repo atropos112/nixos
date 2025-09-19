@@ -52,7 +52,7 @@ _: {
       priority = 1;
       value = {
         monitor = [
-          "eDP-1,2880x1920@120,0x0,2,bitdepth,10" # main monitor
+          "eDP-1,2880x1920@120,0x0,1.5,bitdepth,10" # main monitor
           "DP-2,1440x900@60,1800x0,1,bitdepth,10" # monitor in Stoke
           # "DP-1,1920x1080@60,1800x0,1.0,bitdepth,10" # monitor in Ndg
         ];
