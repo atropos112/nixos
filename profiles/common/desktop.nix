@@ -249,6 +249,7 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      libreoffice
       tree-sitter
       buildah
 
