@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
+function refresh-devenvs {
+	fd -t f devenv.nix "$1" -x bash -c 'cd "$(dirname "$1")" && devenv shell ls' _ {}
+}
+
 function rebase-node {
 	set -x
 	export NODE_NAME="$1"
 
-	if [ -z "$NODE_NAME" ]; then
+	if [ "$NODE_NAME" = "" ]; then
 		echo "Usage: rebase-node <node-name>"
 		exit 1
 	fi
@@ -20,10 +24,6 @@ function rebase-node {
 	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/.config/nvim/ "$NODE_NAME:/persistent/home/atropos/.config/nvim"
 
 	rsync -av --delete /home/atropos/.mozilla/ "$NODE_NAME:/persistent/home/atropos/.mozilla"
-}
-
-function refresh-devenvs {
-	find /home/atropos/projects -type d -exec test -f {}/.devenv.flake.nix \; -print -exec bash -c "cd {} && devenv shell ls" \;
 }
 
 function sssh {
