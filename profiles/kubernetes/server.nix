@@ -8,7 +8,14 @@ _: let
   };
   tracingApiServerConfigPath = tracingApiServerConfig |> toJSON |> toFile "tracing-config.json";
 in {
-  imports = [./base.nix];
+  imports = [
+    ./base.nix
+    ./user.nix
+  ];
+
+  services.tailscale.extraUpFlags = [
+    ''--advertise-routes="11.0.0.11/32"''
+  ];
 
   services.k3s = {
     role = "server";

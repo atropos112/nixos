@@ -38,6 +38,15 @@
     kubectl-klock
   ];
 
+  # Needed for grafana alloy but also convininient.
+  # Grafana alloy infact needs this to be called "kubeconfig" so it exists
+  # in /run/secrets/kubeconfig as well
+  sops.secrets."kubeconfig" = {
+    owner = "atropos";
+    path = "/home/atropos/.kube/config";
+    mode = "0444"; # Read only
+  };
+
   home-manager.users.atropos = {
     home.file.".kube/color.yaml".text = ''
       kubectl: ${pkgs.kubectl}/bin/kubectl
