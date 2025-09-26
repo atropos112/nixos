@@ -38,6 +38,7 @@ in {
     ../../pkgs/direnv.nix
     ../../pkgs/nixSearchTV.nix
     ../../pkgs/mods.nix
+    ../../pkgs/anyrun
   ];
 
   stylix = {
@@ -367,9 +368,6 @@ in {
 
       # GTK theme gui manager
       lxappearance # To run it use: GDK_BACKEND=x11 lxappearance
-
-      # Music player
-      spotify
 
       # Matrix client
       element-desktop
