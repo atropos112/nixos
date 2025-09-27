@@ -21,6 +21,9 @@ in {
       fallback = true;
       substituters = [
         "http://atticd/atro" # My attic server
+      ];
+      trusted-substituters = [
+        "http://atticd/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
         "https://nix-community.cachix.org" # Nix community Cachix server
         "https://devenv.cachix.org" # Devenv Cachix server

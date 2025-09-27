@@ -1,13 +1,8 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
     ../../profiles/impermanence/desktop.nix
   ];
-  boot.kernelPackages = pkgs.linuxPackages_6_15;
 
   atro = {
     boot = {
