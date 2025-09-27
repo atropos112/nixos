@@ -50,34 +50,32 @@ in {
   sops.secrets."kubeconfig" = {
     owner = config.users.users.atropos.name;
     group = config.users.users.atropos.name;
-    path = "/home/atropos/.kube/config";
     mode = "0444"; # Read only
   };
+  environment.sessionVariables = {
+    KUBECONFIG = config.sops.secrets."kubeconfig".path;
 
-  environment.sessionVariables.KUBECOLOR_CONFIG =
-    {
-      preset = "protanopia-dark";
-      objFreshThreshold = "1h";
-    }
-    |> toJSON
-    |> toFile "kubecolor.yaml";
+    KUBECOLOR_CONFIG =
+      {
+        preset = "protanopia-dark";
+        objFreshThreshold = "1h";
+      }
+      |> toJSON
+      |> toFile "kubecolor.yaml";
+  };
 
-  home-manager.users.atropos = {
-    programs = {
-      zsh = {
-        shellAliases = {
-          k = "kubecolor";
-          kubectl = "kubecolor";
-          hui = "helm upgrade --install";
-          kb = "kubebuilder";
-          cnpg = "kubectl-cnpg";
-          kvpn = "kubectl-kubevpn";
-          kgpw = "kubectl-klock pods";
-        };
-        initContent = ''
-          compdef kubecolor=kubectl
-        '';
-      };
+  home-manager.users.atropos.programs.zsh = {
+    shellAliases = {
+      k = "kubecolor";
+      kubectl = "kubecolor";
+      hui = "helm upgrade --install";
+      kb = "kubebuilder";
+      cnpg = "kubectl-cnpg";
+      kvpn = "kubectl-kubevpn";
+      kgpw = "kubectl-klock pods";
     };
+    initContent = ''
+      compdef kubecolor=kubectl
+    '';
   };
 }
