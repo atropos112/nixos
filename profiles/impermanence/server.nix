@@ -16,7 +16,6 @@ _: {
     home = {
       dirs = [
         ".ollama" # Ollama cache
-        ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...
       ];
     };
   };

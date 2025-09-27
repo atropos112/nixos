@@ -38,7 +38,6 @@ _: {
         ".local/share/nvim" # Neovim plugins and basic cache (Treesitter, etc.)
         ".local/share/Anki2" # Anki cache
 
-        ".kube" # Kubernetes config (for kubectl) # TODO: Set variable to map to /persistent's kubeconfig via KUBECONFIG=...
         ".cache/nvim" # Neovim cache
       ];
     };

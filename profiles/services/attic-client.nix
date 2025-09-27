@@ -31,6 +31,20 @@
   # I also copied the trusted-key and the substituter to the nix.conf file via nix.settings
   # the reason i did this is because ~/.config/nix/nix.conf overrides other substituters which is not great.
 
+  # INFO: The attic login above also creates the config.toml file in ~/.config/attic/config.toml
+  # I don't want to login manually, I want that to be declerative so I copied that file and encrypted it with sops
+  sops.secrets."attic/config/root" = {
+    owner = "root";
+    path = "/root/.config/attic/config.toml";
+    mode = "0444"; # Read only
+  };
+
+  sops.secrets."attic/config/atropos" = {
+    owner = "atropos";
+    path = "/home/atropos/.config/attic/config.toml";
+    mode = "0444"; # Read only
+  };
+
   atro.fastfetch.modules = [
     {
       priority = 1002;
