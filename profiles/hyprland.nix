@@ -46,8 +46,7 @@ _: {
             "$mainMod, T, exec, kitty nvim"
             "$mainMod, L, exec, systemctl suspend"
             "$mainMod, F, exec, nautilus"
-            "$mainMod, R, exec, anyrun"
-            # "$mainMod, R, exec, tofi-drun --drun-launch=true --font=/home/atropos/media/fonts/ComicCodeLigatures-Regular.ttf --late-keyboard-init=true --ascii-input=true"
+            "$mainMod, R, exec, tofi-drun --drun-launch=true --font=/home/atropos/media/fonts/ComicCodeLigatures-Regular.ttf --late-keyboard-init=true --ascii-input=true"
             "$mainMod, J, togglesplit,"
 
             # Move focus with mainMod + arrow keys
