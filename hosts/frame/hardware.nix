@@ -1,8 +1,16 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
     ../../profiles/impermanence/desktop.nix
   ];
+
+  # lib.mkDefault won't work here as nixos-hardware also does lib.mkDefault
+  # so have to hard set it here.
+  boot.kernelPackages = pkgs.linuxPackages_6_16;
 
   atro = {
     boot = {
