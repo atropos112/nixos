@@ -38,6 +38,7 @@ in {
     ../../pkgs/direnv.nix
     ../../pkgs/nixSearchTV.nix
     ../../pkgs/mods.nix
+    ../../pkgs/clipse.nix
   ];
 
   stylix = {
@@ -249,6 +250,7 @@ in {
 
   environment.systemPackages = with pkgs;
     [
+      clipse
       libreoffice
       tree-sitter
       buildah

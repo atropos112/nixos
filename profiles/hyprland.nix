@@ -25,7 +25,6 @@ _: {
 
             # Start applications
             "tailscale-systray"
-            # "copyq --start-server"
           ];
 
           bind = [
@@ -33,7 +32,6 @@ _: {
             "$mainMod, j, fullscreen"
             "$mainMod, b, exec, systemctl --user is-active waybar.service &> /dev/null && systemctl --user stop waybar.service || systemctl --user start waybar.service"
             "$mainMod, RETURN, exec, kitty"
-            "$mainMod, Y, exec, element-desktop --disable-gpu"
             "$mainMod, I, exec, firefox-devedition -P app --new-window https://claude.ai/"
             "$mainMod, Q, killactive,"
             "Alt_L, Z, exec, copyq show"
