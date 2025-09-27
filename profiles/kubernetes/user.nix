@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  inherit (builtins) toFile toJSON;
+in {
   imports = [
     ../../pkgs/k9s.nix
   ];
@@ -42,18 +48,21 @@
   # Grafana alloy infact needs this to be called "kubeconfig" so it exists
   # in /run/secrets/kubeconfig as well
   sops.secrets."kubeconfig" = {
-    owner = "atropos";
+    owner = config.users.users.atropos.name;
+    group = config.users.users.atropos.name;
     path = "/home/atropos/.kube/config";
     mode = "0444"; # Read only
   };
 
-  home-manager.users.atropos = {
-    home.file.".kube/color.yaml".text = ''
-      kubectl: ${pkgs.kubectl}/bin/kubectl
-      preset: protanopia-dark
-      objFreshThreshold: 1h
-    '';
+  environment.sessionVariables.KUBECOLOR_CONFIG =
+    {
+      preset = "protanopia-dark";
+      objFreshThreshold = "1h";
+    }
+    |> toJSON
+    |> toFile "kubecolor.yaml";
 
+  home-manager.users.atropos = {
     programs = {
       zsh = {
         shellAliases = {
