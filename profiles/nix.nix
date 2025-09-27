@@ -8,6 +8,12 @@ in {
   home-manager.users.atropos.nixpkgs.config = nixpkgs-config;
   home-manager.users.root.nixpkgs.config = nixpkgs-config;
 
+  # We do not want user user configurations to mess with our global settings.
+  system.activationScripts.clearusernixconf = ''
+    rm -rf /home/atropos/.config/nix
+    rm -rf /root/.config/nix
+  '';
+
   # Basic Nix configuration
   nixpkgs.config = nixpkgs-config;
   nix = {
@@ -21,9 +27,6 @@ in {
       fallback = true;
       substituters = [
         "http://atticd/atro" # My attic server
-      ];
-      trusted-substituters = [
-        "http://atticd/atro" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
         "https://nix-community.cachix.org" # Nix community Cachix server
         "https://devenv.cachix.org" # Devenv Cachix server
@@ -32,7 +35,6 @@ in {
         "https://cuda-maintainers.cachix.org" # CUDA Cachix server
         "https://pre-commit-hooks.cachix.org" # pre-commit-hooks Cachix server
       ];
-
       trusted-public-keys = [
         "atro:CZjIVN4tdA+5jmICWlv7JfwIfOivJmBjatsqmaCOHK8=" # My attic server
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" # Hyprland Cachix server

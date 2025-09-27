@@ -2,10 +2,7 @@
   pkgs,
   config,
   ...
-}: let
-  attic_atropos_token = config.sops.secrets."attic/atropos-token".path;
-  attic = "${pkgs.attic-client}/bin/attic";
-in {
+}: {
   environment.systemPackages = with pkgs; [
     attic-client
   ];
@@ -23,10 +20,16 @@ in {
   # --destroy-cache "atro*" -f ./temp.toml
   # Where temp.toml is the file matching config.toml on the server.
   # You might think you can do "*" instead of "atro" but that will not work.
-  sops.secrets."attic/atropos-token" = {
+  sops.secrets."attic/netrc" = {
     owner = config.users.users.atropos.name;
     group = config.users.users.atropos.name;
   };
+  # INFO: Once I had the token from above I did
+  # attic login atticd http://atticd/atro <token here>
+  # attic use atro
+  # And that created the ~/.config/attic/netrc file which I then encrypted with sops
+  # I also copied the trusted-key and the substituter to the nix.conf file via nix.settings
+  # the reason i did this is because ~/.config/nix/nix.conf overrides other substituters which is not great.
 
   atro.fastfetch.modules = [
     {
@@ -39,33 +42,13 @@ in {
     }
   ];
 
-  systemd.user.services.attic-connect = {
-    description = "Connect to Attic";
-    after = ["network.target"];
-    wantedBy = ["default.target"];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.writeShellScript "connect-to-attic" ''
-        ATTIC_TOKEN=$(cat ${attic_atropos_token})
-        ${attic} login atticd http://atticd $ATTIC_TOKEN
-        ${attic} use atro
-      ''}";
-      Restart = "on-failure";
-      RestartSec = "5s";
-    };
-  };
+  nix.settings.netrc-file = config.sops.secrets."attic/netrc".path;
   systemd.services.attic-client = {
     description = "Attic watch store";
     after = ["network.target"];
     wantedBy = ["default.target"];
     serviceConfig = {
-      ExecStart = "${pkgs.writeShellScript "watch-store" ''
-        ATTIC_TOKEN=$(cat ${attic_atropos_token})
-        ${attic} login atticd http://atticd $ATTIC_TOKEN
-        ${attic} use atro
-        ${attic} watch-store atticd:atro --ignore-upstream-cache-filter
-      ''}";
+      ExecStart = "${pkgs.attic-client}/bin/attic watch-store atticd:atro --ignore-upstream-cache-filter";
       Restart = "on-failure";
       RestartSec = "5s";
     };
