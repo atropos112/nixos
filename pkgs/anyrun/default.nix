@@ -2,42 +2,31 @@
   home-manager.users.atropos.programs.anyrun = {
     enable = true;
     config = {
-      x = {fraction = 0.5;};
-      y = {fraction = 0.3;};
-      width = {fraction = 0.3;};
+      # The horizontal position.
+      # when using `fraction`, it sets a fraction of the width or height of the screen
+      x.fraction = 0.5; # at the middle of the screen
+      # The vertical position.
+      y.fraction = 0.05; # at the top of the screen
+      # The width of the runner.
+      width.fraction = 0.3; # 30% of the screen
+
       hideIcons = false;
       ignoreExclusiveZones = false;
       layer = "overlay";
       hidePluginInfo = false;
-      closeOnClick = false;
-      showResultsImmediately = false;
+      closeOnClick = true;
+      showResultsImmediately = true;
       maxEntries = null;
 
-      plugins = [
-        "${pkgs.anyrun}/lib/libapplications.so"
-        "${pkgs.anyrun}/lib/libsymbols.so"
-      ];
+      plugins =
+        [
+          "libapplications"
+          "libsymbols"
+          "libkidex"
+          "libwebsearch"
+        ]
+        |> builtins.map (plugin_name: "${pkgs.anyrun}/lib/${plugin_name}.so");
     };
     extraCss = builtins.readFile ./style.css;
-
-    # # Inline comments are supported for language injection into
-    # # multi-line strings with Treesitter! (Depends on your editor)
-    # extraCss =
-    #   /*
-    #   css
-    #   */
-    #   ''
-    #     .some_class {
-    #       background: red;
-    #     }
-    #   '';
-    #
-    # extraConfigFiles."some-plugin.ron".text = ''
-    #   Config(
-    #     // for any other plugin
-    #     // this file will be put in ~/.config/anyrun/some-plugin.ron
-    #     // refer to docs of xdg.configFile for available options
-    #   )
-    # '';
   };
 }
