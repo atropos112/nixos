@@ -156,6 +156,16 @@ in {
             echo "---"
             sleep 5
           done
+
+          # Now we check if garage status shows any failed nodes by checking for ==== FAILED NODES ====
+          while garage status | grep -q "==== FAILED NODES ===="; do
+            echo "Garage has failed nodes, waiting..."
+            echo "Current garage status output:"
+            garage status 2>&1 || true
+            echo "---"
+            sleep 5
+          done
+
           echo "Garage is operational, proceeding with bucket management."
 
           # Get list of existing buckets
@@ -210,11 +220,11 @@ in {
           garage key list
           echo "Managing keys..."
 
-           # Get list of existing keys
-           existing_keys=$(garage key list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
+          # Get list of existing keys
+          existing_keys=$(garage key list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
 
-           # Create keys that should exist
-           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+          # Create keys that should exist
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
               if [[ "$(garage key info ${lib.escapeShellArg keyName} 2>&1)" == *"Key not found"* ]]; then
                 echo "Creating key ${lib.escapeShellArg keyName}"
                 garage key create ${lib.escapeShellArg keyName}
@@ -224,8 +234,8 @@ in {
             '')
             cfg.keys)}
 
-           # Set up key permissions for buckets
-           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (
+          # Set up key permissions for buckets
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (
               keyName: buckets:
                 lib.concatMapStringsSep "\n" (bucket: ''
                   echo "Granting full access to key ${lib.escapeShellArg keyName} for bucket ${lib.escapeShellArg bucket}"
@@ -235,8 +245,8 @@ in {
             )
             cfg.keys)}
 
-           # Remove permissions from buckets that are no longer associated with keys
-           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+          # Remove permissions from buckets that are no longer associated with keys
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
               # Get current buckets this key has access to
               current_buckets=$(garage key info ${lib.escapeShellArg keyName} | grep -A 1000 "==== BUCKETS FOR THIS KEY ====" | tail -n +3 | awk '{print $3}' | grep -v '^$' || true)
 
@@ -258,21 +268,21 @@ in {
             '')
             cfg.keys)}
 
-           # Remove keys that shouldn't exist
-           for key in $existing_keys; do
-             should_exist=false
-             ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+          # Remove keys that shouldn't exist
+          for key in $existing_keys; do
+            should_exist=false
+            ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
               if [[ "$key" == ${lib.escapeShellArg keyName} ]]; then
                 should_exist=true
               fi
             '')
             cfg.keys)}
 
-             if [[ "$should_exist" == "false" ]]; then
-               echo "Removing key $key"
-               garage key delete --yes "$key"
-             fi
-           done
+            if [[ "$should_exist" == "false" ]]; then
+              echo "Removing key $key"
+              garage key delete --yes "$key"
+            fi
+          done
         '';
       };
     };
