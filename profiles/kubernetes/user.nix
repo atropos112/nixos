@@ -50,11 +50,22 @@ in {
   sops.secrets."kubeconfig" = {
     owner = config.users.users.atropos.name;
     group = config.users.users.atropos.name;
-    mode = "0444"; # Read only
+    mode = "0400";
   };
-  environment.sessionVariables = {
-    KUBECONFIG = config.sops.secrets."kubeconfig".path;
 
+  # Copy the kubeconfig from the secret to the home directory so it can be modified
+  # by the user inbetween the runs. The modifications do not need to be persisted but
+  # the file needs to be writable by the user.
+  system.activationScripts.kubeconfig = "${pkgs.writeShellScript "kubeconfig" ''
+    # So it can be modified in between the runs
+    mkdir -p /home/atropos/.kube
+    rm -f /home/atropos/.kube/config
+    cp /run/secrets/kubeconfig /home/atropos/.kube/config
+    chmod 600 /home/atropos/.kube/config
+    chown atropos:users /home/atropos/.kube/config
+  ''}";
+
+  environment.sessionVariables = {
     KUBECOLOR_CONFIG =
       {
         preset = "protanopia-dark";
