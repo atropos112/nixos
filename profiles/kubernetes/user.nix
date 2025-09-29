@@ -4,6 +4,10 @@
   ...
 }: let
   inherit (builtins) toFile toJSON;
+  kubeConfigPath =
+    if config.atro.impermanence.enable
+    then "/persistent/home/atropos/.kube/config"
+    else "/home/atropos/.kube/config";
 in {
   imports = [
     ../../pkgs/k9s.nix
@@ -58,14 +62,15 @@ in {
   # the file needs to be writable by the user.
   system.activationScripts.kubeconfig = "${pkgs.writeShellScript "kubeconfig" ''
     # So it can be modified in between the runs
-    mkdir -p /home/atropos/.kube
-    rm -f /home/atropos/.kube/config
-    cp /run/secrets/kubeconfig /home/atropos/.kube/config
-    chmod 600 /home/atropos/.kube/config
-    chown atropos:users /home/atropos/.kube/config
+    mkdir -p $(dirname ${kubeConfigPath})
+    rm -f ${kubeConfigPath}
+    cp ${config.sops.secrets."kubeconfig".path} ${kubeConfigPath}
+    chmod 600 ${kubeConfigPath}
+    chown atropos:users ${kubeConfigPath}
   ''}";
 
   environment.sessionVariables = {
+    KUBECONFIG = kubeConfigPath;
     KUBECOLOR_CONFIG =
       {
         preset = "protanopia-dark";
