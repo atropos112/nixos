@@ -156,7 +156,7 @@ in {
           priority = 101;
           value = ''
             prometheus.scrape "syncthing" {
-              job_name = "garage"
+              job_name = "syncthing"
               forward_to = [prometheus.relabel.default.receiver]
               scrape_interval = "15s"
               scrape_timeout = "10s"

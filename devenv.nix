@@ -79,6 +79,11 @@ in {
       description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,surface')";
     };
 
+    colmena-apply-servers = {
+      exec = writeShellScript "colmena-apply-servers" ''colmena-apply "rzr,a21,smol,opi*,orth"'';
+      description = "Apply the configuration using colmena to all servers";
+    };
+
     build-on-apply-on = {
       exec = writeShellScript "build-on-apply-on" ''
         sudo nixos-rebuild --flake ".#$2" --target-host "$2" --verbose --build-host "$1" switch
