@@ -139,16 +139,37 @@ in {
       };
     };
 
-    atro.fastfetch.modules = [
-      {
-        priority = 1001;
-        value = {
-          "type" = "command";
-          "text" = "systemctl is-active syncthing";
-          "key" = "Syncthing";
-        };
-      }
-    ];
+    atro = {
+      fastfetch.modules = [
+        {
+          priority = 1001;
+          value = {
+            "type" = "command";
+            "text" = "systemctl is-active syncthing";
+            "key" = "Syncthing";
+          };
+        }
+      ];
+
+      alloy.configs = [
+        {
+          priority = 101;
+          value = ''
+            prometheus.scrape "syncthing" {
+              job_name = "garage"
+              forward_to = [prometheus.relabel.default.receiver]
+              scrape_interval = "15s"
+              scrape_timeout = "10s"
+              metrics_path    = "/metrics"
+              scheme = "http"
+              targets = [
+                {"__address__" = "127.0.0.1:8384" },
+              ]
+            }
+          '';
+        }
+      ];
+    };
 
     services.syncthing = {
       enable = true;
@@ -167,6 +188,7 @@ in {
           theme = "black"; # Why would you use anything else?
           password = cfg.gui.password;
           user = cfg.gui.userName;
+          metricsWithoutAuth = true;
           insecureSkipHostcheck = true;
         };
         options = {
