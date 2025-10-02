@@ -61,12 +61,12 @@ in {
   # by the user inbetween the runs. The modifications do not need to be persisted but
   # the file needs to be writable by the user.
   system.activationScripts.kubeconfig = "${pkgs.writeShellScript "kubeconfig" ''
-    # So it can be modified in between the runs
-    mkdir -p $(dirname ${kubeConfigPath})
-    rm -f ${kubeConfigPath}
-    cp ${config.sops.secrets."kubeconfig".path} ${kubeConfigPath}
-    chmod 600 ${kubeConfigPath}
-    chown atropos:users ${kubeConfigPath}
+    if [ -f ${config.sops.secrets."kubeconfig".path} ]; then
+      mkdir -p $(dirname ${kubeConfigPath})
+      cat ${config.sops.secrets."kubeconfig".path} > ${kubeConfigPath}
+      chmod 600 ${kubeConfigPath}
+      chown atropos:users ${kubeConfigPath}
+    fi
   ''}";
 
   environment.sessionVariables = {
