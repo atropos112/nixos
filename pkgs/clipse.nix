@@ -8,7 +8,7 @@
         ];
         windowrulev2 = [
           "float,class:(clipse)" # ensure you have a floating window class set if you want this behavior
-          "size 1000 1300,class:(clipse)" # set the size of the window as necessary
+          "size 1000 1000,class:(clipse)" # set the size of the window as necessary
         ];
       };
     }
