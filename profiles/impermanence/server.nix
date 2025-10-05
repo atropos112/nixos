@@ -11,6 +11,7 @@ _: {
         "/etc/rancher/node" # K3s node config
         "/var/lib/rancher/k3s" # K3s data
         "/var/lib/longhorn" # Longhorn storage for persistent volumes
+        "/stuff_pipeline" # Stuff pipeline data
       ];
     };
     home = {
