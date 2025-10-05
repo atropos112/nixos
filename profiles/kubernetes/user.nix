@@ -63,6 +63,7 @@ in {
   system.activationScripts.kubeconfig = "${pkgs.writeShellScript "kubeconfig" ''
     if [ -f ${config.sops.secrets."kubeconfig".path} ]; then
       mkdir -p $(dirname ${kubeConfigPath})
+      rm -f ${kubeConfigPath}
       cat ${config.sops.secrets."kubeconfig".path} > ${kubeConfigPath}
       chmod 600 ${kubeConfigPath}
       chown atropos:users ${kubeConfigPath}
