@@ -6,9 +6,6 @@
   imports = [
     # Base
     ./desktop.nix
-
-    # Packages
-    ../../pkgs/fusuma.nix
   ];
 
   environment.persistence."/persistent" = lib.mkIf config.atro.impermanence.enable {
@@ -16,6 +13,18 @@
       "/etc/NetworkManager/system-connections" # To store wifi passwords/connections  TODO: Figure out a way to generate this.
     ];
   };
+
+  atro.hyprland.settings = [
+    {
+      priority = 3;
+      value = {
+        gesture = [
+          "3, swipe, move"
+          "4, horizontal, workspace"
+        ];
+      };
+    }
+  ];
 
   services = {
     # vpn mesh to connect to other devices
