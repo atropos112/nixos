@@ -143,121 +143,124 @@ in {
       DEVENV_TASKS_QUIET = "true"; # No "Running tasks     devenv:enterShell" outputs
     };
 
-    systemPackages = with pkgs; [
-      # Tui for systemctl
-      systemctl-tui
+    systemPackages = with pkgs;
+      [
+        # Tui for systemctl
+        systemctl-tui
 
-      # For IO monitoring
-      iotop
+        # For IO monitoring
+        iotop
 
-      # Data processors for json, yaml, xml etc.
-      jq
-      yq
-      xq
+        # Data processors for json, yaml, xml etc.
+        jq
+        yq
+        xq
 
-      docker-client
+        docker-client
 
-      # Utilities like iostat, pidstat, sar etc.
-      sysstat
+        # Utilities like iostat, pidstat, sar etc.
+        sysstat
 
-      lnav
-      viddy # watch replacement
-      xcp
-      ripgrep
-      gnumake
-      gcc
-      clang
+        lnav
+        viddy # watch replacement
+        xcp
+        ripgrep
+        gnumake
+        gcc
+        clang
 
-      pciutils # lspci
+        pciutils # lspci
 
-      # useful tldr
-      tldr
+        # useful tldr
+        tldr
 
-      # file manager
-      yazi
+        # file manager
+        yazi
 
-      # dns resolving tool (for testing)
-      dig
+        # dns resolving tool (for testing)
+        dig
 
-      # Basic system utilities
-      gnused
-      util-linuxMinimal
+        # Basic system utilities
+        gnused
+        util-linuxMinimal
 
-      # Cached nix-shell calls.
-      cached-nix-shell
+        # Cached nix-shell calls.
+        cached-nix-shell
 
-      # allows to kill apps
-      killall
+        # allows to kill apps
+        killall
 
-      # network bandwidth monitoring
-      bandwhich
+        # network bandwidth monitoring
+        bandwhich
 
-      # storage control
-      duf
-      ncdu
+        # storage control
+        duf
+        ncdu
 
-      # nfs utils (mounting etc.)
-      nfs-utils
+        # nfs utils (mounting etc.)
+        nfs-utils
 
-      # "cat" with syntax highlighting and other fancy stuff, slower than cat though
-      bat
+        # "cat" with syntax highlighting and other fancy stuff, slower than cat though
+        bat
 
-      # VPN mesh network
-      tailscale
+        # VPN mesh network
+        tailscale
 
-      # Resilient SSH alternative
-      mosh
+        # Resilient SSH alternative
+        mosh
 
-      # speed testing
-      speedtest-cli
+        # speed testing
+        speedtest-cli
 
-      # better find
-      fd
+        # better find
+        fd
 
-      # fuzzy finder used by bunch of apps (e.g. telescope in nvim)
-      fzf
+        # fuzzy finder used by bunch of apps (e.g. telescope in nvim)
+        fzf
 
-      # Nice git diff
-      delta
+        # Nice git diff
+        delta
 
-      # grep but faster
-      ripgrep
+        # grep but faster
+        ripgrep
 
-      # Basic CLI downloader
-      wget
+        # Basic CLI downloader
+        wget
 
-      # checking temps and basics
-      lm_sensors
+        # checking temps and basics
+        lm_sensors
 
-      # Setting POSIX commands
-      libcap
+        # Setting POSIX commands
+        libcap
 
-      # Internet interface testing
-      iperf
+        # Internet interface testing
+        iperf
 
-      # bunch of network rules
-      # iptables
+        # bunch of network rules
+        # iptables
 
-      # controlling network interface
-      ethtool
+        # controlling network interface
+        ethtool
 
-      # Allows fancy terminal directory jumping (with memory of where you have been)
-      zoxide
+        # Allows fancy terminal directory jumping (with memory of where you have been)
+        zoxide
 
-      # json diff
-      python312Packages.jsondiff
+        # json diff
+        python312Packages.jsondiff
 
-      # simple apps to show resources
-      onefetch
-      cpufetch
-      ramfetch
+        # simple apps to show resources
+        onefetch
+        cpufetch
+        ramfetch
 
-      # zip and unzip
-      unzip
-      p7zip
-      devenv
-      eza
-    ];
+        # zip and unzip
+        unzip
+        p7zip
+        eza
+      ]
+      ++ [
+        inputs.devenv.packages.${pkgs.system}.default
+      ];
   };
 
   # This is a workaround since we restart igc module on resume

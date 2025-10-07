@@ -17,6 +17,7 @@
       url = "github:nix-community/neovim-nightly-overlay";
     };
 
+    devenv.url = "github:cachix/devenv";
     systems.url = "github:nix-systems/default";
     flake-utils = {
       url = "github:numtide/flake-utils";
