@@ -103,6 +103,17 @@ in {
   };
 
   environment.sessionVariables = {
+    # I strongly prefer free open-source software.
+    # I do also think os shouldn't try to suggest me going one way or another. You convince people
+    # by showing them the community, the support, the quality of software not by having them jump
+    # through hoops to bypass your ideologies.
+    # For OS to try to make it even an inch harder to use unfree software is I think a stupid design
+    # and I will disable it everywhere I can, I will make my decision myself and OS shouldn't try to
+    # encourage me through inconvenience of setting a flag/config to use or not to use unfree software.
+    # Its this idea of "we know better than you" the shitheads at Apple and Google do that I despise,
+    # and someone at NixOS thought it was a good idea to do the same.
+    NIXPKGS_ALLOW_UNFREE = "1";
+
     # To match the cursor theme with the rest of the system
     XCURSOR_THEME = "Capitaine Cursors - White";
     XCURSOR_SIZE = "24";
