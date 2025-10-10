@@ -6,7 +6,7 @@
 }: {
   environment.systemPackages = with pkgs; [
     # Python
-    (python313.withPackages (ps:
+    (python314.withPackages (ps:
       with ps; [
         pandas
         numpy
@@ -17,8 +17,8 @@
 
     basedpyright
 
-    python313Packages.python-lsp-server
-    python313Packages.debugpy
+    python314Packages.python-lsp-server
+    python314Packages.debugpy
   ];
 
   environment.sessionVariables.UV_CACHE_DIR = lib.mkIf config.atro.impermanence.enable "/persistent/uv_cache_dir";
