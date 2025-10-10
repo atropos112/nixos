@@ -113,6 +113,8 @@ in {
 
           # Get weather of where you are (IP wise).
           weather = "curl wttr.in";
+
+          yt = ''yt-dlp  -S "res:720" --cookies-from-browser firefox'';
         };
         initContent = ''
           # If not running interactively do nothing.
