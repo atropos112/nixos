@@ -435,7 +435,8 @@ in {
       vlc
 
       # Curl with browser like interfaces
-      curl-impersonate
+      # WARN: Not working currently
+      # curl-impersonate
 
       # Youtube (and more) downloader
       yt-dlp
