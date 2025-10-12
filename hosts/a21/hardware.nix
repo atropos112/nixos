@@ -23,7 +23,7 @@ _: {
 
   disko.devices.disk.longhorn = {
     type = "disk";
-    device = "/dev/disk/by-id/ata-ST2000LM007-1R8174_ZDZTCS7D";
+    device = "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_2TB_S754NX0Y415705P";
     content = {
       type = "gpt";
       partitions.longhorn = {
