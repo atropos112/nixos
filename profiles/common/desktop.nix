@@ -366,7 +366,7 @@ in {
 
       # Javascript runtimes
       bun
-      nodejs_20
+      nodejs_24
 
       # Get CPU temps etc.
       lm_sensors

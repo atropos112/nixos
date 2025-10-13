@@ -5,5 +5,8 @@
 
     # lua formatter
     stylua
+
+    # Luarocks is used in many places
+    lua51Packages.luarocks
   ];
 }
