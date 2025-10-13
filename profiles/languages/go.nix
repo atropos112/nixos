@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     gofumpt
     golangci-lint
+    gotestsum
     gopls
 
     go
