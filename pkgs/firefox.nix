@@ -58,6 +58,9 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
+          # LeechBlock NG
+          "leechblockng@proginosko.com"
+
           # Remove paywal
           "remove-paywall@example.com"
 
