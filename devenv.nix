@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (inputs.atrolib.lib) listScripts writeShellScript;
-  inherit (inputs.atrolib.lib.devenv.scripts) help runDocs buildDocs;
+  inherit (inputs.atrolib.lib.devenv.scripts) help;
 in {
   devenv.warnOnNewVersion = false;
 
@@ -33,8 +33,6 @@ in {
 
   scripts = {
     help = help config.scripts;
-    run-docs = runDocs "docs";
-    build-docs = buildDocs "docs";
 
     lint = {
       exec = writeShellScript "lint" ''
