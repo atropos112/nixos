@@ -24,7 +24,7 @@ in {
     alejandra.enable = true;
     shellcheck.enable = true;
     lint = {
-      enable = false; # TODO: To have pipe operator support have to use flake pointing at master but that is broken, its pointed out here: https://github.com/oppiliappan/statix/issues/135 until that is fixed we disable it
+      enable = false; # TODO: https://github.com/oppiliappan/statix/issues/139 needs to be resolved first.
       package = inputs.statix.packages.${pkgs.system}.statix;
       entry = "lint";
       pass_filenames = false;
