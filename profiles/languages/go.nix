@@ -4,10 +4,9 @@
     golangci-lint
     gotestsum
     gopls
+    gotools
 
     go
-
-    ginkgo
 
     # debugger for golang
     delve
