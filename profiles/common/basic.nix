@@ -129,6 +129,16 @@ in {
     }
   ];
 
+  # Provides functionality like
+  #
+  # The program 'brave' is not in your PATH. You can make it available in an
+  # ❯ brave
+  # ephemeral shell by typing:
+  #   nix-shell -p brave
+  #
+  # helping to figure out what package provides what program
+  programs.command-not-found.enable = true;
+
   environment = {
     etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
 
