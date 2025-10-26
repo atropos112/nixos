@@ -277,6 +277,14 @@ nix-tree '.#nixosConfigurations.giant.config.system.build.toplevel' --impure --d
 
 (or other node) and then '/' and search for the broken package you saw in the error message to see what depends on it.
 
+# About k3s configuration
+
+See [profiles/kubernetes/README.md](profiles/kubernetes/README.md) for details.
+
+# DNS Configuration
+
+See [profiles/networking/dns/README.md](profiles/networking/dns/README.md) for details.
+
 # Acknowledgements
 
 - I have shamelessly copied a lot from [Srvos](https://github.com/nix-community/srvos), I am grateful for the work they have done.
