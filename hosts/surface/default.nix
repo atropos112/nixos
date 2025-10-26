@@ -151,10 +151,7 @@ in {
           kb_layout = "us,us";
           kb_variant = "colemak,intl";
           kb_model = "";
-          kb_options = [
-            "grp:win_space_toggle"
-            "caps:swapescape" # On giant this os done through moonlander already.
-          ];
+          kb_options = "grp:win_space_toggle,caps:swapescape";
           kb_rules = "";
         };
       };
