@@ -26,7 +26,7 @@ in {
     ../hyprland.nix
     ../kubernetes/user.nix
     ../languages/all.nix
-    ../zfs.nix
+    ../zfs
     ../identities/infisical.nix
 
     # Packages

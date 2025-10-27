@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ../../profiles/zfs.nix
+    ../../profiles/zfs
   ];
 
   atro = {

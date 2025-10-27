@@ -1,7 +1,7 @@
 {lib, ...}: {
   imports = [
     ../../profiles/nvidia.nix
-    ../../profiles/zfs.nix
+    ../../profiles/zfs
   ];
   hardware.nvidia.powerManagement.enable = false;
 
