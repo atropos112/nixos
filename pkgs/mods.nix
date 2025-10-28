@@ -37,7 +37,7 @@ in {
         topk = 50;
         # TopP, an alternative to temperature that narrows response, from 0.0 to 1.0.
         topp = 1;
-        default-model = "claude-sonnet-4-20250514";
+        default-model = "claude-sonnet-4-5";
         apis = {
           anthropic = {
             api-key = null;
