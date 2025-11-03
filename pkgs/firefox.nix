@@ -79,8 +79,8 @@ in {
           # Dark Reader:
           "addon@darkreader.org"
 
-          # FreshRSS Checker:
-          "freshrss-checker@addons.mozilla.org"
+          # FreshRSS Watcher:
+          "{8276b2b6-a974-4254-8647-79c691694b10}"
 
           # Bitwarden Password Manager:
           "{446900e4-71c2-419f-a6a7-df9c091e268b}"
