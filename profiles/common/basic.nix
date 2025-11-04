@@ -14,6 +14,8 @@
   stateVersion = "25.05";
 in {
   imports = [
+    inputs.nix-index-database.nixosModules.nix-index
+
     # Profiles
     ../zsh
     ../nix.nix
@@ -41,6 +43,12 @@ in {
       path = "/home/${config.users.users.atropos.name}/.config/wakatime/.wakatime.cfg";
     };
     "tailscale/key" = {};
+  };
+
+  # nix-locate "bin/firefox" will show where the firefox binary is located
+  programs.nix-index = {
+    enableZshIntegration = false;
+    enableBashIntegration = false;
   };
 
   # To avoid the "too many open files" error
