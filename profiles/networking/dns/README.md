@@ -70,7 +70,7 @@ graph TB
 > actually not forward those queries to adguard home anyway but it will itself resolve `*.zapus-perch.ts.net`
 > directly to `100.100.100.100`. The reason AdGuard Home has the resolving is for the case below.
 
-### NixoS with AdGuard Home and Unbound
+### NixOS with AdGuard Home and Unbound
 
 In this case showing how Orth is configured, but in principle adding any other node, would trivially generalise.
 
