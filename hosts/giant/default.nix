@@ -76,6 +76,7 @@
     super-slicer-beta
     nvitop
     zoom-us
+    lmstudio
   ];
 
   powerManagement = {
