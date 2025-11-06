@@ -19,7 +19,6 @@
           "loki-admin"
           "loki-ruler"
           "psql"
-          "attic" # to be removed
           "atticd"
           "awf"
           "pyroscope"
@@ -37,7 +36,6 @@
         "loki-admin"
         "loki-ruler"
         "psql"
-        "attic" # to be removed
         "atticd"
         "kopia"
         "awf"
