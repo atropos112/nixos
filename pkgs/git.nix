@@ -3,30 +3,29 @@ _: {
     # Version control application.
     git.enable = true;
   };
-
   home-manager.users.atropos.programs.git = {
     lfs.enable = true;
     enable = true;
-    userName = "atropos";
-    userEmail = "sv7n@pm.me";
-    aliases = {
-      lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit";
-      st = "status -s";
-      s = "status";
-      a = "!git add . && git status";
-      ci = "commit";
-      co = "checkout";
-      d = "difftool";
-      m = "mergetool";
-      dp = "!git --no-pager diff";
-      ds = "diff --staged";
-      dsp = "!git --no-pager diff --staged";
-      main = "checkout main";
-      master = "checkout master";
-      no-remotes = "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
-      alias = "!git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort";
-    };
-    extraConfig = {
+    settings = {
+      alias = {
+        lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit";
+        st = "status -s";
+        s = "status";
+        a = "!git add . && git status";
+        ci = "commit";
+        co = "checkout";
+        d = "difftool";
+        m = "mergetool";
+        dp = "!git --no-pager diff";
+        ds = "diff --staged";
+        dsp = "!git --no-pager diff --staged";
+        main = "checkout main";
+        master = "checkout master";
+        no-remotes = "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
+        alias = "!git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort";
+      };
+      user.name = "atropos";
+      user.email = "sv7n@pm.me";
       absorb.autoStageIfNothingStaged = true;
       core.pager = "delta";
       interactive.diffFilter = "delta --color-only";

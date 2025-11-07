@@ -53,7 +53,7 @@ in {
 
     home-manager.users.atropos.wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       settings = cfg.settings |> priorityList.priorityListToList |> lib.mkMerge;
     };
   };
