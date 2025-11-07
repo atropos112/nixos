@@ -20,6 +20,12 @@
   # --destroy-cache "atro*" -f ./temp.toml
   # Where temp.toml is the file matching config.toml on the server.
   # You might think you can do "*" instead of "atro" but that will not work.
+  # WARN: When starting a new cache on an attic server you must do
+  # attic login atticd http://atticd. <token from above here>
+  # attic cache create atro
+  # attic cache use atro
+  # attic cache configure atro --priority 1 (can also be overrideng by setting ?priortiy=N on the substituer by using http://atticd./atro?priority=1 for example), in fact i did both just to be sure.
+  # After this you can find netrc file in ~/.config/nix/netrc and place it in sops.
   sops.secrets."attic/netrc" = {
     owner = config.users.users.atropos.name;
     group = config.users.users.atropos.name;

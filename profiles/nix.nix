@@ -23,10 +23,12 @@ in {
       # download-buffer-size = 1024 * 1024 * 1024; # 1024 MiB, default is 64 MiB
       connect-timeout = 5; # Fallback quickly if substituters are not available.
       trusted-users = ["root" "atropos"];
+      http-connections = 128; # The maximum number of parallel TCP connections used to fetch files from binary caches and by other downloads
+      max-substitution-jobs = 128; # This option defines the maximum number of substitution jobs that Nix will try to run in parallel.
       auto-optimise-store = true;
       fallback = true;
       substituters = [
-        "http://atticd./atro" # My attic server
+        "http://atticd./atro?priority=1" # My attic server
         "https://hyprland.cachix.org" # Hyprland Cachix server
         "https://nix-community.cachix.org" # Nix community Cachix server
         "https://devenv.cachix.org" # Devenv Cachix server
