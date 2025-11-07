@@ -46,6 +46,9 @@ in {
 
     # Nice kubectl watch wrapper
     kubectl-klock
+
+    # Nice overview of the cluster
+    ktop
   ];
 
   # Needed for grafana alloy but also convininient.
