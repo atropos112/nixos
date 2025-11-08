@@ -1,6 +1,6 @@
 discovery.docker "linux" {
   host = "unix:///var/run/docker.sock"
-  refresh_interval = "15s"
+  refresh_interval = "5s"
 }
 
 loki.source.docker "default" {

@@ -17,8 +17,8 @@ prometheus.exporter.unix "default" {
 prometheus.scrape "unix" {
   forward_to = [prometheus.relabel.default.receiver]
   targets = prometheus.exporter.unix.default.targets
-  scrape_interval = "15s"
-  scrape_timeout = "4s"
+  scrape_interval = "5s"
+  scrape_timeout = "3s"
 }
 
 prometheus.relabel "default" {

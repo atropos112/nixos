@@ -158,7 +158,7 @@ in {
             prometheus.scrape "syncthing" {
               job_name = "syncthing"
               forward_to = [prometheus.relabel.default.receiver]
-              scrape_interval = "15s"
+              scrape_interval = "5s"
               scrape_timeout = "10s"
               metrics_path    = "/metrics"
               scheme = "http"
