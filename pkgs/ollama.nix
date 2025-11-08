@@ -1,16 +1,16 @@
-{pkgs, ...}: let
+{pkgs-master, ...}: let
   # Ollama has this check that ensures you have enough available memory to run the model.
   # However it sees ZFS ARC as something memory that is not available even though it is.
   # The issue has been open since 2024-07-15 (more than a year)
   # https://github.com/ollama/ollama/issues/5700
   # And yet for some reason they decided for the check to stay and ZFS people screw you basically
   # So I forked it and removed that stupid check.
-  customOllama = pkgs.ollama-cuda.overrideAttrs (_: {
-    src = pkgs.fetchFromGitHub {
+  customOllama = pkgs-master.ollama-cuda.overrideAttrs (_: {
+    src = pkgs-master.fetchFromGitHub {
       owner = "atropos112";
       repo = "ollama";
       rev = "58667de2b382e4753c25a94345176985e57ff9f9"; # Specific commit hash
-      hash = "sha256-7F4YoQ2+ya/AO98ELfrSiDWfvaCpY3wmH0EXCJasHyU=";
+      hash = "sha256-7F4YoQ2+ya/AO98ELfrSiDWfvaCpY3wmH0EXCJasHyU="; # got it by setting it to lib.fakeHash -> building once -> reading the expected hash from the error message
       fetchSubmodules = true;
     };
   });
