@@ -1,5 +1,5 @@
 {
-  pkgs,
+  pkgs-master,
   config,
   lib,
   ...
@@ -25,7 +25,7 @@ in {
     enable = true;
     serverAddr = "https://11.0.0.11:6443";
     tokenFile = config.sops.secrets."k3s/token".path;
-    package = pkgs.k3s;
+    package = pkgs-master.k3s;
     extraFlags = [
       "--node-name ${hostName}"
     ];

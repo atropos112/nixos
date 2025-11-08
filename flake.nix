@@ -3,6 +3,7 @@
     # NixPkgs stable and unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nix-search-tv.url = "github:3timeslazy/nix-search-tv";
     colmena = {
       url = "github:zhaofengli/colmena";
@@ -93,6 +94,9 @@
         inherit system config;
       };
       pkgs-stable = import inputs.nixpkgs-stable {
+        inherit system config;
+      };
+      pkgs-master = import inputs.nixpkgs-master {
         inherit system config;
       };
     };

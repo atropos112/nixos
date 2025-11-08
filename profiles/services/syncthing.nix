@@ -1,5 +1,6 @@
 {
   config,
+  pkgs-master,
   lib,
   ...
 }: let
@@ -28,6 +29,7 @@ in {
     syncthing = {
       enable = true;
       userName = "atropos";
+      package = pkgs-master.syncthing;
       secrets = {
         certPath = "syncthing/${hostName}/cert";
         keyPath = "syncthing/${hostName}/key";
