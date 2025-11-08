@@ -24,7 +24,7 @@ in {
     ../networking
     ../fastfetch.nix
     ../services/atuin.nix
-    ../services/attic-client.nix
+    ../services/atticClient
 
     # Packages
     ../../pkgs/git.nix
