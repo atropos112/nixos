@@ -11,7 +11,7 @@ in {
 
   languages.nix = {
     enable = true;
-    lsp.package = inputs.nil_ls.outputs.packages.${pkgs.stdenv.hostPlatform.system}.nil;
+    lsp.package = inputs.nil_ls.outputs.packages.${pkgs.system}.nil;
   };
 
   packages = with pkgs; [
@@ -25,7 +25,7 @@ in {
     shellcheck.enable = true;
     lint = {
       enable = false; # TODO: https://github.com/oppiliappan/statix/issues/139 needs to be resolved first.
-      package = inputs.statix.packages.${pkgs.stdenv.hostPlatform.system}.statix;
+      package = inputs.statix.packages.${pkgs.system}.statix;
       entry = "lint";
       pass_filenames = false;
     };

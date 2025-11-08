@@ -33,7 +33,7 @@ in {
     argocd
 
     # Argo Workflows CLI
-    argo-workflows
+    argo
 
     # Krew, the plugin manager for kubectl
     krew

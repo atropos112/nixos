@@ -24,7 +24,7 @@ in {
     ../networking
     ../fastfetch.nix
     ../services/atuin.nix
-    ../services/atticClient
+    ../services/attic-client.nix
 
     # Packages
     ../../pkgs/git.nix
@@ -102,7 +102,7 @@ in {
   boot = {
     kernelPackages = lib.mkDefault pkgs.linuxPackages_6_16;
     binfmt.emulatedSystems =
-      if (pkgs.stdenv.hostPlatform.system == "x86_64-linux")
+      if (pkgs.system == "x86_64-linux")
       then ["aarch64-linux"]
       else ["x86_64-linux"];
     kernel.sysctl = {
@@ -277,7 +277,7 @@ in {
         eza
       ]
       ++ [
-        inputs.devenv.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.devenv.packages.${pkgs.system}.default
       ];
   };
 

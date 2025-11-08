@@ -263,8 +263,9 @@ in {
       # For shell script checking
       shellharden
 
-      # VPN client
+      # VPN clients
       protonvpn-gui
+      protonvpn-cli
 
       cachix
 
@@ -478,8 +479,8 @@ in {
       lima
     ]
     ++ [
-      inputs.nil_ls.outputs.packages.${pkgs.stdenv.hostPlatform.system}.nil
-      inputs.colmena.outputs.packages.${pkgs.stdenv.hostPlatform.system}.colmena
+      inputs.nil_ls.outputs.packages.${pkgs.system}.nil
+      inputs.colmena.outputs.packages.${pkgs.system}.colmena
       pkgs-stable.texliveFull # Because pkgs texliveFull is broken.
     ];
 
