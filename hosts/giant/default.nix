@@ -7,33 +7,10 @@
     ./hardware.nix
     ../../profiles/common/desktop.nix
     ../../profiles/services/syncthing.nix
+    ../../pkgs/ollama.nix
     ../../pkgs/lmstudio.nix
     ../../profiles/networking/dns/london.nix
   ];
-
-  services.ollama = {
-    loadModels = [
-      "gemma3:27b-it-q4_K_M" # Fast model
-      "gpt-oss:20b" # Fast model
-      "deepseek-r1:32b" # Thinking model (slower)
-    ];
-    models = "/persistent/ollama/models";
-  };
-
-  virtualisation.oci-containers.backend = "podman";
-  virtualisation.oci-containers.containers = {
-    ollama = {
-      image = "ollama/ollama";
-      autoStart = true;
-      ports = ["0.0.0.0:11434:11434"];
-      volumes = [
-        "/persistent/ollama/models:/root/.ollama/models"
-      ];
-      extraOptions = [
-        "--device=nvidia.com/gpu=all"
-      ];
-    };
-  };
 
   home-manager.users.atropos.programs = {
     mods = {

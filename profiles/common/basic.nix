@@ -45,6 +45,8 @@ in {
     "tailscale/key" = {};
   };
 
+  virtualisation.oci-containers.backend = "podman";
+
   # nix-locate "bin/firefox" will show where the firefox binary is located
   programs.nix-index = {
     enableZshIntegration = false;

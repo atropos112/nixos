@@ -14,12 +14,8 @@
     # Sadly ollama doesn't seem to work on this GPU :/
     # Getting kernel not found errors :/
     # Instead having it work through k8s.
-    # ../../pkgs/ollama.nix
+    ../../pkgs/ollama.nix
   ];
-
-  # services.ollama.loadModels = [
-  #   "gemma3n:latest"
-  # ];
 
   atro = {
     kopia = {
