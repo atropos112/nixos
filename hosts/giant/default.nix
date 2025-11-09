@@ -7,7 +7,6 @@
     ./hardware.nix
     ../../profiles/common/desktop.nix
     ../../profiles/services/syncthing.nix
-    ../../pkgs/ollama.nix
     ../../pkgs/lmstudio.nix
     ../../profiles/networking/dns/london.nix
   ];
@@ -19,6 +18,21 @@
       "deepseek-r1:32b" # Thinking model (slower)
     ];
     models = "/persistent/ollama/models";
+  };
+
+  virtualisation.oci-containers.backend = "podman";
+  virtualisation.oci-containers.containers = {
+    ollama = {
+      image = "ollama/ollama";
+      autoStart = true;
+      ports = ["0.0.0.0:11434:11434"];
+      volumes = [
+        "/persistent/ollama/models:/root/.ollama/models"
+      ];
+      extraOptions = [
+        "--device=nvidia.com/gpu=all"
+      ];
+    };
   };
 
   home-manager.users.atropos.programs = {

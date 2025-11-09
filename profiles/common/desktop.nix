@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-stable,
+  pkgs-master,
   lib,
   ...
 }: let
@@ -253,8 +254,8 @@ in {
   # Allowing for "sshfs rzr:/mnt/media /mnt/media -o allow_other" so that docker can use the mount as well not just the user.
   programs.fuse.userAllowOther = true;
 
-  environment.systemPackages = with pkgs;
-    [
+  environment.systemPackages =
+    (with pkgs; [
       clipse
       libreoffice
       tree-sitter
@@ -432,9 +433,6 @@ in {
       # WARN: Not working currently
       # curl-impersonate
 
-      # Youtube (and more) downloader
-      yt-dlp
-
       # Using pamixer (alt paactl) and brightlessctl (alt light) it also creates nice graphic demonstrating levels
       avizo
 
@@ -477,12 +475,16 @@ in {
       nvd # diff for nixos deploys
       iamb # terminal client for matrix
       lima
-    ]
+    ])
     ++ [
       inputs.nil_ls.outputs.packages.${pkgs.system}.nil
       inputs.colmena.outputs.packages.${pkgs.system}.colmena
       pkgs-stable.texliveFull # Because pkgs texliveFull is broken.
-    ];
+    ]
+    ++ (with pkgs-master; [
+      # Youtube (and more) downloader
+      yt-dlp
+    ]);
 
   systemd = {
     # This is a service that allows you to control with bluetooth headphones (e.g. volume play/stop)
