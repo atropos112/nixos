@@ -80,6 +80,15 @@ in {
     };
   };
 
+  # INFO: Lowering the priority of nix daemon processes so that they do not interfere with normal system usage.
+  # This is especially useful for desktops where user interactivity is important.
+  # It is also where we expect to have some low IO and low CPU usage times because typically desktop usage is intermittent unlike servers.
+  # Got this idea from https://www.reddit.com/r/NixOS/comments/1ompdwi/comment/nmqzk3i/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  nix = {
+    daemonCPUSchedPolicy = "idle"; # CPU config
+    daemonIOSchedClass = "idle"; # IO config
+  };
+
   # Enabled by default, but is needed if you are a purist so putting it here to make it explicit.
   nix.settings.sandbox = true;
   # Networking basics (hostname excluded)
