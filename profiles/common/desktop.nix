@@ -475,7 +475,7 @@ in {
       gum
       ocaml
       wpaperd
-      pre-commit
+      prek
       argocd
       statix # to give suggestions on nix stuff
       deadnix # look for dead nix code

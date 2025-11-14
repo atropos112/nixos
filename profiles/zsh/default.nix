@@ -115,6 +115,9 @@ in {
           weather = "curl wttr.in";
 
           yt = ''yt-dlp  -S "res:720" --cookies-from-browser firefox'';
+
+          # muscle memory
+          pre-commit = "prek";
         };
         initContent = ''
           # If not running interactively do nothing.
