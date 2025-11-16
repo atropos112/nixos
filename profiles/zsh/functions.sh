@@ -31,7 +31,7 @@ function sssh {
 }
 
 function bjq {
-	printf "$@" | base64 -d | jq
+	echo "$@" | base64 -d | jq
 }
 
 function nxrn {

@@ -391,6 +391,9 @@ in {
       # For better bluetooth controls
       bluez
 
+      # Bluetooth tui
+      bluetui
+
       # QT provides a lot of the GUI stuff
       libsForQt5.qt5.qtwayland
       libsForQt5.qt5ct
