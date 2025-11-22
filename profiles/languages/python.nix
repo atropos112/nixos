@@ -3,10 +3,12 @@
   lib,
   config,
   ...
-}: {
+}: let
+  pythonPkg = pkgs.python314;
+in {
   environment.systemPackages = with pkgs; [
     # Python
-    (python314.withPackages (ps:
+    (pythonPkg.withPackages (ps:
       with ps; [
         pandas
         numpy
@@ -16,10 +18,10 @@
     uv # pip but faster.
 
     basedpyright
-
-    python313Packages.python-lsp-server
-    python313Packages.debugpy
   ];
 
-  environment.sessionVariables.UV_CACHE_DIR = lib.mkIf config.atro.impermanence.enable "/persistent/uv_cache_dir";
+  environment.sessionVariables = {
+    UV_CACHE_DIR = lib.mkIf config.atro.impermanence.enable "/persistent/uv_cache_dir";
+    UV_PYTHON = "${pythonPkg}/bin/python";
+  };
 }
