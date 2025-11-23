@@ -6,9 +6,9 @@
         bind = [
           "$mainMod, Y, exec, kitty --class clipse -e 'clipse'"
         ];
-        windowrulev2 = [
-          "float,class:(clipse)" # ensure you have a floating window class set if you want this behavior
-          "size 1000 1000,class:(clipse)" # set the size of the window as necessary
+        windowrule = [
+          "float true, match:class clipse" # ensure you have a floating window class set if you want this behavior
+          "size 1000 1000, match:class clipse" # set the size of the window as necessary
         ];
       };
     }
