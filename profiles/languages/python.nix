@@ -25,6 +25,6 @@ in {
   };
 
   home-manager.users.atropos.programs.zsh.shellAliases = {
-    uvvenv = ''${pkgs.uv}/bin/uv -p ${pythonPkg}/bin/python'';
+    uvvenv = ''${pkgs.uv}/bin/uv venv -p ${pythonPkg}/bin/python'';
   };
 }

@@ -1,4 +1,8 @@
-{inputs, ...}: let
+{
+  inputs,
+  config,
+  ...
+}: let
   nixpkgs = inputs.nixpkgs-unstable;
   nixpkgs-config = {
     allowUnfree = true;
@@ -14,9 +18,23 @@ in {
     rm -rf /root/.config/nix
   '';
 
+  sops.secrets.nixAccessTokens = {
+    mode = "0440";
+    owner = config.users.users.atropos.name;
+  };
+
   # Basic Nix configuration
   nixpkgs.config = nixpkgs-config;
   nix = {
+    # INFO: In order to not expose my access-tokens publicly, I load them from SOPS-encrypted file.
+    # And to load that into nix.conf i use include directive, and because sops might come after nix setup,
+    # I use the '!' to ignore errors if the file is not found. Got this idea from
+    # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
+    # If you want to have access-token per file or more of a split you can use extra-access-tokens too,
+    # the idea is also explained in the link above.
+    extraOptions = ''
+      !include ${config.sops.secrets.nixAccessTokens.path}
+    '';
     settings = {
       download-buffer-size = 524288000;
       log-lines = 25; # The default 10 is too little.
