@@ -4,12 +4,12 @@
   lib,
   ...
 }: let
-  nstPkg = inputs.nix-search-tv.packages.${pkgs.system}.default;
+  nstPkg = inputs.nix-search-tv.packages.${pkgs.stdenv.hostPlatform.system}.default;
   nst = lib.getExe nstPkg;
   fzf = lib.getExe pkgs.fzf;
 in {
   environment.systemPackages = [
-    inputs.nix-search-tv.packages.${pkgs.system}.default
+    inputs.nix-search-tv.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   home-manager.users.atropos.programs.zsh.shellAliases = {

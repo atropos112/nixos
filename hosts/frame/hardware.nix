@@ -10,7 +10,7 @@
 
   # lib.mkDefault won't work here as nixos-hardware also does lib.mkDefault
   # so have to hard set it here.
-  boot.kernelPackages = pkgs.linuxPackages_6_16;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   atro = {
     boot = {
