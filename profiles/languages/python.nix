@@ -22,6 +22,9 @@ in {
 
   environment.sessionVariables = {
     UV_CACHE_DIR = lib.mkIf config.atro.impermanence.enable "/persistent/uv_cache_dir";
-    UV_PYTHON = "${pythonPkg}/bin/python";
+  };
+
+  home-manager.users.atropos.programs.zsh.shellAliases = {
+    uvvenv = ''${pkgs.uv}/bin/uv -p ${pythonPkg}/bin/python'';
   };
 }
