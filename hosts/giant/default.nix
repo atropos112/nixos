@@ -12,7 +12,7 @@
     ../../profiles/networking/dns/london.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
 
   home-manager.users.atropos.programs = {
     mods = {
