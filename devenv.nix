@@ -1,45 +1,73 @@
 {
   pkgs,
   config,
+  lib,
   inputs,
   ...
 }: let
-  inherit (inputs.atrolib.lib) listScripts writeShellScript;
-  inherit (inputs.atrolib.lib.devenv.scripts) help;
+  writeShellScript = name: script: "${pkgs.writeShellScript name ''
+    set -xueo pipefail
+    export ORIGINAL_DIR=$(pwd)
+    cd $DEVENV_ROOT
+    ${script}
+    cd $ORIGINAL_DIR
+  ''} \"$@\" ";
+
+  listScripts = scripts: "${pkgs.writeShellScript "help" ''
+    echo
+    echo 🦾 Useful project scripts:
+    echo 🦾
+    ${pkgs.gnused}/bin/sed -e 's| |••|g' -e 's|=| |' <<EOF | ${pkgs.util-linuxMinimal}/bin/column -t | ${pkgs.gnused}/bin/sed -e 's|^|🦾 |' -e 's|••| |g'
+    ${lib.generators.toKeyValue {} (lib.mapAttrs (_: value: value.description) scripts)}
+    EOF
+    echo
+  ''}";
+
+  inherit (inputs.statix.packages.${pkgs.stdenv.hostPlatform.system}) statix;
+  inherit (inputs.nil_ls.outputs.packages.${pkgs.stdenv.hostPlatform.system}) nil;
 in {
   devenv.warnOnNewVersion = false;
 
   languages.nix = {
     enable = true;
-    lsp.package = inputs.nil_ls.outputs.packages.${pkgs.stdenv.hostPlatform.system}.nil;
+    lsp.package = nil;
   };
 
-  packages = with pkgs; [
-    nix-output-monitor
+  packages = [
+    pkgs.nix-output-monitor
+    pkgs.gitleaks
+    pkgs.deadnix
+    statix
+    nil
   ];
 
-  git-hooks.hooks = {
-    inherit (inputs.atrolib.lib.devenv.git-hooks.hooks) gitleaks markdownlint;
-    deadnix.enable = true;
-    alejandra.enable = true;
-    shellcheck.enable = true;
-    lint = {
-      enable = false; # TODO: https://github.com/oppiliappan/statix/issues/139 needs to be resolved first.
-      package = inputs.statix.packages.${pkgs.stdenv.hostPlatform.system}.statix;
-      entry = "lint";
-      pass_filenames = false;
+  git-hooks = {
+    package = pkgs.prek;
+    hooks = {
+      gitleaks = {
+        enable = true;
+        entry = "${lib.getExe pkgs.gitleaks} protect --verbose --redact --staged";
+      };
+      markdownlint = {
+        enable = true;
+        # Using file here instead of nix args so that IDEs can pick up the config too.
+        settings.configuration = ./.markdownlint.json |> builtins.readFile |> builtins.fromJSON;
+      };
+      deadnix.enable = true;
+      alejandra.enable = true;
+      shellcheck.enable = true;
+      statix = {
+        enable = true;
+        entry = "${lib.getExe statix} check";
+        pass_filenames = false;
+      };
     };
   };
 
   scripts = {
-    help = help config.scripts;
-
-    lint = {
-      exec = writeShellScript "lint" ''
-        ${pkgs.coreutils}/bin/rm -rf "$DEVENV_ROOT/result"
-        ${pkgs.statix}/bin/statix check
-      '';
-      description = "Lint the configuration";
+    help = {
+      exec = listScripts config.scripts;
+      description = "List available scripts.";
     };
 
     apply-local = {
@@ -204,5 +232,5 @@ in {
     nix flake check
   '';
 
-  enterShell = listScripts config.scripts;
+  enterShell = config.scripts.help.exec;
 }

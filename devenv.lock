@@ -1,29 +1,12 @@
 {
   "nodes": {
-    "atrolib": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1755970277,
-        "owner": "atropos112",
-        "repo": "atronixlib",
-        "rev": "c2896eda2198e7d465ac49feba0a61dca8cedba4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "atropos112",
-        "repo": "atronixlib",
-        "type": "github"
-      }
-    },
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1761427990,
+        "lastModified": 1763988811,
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "7419c04fc798d5d5918413d4cb6c8629f9d4e8a3",
+        "rev": "96a6d9cd64baa05157e7b21032052e495ad443da",
         "type": "github"
       },
       "original": {
@@ -36,10 +19,10 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1747046372,
+        "lastModified": 1761588595,
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "9100a0f413b0c601e0533d1d94ffd501ce2e7885",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
         "type": "github"
       },
       "original": {
@@ -56,10 +39,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1760948891,
+        "lastModified": 1763759067,
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "864599284fc7c0ba6357ed89ed5e2cd5040f0c04",
+        "rev": "2cccadc7357c0ba201788ae99c4dfa90728ef5e0",
         "type": "github"
       },
       "original": {
@@ -77,10 +60,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1760663237,
+        "lastModified": 1763988335,
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
+        "rev": "50b9238891e388c9fdc6a5c49e49c42533a1b5ce",
         "type": "github"
       },
       "original": {
@@ -97,10 +80,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1709087332,
+        "lastModified": 1762808025,
         "owner": "hercules-ci",
         "repo": "gitignore.nix",
-        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "rev": "cb5e3fdca1de58ccbc3ef53de65bd372b48f567c",
         "type": "github"
       },
       "original": {
@@ -111,7 +94,7 @@
     },
     "nil_ls": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
         "lastModified": 1757219451,
@@ -129,23 +112,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1761349956,
+        "lastModified": 1763934636,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "02f2cb8e0feb4596d20cc52fda73ccee960e3538",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1761349956,
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "02f2cb8e0feb4596d20cc52fda73ccee960e3538",
+        "rev": "ee09932cedcef15aaf476f9343d1dea2cb77e261",
         "type": "github"
       },
       "original": {
@@ -155,12 +125,12 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_2": {
       "locked": {
-        "lastModified": 1761373498,
+        "lastModified": 1763835633,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "6a08e6bb4e46ff7fcbb53d409b253f6bad8a28ce",
+        "rev": "050e09e091117c3d7328c7b2b7b577492c43c134",
         "type": "github"
       },
       "original": {
@@ -170,12 +140,12 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_3": {
       "locked": {
-        "lastModified": 1761349956,
+        "lastModified": 1763934636,
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "02f2cb8e0feb4596d20cc52fda73ccee960e3538",
+        "rev": "ee09932cedcef15aaf476f9343d1dea2cb77e261",
         "type": "github"
       },
       "original": {
@@ -187,11 +157,10 @@
     },
     "root": {
       "inputs": {
-        "atrolib": "atrolib",
         "devenv": "devenv",
         "git-hooks": "git-hooks",
         "nil_ls": "nil_ls",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_2",
         "pre-commit-hooks": [
           "git-hooks"
         ],
@@ -201,7 +170,7 @@
     "statix": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_3",
         "systems": "systems"
       },
       "locked": {

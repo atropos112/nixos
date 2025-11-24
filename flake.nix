@@ -5,6 +5,15 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nix-search-tv.url = "github:3timeslazy/nix-search-tv";
+
+    # nix stuff
+    statix.url = "github:oppiliappan/statix/master";
+    # Gives me the pipe operator support
+    nil_ls = {
+      url = "github:oxalica/nil/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     colmena = {
       url = "github:zhaofengli/colmena";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -23,12 +32,6 @@
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
-    };
-
-    # Gives me the pipe operator support
-    nil_ls = {
-      url = "github:oxalica/nil/main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

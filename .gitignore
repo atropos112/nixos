@@ -10,6 +10,7 @@ devenv.local.nix
 
 # nix build
 results
+result
 book
 
 # docs related

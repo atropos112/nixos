@@ -3,8 +3,6 @@
 inputs:
   nixpkgs:
     url: github:NixOS/nixpkgs/nixos-unstable
-  atrolib:
-    url: github:atropos112/atronixlib
   nil_ls:
     url: github:oxalica/nil/main
   statix:
