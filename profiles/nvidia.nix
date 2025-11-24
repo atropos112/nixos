@@ -11,10 +11,6 @@
     nvtopPackages.nvidia
   ];
 
-  atro.impermanence.global.dirs = [
-    "/var/run/cdi"
-  ];
-
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
 
   services.xserver.videoDrivers = ["nvidia"];
