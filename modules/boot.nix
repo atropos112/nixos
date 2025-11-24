@@ -15,7 +15,6 @@ in {
     kernelParams = mkOption {
       type = types.listOf types.str;
       default = [
-        "ip=dhcp"
         # WARN: If you are in trouble, not being able to pass initrd stage you ca uncomment the
         # line bellow to allow you to drop into a shell and investigate.
         # Please do uncomment it once you are done debugging as it is a security risk.
