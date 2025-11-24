@@ -10,4 +10,7 @@ _: {
       "--device=nvidia.com/gpu=all"
     ];
   };
+
+  # WARNING: I am hacking the implementation of the podman module here but I can't figure out a better way to do this.
+  systemd.services.podman-ollama.after = ["network.target" "nvidia-container-toolkit-cdi-generator.service"];
 }
