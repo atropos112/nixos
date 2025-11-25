@@ -8,14 +8,14 @@
   # These disks do not coincide with the nodes lifecycle,
   # so formatting them with disko is not really appropriate.
   # As likely the node could be formatted but the disks would remain.
-  fileSystems = {
-    "/mnt/hdd" = {
-      device = "hdd-pool";
-      fsType = "zfs";
-      options = ["X-mount.mkdir" "noatime"];
-      neededForBoot = true;
-    };
-  };
+  # fileSystems = {
+  #   "/mnt/hdd" = {
+  #     device = "hdd-pool";
+  #     fsType = "zfs";
+  #     options = ["X-mount.mkdir" "noatime"];
+  #     neededForBoot = true;
+  #   };
+  # };
 
   atro = {
     boot = {
