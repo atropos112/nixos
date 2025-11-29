@@ -14,8 +14,6 @@
   stateVersion = "25.05";
 in {
   imports = [
-    inputs.nix-index-database.nixosModules.nix-index
-
     # Profiles
     ../zsh
     ../nix.nix
@@ -25,6 +23,7 @@ in {
     ../fastfetch.nix
     ../services/atuin.nix
     ../services/atticClient
+    ../../profiles/alloy
 
     # Packages
     ../../pkgs/git.nix
@@ -32,7 +31,7 @@ in {
     ../../pkgs/htop.nix
     ../../pkgs/nvim.nix
     ../../pkgs/tmux.nix
-    ../../profiles/alloy
+    ../../pkgs/nixIndex.nix
   ];
 
   # Secrets that don't fit in other modules/pkgs
@@ -46,12 +45,6 @@ in {
   };
 
   virtualisation.oci-containers.backend = "podman";
-
-  # nix-locate "bin/firefox" will show where the firefox binary is located
-  programs.nix-index = {
-    enableZshIntegration = false;
-    enableBashIntegration = false;
-  };
 
   # To avoid the "too many open files" error
   # This is equivalent to `ulimit -n 16192:1048576`
@@ -138,16 +131,6 @@ in {
       };
     }
   ];
-
-  # Provides functionality like
-  #
-  # The program 'brave' is not in your PATH. You can make it available in an
-  # ❯ brave
-  # ephemeral shell by typing:
-  #   nix-shell -p brave
-  #
-  # helping to figure out what package provides what program
-  programs.command-not-found.enable = true;
 
   environment = {
     etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
