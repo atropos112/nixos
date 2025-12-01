@@ -14,7 +14,7 @@ in {
         numpy
       ]))
 
-    ruff
+    # ruff
     uv # pip but faster.
 
     basedpyright
