@@ -38,7 +38,6 @@ in {
     ../../pkgs/direnv.nix
     ../../pkgs/nixSearchTV.nix
     ../../pkgs/mods.nix
-    ../../pkgs/opencode.nix
     ../../pkgs/clipse.nix
   ];
 
