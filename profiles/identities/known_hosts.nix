@@ -38,7 +38,6 @@ in {
 
   # WARN: In order to have pure eval, must provide these keys statically and not via SOPS sadly.
   programs.ssh.knownHosts = mapAttrs (_: value: {publicKey = value;}) {
-    "surface" = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN8EnUtn+s4pPPkFFgVfoGlYy7OGwIN6plVVF+SLx9aG root@exampleHost";
     "giant" = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEj/sPZDcB3y8Y/ZKsVEh+4dRt/nVyaGVPVxXr2weN40 root@giant";
     "rzr" = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOAl6IsW8grB3/X+iW9Lp9dTemuUxH9B182Mgkfwjinn root@nixos";
     "smol" = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGp/zqplehZJIf3TTXyisP3leDCmpYBq5LIWXP92cTJC root@nixos";

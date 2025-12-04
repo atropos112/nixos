@@ -7,7 +7,6 @@
 | Hostname | CPU             | RAM          | Details                                                                                                          |
 | -------- | --------------- | ------------ | ---------------------------------------------------------------------------------------------------------------- |
 | giant    | i9-12900K (x64) | 64 GB (DDR5) | My main home workstation, comes with Nvidia RTX3090.                                                             |
-| surface  | i7-8650U (x64)  | 16 GB        | Travel laptop, Surface Book 2, comes with internal and external GPU, I don't use the external Nvidia GPU though. |
 | rzr      | i7-6900K (x64)  | 32 GB        | K8s master node with GTX 1080 Ti GPU.                                                                            |
 | a21      | i3-10100F (x64) | 32 GB        | K8s master node.                                                                                                 |
 | smol     | i5-10210U (x64) | 16 GB        | K8s master node.                                                                                                 |
@@ -31,7 +30,7 @@ My home infrastructure is composed of two types of devices, ones which are part 
 
 Kubernetes nodes are a cut down version that do not come with a WM of any kind. I do however have a pikvm with ezCoo 4x1 HDMI switch that allows me to access the 3 master nodes in case something was to go wrong with them, look for details [here](https://docs.pikvm.org/multiport/), this is in case I can't connect to the machines via SSH directly.
 
-I am able to deploy from both giant and surface machines to all machines, I do this with sudo because only my root user has ssh access to other root users, this isn't ideal still but is best I could come up with. To do such deployment to all orange pi's I would do
+I am able to deploy from both giant and frame machines to all machines, I do this with sudo because only my root user has ssh access to other root users, this isn't ideal still but is best I could come up with. To do such deployment to all orange pi's I would do
 
 ```bash
 sudo colmena apply --on "opi-*"
@@ -80,12 +79,12 @@ First I do some preparation
 Once the prep is done, simply run
 
 ```bash
-sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/nixos/surface" --flake .#surface root@9.0.0.211
+sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/nixos/frame" --flake .#frame root@9.0.0.211
 ```
 
-This is ran with sudo to ensure we have sufficient permissions for whatever is in /home/atropos/nixos/surface to copy it over. the content of this surface folder should be one folder and that folder should be "persistent" which is to represent the /persistent folder on the host machine.
+This is ran with sudo to ensure we have sufficient permissions for whatever is in /home/atropos/nixos/frame to copy it over. the content of this frame folder should be one folder and that folder should be "persistent" which is to represent the /persistent folder on the host machine.
 
-I had this fail on me once because i didn't have permission to all the stuff inside of the surface folder. Before doing this get fresh image and whack it on, so it is in livecd mode.
+I had this fail on me once because i didn't have permission to all the stuff inside of the frame folder. Before doing this get fresh image and whack it on, so it is in livecd mode.
 
 During this process if doing on desktop will be asked for password for zfs encryption. for ext4 nothing
 
@@ -208,7 +207,7 @@ nixosConfigurations = {
 };
 ```
 
-2. Create a new diretory in `hosts` matching the name of the node with `default.nix` and `hardware.nix` files in it. Look at other nodes to get an idea what you need. Typically some imports and
+1. Create a new diretory in `hosts` matching the name of the node with `default.nix` and `hardware.nix` files in it. Look at other nodes to get an idea what you need. Typically some imports and
 
 ```nix
 networking = {
@@ -243,13 +242,13 @@ _: {
 }
 ```
 
-3. Make persistend directory that will be passed into nixos anywhere call it `persistent` and put it in your directory of choice e.g. `/home/atropos/orth/persistent`. In there make `home/atropos/.ssh` and `/root/.ssh` directories and generate ssh keys for both using `ssh-keygen -f id_ed25519 -C "some-menaningful-name"`. Do note the final directory must be called `peristent` so that `/home/atropos/orth/persistent` is ok but `/home/atropos/orth/persistent2` is not. This is because `nixos-anywhere` will map it to directories on the machine and we need that directory to be mapped to `/persistent`.
+1. Make persistend directory that will be passed into nixos anywhere call it `persistent` and put it in your directory of choice e.g. `/home/atropos/orth/persistent`. In there make `home/atropos/.ssh` and `/root/.ssh` directories and generate ssh keys for both using `ssh-keygen -f id_ed25519 -C "some-menaningful-name"`. Do note the final directory must be called `peristent` so that `/home/atropos/orth/persistent` is ok but `/home/atropos/orth/persistent2` is not. This is because `nixos-anywhere` will map it to directories on the machine and we need that directory to be mapped to `/persistent`.
 
-4. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`. Once added you will need to `nix-shell -p sops --run "sops updatekeys secrets/secrets.yaml"` to update the keys in the `secrets.yaml` file with the new key updates.
+2. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`. Once added you will need to `nix-shell -p sops --run "sops updatekeys secrets/secrets.yaml"` to update the keys in the `secrets.yaml` file with the new key updates.
 
-5. `ssh-keygen -f id_ed25519 -C "<some-name>"` and `ssh-keygen -t rsa -f rsa -C "<some-name>"` somewhere, and store those keys in `hostKeys` directory in sops secrets, you can use `edit-secrets` to do this. Delete the files you just generated once you are done.
+3. `ssh-keygen -f id_ed25519 -C "<some-name>"` and `ssh-keygen -t rsa -f rsa -C "<some-name>"` somewhere, and store those keys in `hostKeys` directory in sops secrets, you can use `edit-secrets` to do this. Delete the files you just generated once you are done.
 
-6. Run `nixos-anywhere` command like so:
+4. Run `nixos-anywhere` command like so:
 
 ```nix
  sudo nix run github:nix-community/nixos-anywhere -- --extra-files "/home/atropos/orth" --no-substitute-on-destination --flake .#orth root@9.0.0.134

@@ -41,11 +41,11 @@ in {
 
       folders = {
         manual = {
-          devices = ["p9pf" "surface" "giant" "rzr" "orth" "frame"];
+          devices = ["p9pf" "giant" "rzr" "orth" "frame"];
           path = "${syncDir}/manual";
         };
         websites = {
-          devices = ["cluster" "p9pf" "surface" "frame"];
+          devices = ["cluster" "p9pf" "frame"];
           type = "receiveonly";
           path = "${syncDir}/websites";
         };
@@ -55,7 +55,6 @@ in {
         {
           cluster = "ZLCZ4HZ-E67BWUS-5VLRQ5M-PIA4JJW-DMBVDZH-EMOF5AM-S5R6QE7-IMXBEA2";
           p9pf = "TTIPQ54-JHWFZYD-MUTIVS2-IC2AO3W-JBRUVHV-AVV4RCC-MNX6K36-K67GEQY";
-          surface = "UWJRHPP-IDPIB5H-W2PZTLG-7NN2RNU-HCV54T5-4LY64YB-NYQX7W3-JRHNGAS";
           giant = "TI3JVQU-MP36YWD-3MAIGC5-FYN4DQI-QFZPF5V-YC5IW25-55DEQIC-NMG77AL";
           rzr = "HBYTR3Y-VO3BX62-M4TX7IW-COBUIPN-FYDVFPB-P76WM4U-E4DYTEH-32FFXQO";
           orth = "QQ2BVQH-NLCNB4C-JS7CGGN-C6F23KJ-AOVFXVL-4LGZLDW-U66UKGO-QUFVJA6";

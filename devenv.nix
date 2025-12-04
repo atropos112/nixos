@@ -102,7 +102,7 @@ in {
       exec = writeShellScript "colmena-apply" ''
         sudo colmena apply --on "$@" --verbose
       '';
-      description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr,surface')";
+      description = "Apply the configuration using colmena to the specified hosts (e.g. 'opi*,rzr')";
     };
 
     colmena-apply-servers = {
