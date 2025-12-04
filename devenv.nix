@@ -110,11 +110,16 @@ in {
       description = "Apply the configuration using colmena to all servers";
     };
 
-    build-on-apply-on = {
+    build-local-apply-on = {
       exec = writeShellScript "build-on-apply-on" ''
-        sudo nixos-rebuild --flake ".#$2" --target-host "$2" --verbose --build-host "$1" switch
+        if [ $# -ne 1 ]; then
+          echo "Usage: $0 <target-host>" >&2
+          exit 1
+        fi
+
+        sudo nixos-rebuild --flake ".#$1" --target-host "$1" --verbose --build-host localhost switch
       '';
-      description = "Builds configuration on $/1 and applies it on $/2";
+      description = "Build locally and apply to a remote host";
     };
 
     nx-diff = {
