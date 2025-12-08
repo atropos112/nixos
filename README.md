@@ -28,7 +28,8 @@ My home infrastructure is composed of two types of devices, ones which are part 
 > - **Terminal:** Foot
 > - **Editor:** Neovim (external for now)
 
-Kubernetes nodes are a cut down version that do not come with a WM of any kind. I do however have a pikvm with ezCoo 4x1 HDMI switch that allows me to access the 3 master nodes in case something was to go wrong with them, look for details [here](https://docs.pikvm.org/multiport/), this is in case I can't connect to the machines via SSH directly.
+Kubernetes nodes are a cut down version that do not come with a WM of any kind.
+I do however have a pikvm with ezCoo 4x1 HDMI switch that allows me to access the 3 master nodes in case something was to go wrong with them, look for details [here](https://docs.pikvm.org/multiport/), this is in case I can't connect to the machines via SSH directly.
 
 I am able to deploy from both giant and frame machines to all machines, I do this with sudo because only my root user has ssh access to other root users, this isn't ideal still but is best I could come up with. To do such deployment to all orange pi's I would do
 
@@ -149,7 +150,7 @@ To fix this I do the following:
 
 Note, you have to use `--option sandbox false` to prevent the
 
-```
+```bash
 error: cloning builder process: Operation not permitted
 error: unable to start build process
 ```
@@ -242,9 +243,11 @@ _: {
 }
 ```
 
-1. Make persistend directory that will be passed into nixos anywhere call it `persistent` and put it in your directory of choice e.g. `/home/atropos/orth/persistent`. In there make `home/atropos/.ssh` and `/root/.ssh` directories and generate ssh keys for both using `ssh-keygen -f id_ed25519 -C "some-menaningful-name"`. Do note the final directory must be called `peristent` so that `/home/atropos/orth/persistent` is ok but `/home/atropos/orth/persistent2` is not. This is because `nixos-anywhere` will map it to directories on the machine and we need that directory to be mapped to `/persistent`.
+1. Make persistend directory that will be passed into nixos anywhere call it `persistent` and put it in your directory of choice e.g. `/home/atropos/orth/persistent`. In there make `home/atropos/.ssh` and `/root/.ssh` directories and generate ssh keys for both using `ssh-keygen -f id_ed25519 -C "some-menaningful-name"`.
+Do note the final directory must be called `peristent` so that `/home/atropos/orth/persistent` is ok but `/home/atropos/orth/persistent2` is not. This is because `nixos-anywhere` will map it to directories on the machine and we need that directory to be mapped to `/persistent`.
 
-2. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`. Once added you will need to `nix-shell -p sops --run "sops updatekeys secrets/secrets.yaml"` to update the keys in the `secrets.yaml` file with the new key updates.
+2. Run `nix-shell -p ssh-to-age --run "ssh-to-age < root/.ssh/id_ed25519.pub"` (pointing at the root ssh key you just generated) and add a line to `nixos/.sops.yaml`.
+Once added you will need to `nix-shell -p sops --run "sops updatekeys secrets/secrets.yaml"` to update the keys in the `secrets.yaml` file with the new key updates.
 
 3. `ssh-keygen -f id_ed25519 -C "<some-name>"` and `ssh-keygen -t rsa -f rsa -C "<some-name>"` somewhere, and store those keys in `hostKeys` directory in sops secrets, you can use `edit-secrets` to do this. Delete the files you just generated once you are done.
 
