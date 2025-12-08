@@ -58,9 +58,6 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
-          # Buster
-          "{e58d3966-3d76-4cd9-8552-1582fbc800c1}"
-
           # Consent-O-Matic
           "gdpr@cavi.au.dk"
 
