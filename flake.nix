@@ -114,7 +114,7 @@
             # 1. Secrets
             # Unlike in mkHost, we only load the module as install image should not need secrets.
             # If a secret is attempted to be used, it will fail at build time, this is by design.
-            (inputs.sops-nix.nixosModules.sops)
+            inputs.sops-nix.nixosModules.sops
 
             # 2. Modules
             ./modules

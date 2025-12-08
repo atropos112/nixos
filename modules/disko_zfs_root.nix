@@ -298,7 +298,7 @@ in {
       zpool = {
         zroot = {
           type = "zpool";
-          mode = cfg.mode;
+          inherit (cfg) mode;
           rootFsOptions = {
             compression = "lz4";
             acltype = "posixacl";

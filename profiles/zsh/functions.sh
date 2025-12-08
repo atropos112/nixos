@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function refresh-devenvs {
-	fd -t f devenv.nix "$1" -x bash -c 'cd "$(dirname "$1")" && devenv shell ls' _ {}
+	fd -t f devenv.nix "$1" -x bash -c "cd \"$(dirname "$1")\" && devenv shell ls" _ {}
 }
 
 function rebase-node {

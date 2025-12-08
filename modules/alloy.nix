@@ -67,7 +67,7 @@ in {
         "--feature.community-components.enabled"
         "--disable-reporting"
       ];
-      package = cfg.package;
+      inherit (cfg) package;
       configPath = fullConfigFile;
     };
     # Overriding the default config to include docker for docker socket access

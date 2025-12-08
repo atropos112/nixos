@@ -46,13 +46,6 @@ in {
 
   virtualisation.oci-containers.backend = "podman";
 
-  # To avoid the "too many open files" error
-  # This is equivalent to `ulimit -n 16192:1048576`
-  # Or setting `DefaultLimitNOFILE=16192:1048576` in /etc/systemd/system.conf
-  systemd.settings.Manager = {
-    DefaultLimitNOFILE = "16192:1048576";
-  };
-
   topology.self = {
     interfaces = {
       tailscale0 = {
@@ -80,11 +73,16 @@ in {
     };
   };
 
-  # The notion of "online" is a broken concept
-  # https://github.com/systemd/systemd/blob/e1b45a756f71deac8c1aa9a008bd0dab47f64777/NEWS#L13
   systemd = {
     # WARN: Typically 100 score is default. 250 means nix rebuilding is more likely to be OOM killed than other stuff.
     services.nix-daemon.serviceConfig.OOMScoreAdjust = 250;
+
+    # To avoid the "too many open files" error
+    # This is equivalent to `ulimit -n 16192:1048576`
+    # Or setting `DefaultLimitNOFILE=16192:1048576` in /etc/systemd/system.conf
+    settings.Manager = {
+      DefaultLimitNOFILE = "16192:1048576";
+    };
   };
 
   time.timeZone = "Europe/London";

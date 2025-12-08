@@ -224,7 +224,7 @@ in {
           existing_keys=$(garage key list | tail -n +2 | awk '{print $3}' | grep -v '^$' || true)
 
           # Create keys that should exist
-          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: _: ''
               if [[ "$(garage key info ${lib.escapeShellArg keyName} 2>&1)" == *"Key not found"* ]]; then
                 echo "Creating key ${lib.escapeShellArg keyName}"
                 garage key create ${lib.escapeShellArg keyName}
@@ -271,7 +271,7 @@ in {
           # Remove keys that shouldn't exist
           for key in $existing_keys; do
             should_exist=false
-            ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: buckets: ''
+            ${lib.concatStringsSep "\n" (lib.mapAttrsToList (keyName: _: ''
               if [[ "$key" == ${lib.escapeShellArg keyName} ]]; then
                 should_exist=true
               fi
@@ -301,7 +301,7 @@ in {
     services.garage = {
       enable = true;
       inherit settings;
-      package = cfg.package;
+      inherit (cfg) package;
       # debug is nice but it's a bit too verbose
       logLevel = "info";
     };

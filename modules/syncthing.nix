@@ -18,7 +18,7 @@
   # Device is not defined in the devices list (external device)
     !hasAttr deviceName cfg.devices
     # Device is set to true by the user
-    || cfg.devices."${deviceName}" == true
+    || cfg.devices."${deviceName}"
     # Device is left as null (not set by the user) and hostname does not match the device name
     || (cfg.devices."${deviceName}".enable == null && deviceName != hostName);
 in {
@@ -173,7 +173,7 @@ in {
 
     services.syncthing = {
       enable = true;
-      package = cfg.package;
+      inherit (cfg) package;
       # Run syncthing first time without the keys, they will appear in .config/syncthing then copy them over and then enable the below to keep them "forever"
       cert = config.sops.secrets."${cfg.secrets.certPath}".path;
       key = config.sops.secrets."${cfg.secrets.keyPath}".path;
@@ -200,7 +200,7 @@ in {
           |> mapAttrs (_: device: {
             addresses = [device.address];
             autoAcceptFolders = false;
-            id = device.id;
+            inherit (device) id;
           });
 
         folders =
@@ -212,8 +212,7 @@ in {
               if folder.id == null
               then name
               else folder.id;
-            path = folder.path;
-            type = folder.type;
+            inherit (folder) path type;
             devices = folder.devices |> filter deviceEnabled;
           });
       };

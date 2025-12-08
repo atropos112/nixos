@@ -12,7 +12,7 @@
   }:
     builtins.readDir path
     # Filter for .nix files
-    |> lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".nix" name && builtins.elem name exclusions == false)
+    |> lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".nix" name && !builtins.elem name exclusions)
     # Convert to file paths
     |> lib.mapAttrsToList (name: _: path + "/${name}");
 
