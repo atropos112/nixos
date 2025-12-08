@@ -58,6 +58,9 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
+          # Consent-O-Matic
+          "gdpr@cavi.au.dk"
+
           # Tracking Token Stripper
           "{9fda17be-849d-4f5b-a326-28d25f0f6d29}"
 
