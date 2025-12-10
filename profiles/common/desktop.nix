@@ -6,6 +6,7 @@
   lib,
   ...
 }: let
+  inherit (inputs) wrappers;
   homeUser = "atropos";
   homeDirectory = "/home/${homeUser}";
   theme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
@@ -153,8 +154,6 @@ in {
     ATRO_SQLITE3_SO_PATH = "${pkgs.sqlite.out}/lib/libsqlite3.so";
 
     KREW_ROOT = "/persistent/home/atropos/.krew";
-
-    NATS_URL = "nats://nats:4222";
   };
 
   security = {
@@ -294,7 +293,14 @@ in {
       # Search for nix packages
       nix-search-cli
 
-      natscli
+      (wrappers.lib.wrapPackage
+        {
+          inherit pkgs;
+          package = pkgs.natscli;
+          env = {
+            NATS_URL = "nats://nats:4222";
+          };
+        })
 
       # Net sniffer
       sniffnet

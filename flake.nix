@@ -6,6 +6,8 @@
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nix-search-tv.url = "github:3timeslazy/nix-search-tv";
 
+    wrappers.url = "github:lassulus/wrappers";
+
     # nix stuff
     statix.url = "github:oppiliappan/statix/master";
     # Gives me the pipe operator support
