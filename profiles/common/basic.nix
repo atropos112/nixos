@@ -267,6 +267,8 @@ in {
   # This is a workaround since we restart igc module on resume
   systemd.services.chronyd = {
     serviceConfig.ExecStartPre = [
+      # Using pool europe.pool.ntp.org to have multiple servers to sync from
+      # Just in case one is down (which has happened in the past)
       "${pkgs.chrony}/bin/chronyd -q 'pool europe.pool.ntp.org iburst'"
       "${pkgs.coreutils}/bin/sleep 5"
     ]; # for good measure
