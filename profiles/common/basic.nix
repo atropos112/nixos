@@ -267,7 +267,7 @@ in {
   # This is a workaround since we restart igc module on resume
   systemd.services.chronyd = {
     serviceConfig.ExecStartPre = [
-      "${pkgs.chrony}/bin/chronyd -q 'server time-a-g.nist.gov iburst'"
+      "${pkgs.chrony}/bin/chronyd -q 'pool europe.pool.ntp.org iburst'"
       "${pkgs.coreutils}/bin/sleep 5"
     ]; # for good measure
     after = ["network-online.target"];
