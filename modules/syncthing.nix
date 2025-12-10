@@ -18,7 +18,7 @@
   # Device is not defined in the devices list (external device)
     !hasAttr deviceName cfg.devices
     # Device is set to true by the user
-    || cfg.devices."${deviceName}"
+    || cfg.devices."${deviceName}".enable != null && cfg.devices."${deviceName}".enable
     # Device is left as null (not set by the user) and hostname does not match the device name
     || (cfg.devices."${deviceName}".enable == null && deviceName != hostName);
 in {
