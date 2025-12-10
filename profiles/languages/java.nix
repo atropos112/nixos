@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # LSP
-    java-language-server
+    jdt-language-server
 
     # Build tools
     maven

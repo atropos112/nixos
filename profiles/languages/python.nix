@@ -18,6 +18,8 @@ in {
     uv # pip but faster.
 
     basedpyright
+    ruff
+    python313Packages.debugpy
   ];
 
   environment.sessionVariables = {
