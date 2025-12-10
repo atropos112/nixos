@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
 function refresh-devenvs {
-	fd -t f devenv.nix "$1" -x bash -c "cd \"$(dirname "$1")\" && devenv shell ls" _ {}
+	local search_path="${1:-.}"
+
+	# Find all directories containing devenv.nix
+	while IFS= read -r -d '' dir; do
+		echo "Initializing: $dir"
+		(
+			cd "$dir" || exit 1
+			devenv shell echo ''
+		)
+	done < <(find "$search_path" -type f -name "devenv.nix" -printf '%h\0')
 }
 
 function rebase-node {

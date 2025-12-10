@@ -1303,6 +1303,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_6": {
+      "locked": {
+        "lastModified": 1758690382,
+        "narHash": "sha256-NY3kSorgqE5LMm1LqNwGne3ZLMF2/ILgLpFr1fS4X3o=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e643668fd71b949c53f8626614b21ff71a07379d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -1402,7 +1418,8 @@
         "statix": "statix",
         "stylix": "stylix",
         "systems": "systems_6",
-        "waybar": "waybar"
+        "waybar": "waybar",
+        "wrappers": "wrappers"
       }
     },
     "sops-nix": {
@@ -1686,6 +1703,24 @@
       "original": {
         "owner": "Alexays",
         "repo": "Waybar",
+        "type": "github"
+      }
+    },
+    "wrappers": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_6"
+      },
+      "locked": {
+        "lastModified": 1764326721,
+        "narHash": "sha256-JT6Nz/I4IpJNIbY5Oy+NpHTe4fqEsIuxIpIZAfEZWEc=",
+        "owner": "lassulus",
+        "repo": "wrappers",
+        "rev": "94d1131dd8c8a310f3e23c82ee75919cb401e716",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lassulus",
+        "repo": "wrappers",
         "type": "github"
       }
     },
