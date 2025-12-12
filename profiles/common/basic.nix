@@ -258,6 +258,9 @@ in {
         unzip
         p7zip
         eza
+
+        # Basic tree view
+        tree
       ]
       ++ [
         inputs.devenv.packages.${pkgs.stdenv.hostPlatform.system}.default
