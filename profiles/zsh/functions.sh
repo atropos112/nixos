@@ -28,7 +28,7 @@ function rebase-node {
 		exit 1
 	fi
 
-	rsync --filter='dir-merge,-n /.gitignore' -av --exclude ".devenv" --delete /home/atropos/projects/ "$NODE_NAME:/persistent/home/atropos/projects"
+	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/projects/ "$NODE_NAME:/persistent/home/atropos/projects"
 	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/nixos/ "$NODE_NAME:/persistent/home/atropos/nixos"
 	rsync --filter='dir-merge,-n /.gitignore' -av --delete /home/atropos/.config/nvim/ "$NODE_NAME:/persistent/home/atropos/.config/nvim"
 
