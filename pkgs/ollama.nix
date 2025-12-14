@@ -6,6 +6,10 @@
     image = "ollama/ollama";
     autoStart = true;
     ports = ["0.0.0.0:11434:11434"];
+    environment = {
+      # 64k
+      OLLAMA_CONTEXT_LENGTH = "65536";
+    };
     volumes = [
       "/persistent/ollama/models:/root/.ollama/models"
     ];

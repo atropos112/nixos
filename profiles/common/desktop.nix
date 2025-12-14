@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-stable,
+  config,
   pkgs-master,
   lib,
   ...
@@ -38,7 +39,6 @@ in {
     ../../pkgs/firefox.nix
     ../../pkgs/direnv.nix
     ../../pkgs/nixSearchTV.nix
-    ../../pkgs/mods.nix
     ../../pkgs/clipse.nix
   ];
 
@@ -268,6 +268,8 @@ in {
       libreoffice
       tree-sitter
       buildah
+
+      claude-code-acp
 
       # For shell script checking
       shellharden
@@ -534,6 +536,16 @@ in {
     stylix.enable = false;
   };
 
+  sops.secrets."llm/anthropic/api" = {
+    owner = config.users.users.atropos.name;
+    group = config.users.users.atropos.name;
+  };
+
+  sops.secrets."llm/anthropic/claudeCode" = {
+    owner = config.users.users.atropos.name;
+    group = config.users.users.atropos.name;
+  };
+
   home-manager.users.atropos = {config, ...}: {
     stylix.targets = {
       # TODO: Remove once https://github.com/danth/stylix/issues/630 is closed.
@@ -639,6 +651,11 @@ in {
     };
 
     programs = {
+      claude-code = {
+        enable = true;
+        package = pkgs.claude-code;
+      };
+
       # For locking the screen
       swaylock = {
         enable = true;
