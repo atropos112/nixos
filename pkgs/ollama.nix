@@ -1,4 +1,7 @@
-_: {
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    ollama
+  ];
   virtualisation.oci-containers.containers.ollama = {
     image = "ollama/ollama";
     autoStart = true;
