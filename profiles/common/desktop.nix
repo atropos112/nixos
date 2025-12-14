@@ -269,8 +269,6 @@ in {
       tree-sitter
       buildah
 
-      claude-code-acp
-
       # For shell script checking
       shellharden
 
