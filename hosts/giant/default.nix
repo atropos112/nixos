@@ -5,10 +5,11 @@
     ../../profiles/services/syncthing.nix
     ../../pkgs/ollama.nix
     ../../pkgs/lmstudio.nix
-    ../../profiles/networking/dns/london.nix
+    ../../profiles/networking/dns/london_lan.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_6_17;
+  services.dnsproxy.settings.upstream = ["9.0.0.150"];
 
   topology.self = {
     interfaces = {
