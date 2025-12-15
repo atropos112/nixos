@@ -1,0 +1,178 @@
+
+// ============================================
+// EXPORTERS
+// ============================================
+
+// Send metrics/traces to main Alloy via OTLP
+otelcol.exporter.otlp "default" {
+  client {
+    endpoint = "otel:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+// Send logs to main Alloy via native Loki format (efficient, no conversion)
+loki.write "main_alloy" {
+  endpoint {
+    url = "http://alloy:3100/loki/api/v1/push"
+  }
+}
+
+// ============================================
+// PROCESSORS
+// ============================================
+
+otelcol.processor.batch "default" {
+  output {
+    metrics = [otelcol.exporter.otlp.default.input]
+    traces  = [otelcol.exporter.otlp.default.input]
+  }
+}
+
+// ============================================
+// RECEIVERS
+// ============================================
+
+otelcol.receiver.otlp "default" {
+  http {
+    endpoint = "127.0.0.1:4318"
+  }
+  grpc {
+    endpoint = "127.0.0.1:4317"
+  }
+
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+    traces  = [otelcol.processor.batch.default.input]
+  }
+}
+
+otelcol.receiver.prometheus "default" {
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+  }
+}
+
+// ============================================
+// PROMETHEUS METRICS COLLECTION
+// ============================================
+
+prometheus.exporter.unix "default" {
+  enable_collectors = [
+    "cpu",
+    "disk",
+    "ethtool",
+    "filesystem",
+    "hwmon",
+    "netstat",
+    "perf",
+    "powersupply",
+    "sysctl",
+    "vmstat",
+  ]
+  include_exporter_metrics = true
+}
+
+prometheus.scrape "unix" {
+  forward_to      = [prometheus.relabel.default.receiver]
+  targets         = prometheus.exporter.unix.default.targets
+  scrape_interval = "5s"
+  scrape_timeout  = "3s"
+}
+
+prometheus.relabel "default" {
+  forward_to = [otelcol.receiver.prometheus.default.receiver]
+
+  rule {
+    action       = "replace"
+    target_label = "hostname"
+    replacement  = constants.hostname
+  }
+
+  rule {
+    action       = "replace"
+    target_label = "instance"
+    replacement  = constants.hostname
+  }
+}
+
+// ============================================
+// LOKI LOG COLLECTION
+// ============================================
+
+// Discover Docker containers
+discovery.docker "linux" {
+  host             = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+}
+
+// Docker log collection
+loki.source.docker "default" {
+  host          = "unix:///var/run/docker.sock"
+  relabel_rules = loki.relabel.docker.rules
+  targets       = discovery.docker.linux.targets
+  forward_to    = [loki.write.main_alloy.receiver]
+}
+
+loki.relabel "docker" {
+  forward_to = []
+
+  rule {
+    target_label = "job"
+    replacement  = "docker"
+  }
+
+  rule {
+    target_label = "hostname"
+    replacement  = constants.hostname
+  }
+
+  rule {
+    target_label = "instance"
+    replacement  = constants.hostname
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(.*)"
+    target_label  = "service_name"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_log_stream"]
+    target_label  = "stream"
+  }
+}
+
+// Journal log collection
+loki.source.journal "read" {
+  relabel_rules = loki.relabel.journal.rules
+  labels        = {component = "loki.source.journal"}
+  forward_to    = [loki.write.main_alloy.receiver]
+}
+
+loki.relabel "journal" {
+  forward_to = []
+
+  rule {
+    target_label = "job"
+    replacement  = "journal"
+  }
+
+  rule {
+    target_label = "hostname"
+    replacement  = constants.hostname
+  }
+
+  rule {
+    target_label = "instance"
+    replacement  = constants.hostname
+  }
+
+  rule {
+    source_labels = ["__journal__systemd_unit"]
+    target_label  = "service_name"
+  }
+}

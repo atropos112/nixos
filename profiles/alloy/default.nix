@@ -6,9 +6,7 @@ in {
     alloy = {
       enable = true;
       configs = listToPriorityList 0 [
-        ./otel.alloy
-        ./metrics.alloy
-        ./logs.alloy
+        ./main.alloy
       ];
     };
 
