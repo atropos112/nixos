@@ -651,7 +651,7 @@ in {
     programs = {
       claude-code = {
         enable = true;
-        package = pkgs.claude-code;
+        package = pkgs-master.claude-code;
       };
 
       # For locking the screen
