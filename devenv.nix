@@ -37,6 +37,7 @@ in {
     pkgs.nix-output-monitor
     pkgs.gitleaks
     pkgs.deadnix
+    pkgs.tokei
     statix
     nil
   ];

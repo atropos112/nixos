@@ -26,6 +26,7 @@
           "longhorn"
           "synapse"
           "influxdb"
+          "forgejo-lfs"
         ];
         nixos = [
           "kopia"
@@ -44,6 +45,7 @@
         "longhorn"
         "synapse"
         "influxdb"
+        "forgejo-lfs"
       ];
     };
 

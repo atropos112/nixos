@@ -146,6 +146,9 @@ in {
 
     systemPackages = with pkgs;
       [
+        # For encryption needs
+        openssl
+
         # Tui for systemctl
         systemctl-tui
 
