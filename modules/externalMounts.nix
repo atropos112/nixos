@@ -16,8 +16,15 @@
     "reconnect" # handle connection drops
     "ServerAliveInterval=15" # keep connections alive
     "IdentityFile=/home/atropos/.ssh/id_ed25519"
+
+    # NOTE: StrictHostKeyChecking=no and UserKnownHostsFile=/dev/null would normally be
+    # a security risk (vulnerable to man-in-the-middle attacks), but it's actually fine
+    # in this case because we connect over Wireguard all the time. Wireguard provides
+    # encryption and authentication at the network layer, so SSH host key verification
+    # is redundant for our use case.
     "StrictHostKeyChecking=no"
     "UserKnownHostsFile=/dev/null"
+
     "uid=1000"
     "gid=1000"
   ];
