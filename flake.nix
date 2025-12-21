@@ -127,23 +127,46 @@
         }) {}
     );
 
-    mkHost = hostName: system: (
-      (_:
-        inputs.nixpkgs-unstable.lib.nixosSystem {
-          inherit system;
-          specialArgs = passThroughArgs system;
-          modules = [
-            # 1. Secrets
-            ./secrets
+    mkHost = hostName: system: let
+      # Validate that the host configuration directory exists
+      hostPath = ./hosts/${hostName};
+      validSystems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
+    in
+      assert builtins.pathExists hostPath
+      || throw ''
+        Host configuration directory does not exist: ${toString hostPath}
 
-            # 2. Modules
-            ./modules
+        Available hosts in ./hosts/:
+          ${builtins.concatStringsSep "\n  " (builtins.attrNames (builtins.readDir ./hosts))}
 
-            # 3. Load full configuration
-            ./hosts/${hostName}
-          ];
-        }) {}
-    );
+        Either:
+          1. Create the directory: mkdir -p hosts/${hostName}
+          2. Fix the typo in the hostname
+          3. Remove this host from flake.nix nixosConfigurations
+      '';
+      assert builtins.elem system validSystems
+      || throw ''
+        Invalid system architecture: ${system}
+
+        Valid systems are: ${builtins.concatStringsSep ", " validSystems}
+
+        Fix the system parameter in flake.nix for host '${hostName}'
+      '';
+        (_:
+          inputs.nixpkgs-unstable.lib.nixosSystem {
+            inherit system;
+            specialArgs = passThroughArgs system;
+            modules = [
+              # 1. Secrets
+              ./secrets
+
+              # 2. Modules
+              ./modules
+
+              # 3. Load full configuration
+              hostPath
+            ];
+          }) {};
 
     # Little hack to get colmena to work with nixos-rebuild switch interoperably.
     conf = self.nixosConfigurations;

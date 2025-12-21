@@ -15,12 +15,17 @@ in {
     kernelParams = mkOption {
       type = types.listOf types.str;
       default = [
-        # WARN: If you are in trouble, not being able to pass initrd stage you ca uncomment the
-        # line bellow to allow you to drop into a shell and investigate.
-        # Please do uncomment it once you are done debugging as it is a security risk.
-        # It is a security risk as it allows anyone to drop into a shell as root, no password needed.
+        # DEBUG MODE: Uncomment the line below if you're having boot issues
         #
-        # "boot.shell_on_fail" # Allows you to drop in a shell if booting fails in initrd
+        # Step 1: Enable debug mode by uncommenting this parameter:
+        # "boot.shell_on_fail"
+        #
+        # Step 2: What this does:
+        # - If boot fails during initrd stage, you'll be dropped into a root shell
+        # - This allows you to investigate boot failures, check filesystems, etc.
+        # - Useful for debugging ZFS mount issues, missing drives, or encryption problems
+        #
+        # Remember to comment it out again after debugging!
       ];
     };
   };

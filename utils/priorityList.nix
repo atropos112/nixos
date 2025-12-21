@@ -24,7 +24,25 @@ in {
   # ];
   validatePriorityList = priorityList: {
     assertion = (priorityList |> map (item: item.priority) |> unique |> length) == (priorityList |> length);
-    message = "Priority list must have unique priorities. Duplicates found. The priorities are: ${priorityList |> map (i: toString i.priority) |> concatStringsSep ", "}";
+    message = let
+      priorities = priorityList |> map (item: item.priority);
+      uniquePriorities = priorities |> unique;
+      # Find duplicates by filtering out unique values
+      duplicates =
+        uniquePriorities
+        |> lib.filter (p: let
+          count = priorities |> lib.filter (x: x == p) |> length;
+        in
+          count > 1);
+    in ''
+      Priority list must have unique priorities, but duplicates were found.
+
+      Duplicated priorities: ${duplicates |> map toString |> concatStringsSep ", "}
+
+      All priorities in the list: ${priorities |> map toString |> concatStringsSep ", "}
+
+      Each priority value must appear exactly once. Fix by ensuring no two items have the same priority value.
+    '';
   };
 
   # Convinience function to convert a priority list to a string by \n concats.

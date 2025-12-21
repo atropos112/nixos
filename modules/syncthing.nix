@@ -14,13 +14,22 @@
     then "/root"
     else "/home/${cfg.userName}";
 
+  # Determines if a device should be enabled for syncing
+  # Logic:
+  #   1. External devices (not in cfg.devices): Always enabled
+  #   2. Explicitly enabled (enable = true): Enabled
+  #   3. Explicitly disabled (enable = false): Disabled
+  #   4. Not set (enable = null): Enabled UNLESS device name matches current hostname
+  #      (prevents a device from syncing with itself)
   deviceEnabled = deviceName:
-  # Device is not defined in the devices list (external device)
-    !hasAttr deviceName cfg.devices
-    # Device is set to true by the user
-    || cfg.devices."${deviceName}".enable != null && cfg.devices."${deviceName}".enable
-    # Device is left as null (not set by the user) and hostname does not match the device name
-    || (cfg.devices."${deviceName}".enable == null && deviceName != hostName);
+    if !hasAttr deviceName cfg.devices
+    then true # External device - always enable
+    else let
+      device = cfg.devices."${deviceName}";
+    in
+      if device.enable != null
+      then device.enable # Explicitly set - use that value
+      else deviceName != hostName; # Not set - enable unless it's ourselves
 in {
   options.atro.syncthing = {
     enable = mkEnableOption "hyprland setup";
