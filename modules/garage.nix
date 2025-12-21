@@ -130,8 +130,23 @@ in {
     ];
 
     systemd.services = {
+      # SERVICE DEPENDENCY CHAIN:
+      # 1. garage.service (main Garage daemon)
+      # 2. garage-buckets.service (creates/manages S3 buckets)
+      # 3. garage-keys.service (creates access keys and assigns bucket permissions)
+      #
+      # This order is critical because:
+      # - Keys reference buckets, so buckets must exist first
+      # - Both require Garage to be running and operational
+      # - If any service fails, dependent services won't start
+
       garage-buckets = {
-        description = "Create Garage buckets";
+        description = "Create and manage Garage S3 buckets";
+
+        # Systemd service dependencies:
+        # - after: Start only after garage.service has started
+        # - wants: If garage.service starts, this should start too (soft dependency)
+        # - wantedBy: Auto-start this service when multi-user.target is reached
         after = ["garage.service"];
         wants = ["garage.service"];
         wantedBy = ["multi-user.target"];
@@ -139,8 +154,8 @@ in {
         path = [cfg.package pkgs.gawk pkgs.coreutils];
 
         serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
+          Type = "oneshot"; # Runs once and exits (not a daemon)
+          RemainAfterExit = true; # Consider successful even after script exits
           User = "root";
           Group = "root";
         };
@@ -201,7 +216,18 @@ in {
       };
 
       garage-keys = {
-        description = "Create Garage keys and set permissions";
+        description = "Create Garage access keys and configure bucket permissions";
+
+        # Systemd service dependencies:
+        # - after: Start only after garage-buckets.service completes
+        # - wants: If garage-buckets starts, this should start too (soft dependency)
+        # - requires: MUST have garage-buckets.service (hard dependency - won't start without it)
+        # - wantedBy: Auto-start this service when multi-user.target is reached
+        #
+        # Why requires garage-buckets?
+        # Access keys grant permissions to buckets. If buckets don't exist,
+        # the permission assignment will fail. Therefore, buckets MUST be
+        # created before keys can be configured.
         after = ["garage-buckets.service"];
         wants = ["garage-buckets.service"];
         requires = ["garage-buckets.service"];
@@ -210,8 +236,8 @@ in {
         path = [cfg.package pkgs.gawk pkgs.coreutils];
 
         serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
+          Type = "oneshot"; # Runs once and exits (not a daemon)
+          RemainAfterExit = true; # Consider successful even after script exits
           User = "root";
           Group = "root";
         };

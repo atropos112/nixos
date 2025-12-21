@@ -99,12 +99,22 @@ in {
       then ["aarch64-linux"]
       else ["x86_64-linux"];
     kernel.sysctl = {
-      "net.core.default_qdisc" = "fq";
-      "net.ipv4.tcp_congestion_control" = "bbr";
-      "net.ipv4.ip_forward" = 1; # Enable IP forwarding for tailscale
-      "net.ipv6.conf.all.forwarding" = 1; # Enable IP forwarding for tailscale
-      "net.core.rmem_max" = 7500000; # Necessary for syncthing
-      "net.core.wmem_max" = 7500000; # Necessary for syncthing
+      # Network performance optimization
+      "net.core.default_qdisc" = "fq"; # Fair Queue scheduling for better latency
+      "net.ipv4.tcp_congestion_control" = "bbr"; # BBR congestion control for better throughput
+
+      # Enable IP forwarding for Tailscale VPN mesh
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+
+      # Increase socket buffer sizes for high-throughput applications
+      # Syncthing recommends at least 7.5 MB for large file transfers
+      # See: https://docs.syncthing.net/users/faq.html#why-is-the-sync-so-slow
+      "net.core.rmem_max" = 7500000; # 7.5 MB receive buffer
+      "net.core.wmem_max" = 7500000; # 7.5 MB send buffer
+
+      # Increase inotify limits for file monitoring (used by Syncthing, IDEs, etc.)
+      # Default is often 128, which is too low for large directory trees
       "fs.inotify.max_user_instances" = 8192;
     };
   };

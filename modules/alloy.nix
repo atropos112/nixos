@@ -9,15 +9,52 @@
   inherit (lib) mkEnableOption mkIf types;
   inherit (builtins) map concatStringsSep readFile isPath toFile;
 
-  fullConfigFile =
-    cfg.configs
-    |> priorityList.priorityListToList
-    |> map (config:
-      if isPath config
-      then readFile config
-      else config)
-    |> concatStringsSep "\n"
-    |> toFile "config.alloy";
+  # Build the full config by concatenating all configs from the priority list
+  # Then validate the syntax using alloy fmt to catch errors at build time
+  fullConfigFile = let
+    uncheckedConfig =
+      cfg.configs
+      |> priorityList.priorityListToList
+      |> map (config:
+        if isPath config
+        then readFile config
+        else config)
+      |> concatStringsSep "\n"
+      |> toFile "config.alloy";
+
+    # Validate the config syntax at build time
+    # If syntax is invalid, the build will fail with a helpful error message
+    validatedConfig =
+      pkgs.runCommand "validated-config.alloy" {
+        nativeBuildInputs = [cfg.package];
+      } ''
+        # Copy the unvalidated config to output location
+        cp ${uncheckedConfig} $out
+
+        # Validate syntax using alloy fmt
+        # This will exit with non-zero if there are syntax errors
+        if ! ${cfg.package}/bin/alloy fmt $out > /dev/null 2>&1; then
+          echo "================================================================"
+          echo "ERROR: Alloy configuration syntax validation failed!"
+          echo "================================================================"
+          echo ""
+          echo "The Alloy configuration has syntax errors and cannot be used."
+          echo ""
+          echo "To debug the issue, examine the configuration below or run:"
+          echo "  alloy fmt ${uncheckedConfig}"
+          echo ""
+          echo "----------------------------------------------------------------"
+          echo "Configuration content:"
+          echo "----------------------------------------------------------------"
+          cat $out
+          echo "----------------------------------------------------------------"
+          exit 1
+        fi
+
+        echo "Alloy configuration syntax validated successfully"
+      '';
+  in
+    validatedConfig;
 in {
   options.atro.alloy = {
     enable = mkEnableOption "alloy setup";

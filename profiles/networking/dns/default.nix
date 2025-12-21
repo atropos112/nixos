@@ -40,7 +40,14 @@ in {
       cache-optimistic = true; # Responds from cache even when the entries are expired but then refreshes them.
       cache-servfail = false; # Do not cache SERVFAIL responses.
       cache-size = 4194304; # Sets the cache size to 4 MiB.
-      fallback = ["9.9.9.9"]; # Fallback DNS server if upstreams fail.
+      # Multiple fallback DNS servers from different providers for resilience
+      # If one fails, dnsproxy will try the others
+      fallback = [
+        "9.9.9.9" # Quad9 primary (privacy-focused, malware blocking)
+        "9.9.9.10" # Quad9 secondary (no malware blocking)
+        "1.1.1.1" # Cloudflare (fast, privacy-focused)
+        "8.8.8.8" # Google (reliable, widely available)
+      ];
       listen-addrs = ["127.0.0.1"]; # Listens on your local computer (127.0.0.1).
       listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
       upstream-mode = "parallel";

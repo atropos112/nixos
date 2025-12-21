@@ -98,7 +98,7 @@ in {
       type = types.str;
       description = ''
         The host id of the machine, used to identify the disks.
-        It doesn't realy matter what it is as long as it remains the same.
+        It doesn't really matter what it is as long as it remains the same.
         That is, once you set it for a machine, you can't change it unless you reinstall the machine
         by formatting the disks and reinstalling nixos.
       '';
@@ -163,7 +163,7 @@ in {
             Warning: The secret can't be passed through sops-nix or /nix/store it has to be in the path that exists at boot.
             It can't be as a sops-nix secret because initrd needs it before sops-nix is available.
             It can't be in /nix/store because on the first boot the machine will not have it in the store.
-            Thas has to be a path like `/persistent/netboot/key` nothing fancy sadly.
+            This has to be a path like `/persistent/netboot/key` nothing fancy sadly.
           '';
         };
         authorizedKeys = mkOption {
