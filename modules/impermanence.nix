@@ -5,7 +5,7 @@ It assumes
 - one normal user + root,
 - the persistent directory is mounted at /persistent
 - your zfs setup has zroot/nixos/root@blank and zroot/nixos/home@blank
-- uuid and guid are set to 1000 and 1000 respectively
+- user ID and group ID are configurable (defaults to 1000:1000)
 */
 {
   lib,
@@ -50,13 +50,13 @@ It assumes
 
     echo "Fixing permissions for home..."
     ${mkDirForensureDirsExist}
-    chown -R 1000:1000 /home/atropos
+    chown -R ${toString cfg.userId}:${toString cfg.groupId} /home/${cfg.userName}
 
-    mkdir -p /persistent/home/atropos
-    HOME_OWNER=$(stat -c '%u' "/persistent/home/atropos") # Optimising, only chown if the whole dir is not belonging to the user.
-    if [ "$HOME_OWNER" -ne "1000" ]; then
+    mkdir -p /persistent/home/${cfg.userName}
+    HOME_OWNER=$(stat -c '%u' "/persistent/home/${cfg.userName}") # Optimising, only chown if the whole dir is not belonging to the user.
+    if [ "$HOME_OWNER" -ne "${toString cfg.userId}" ]; then
      echo "Fixing permissions for persistent..."
-     chown -R 1000:1000 /persistent/home/atropos
+     chown -R ${toString cfg.userId}:${toString cfg.groupId} /persistent/home/${cfg.userName}
     fi
 
     echo "Unmounting home..."
@@ -91,6 +91,29 @@ in {
       type = types.str;
       description = ''
         Non-root user to use impermanence with.
+      '';
+    };
+    userId = mkOption {
+      type = types.int;
+      default = 1000;
+      description = ''
+        The user ID (UID) of the non-root user.
+
+        This must match the actual UID of the user specified in userName.
+        The default is 1000, which is the standard UID for the first non-root user.
+
+        If misconfigured, files will have incorrect ownership after boot, potentially
+        preventing login or causing permission errors.
+      '';
+    };
+    groupId = mkOption {
+      type = types.int;
+      default = 1000;
+      description = ''
+        The group ID (GID) of the non-root user.
+
+        This must match the actual GID of the user specified in userName.
+        The default is 1000, which is the standard GID for the first non-root user.
       '';
     };
     global = {
@@ -134,7 +157,7 @@ in {
         description = ''
           Directories to create in the user's home directory if they do not exist.
 
-          Do note some directories will always be crreated, such as .config, .local, .cache, .ssh and .local/share.
+          Do note some directories will always be created, such as .config, .local, .cache, .ssh and .local/share.
           This is necessary as otherwise these directories would be made by root:root and not allow the user to login.
         '';
       };
@@ -158,6 +181,68 @@ in {
         message = ''
           home.ensureDirsExist in impermanence must not contain paths starting with /home.
           These paths must be relative to the user's home directory.
+        '';
+      }
+      {
+        # Validate that userId matches the actual user's UID
+        assertion = let
+          userExists = config.users.users ? ${cfg.userName};
+          actualUid = config.users.users.${cfg.userName}.uid or null;
+        in
+          !userExists || actualUid == null || actualUid == cfg.userId;
+        message = ''
+          Impermanence userId (${toString cfg.userId}) does not match the actual UID of user '${cfg.userName}'.
+
+          The user '${cfg.userName}' has UID: ${toString (config.users.users.${cfg.userName}.uid or "not set")}
+          But impermanence is configured with userId: ${toString cfg.userId}
+
+          This mismatch will cause permission errors after boot.
+
+          Fix by setting:
+            atro.impermanence.userId = ${toString (config.users.users.${cfg.userName}.uid or 1000)};
+        '';
+      }
+      {
+        # Validate that groupId matches the actual user's primary group GID
+        assertion = let
+          userExists = config.users.users ? ${cfg.userName};
+          actualGid =
+            if userExists
+            then let
+              userGroup = config.users.users.${cfg.userName}.group or null;
+              groupGid =
+                if userGroup != null && config.users.groups ? ${userGroup}
+                then config.users.groups.${userGroup}.gid or null
+                else null;
+            in
+              groupGid
+            else null;
+        in
+          !userExists || actualGid == null || actualGid == cfg.groupId;
+        message = let
+          userGroup = config.users.users.${cfg.userName}.group or "users";
+          actualGid =
+            if config.users.groups ? ${userGroup}
+            then config.users.groups.${userGroup}.gid or null
+            else null;
+          gidDisplay =
+            if actualGid != null
+            then toString actualGid
+            else "not set";
+          suggestedGid =
+            if actualGid != null
+            then toString actualGid
+            else "1000";
+        in ''
+          Impermanence groupId (${toString cfg.groupId}) does not match the actual GID of user '${cfg.userName}'.
+
+          The user '${cfg.userName}' belongs to group '${userGroup}' with GID: ${gidDisplay}
+          But impermanence is configured with groupId: ${toString cfg.groupId}
+
+          This mismatch will cause permission errors after boot.
+
+          Fix by setting:
+            atro.impermanence.groupId = ${suggestedGid};
         '';
       }
     ];

@@ -39,19 +39,52 @@
     exit 0
   ''}";
 
+  # Kopia WebUI command - uses KOPIA_GUI_PASSWORD from environment (set by systemd)
   kopiaWebUICmd =
     if cfg.exposeWebUI
     then ''
-      ${kopia} --log-level=debug server start --insecure --address="http://0.0.0.0:51515" --server-username=atropos --server-password="$KOPIA_GUI_PASSWORD" --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
+      ${kopia} \
+        --log-level=debug \
+        server start \
+        --insecure \
+        --address="http://0.0.0.0:51515" \
+        --server-username=atropos \
+        --server-password="$KOPIA_GUI_PASSWORD" \
+        --disable-csrf-token-checks \
+        --metrics-listen-addr=0.0.0.0:8008
     ''
     else ''
-      ${kopia} --log-level=debug server start --insecure --address="http://127.0.0.1:51515" --without-password --disable-csrf-token-checks --metrics-listen-addr=0.0.0.0:8008
+      ${kopia} \
+        --log-level=debug \
+        server start \
+        --insecure \
+        --address="http://127.0.0.1:51515" \
+        --without-password \
+        --disable-csrf-token-checks \
+        --metrics-listen-addr=0.0.0.0:8008
     '';
 
-  kopiaConnectCmd = ''${kopia} --log-level=debug repository connect s3 --bucket=${cfg.s3.bucketName} --access-key="$KOPIA_ACCESS_KEY" --secret-access-key="$KOPIA_SECRET_ACCESS_KEY" --password="$KOPIA_PASSWORD" --endpoint="${cfg.s3.endpoint}" --disable-tls-verification --disable-tls'';
+  # Kopia connect command - uses AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and KOPIA_PASSWORD from environment
+  # No need to pass secrets on command line - Kopia reads them from environment variables automatically
+  kopiaConnectCmd = ''
+    ${kopia} \
+      --log-level=debug \
+      repository connect s3 \
+      --bucket=${cfg.s3.bucketName} \
+      --endpoint="${cfg.s3.endpoint}" \
+      --disable-tls-verification \
+      --disable-tls
+  '';
 
+  # Kopia create repository command - uses environment variables for credentials
   kopiaCreateRepoCmd = ''
-    ${kopia} --log-level=debug repository create s3 --bucket=${cfg.s3.bucketName} --access-key="$KOPIA_ACCESS_KEY" --secret-access-key="$KOPIA_SECRET_ACCESS_KEY" --password="$KOPIA_PASSWORD" --endpoint="${cfg.s3.endpoint}" --disable-tls-verification --disable-tls
+    ${kopia} \
+      --log-level=debug \
+      repository create s3 \
+      --bucket=${cfg.s3.bucketName} \
+      --endpoint="${cfg.s3.endpoint}" \
+      --disable-tls-verification \
+      --disable-tls
   '';
 
   ignorePaths = paths:
@@ -61,20 +94,26 @@
 
   kopiaSetupPolicies = backups:
     backups
-    |> map (backup: ''${kopia} policy set "${backup.path}" --snapshot-time-crontab="${backup.cron}" --before-folder-action="${beforeSnapshotScript}" --compression="pgzip-best-compression" '' + (ignorePaths backup.ignores))
+    |> map (backup:
+      ''
+        ${kopia} \
+          policy set "${backup.path}" \
+          --snapshot-time-crontab="${backup.cron}" \
+          --before-folder-action="${beforeSnapshotScript}" \
+          --compression="pgzip-best-compression" \
+      ''
+      + (ignorePaths backup.ignores))
     |> concatMapStrings (p: "\n" + p);
 
-  # WARN: Adding secrets the way it is done is not a good idea, it means they are exposed to anyone with `systemctl status kopia access`
-  # Ideally we would have kopia reading the secrets from a file but as far as I know that is not possible.
+  # Kopia script - secrets are loaded via systemd EnvironmentFile (see serviceConfig below)
+  # Kopia automatically reads AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, KOPIA_PASSWORD from environment
   execCmd = "${pkgs.writeShellScript "kopiascript" ''
     # No -e as we expect some commands to fail (e.g. curl or kopiaConnectCmd)
     set -xu
 
-    # Initialize variables
-    KOPIA_ACCESS_KEY=$(cat ${config.sops.secrets."${cfg.s3.accessKey}".path})
-    KOPIA_SECRET_ACCESS_KEY=$(cat ${config.sops.secrets."${cfg.s3.secretAccessKey}".path})
-    KOPIA_PASSWORD=$(cat ${config.sops.secrets."${cfg.password}".path})
-    KOPIA_GUI_PASSWORD=$(cat ${config.sops.secrets."${cfg.guiPassword}".path})
+    # Secrets are already loaded by systemd via EnvironmentFile
+    # They're available as: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, KOPIA_PASSWORD, KOPIA_GUI_PASSWORD
+    # No need to read them from files here - they're in the environment
 
     # Wait for internet connection, by checking if we can reach a known website
     while ! ${curl} -s -f https://atro.xyz > /dev/null; do
@@ -82,9 +121,9 @@
       ${sleep} 10
     done
 
-    ${kopiaSetupPolicies cfg.backups}
+    ${echo} "Internet connection established."
 
-    ${echo} "Internet connection established."}
+    ${kopiaSetupPolicies cfg.backups}
 
     # Check if the repository is initialized and if not, initialize it
     connect_output=$(${kopiaConnectCmd} 2>&1)
@@ -93,10 +132,10 @@
     set -xeuo pipefail
 
     if ${echo} "$connect_output" | ${rg} -q "repository not initialized in the provided storage"; then
+        ${echo} "Repository not initialized, creating..."
         ${kopiaCreateRepoCmd}
         ${sleep} 10 # For good measure
     fi
-
 
     # Connect to the repository again as sometimes the first connection fails
     ${kopiaConnectCmd}
@@ -106,7 +145,7 @@
   ''}";
 
   kopiaService = {
-    description = "Kopia server";
+    description = "Kopia backup service";
     after = ["network.target" "graphical.target"];
     wantedBy = ["default.target"];
     environment = home_dir;
@@ -114,6 +153,27 @@
       ExecStart = execCmd;
       Restart = "on-failure";
       RestartSec = "5s";
+
+      # SECURITY: Load secrets from environment file managed by sops-nix
+      # This prevents secrets from being visible in process arguments or systemctl status
+      EnvironmentFile = config.sops.templates."kopia-env".path;
+
+      # SECURITY: Prevent other users from inspecting this process
+      ProtectProc = "invisible"; # Hide /proc/[pid]/ from other users
+      ProcSubset = "pid"; # Only show PIDs in /proc, not detailed process info
+
+      # Additional hardening
+      PrivateTmp = true; # Give service its own /tmp
+      NoNewPrivileges = true; # Prevent privilege escalation
+
+      # Note: ProtectSystem = "strict" would make /root read-only, breaking Kopia
+      # Kopia needs to write to /root/.config and /root/.cache (when running as root)
+      # or /home/<user>/.config and /home/<user>/.cache (when running as user)
+      # Instead, we allow it but use other protections
+      ProtectSystem = "full"; # Make /usr, /boot, /efi read-only (but not /root or /home)
+
+      # Kopia needs to access backup paths in home directories regardless of which user runs it
+      ProtectHome = false;
     };
   };
 in {
@@ -202,6 +262,19 @@ in {
       "${cfg.s3.secretAccessKey}" = {
         owner = cfg.runAs;
       };
+    };
+
+    # Create environment file template with all secrets for Kopia to use
+    # This file will be at /run/secrets-rendered/kopia-env and contain the actual secret values
+    sops.templates."kopia-env" = {
+      owner = cfg.runAs;
+      mode = "0400"; # Read-only for owner only
+      content = ''
+        AWS_ACCESS_KEY_ID=${config.sops.placeholder."${cfg.s3.accessKey}"}
+        AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."${cfg.s3.secretAccessKey}"}
+        KOPIA_PASSWORD=${config.sops.placeholder."${cfg.password}"}
+        KOPIA_GUI_PASSWORD=${config.sops.placeholder."${cfg.guiPassword}"}
+      '';
     };
 
     atro.fastfetch.modules = [
