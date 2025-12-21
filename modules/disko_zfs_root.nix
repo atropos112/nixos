@@ -108,6 +108,15 @@ in {
         Drive ids of the disks.
         Here drive id refers to the id of the drive in /dev/disk/by-id.
 
+        IMPORTANT: How to find valid drive IDs:
+          1. List available drives: ls -l /dev/disk/by-id
+          2. Look for entries without "-part" suffix (those are partitions)
+          3. Use the full ID after /dev/disk/by-id/
+          4. Examples of valid IDs:
+             - ata-Samsung_SSD_860_EVO_500GB_S3Z9NB0K123456
+             - nvme-Samsung_SSD_970_EVO_Plus_500GB_S4EWNX0M123456
+             - scsi-SATA_WDC_WD10EZEX-08M_WD-WCC3F1234567
+
         Every drive will be given a boot partition and a zfs partition.
         Boot partition is replicated to form a redundancy.
 
@@ -117,6 +126,10 @@ in {
         Strictly speaking you do not need n-1 backups for boot. But in order to have same amount of
         storage across the drives for zfs you kind of have to "waste" that space otherwise so might
         as well.
+
+        NOTE: If a drive ID doesn't exist when disko runs, you'll get an error like:
+        "No such file or directory: /dev/disk/by-id/YOUR-DRIVE-ID"
+        Double-check your drive IDs match what's actually on the system.
       '';
       type = types.listOf types.str;
     };
@@ -245,6 +258,50 @@ in {
         # All drives must be non empty
         assertion = length cfg.drives == length (filter (id: id != "") cfg.drives);
         message = "Drive ids must be non empty.";
+      }
+      {
+        # Drive IDs should not contain path prefix
+        assertion = let
+          invalidDrives = filter (id: lib.hasPrefix "/dev/" id || lib.hasPrefix "disk/by-id/" id) cfg.drives;
+        in
+          invalidDrives == [];
+        message = let
+          invalidDrives = filter (id: lib.hasPrefix "/dev/" id || lib.hasPrefix "disk/by-id/" id) cfg.drives;
+          exampleFix =
+            if invalidDrives != []
+            then head invalidDrives
+            else "";
+          fixedExample = lib.removePrefix "/dev/disk/by-id/" (lib.removePrefix "/dev/" exampleFix);
+        in ''
+          Drive IDs should not include path prefixes like "/dev/" or "disk/by-id/".
+          Found invalid drive IDs: ${toString invalidDrives}
+
+          Example fix for "${exampleFix}":
+          Instead of: "${exampleFix}"
+          Use: "${fixedExample}"
+
+          To find correct drive IDs, run: ls -l /dev/disk/by-id
+          Then use only the ID part after /dev/disk/by-id/
+        '';
+      }
+      {
+        # Drive IDs should not contain partition suffixes
+        assertion = let
+          invalidDrives = filter (id: lib.hasInfix "-part" id || lib.hasInfix "p1" id || lib.hasInfix "p2" id) cfg.drives;
+        in
+          invalidDrives == [];
+        message = let
+          invalidDrives = filter (id: lib.hasInfix "-part" id || lib.hasInfix "p1" id || lib.hasInfix "p2" id) cfg.drives;
+        in ''
+          Drive IDs should not include partition suffixes like "-part1", "p1", "p2", etc.
+          Found invalid drive IDs: ${toString invalidDrives}
+
+          You specified partition names instead of drive names.
+          Disko will create the partitions - you only need to specify the base drive ID.
+
+          To find correct drive IDs, run: ls -l /dev/disk/by-id | grep -v part
+          This filters out partition entries, showing only whole drives.
+        '';
       }
       {
         # If drivePartLabels are not null then they must be unique

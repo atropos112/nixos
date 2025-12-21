@@ -163,18 +163,66 @@ in {
         script = ''
           garage status
 
-          # Checking repeatedly with garage status until getting 0 exit code
+          # Wait for Garage to become operational with timeout
+          # Timeout: 120 seconds (24 attempts × 5 second sleep)
+          echo "Waiting for Garage to become operational..."
+          attempts=0
+          max_attempts=24
           while ! garage status >/dev/null 2>&1; do
-            echo "Garage not yet operational, waiting..."
+            attempts=$((attempts + 1))
+            if [ $attempts -ge $max_attempts ]; then
+              echo "================================================================"
+              echo "ERROR: Garage failed to become operational within 120 seconds"
+              echo "================================================================"
+              echo ""
+              echo "The Garage service is not responding to status commands."
+              echo ""
+              echo "Troubleshooting steps:"
+              echo "  1. Check Garage service status: systemctl status garage"
+              echo "  2. Check Garage logs: journalctl -u garage -n 50"
+              echo "  3. Verify Garage configuration is correct"
+              echo "  4. Check if required ports are available (3900-3904)"
+              echo "  5. Verify network connectivity between Garage nodes"
+              echo ""
+              echo "Last garage status output:"
+              garage status 2>&1 || true
+              echo "================================================================"
+              exit 1
+            fi
+            echo "Garage not yet operational, waiting... (attempt $attempts/$max_attempts)"
             echo "Current garage status output:"
             garage status 2>&1 || true
             echo "---"
             sleep 5
           done
 
-          # Now we check if garage status shows any failed nodes by checking for ==== FAILED NODES ====
+          # Wait for failed nodes to recover with timeout
+          # Timeout: 60 seconds (12 attempts × 5 second sleep)
+          echo "Checking for failed nodes..."
+          attempts=0
+          max_attempts=12
           while garage status | grep -q "==== FAILED NODES ===="; do
-            echo "Garage has failed nodes, waiting..."
+            attempts=$((attempts + 1))
+            if [ $attempts -ge $max_attempts ]; then
+              echo "================================================================"
+              echo "ERROR: Garage has failed nodes after 60 seconds"
+              echo "================================================================"
+              echo ""
+              echo "Some Garage nodes are in a failed state and not recovering."
+              echo ""
+              echo "Troubleshooting steps:"
+              echo "  1. Check which nodes are failed: garage status"
+              echo "  2. Check logs on failed nodes: journalctl -u garage -n 50"
+              echo "  3. Verify network connectivity between nodes"
+              echo "  4. Check if RPC addresses are correct and reachable"
+              echo "  5. Verify RPC secret is the same on all nodes"
+              echo ""
+              echo "Current garage status:"
+              garage status 2>&1 || true
+              echo "================================================================"
+              exit 1
+            fi
+            echo "Garage has failed nodes, waiting for recovery... (attempt $attempts/$max_attempts)"
             echo "Current garage status output:"
             garage status 2>&1 || true
             echo "---"

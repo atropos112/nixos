@@ -15,11 +15,12 @@
       else "/home/" + cfg.runAs;
   };
 
-  echo = "${pkgs.coreutils}/bin/echo";
   sleep = "${pkgs.coreutils}/bin/sleep";
   rg = "${pkgs.ripgrep}/bin/rg";
   kopia = "${pkgs.kopia}/bin/kopia";
   curl = "${pkgs.curl}/bin/curl";
+  sed = "${pkgs.gnused}/bin/sed";
+  cut = "${pkgs.coreutils}/bin/cut";
   nmcli = "${pkgs.networkmanager}/bin/nmcli";
   beforeSnapshotScript = "${pkgs.writeShellScript "before-snapshot" ''
     if [ -z "${cfg.networkInterface}" ]; then
@@ -28,10 +29,10 @@
     fi
 
     # IS_METERED will be "yes", "no" or "unknown"
-    IS_METERED=${nmcli} -t -f GENERAL.METERED dev show ${cfg.networkInterface} | cut -d: -f2 | cut -d' ' -f1
+    IS_METERED=${nmcli} -t -f GENERAL.METERED dev show ${cfg.networkInterface} | ${cut} -d: -f2 | ${cut} -d' ' -f1
 
     if [ "$IS_METERED" = "yes" ]; then
-      ${echo} "On a metered connection, skipping backup"
+      echo "On a metered connection, skipping backup"
       exit 1
     fi
 
@@ -117,11 +118,41 @@
 
     # Wait for internet connection, by checking if we can reach a known website
     while ! ${curl} -s -f https://atro.xyz > /dev/null; do
-      ${echo} "No internet connection, waiting 10 seconds..."
+      echo "No internet connection, waiting 10 seconds..."
       ${sleep} 10
     done
 
-    ${echo} "Internet connection established."
+    echo "Internet connection established."
+
+    # Validate S3 endpoint is reachable before attempting to connect
+    echo "Validating S3 endpoint accessibility..."
+    s3_endpoint="${cfg.s3.endpoint}"
+
+    # Extract host from endpoint (remove http:// or https:// prefix if present)
+    s3_host=$(echo "$s3_endpoint" | ${sed} 's|^https\?://||' | ${cut} -d: -f1)
+
+    # Try to reach the S3 endpoint (allow up to 10 seconds for the connection)
+    if ! ${curl} -s -f --max-time 10 "$s3_endpoint" > /dev/null 2>&1; then
+      echo "================================================================"
+      echo "WARNING: S3 endpoint may not be accessible"
+      echo "================================================================"
+      echo ""
+      echo "Could not reach S3 endpoint: $s3_endpoint"
+      echo ""
+      echo "This might be normal if the endpoint requires authentication,"
+      echo "but if Kopia fails to connect, troubleshoot with these steps:"
+      echo ""
+      echo "  1. Verify endpoint is correct: $s3_endpoint"
+      echo "  2. Check if S3 service is running"
+      echo "  3. Verify network connectivity: ping $s3_host"
+      echo "  4. Check firewall rules allow access to S3 ports"
+      echo "  5. If using Garage, check: systemctl status garage"
+      echo ""
+      echo "Continuing with Kopia connection attempt..."
+      echo "================================================================"
+    else
+      echo "S3 endpoint is reachable at: $s3_endpoint"
+    fi
 
     ${kopiaSetupPolicies cfg.backups}
 
@@ -131,8 +162,8 @@
     # From here on i expect no errors
     set -xeuo pipefail
 
-    if ${echo} "$connect_output" | ${rg} -q "repository not initialized in the provided storage"; then
-        ${echo} "Repository not initialized, creating..."
+    if echo "$connect_output" | ${rg} -q "repository not initialized in the provided storage"; then
+        echo "Repository not initialized, creating..."
         ${kopiaCreateRepoCmd}
         ${sleep} 10 # For good measure
     fi
