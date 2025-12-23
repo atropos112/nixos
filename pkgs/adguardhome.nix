@@ -108,7 +108,7 @@
           id = 1766475049;
         }
         {
-          enabled = true;
+          enabled = false; # Blocks log.tailscale.com and that's not desireable.
           url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_49.txt";
           name = "HaGeZi's Ultimate Blocklist";
           id = 1766475050;
@@ -150,7 +150,7 @@
           id = 1766475056;
         }
         {
-          enabled = true;
+          enabled = false; # Blocks websites like what is my ip etc.
           url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_69.txt";
           name = "ShadowWhisperer Tracking List";
           id = 1766475057;
@@ -246,7 +246,7 @@
           id = 1766475072;
         }
         {
-          enabled = true;
+          enabled = false; # Blocks pkgs.tailscale.com and thats not desiriable.
           url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt";
           name = "HaGeZi's Encrypted DNS/VPN/TOR/Proxy Bypass";
           id = 1766475073;
