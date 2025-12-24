@@ -23,6 +23,7 @@ _: {
         "nixos" # NixOS config
         ".mozilla" # Firefox config
         ".ollama" # Ollama cache
+        ".claude" # Claude config
 
         ".config/nvim" # Neovim config
         ".config/Element" # Element desktop config.
