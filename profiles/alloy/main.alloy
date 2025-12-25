@@ -6,7 +6,7 @@
 // Send metrics/traces to main Alloy via OTLP
 otelcol.exporter.otlp "default" {
   client {
-    endpoint = "otel:4317"
+    endpoint = "alloy:4317"
     tls {
       insecure = true
     }
