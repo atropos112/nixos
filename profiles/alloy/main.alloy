@@ -117,7 +117,7 @@ loki.source.docker "default" {
 }
 
 loki.relabel "docker" {
-  forward_to    = [loki.write.main_alloy.receiver]
+  forward_to = []
 
   rule {
     target_label = "job"
@@ -154,7 +154,7 @@ loki.source.journal "read" {
 }
 
 loki.relabel "journal" {
-  forward_to    = [loki.write.main_alloy.receiver]
+  forward_to = []
 
   rule {
     target_label = "job"
