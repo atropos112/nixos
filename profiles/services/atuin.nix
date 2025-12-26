@@ -4,10 +4,6 @@
   lib,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
-    atuin
-  ];
-
   home-manager.users.atropos.programs.atuin = {
     enable = true;
     package = pkgs.atuin;
@@ -22,11 +18,10 @@
     settings = {
       sync_address = "http://atuin";
       auto_sync = true;
-      sync_frequency = "10s";
       search_mode = "fuzzy";
       daemon = {
         enabled = true;
-        sync_frequency = "10"; # 10 seconds sync
+        sync_frequency = 300; # 5 minutes
         systemd_socket = true; # set by deamon.enable anyway.
       };
       key_path = config.sops.secrets."atuin/key".path;
@@ -81,7 +76,7 @@
 
       atuin-syncer = {
         description = "Atuin Sync Setup";
-        wantedBy = ["multi-user.target"];
+        wantedBy = ["default.target"];
         requires = ["atuin-auth.service" "atuin-syncer.socket"];
         after = ["network.target"];
         serviceConfig = {
@@ -95,16 +90,23 @@
 
       atuin-auth = {
         description = "Atuin Credential Setup";
-        wantedBy = ["multi-user.target"];
+        wantedBy = ["default.target"];
         before = ["atuin-syncer.service"];
         after = ["network.target"];
         serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
           ExecStart = "${pkgs.writeShellScript "atuin-auth" ''
+            # Skip if already logged in
+            if ${lib.getExe pkgs.atuin} status | grep -q "Username:"; then
+              echo "Already logged in, skipping auth"
+              exit 0
+            fi
+
             USERNAME=$(cat ${config.sops.secrets."atuin/username".path})
             PASSWORD=$(cat ${config.sops.secrets."atuin/password".path})
             MNEMONIC=$(cat ${config.sops.secrets."atuin/mnemonic".path})
 
-            ${lib.getExe pkgs.atuin} logout
             ${lib.getExe pkgs.atuin} login -k "$MNEMONIC" -u "$USERNAME" -p "$PASSWORD"
             ${lib.getExe pkgs.atuin} status
           ''}";
