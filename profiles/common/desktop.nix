@@ -264,6 +264,7 @@ in {
 
   environment.systemPackages =
     (with pkgs; [
+      chromium
       clipse
       libreoffice
       tree-sitter
