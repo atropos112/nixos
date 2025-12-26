@@ -109,5 +109,20 @@ in {
     };
     # Overriding the default config to include docker for docker socket access
     systemd.services.alloy.serviceConfig.SupplementaryGroups = lib.mkForce cfg.supplementaryGroups;
+
+    # Allow alloy to query systemd via dbus for the systemd collector
+    services.dbus.packages = [
+      (pkgs.writeTextDir "share/dbus-1/system.d/alloy-systemd.conf" ''
+        <!DOCTYPE busconfig PUBLIC
+          "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+          "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+        <busconfig>
+          <policy user="alloy">
+            <allow send_destination="org.freedesktop.systemd1"/>
+            <allow receive_sender="org.freedesktop.systemd1"/>
+          </policy>
+        </busconfig>
+      '')
+    ];
   };
 }
