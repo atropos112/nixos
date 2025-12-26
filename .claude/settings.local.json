@@ -1,7 +1,16 @@
 {
-  "enableAllProjectMcpServers": true,
   "permissions": {
-    "allow": ["mcp__loki", "mcp__victoriametrics", "mcp__tempo"]
+    "allow": [
+      "mcp__loki",
+      "mcp__victoriametrics",
+      "mcp__tempo",
+      "WebSearch"
+    ]
   },
-  "enabledMcpjsonServers": ["loki", "tempo", "victoriametrics"]
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "loki",
+    "tempo",
+    "victoriametrics"
+  ]
 }

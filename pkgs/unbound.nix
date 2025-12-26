@@ -3,6 +3,8 @@
     enable = true;
     package = pkgs-stable.unbound;
     resolveLocalQueries = false;
+    checkconf = true;
+    enableRootTrustAnchor = false;
     settings = {
       server = {
         port = "5553";

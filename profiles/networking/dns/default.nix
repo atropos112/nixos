@@ -51,6 +51,9 @@ in {
       listen-addrs = ["127.0.0.1"]; # Listens on your local computer (127.0.0.1).
       listen-ports = [53]; # Default DNS port (port 53). This will handle DNS requests.
       upstream-mode = "parallel";
+      # Reduce timeout from default 2s to 500ms for faster fallback when Tailscale upstreams are unreachable
+      # Tailscale DNS should respond within 100-200ms normally; 500ms gives buffer while enabling quick failover
+      timeout = "500ms";
       verbose = true;
     };
   };
