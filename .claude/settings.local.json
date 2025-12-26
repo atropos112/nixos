@@ -1,0 +1,7 @@
+{
+  "enableAllProjectMcpServers": true,
+  "permissions": {
+    "allow": ["mcp__loki", "mcp__victoriametrics", "mcp__tempo"]
+  },
+  "enabledMcpjsonServers": ["loki", "tempo", "victoriametrics"]
+}

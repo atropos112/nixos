@@ -5,6 +5,7 @@
   inputs,
   ...
 }: let
+  npx = "${pkgs.nodejs_24}/bin/npx";
   writeShellScript = name: script: "${pkgs.writeShellScript name ''
     set -xueo pipefail
     export ORIGINAL_DIR=$(pwd)
@@ -31,6 +32,45 @@ in {
   languages.nix = {
     enable = true;
     lsp.package = nil;
+  };
+
+  claude.code = {
+    enable = true;
+    mcpServers = {
+      tempo = {
+        type = "http";
+        url = "http://tempo-query:3200/api/mcp";
+      };
+      victoriametrics = {
+        type = "stdio";
+        command = "${pkgs.podman}/bin/podman";
+        args = [
+          "run"
+          "-i"
+          "--rm"
+          "-e"
+          "VM_INSTANCE_ENTRYPOINT"
+          "-e"
+          "VM_INSTANCE_TYPE"
+          "ghcr.io/victoriametrics-community/mcp-victoriametrics"
+        ];
+        env = {
+          VM_INSTANCE_ENTRYPOINT = "http://vmselect:8481";
+          VM_INSTANCE_TYPE = "cluster";
+        };
+      };
+      loki = {
+        type = "stdio";
+        command = "${npx}";
+        args = [
+          "-y"
+          "simple-loki-mcp"
+        ];
+        env = {
+          LOKI_ADDR = "http://loki-read:3100";
+        };
+      };
+    };
   };
 
   packages = [
