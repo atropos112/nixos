@@ -70,9 +70,14 @@ prometheus.exporter.unix "default" {
     "perf",
     "powersupply",
     "sysctl",
+    "systemd",
     "vmstat",
   ]
   include_exporter_metrics = true
+
+  systemd {
+    enable_restarts = true
+  }
 }
 
 prometheus.scrape "unix" {

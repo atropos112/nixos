@@ -5,6 +5,9 @@
       "mcp__victoriametrics",
       "mcp__tempo",
       "WebSearch"
+    ],
+    "additionalDirectories": [
+      "/home/atropos/projects/infra/k3s"
     ]
   },
   "enableAllProjectMcpServers": true,
