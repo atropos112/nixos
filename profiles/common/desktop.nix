@@ -264,7 +264,10 @@ in {
 
   environment.systemPackages =
     (with pkgs; [
-      chromium
+      # to run in sandboxed env in claude
+      bubblewrap
+      socat
+
       clipse
       libreoffice
       tree-sitter

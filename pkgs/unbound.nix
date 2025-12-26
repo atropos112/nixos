@@ -1,4 +1,8 @@
-{pkgs-stable, ...}: {
+{
+  pkgs-stable,
+  lib,
+  ...
+}: {
   # Unbound: recursive DNS resolver (no forwarders, queries root servers directly)
   # Privacy note: QNAME minimization is on by default, which reduces info leaked to each
   # nameserver in the chain. However, all queries are plaintext - ISP sees everything.
@@ -21,6 +25,14 @@
         do-tcp = "yes";
         verbosity = "1";
       };
+    };
+  };
+
+  # Fix systemd service type - unbound doesn't support sd_notify properly
+  systemd.services.unbound = {
+    serviceConfig = {
+      Type = lib.mkForce "simple";
+      TimeoutStartSec = "30s";
     };
   };
 
