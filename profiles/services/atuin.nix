@@ -92,7 +92,8 @@
         description = "Atuin Credential Setup";
         wantedBy = ["default.target"];
         before = ["atuin-syncer.service"];
-        after = ["network.target"];
+        after = ["network-online.target"];
+        wants = ["network-online.target"];
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
@@ -111,7 +112,10 @@
             ${lib.getExe pkgs.atuin} status
           ''}";
           Restart = "on-failure";
-          RestartSec = "5s";
+          RestartSec = "30s";
+          # Prevent rapid restart loops - allow 3 restarts in 5 minutes
+          StartLimitIntervalSec = 300;
+          StartLimitBurst = 3;
         };
       };
     };

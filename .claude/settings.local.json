@@ -15,5 +15,9 @@
     "loki",
     "tempo",
     "victoriametrics"
-  ]
+  ],
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  }
 }
