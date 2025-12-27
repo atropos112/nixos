@@ -41,6 +41,9 @@ _: {
 
         ".cache/nvim" # Neovim cache
       ];
+      files = [
+        ".claude.json"
+      ];
     };
   };
 }
