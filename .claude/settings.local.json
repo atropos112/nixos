@@ -4,7 +4,8 @@
       "mcp__loki",
       "mcp__victoriametrics",
       "mcp__tempo",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "additionalDirectories": [
       "/home/atropos/projects/infra/k3s"

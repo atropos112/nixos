@@ -421,6 +421,7 @@ in {
     # They are insecure by default as they are accessible at boot, anyone with physical access to the PC has access to these keys.
     boot.initrd.network = mkIf cfg.encryption.netAtBootForDecryption.enable {
       enable = true;
+      udhcpc.enable = true; # Use udhcpc for DHCP instead of kernel ip=dhcp parameter
       postCommands = ''
         tee -a /root/.profile >/dev/null <<EOF
         if zfs load-key zroot/nixos; then
