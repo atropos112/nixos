@@ -12,7 +12,6 @@
 
     # JDK
     openjdk21
-    openjdk25
 
     # Formatters
     google-java-format
