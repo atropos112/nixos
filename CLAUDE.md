@@ -24,3 +24,8 @@ This is a highly sensitive repository. Follow these rules strictly:
 2. Consider potential side effects
 3. Verify the change is correct
 4. Review the change after making it
+
+### After Making Changes
+
+1. Run `prek -a` to validate changes with pre-commit hooks (alejandra, deadnix, gitleaks, markdownlint, shellcheck, statix)
+2. Fix any issues reported before considering the task complete

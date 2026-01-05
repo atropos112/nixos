@@ -35,7 +35,7 @@ graph TB
     end
 
     subgraph Tailscale["Tailscale Magic DNS"]
-        MagicDNS["100.100.100.100<br/>*.zapus-perch.ts.net"]
+        MagicDNS["100.100.100.100<br/>*.ts.net"]
     end
 
     %% DNSProxy upstream connections based on location
@@ -43,15 +43,15 @@ graph TB
     DNSProxy -->|"London: 9.0.0.1"| AGH1
     DNSProxy -->|"Remote: 100.91.21.102"| AGH1
     DNSProxy -->|"Remote: 100.124.150.44"| AGH2
-    DNSProxy -->|"*.zapus-perch.ts.net"| MagicDNS
+    DNSProxy -->|"*.ts.net"| MagicDNS
 
     %% OpnSense AdGuard Home to Unbound connections
     AGH1 -->|"Local: 127.0.0.1:5553"| UB1
-    AGH1 -->|"*.zapus-perch.ts.net"| MagicDNS
+    AGH1 -->|"*.ts.net"| MagicDNS
 
     %% Orth AdGuard Home to Unbound connections
     AGH2 -->|"Local: 127.0.0.1:5553"| UB2
-    AGH2 -->|"*.zapus-perch.ts.net"| MagicDNS
+    AGH2 -->|"*.ts.net"| MagicDNS
 
     %% Styling
     classDef nodeBox fill:#2d3748,stroke:#4fd1c7,stroke-width:2px,color:#ffffff
@@ -66,9 +66,21 @@ graph TB
 ```
 
 > [!NOTE]
-> Although adguard home will resolve `*.zapus-perch.ts.net` to `100.100.100.100`, the DNSProxy will
-> actually not forward those queries to adguard home anyway but it will itself resolve `*.zapus-perch.ts.net`
+> Although adguard home will resolve `*.ts.net` to `100.100.100.100`, the DNSProxy will
+> actually not forward those queries to adguard home anyway but it will itself resolve `*.ts.net`
 > directly to `100.100.100.100`. The reason AdGuard Home has the resolving is for the case below.
+
+<!-- -->
+
+> [!IMPORTANT]
+> **Domain-specific upstreams are exclusive, not additive.** When using the `[/domain/]upstream` syntax
+> in dnsproxy or AdGuard Home, that upstream is used **only** for matching domains. Other upstreams
+> will not receive those queries, even with `upstream-mode = "parallel"`. The parallel mode only applies
+> when multiple upstreams match the same query scope.
+>
+> From the [dnsproxy docs](https://github.com/AdguardTeam/dnsproxy#specifying-upstreams-for-domains):
+> *"If one or more domains are specified, that upstream is used only for those domains...
+> Everything else will be sent to the default upstreams."*
 
 ### NixOS with AdGuard Home and Unbound
 
@@ -82,12 +94,12 @@ graph TB
     end
 
     subgraph Tailscale["Tailscale Magic DNS"]
-        MagicDNS["100.100.100.100<br/>*.zapus-perch.ts.net"]
+        MagicDNS["100.100.100.100<br/>*.ts.net"]
     end
 
     %% Local AdGuard Home upstream connections
     LocalAGH -->|"Local: 127.0.0.1:5553"| LocalUB
-    LocalAGH -->|"*.zapus-perch.ts.net"| MagicDNS
+    LocalAGH -->|"*.ts.net"| MagicDNS
 
     %% Styling
     classDef nodeBox fill:#2d3748,stroke:#4fd1c7,stroke-width:2px,color:#ffffff
@@ -132,11 +144,11 @@ graph TB
 
     %% OpnSense AdGuard Home to Unbound connections
     AGH1 -->|"Local: 127.0.0.1:5553"| UB1
-    AGH1 -->|"*.zapus-perch.ts.net"| MagicDNS
+    AGH1 -->|"*.ts.net"| MagicDNS
 
     %% Orth AdGuard Home to Unbound connections
     AGH2 -->|"Local: 127.0.0.1:5553"| UB2
-    AGH2 -->|"*.zapus-perch.ts.net"| MagicDNS
+    AGH2 -->|"*.ts.net"| MagicDNS
 
     %% Styling
     classDef nodeBox fill:#2d3748,stroke:#4fd1c7,stroke-width:2px,color:#ffffff
@@ -151,9 +163,9 @@ graph TB
 ```
 
 > [!NOTE]
-> The fact that AdGuard Home would resolve `*.zapus-perch.ts.net` to `100.100.100.100` is only in the picture for completeness.
+> The fact that AdGuard Home would resolve `*.ts.net` to `100.100.100.100` is only in the picture for completeness.
 > It would never actually be used as we go through `100.100.100.100` in the first place and it would
-> resolve the `*.zapus-perch.ts.net` directly there and not pass through to AdGuard Home, there is no cyclic dependency (contrary to what the diagram might suggest).
+> resolve the `*.ts.net` directly there and not pass through to AdGuard Home, there is no cyclic dependency (contrary to what the diagram might suggest).
 
 ## DNS serving configurations
 

@@ -378,9 +378,9 @@
         trusted_proxies = ["127.0.0.0/8" "::1/128"];
         upstream_dns = [
           "127.0.0.1:5553" # Unbound local
-          "[/ts.net/zapus-perch.ts.net/]100.100.100.100" # Tailscale DNS (careful, dns-override points to this so we are close to infinite loop territory)
+          "[/ts.net/]100.100.100.100" # Tailscale MagicDNS for all .ts.net domains
         ];
-        upstream_mode = "parallel"; # Not relevant with only 1 upstream (and one for ts.net/zapusperch)
+        upstream_mode = "parallel"; # Not relevant with only 1 upstream (plus one for ts.net)
         upstream_timeout = "10s";
         use_dns64 = false;
         use_http3_upstreams = false;
