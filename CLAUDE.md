@@ -27,5 +27,24 @@ This is a highly sensitive repository. Follow these rules strictly:
 
 ### After Making Changes
 
-1. Run `prek -a` to validate changes with pre-commit hooks (alejandra, deadnix, gitleaks, markdownlint, shellcheck, statix)
+1. Run `prek -a` to validate changes with pre-commit hooks (alejandra, deadnix, gitleaks, markdownlint, shellcheck, statix). If sandbox restrictions prevent this, run with sandbox disabled.
 2. Fix any issues reported before considering the task complete
+
+## Code Patterns
+
+### Home-Manager Symlinks with mkOutOfStoreSymlink
+
+When creating out-of-store symlinks in home-manager (e.g., for impermanence), use the NixOS-level `config` argument, NOT the home-manager function form. See `pkgs/claude.nix` for the correct pattern:
+
+```nix
+{
+  config,  # NixOS config, NOT home-manager config
+  ...
+}: {
+  home-manager.users.atropos = {
+    home.file.".example".source = config.lib.file.mkOutOfStoreSymlink "/persistent/path";
+  };
+}
+```
+
+Do NOT use the function form `home-manager.users.atropos = {config, ...}: { ... }` unless absolutely necessary.

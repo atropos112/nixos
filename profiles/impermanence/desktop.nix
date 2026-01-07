@@ -43,8 +43,6 @@ _: {
         ".local/share/ZapZap" # Whatsapp for linux cache.
       ];
       files = [
-        ".claude.json"
-        ".claude.json.backup"
       ];
     };
   };

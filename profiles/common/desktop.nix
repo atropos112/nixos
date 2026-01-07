@@ -40,6 +40,7 @@ in {
     ../../pkgs/direnv.nix
     ../../pkgs/nixSearchTV.nix
     ../../pkgs/clipse.nix
+    ../../pkgs/claude.nix
   ];
 
   stylix = {
@@ -653,11 +654,6 @@ in {
     };
 
     programs = {
-      claude-code = {
-        enable = true;
-        package = pkgs-master.claude-code;
-      };
-
       # For locking the screen
       swaylock = {
         enable = true;
