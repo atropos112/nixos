@@ -7,7 +7,8 @@
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(prek:*)"
+      "Bash(prek:*)",
+      "Bash(markdownlint:*)"
     ],
     "additionalDirectories": [
       "/home/atropos/projects/infra/k3s"
