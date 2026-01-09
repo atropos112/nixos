@@ -16,7 +16,7 @@
   # ============================================================================
   watchdogScript = pkgs.writeShellApplication {
     name = "tailscale-watchdog";
-    runtimeInputs = with pkgs; [tailscale jq coreutils systemd];
+    runtimeInputs = with pkgs; [tailscale jq coreutils systemd util-linux];
     text = ''
       set -euo pipefail
 
@@ -56,10 +56,6 @@
 
       echo "tailscale_watchdog_last_run_timestamp_seconds $NOW" >> "$METRICS_TMP"
 
-      # Track if we need to restart
-      SHOULD_RESTART=0
-      RESTART_REASON=""
-
       # Process each peer
       echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | @json' | while read -r peer_json; do
         PEER=$(echo "$peer_json" | jq -r '.value')
@@ -81,8 +77,10 @@
             relay_duration=$((NOW - first_seen))
 
             # State: RELAY_WAITING
-            echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 2" >> "$METRICS_TMP"
-            echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} $relay_duration" >> "$METRICS_TMP"
+            {
+              echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 2"
+              echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} $relay_duration"
+            } >> "$METRICS_TMP"
 
             # Check if peer has been on relay too long
             if [[ "$relay_duration" -gt "$MAX_RELAY_SECONDS" ]]; then
@@ -92,9 +90,12 @@
               rm -f "$state_file"
 
               # Write final metrics before restart
-              echo "tailscale_watchdog_restarts_total $RESTART_COUNT" >> "$METRICS_TMP"
-              echo "tailscale_watchdog_relay_detections_total $DETECTION_COUNT" >> "$METRICS_TMP"
-              echo "tailscale_watchdog_recoveries_total $RECOVERY_COUNT" >> "$METRICS_TMP"
+              {
+                echo "tailscale_watchdog_restarts_total $RESTART_COUNT"
+                echo "tailscale_watchdog_relay_detections_total $DETECTION_COUNT"
+                echo "tailscale_watchdog_recoveries_total $RECOVERY_COUNT"
+              } >> "$METRICS_TMP"
+              chmod 644 "$METRICS_TMP"
               mv "$METRICS_TMP" "$METRICS_FILE"
 
               systemctl restart tailscaled
@@ -109,8 +110,10 @@
             echo "$DETECTION_COUNT" > "$STATE_DIR/.detection_count"
             logger -t tailscale-watchdog "DETECTED: $HOSTNAME transitioned to relay"
 
-            echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 1" >> "$METRICS_TMP"
-            echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
+            {
+              echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 1"
+              echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} 0"
+            } >> "$METRICS_TMP"
           fi
         else
           # State: DIRECT
@@ -122,17 +125,22 @@
             rm -f "$state_file"
           fi
 
-          echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
-          echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
+          {
+            echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 0"
+            echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} 0"
+          } >> "$METRICS_TMP"
         fi
       done
 
       # Write counters
-      echo "tailscale_watchdog_restarts_total $RESTART_COUNT" >> "$METRICS_TMP"
-      echo "tailscale_watchdog_relay_detections_total $DETECTION_COUNT" >> "$METRICS_TMP"
-      echo "tailscale_watchdog_recoveries_total $RECOVERY_COUNT" >> "$METRICS_TMP"
+      {
+        echo "tailscale_watchdog_restarts_total $RESTART_COUNT"
+        echo "tailscale_watchdog_relay_detections_total $DETECTION_COUNT"
+        echo "tailscale_watchdog_recoveries_total $RECOVERY_COUNT"
+      } >> "$METRICS_TMP"
 
-      # Atomic replace
+      # Atomic replace with world-readable permissions for Alloy
+      chmod 644 "$METRICS_TMP"
       mv "$METRICS_TMP" "$METRICS_FILE"
     '';
   };
@@ -180,6 +188,7 @@ in {
           Type = "oneshot";
           ExecStart = "${watchdogScript}/bin/tailscale-watchdog";
           ProtectSystem = "strict";
+          PrivateTmp = true;
           ReadWritePaths = ["/var/lib/tailscale-watchdog" (builtins.dirOf cfg.metricsPath)];
         };
       };

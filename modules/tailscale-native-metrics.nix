@@ -25,11 +25,15 @@
 
       # Get native metrics from tailscale
       if tailscale metrics print > "$METRICS_TMP" 2>/dev/null; then
+        chmod 644 "$METRICS_TMP"
         mv "$METRICS_TMP" "$METRICS_FILE"
       else
         # If metrics command fails, write a down indicator
-        echo "# Tailscale native metrics unavailable" > "$METRICS_FILE"
-        echo "tailscale_native_metrics_up 0" >> "$METRICS_FILE"
+        {
+          echo "# Tailscale native metrics unavailable"
+          echo "tailscale_native_metrics_up 0"
+        } > "$METRICS_FILE"
+        chmod 644 "$METRICS_FILE"
       fi
     '';
   };
@@ -69,6 +73,7 @@ in {
           Type = "oneshot";
           ExecStart = "${nativeMetricsScript}/bin/tailscale-native-metrics";
           ProtectSystem = "strict";
+          PrivateTmp = true;
           ReadWritePaths = [(builtins.dirOf cfg.metricsPath)];
         };
       };

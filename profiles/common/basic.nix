@@ -24,6 +24,7 @@ in {
     ../services/atuin.nix
     ../services/atticClient
     ../../profiles/alloy
+    ../../profiles/tailscale.nix
 
     # Packages
     ../../pkgs/git.nix
@@ -297,17 +298,6 @@ in {
     # systemd-timesyncd is used by default unless something else is set (e.g. chrony)
     # and chrony is considered more reliable.
     chrony.enable = true;
-
-    # vpn mesh to connect to other devices
-    tailscale = {
-      enable = true;
-      authKeyFile = config.sops.secrets."tailscale/key".path;
-      package = pkgs.tailscale;
-      extraUpFlags = [
-        "--hostname=${config.networking.hostName}"
-        "--accept-dns=false" # This is done manually in the networking/dns.nix
-      ];
-    };
 
     openssh = {
       enable = true;

@@ -11,7 +11,8 @@
       "Bash(markdownlint:*)"
     ],
     "additionalDirectories": [
-      "/home/atropos/projects/infra/k3s"
+      "/home/atropos/projects/infra/k3s",
+      "/home/atropos/projects/infra/grafana_dashboards/"
     ]
   },
   "enableAllProjectMcpServers": true,

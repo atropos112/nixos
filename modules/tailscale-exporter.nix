@@ -41,19 +41,19 @@
       HEADER
 
       BACKEND_STATE=$(echo "$STATUS" | jq -r '.BackendState // "Unknown"')
-      if [[ "$BACKEND_STATE" == "Running" ]]; then
-        echo "tailscale_up 1" >> "$METRICS_TMP"
-      else
-        echo "tailscale_up 0" >> "$METRICS_TMP"
-      fi
-
       VERSION=$(echo "$STATUS" | jq -r '.Version // "unknown"')
-      echo "tailscale_version_info{version=\"$VERSION\",hostname=\"$SELF_HOSTNAME\"} 1" >> "$METRICS_TMP"
-
       HEALTH_ISSUES=$(echo "$STATUS" | jq '.Health | length // 0')
-      echo "tailscale_health_issues $HEALTH_ISSUES" >> "$METRICS_TMP"
 
-      echo "tailscale_exporter_last_scrape_timestamp_seconds $NOW" >> "$METRICS_TMP"
+      {
+        if [[ "$BACKEND_STATE" == "Running" ]]; then
+          echo "tailscale_up 1"
+        else
+          echo "tailscale_up 0"
+        fi
+        echo "tailscale_version_info{version=\"$VERSION\",hostname=\"$SELF_HOSTNAME\"} 1"
+        echo "tailscale_health_issues $HEALTH_ISSUES"
+        echo "tailscale_exporter_last_scrape_timestamp_seconds $NOW"
+      } >> "$METRICS_TMP"
 
       # ========== Peer metrics ==========
       cat >> "$METRICS_TMP" << 'HEADER'
@@ -131,11 +131,12 @@
 
         # Info label metric (for joining metadata in queries)
         # Escape quotes in curaddr
-        CURADDR_SAFE=$(echo "$CURADDR" | sed 's/"/\\"/g')
+        CURADDR_SAFE=''${CURADDR//\"/\\\"}
         echo "tailscale_peer_info{peer=\"$HOSTNAME\",os=\"$OS\",relay=\"$RELAY\",curaddr=\"$CURADDR_SAFE\"} 1" >> "$METRICS_TMP"
       done
 
-      # Atomic replace
+      # Atomic replace with world-readable permissions for Alloy
+      chmod 644 "$METRICS_TMP"
       mv "$METRICS_TMP" "$METRICS_FILE"
     '';
   };
@@ -175,6 +176,7 @@ in {
           Type = "oneshot";
           ExecStart = "${exporterScript}/bin/tailscale-exporter";
           ProtectSystem = "strict";
+          PrivateTmp = true;
           ReadWritePaths = [(builtins.dirOf cfg.metricsPath)];
         };
       };
