@@ -33,7 +33,7 @@
       echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | select(.value.Online == true) | .value.DNSName // empty' | while read -r peer_dns; do
         peer_short="''${peer_dns%%.*}"
         if [[ -n "$peer_short" && "$peer_short" != "$SELF_HOSTNAME" && "$peer_short" != "localhost" ]]; then
-          tailscale ping -c 1 --timeout 5s "$peer_short" &>/dev/null || true
+          tailscale ping -c 3 --timeout 5s "$peer_short" &>/dev/null || true
         fi
       done
 

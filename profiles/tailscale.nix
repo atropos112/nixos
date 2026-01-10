@@ -14,10 +14,10 @@
   };
 
   # Enable tailscale monitoring and maintenance components
+  # Note: keepalive removed - exporter and watchdog now ping peers before collecting metrics
   atro.tailscale = {
     exporter.enable = true;
     native-metrics.enable = true;
-    keepalive.enable = true;
     watchdog = {
       enable = true;
       excludePeers = [
