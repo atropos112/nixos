@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  cfg = config.atro.tailscale-native-metrics;
+  cfg = config.atro.tailscale.native-metrics;
   inherit (lib) mkEnableOption mkOption mkIf types;
 
   # ============================================================================
@@ -38,7 +38,7 @@
     '';
   };
 in {
-  options.atro.tailscale-native-metrics = {
+  options.atro.tailscale.native-metrics = {
     enable = mkEnableOption "Native Tailscale metrics via `tailscale metrics print`";
 
     interval = mkOption {

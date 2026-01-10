@@ -5,13 +5,14 @@
 }: let
   autoImports = import ../utils/autoImports.nix {inherit lib;};
 in {
-  # Auto import all directories
   imports =
-    # My modules
+    # My modules (individual .nix files)
     autoImports.importAllNixFiles {
-      exclusions = ["default.nix"]; # Exclude this file to avoid infinite recursion
+      exclusions = ["default.nix"];
       path = ./.;
     }
+    # My modules (subdirectories with default.nix)
+    ++ autoImports.importAllDirectories ./.
     # External modules
     ++ [
       inputs.nix-topology.nixosModules.default

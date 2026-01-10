@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  cfg = config.atro.tailscale-exporter;
+  cfg = config.atro.tailscale.exporter;
   inherit (lib) mkEnableOption mkOption mkIf types;
 
   # ============================================================================
@@ -145,7 +145,7 @@
     '';
   };
 in {
-  options.atro.tailscale-exporter = {
+  options.atro.tailscale.exporter = {
     enable = mkEnableOption "Tailscale per-peer metrics exporter (from tailscale status --json)";
 
     interval = mkOption {
