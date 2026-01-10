@@ -17,10 +17,12 @@
   atro = {
     tailscale-exporter.enable = true;
     tailscale-native-metrics.enable = true;
+    tailscale-watchdog.enable = true;
 
     # Add Alloy config to scrape textfile metrics from /var/lib/alloy/*.prom
     # - tailscale-peers.prom (per-peer metrics from status --json)
     # - tailscale-native.prom (native tailscale metrics print output)
+    # - tailscale-watchdog.prom (watchdog state and counters)
     alloy.configs = [
       {
         priority = 102; # After syncthing (101) but still early
