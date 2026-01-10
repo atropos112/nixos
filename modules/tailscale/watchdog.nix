@@ -85,12 +85,14 @@
 
         CURADDR=$(echo "$PEER" | jq -r '.CurAddr // ""')
         ONLINE=$(echo "$PEER" | jq -r '.Online // false')
+        ACTIVE=$(echo "$PEER" | jq -r '.Active // false')
 
         state_file="$STATE_DIR/peer_$HOSTNAME"
 
-        # Determine if on relay (online but no direct address)
+        # Determine if on relay (online, actively communicating, but no direct address)
+        # Idle peers (active=false) are not considered "on relay" - they just have no connection yet
         is_relay=0
-        if [[ "$ONLINE" == "true" && ( -z "$CURADDR" || "$CURADDR" == "null" ) ]]; then
+        if [[ "$ONLINE" == "true" && "$ACTIVE" == "true" && ( -z "$CURADDR" || "$CURADDR" == "null" ) ]]; then
           is_relay=1
         fi
 
@@ -145,11 +147,11 @@
             } >> "$METRICS_TMP"
           fi
         else
-          # Direct connection
+          # Not on relay (direct connection, idle, or offline)
           if [[ -f "$state_file" ]]; then
             RECOVERY_COUNT=$((RECOVERY_COUNT + 1))
             echo "$RECOVERY_COUNT" > "$STATE_DIR/.recovery_count"
-            logger -t tailscale-watchdog "RECOVERED: $HOSTNAME back to direct"
+            logger -t tailscale-watchdog "RECOVERED: $HOSTNAME no longer on relay"
             rm -f "$state_file"
           fi
 
