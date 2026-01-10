@@ -73,6 +73,17 @@
       LAST_RESTART=$(cat "$STATE_DIR/.last_restart" 2>/dev/null || echo 0)
       COOLDOWN_REMAINING=$((LAST_RESTART + MAX_RELAY_SECONDS - NOW))
 
+      # Wake up online peers with a ping before checking status
+      # This forces connection establishment so we can accurately detect relay vs direct
+      echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | select(.value.Online == true) | .value.HostName // empty' | while read -r peer_hostname; do
+        if [[ -n "$peer_hostname" && "$peer_hostname" != "$SELF_HOSTNAME" && "$peer_hostname" != "localhost" ]]; then
+          tailscale ping -c 1 --timeout 5s "$peer_hostname" &>/dev/null || true
+        fi
+      done
+
+      # Re-fetch status after pings to get accurate connection state
+      STATUS=$(tailscale status --json 2>/dev/null || echo '{}')
+
       # Process each peer
       echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | @json' | while read -r peer_json; do
         PEER=$(echo "$peer_json" | jq -r '.value')
@@ -85,14 +96,12 @@
 
         CURADDR=$(echo "$PEER" | jq -r '.CurAddr // ""')
         ONLINE=$(echo "$PEER" | jq -r '.Online // false')
-        ACTIVE=$(echo "$PEER" | jq -r '.Active // false')
 
         state_file="$STATE_DIR/peer_$HOSTNAME"
 
-        # Determine if on relay (online, actively communicating, but no direct address)
-        # Idle peers (active=false) are not considered "on relay" - they just have no connection yet
+        # Determine if on relay (online but no direct address after ping attempt)
         is_relay=0
-        if [[ "$ONLINE" == "true" && "$ACTIVE" == "true" && ( -z "$CURADDR" || "$CURADDR" == "null" ) ]]; then
+        if [[ "$ONLINE" == "true" && ( -z "$CURADDR" || "$CURADDR" == "null" ) ]]; then
           is_relay=1
         fi
 
@@ -147,7 +156,7 @@
             } >> "$METRICS_TMP"
           fi
         else
-          # Not on relay (direct connection, idle, or offline)
+          # Direct connection or offline
           if [[ -f "$state_file" ]]; then
             RECOVERY_COUNT=$((RECOVERY_COUNT + 1))
             echo "$RECOVERY_COUNT" > "$STATE_DIR/.recovery_count"
