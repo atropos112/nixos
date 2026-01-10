@@ -7,7 +7,8 @@
       "WebSearch",
       "WebFetch",
       "Bash(prek:*)",
-      "Bash(markdownlint:*)"
+      "Bash(markdownlint:*)",
+      "Bash(./validate.py:*)"
     ],
     "additionalDirectories": [
       "/home/atropos/projects/infra/k3s",
@@ -15,7 +16,11 @@
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": ["loki", "tempo", "victoriametrics"],
+  "enabledMcpjsonServers": [
+    "loki",
+    "tempo",
+    "victoriametrics"
+  ],
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true

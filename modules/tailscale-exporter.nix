@@ -42,7 +42,11 @@
 
       BACKEND_STATE=$(echo "$STATUS" | jq -r '.BackendState // "Unknown"')
       VERSION=$(echo "$STATUS" | jq -r '.Version // "unknown"')
-      HEALTH_ISSUES=$(echo "$STATUS" | jq '.Health | length // 0')
+      # Filter out known non-issues (by-design warnings we don't care about)
+      HEALTH_ISSUES=$(echo "$STATUS" | jq '[.Health // [] | .[] | select(
+        (. | test("DNS servers"; "i") | not) and
+        (. | test("accept-routes is false"; "i") | not)
+      )] | length')
 
       {
         if [[ "$BACKEND_STATE" == "Running" ]]; then
