@@ -22,8 +22,21 @@
       STATE_DIR="''${TAILSCALE_WATCHDOG_STATE_DIR:-/var/lib/tailscale-watchdog}"
       METRICS_FILE="''${TAILSCALE_WATCHDOG_METRICS_FILE:-/var/lib/alloy/tailscale-watchdog.prom}"
       MAX_RELAY_SECONDS="''${TAILSCALE_WATCHDOG_MAX_RELAY_SECONDS:-600}"
+      EXCLUDE_PEERS="''${TAILSCALE_WATCHDOG_EXCLUDE_PEERS:-}"
 
       mkdir -p "$STATE_DIR" "$(dirname "$METRICS_FILE")"
+
+      # Check if peer is in exclude list
+      is_excluded() {
+        local peer="$1"
+        IFS=':' read -ra EXCLUDED <<< "$EXCLUDE_PEERS"
+        for excluded in "''${EXCLUDED[@]}"; do
+          if [[ "$peer" == "$excluded" ]]; then
+            return 0
+          fi
+        done
+        return 1
+      }
 
       # Load counters
       RESTART_COUNT=$(cat "$STATE_DIR/.restart_count" 2>/dev/null || echo 0)
@@ -93,7 +106,9 @@
 
             # Check if threshold exceeded
             if [[ "$relay_duration" -gt "$MAX_RELAY_SECONDS" ]]; then
-              if [[ "$COOLDOWN_REMAINING" -gt 0 ]]; then
+              if is_excluded "$HOSTNAME"; then
+                logger -t tailscale-watchdog "EXCLUDED: $HOSTNAME on relay for ''${relay_duration}s, but excluded from watchdog"
+              elif [[ "$COOLDOWN_REMAINING" -gt 0 ]]; then
                 logger -t tailscale-watchdog "COOLDOWN: $HOSTNAME on relay for ''${relay_duration}s, but in cooldown (''${COOLDOWN_REMAINING}s remaining)"
               else
                 logger -t tailscale-watchdog "RESTART: $HOSTNAME on relay for ''${relay_duration}s, restarting tailscaled"
@@ -177,6 +192,12 @@ in {
       default = "/var/lib/alloy/tailscale-watchdog.prom";
       description = "Path to write watchdog metrics";
     };
+
+    excludePeers = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "Peers to exclude from watchdog restarts (e.g., peers behind CGNAT that can't have direct connections)";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -194,6 +215,7 @@ in {
         environment = {
           TAILSCALE_WATCHDOG_MAX_RELAY_SECONDS = toString cfg.maxRelaySeconds;
           TAILSCALE_WATCHDOG_METRICS_FILE = cfg.metricsPath;
+          TAILSCALE_WATCHDOG_EXCLUDE_PEERS = lib.concatStringsSep ":" cfg.excludePeers;
         };
 
         serviceConfig = {

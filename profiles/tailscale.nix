@@ -18,7 +18,11 @@
     exporter.enable = true;
     native-metrics.enable = true;
     keepalive.enable = true;
-    watchdog.enable = true;
+    watchdog = {
+      enable = true;
+      # orth is behind CGNAT (LilaConnect ISP) and can only use relay
+      excludePeers = ["orth"];
+    };
   };
 
   # Add Alloy config to scrape textfile metrics from /var/lib/alloy/*.prom
