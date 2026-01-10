@@ -20,8 +20,11 @@
     keepalive.enable = true;
     watchdog = {
       enable = true;
-      # orth is behind CGNAT (LilaConnect ISP) and can only use relay
-      excludePeers = ["orth"];
+      excludePeers = [
+        "orth" # orth is behind CGNAT (LilaConnect ISP) and can only use relay
+        "p9pf" # p9pf might be on 5G and not have direct connectivity either
+        "frame" # same as p9pf really
+      ];
     };
   };
 
