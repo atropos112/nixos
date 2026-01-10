@@ -5,8 +5,7 @@
       "mcp__victoriametrics",
       "mcp__tempo",
       "WebSearch",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch",
       "Bash(prek:*)",
       "Bash(markdownlint:*)"
     ],
@@ -16,11 +15,7 @@
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "loki",
-    "tempo",
-    "victoriametrics"
-  ],
+  "enabledMcpjsonServers": ["loki", "tempo", "victoriametrics"],
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true
