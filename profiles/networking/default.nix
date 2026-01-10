@@ -9,7 +9,7 @@ _: {
     usePredictableInterfaceNames = false;
     nftables.enable = true;
     firewall.enable = false;
-    enableIPv6 = false;
+    enableIPv6 = true;
   };
 
   systemd = {
