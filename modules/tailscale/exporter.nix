@@ -28,6 +28,18 @@
       SELF_HOSTNAME=$(echo "$STATUS" | jq -r '.Self.HostName // "unknown"')
       NOW=$(date +%s)
 
+      # Wake up online peers with a ping before collecting metrics
+      # This forces connection establishment so we can accurately report relay vs direct
+      echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | select(.value.Online == true) | .value.DNSName // empty' | while read -r peer_dns; do
+        peer_short="''${peer_dns%%.*}"
+        if [[ -n "$peer_short" && "$peer_short" != "$SELF_HOSTNAME" && "$peer_short" != "localhost" ]]; then
+          tailscale ping -c 1 --timeout 5s "$peer_short" &>/dev/null || true
+        fi
+      done
+
+      # Re-fetch status after pings to get accurate connection state
+      STATUS=$(tailscale status --json 2>/dev/null || echo '{}')
+
       # ========== Self/Node metrics ==========
       cat >> "$METRICS_TMP" << 'HEADER'
       # HELP tailscale_up Whether tailscale is running (1=Running, 0=other)
