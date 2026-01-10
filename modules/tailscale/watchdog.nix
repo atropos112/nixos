@@ -75,9 +75,12 @@
 
       # Wake up online peers with a ping before checking status
       # This forces connection establishment so we can accurately detect relay vs direct
-      echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | select(.value.Online == true) | .value.HostName // empty' | while read -r peer_hostname; do
-        if [[ -n "$peer_hostname" && "$peer_hostname" != "$SELF_HOSTNAME" && "$peer_hostname" != "localhost" ]]; then
-          tailscale ping -c 1 --timeout 5s "$peer_hostname" &>/dev/null || true
+      # Use DNSName (short form) since HostName may not be resolvable via Tailscale DNS
+      echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | select(.value.Online == true) | .value.DNSName // empty' | while read -r peer_dns; do
+        # Extract short name from DNSName (e.g., "rpi3.tailnet.ts.net." -> "rpi3")
+        peer_short="''${peer_dns%%.*}"
+        if [[ -n "$peer_short" && "$peer_short" != "$SELF_HOSTNAME" && "$peer_short" != "localhost" ]]; then
+          tailscale ping -c 1 --timeout 5s "$peer_short" &>/dev/null || true
         fi
       done
 
@@ -87,17 +90,19 @@
       # Process each peer
       echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | @json' | while read -r peer_json; do
         PEER=$(echo "$peer_json" | jq -r '.value')
-        HOSTNAME=$(echo "$PEER" | jq -r '.HostName // "unknown"')
+        DNSNAME=$(echo "$PEER" | jq -r '.DNSName // ""')
+        # Extract short name from DNSName (e.g., "rpi3.tailnet.ts.net." -> "rpi3")
+        PEERNAME="''${DNSNAME%%.*}"
 
         # Skip self and localhost
-        if [[ "$HOSTNAME" == "$SELF_HOSTNAME" || "$HOSTNAME" == "localhost" || -z "$HOSTNAME" ]]; then
+        if [[ -z "$PEERNAME" || "$PEERNAME" == "$SELF_HOSTNAME" || "$PEERNAME" == "localhost" ]]; then
           continue
         fi
 
         CURADDR=$(echo "$PEER" | jq -r '.CurAddr // ""')
         ONLINE=$(echo "$PEER" | jq -r '.Online // false')
 
-        state_file="$STATE_DIR/peer_$HOSTNAME"
+        state_file="$STATE_DIR/peer_$PEERNAME"
 
         # Determine if on relay (online but no direct address after ping attempt)
         is_relay=0
@@ -111,18 +116,18 @@
             relay_duration=$((NOW - first_seen))
 
             {
-              echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 1"
-              echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} $relay_duration"
+              echo "tailscale_watchdog_peer_state{peer=\"$PEERNAME\"} 1"
+              echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$PEERNAME\"} $relay_duration"
             } >> "$METRICS_TMP"
 
             # Check if threshold exceeded
             if [[ "$relay_duration" -gt "$MAX_RELAY_SECONDS" ]]; then
-              if is_excluded "$HOSTNAME"; then
-                logger -t tailscale-watchdog "EXCLUDED: $HOSTNAME on relay for ''${relay_duration}s, but excluded from watchdog"
+              if is_excluded "$PEERNAME"; then
+                logger -t tailscale-watchdog "EXCLUDED: $PEERNAME on relay for ''${relay_duration}s, but excluded from watchdog"
               elif [[ "$COOLDOWN_REMAINING" -gt 0 ]]; then
-                logger -t tailscale-watchdog "COOLDOWN: $HOSTNAME on relay for ''${relay_duration}s, but in cooldown (''${COOLDOWN_REMAINING}s remaining)"
+                logger -t tailscale-watchdog "COOLDOWN: $PEERNAME on relay for ''${relay_duration}s, but in cooldown (''${COOLDOWN_REMAINING}s remaining)"
               else
-                logger -t tailscale-watchdog "RESTART: $HOSTNAME on relay for ''${relay_duration}s, restarting tailscaled"
+                logger -t tailscale-watchdog "RESTART: $PEERNAME on relay for ''${relay_duration}s, restarting tailscaled"
                 RESTART_COUNT=$((RESTART_COUNT + 1))
                 echo "$RESTART_COUNT" > "$STATE_DIR/.restart_count"
                 echo "$NOW" > "$STATE_DIR/.last_restart"
@@ -141,18 +146,18 @@
                 exit 0
               fi
             else
-              logger -t tailscale-watchdog "WAITING: $HOSTNAME on relay for ''${relay_duration}s (threshold: ''${MAX_RELAY_SECONDS}s)"
+              logger -t tailscale-watchdog "WAITING: $PEERNAME on relay for ''${relay_duration}s (threshold: ''${MAX_RELAY_SECONDS}s)"
             fi
           else
             # First detection of relay state
             echo "$NOW" > "$state_file"
             DETECTION_COUNT=$((DETECTION_COUNT + 1))
             echo "$DETECTION_COUNT" > "$STATE_DIR/.detection_count"
-            logger -t tailscale-watchdog "DETECTED: $HOSTNAME transitioned to relay"
+            logger -t tailscale-watchdog "DETECTED: $PEERNAME transitioned to relay"
 
             {
-              echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 1"
-              echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} 0"
+              echo "tailscale_watchdog_peer_state{peer=\"$PEERNAME\"} 1"
+              echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$PEERNAME\"} 0"
             } >> "$METRICS_TMP"
           fi
         else
@@ -160,13 +165,13 @@
           if [[ -f "$state_file" ]]; then
             RECOVERY_COUNT=$((RECOVERY_COUNT + 1))
             echo "$RECOVERY_COUNT" > "$STATE_DIR/.recovery_count"
-            logger -t tailscale-watchdog "RECOVERED: $HOSTNAME no longer on relay"
+            logger -t tailscale-watchdog "RECOVERED: $PEERNAME no longer on relay"
             rm -f "$state_file"
           fi
 
           {
-            echo "tailscale_watchdog_peer_state{peer=\"$HOSTNAME\"} 0"
-            echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$HOSTNAME\"} 0"
+            echo "tailscale_watchdog_peer_state{peer=\"$PEERNAME\"} 0"
+            echo "tailscale_watchdog_peer_relay_duration_seconds{peer=\"$PEERNAME\"} 0"
           } >> "$METRICS_TMP"
         fi
       done

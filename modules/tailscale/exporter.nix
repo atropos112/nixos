@@ -81,7 +81,10 @@
 
       echo "$STATUS" | jq -r '.Peer // {} | to_entries[] | @json' | while read -r peer_json; do
         PEER=$(echo "$peer_json" | jq -r '.value')
-        HOSTNAME=$(echo "$PEER" | jq -r '.HostName // "unknown"')
+        DNSNAME=$(echo "$PEER" | jq -r '.DNSName // ""')
+        # Extract short name from DNSName (e.g., "rpi3.tailnet.ts.net." -> "rpi3")
+        PEERNAME="''${DNSNAME%%.*}"
+        [[ -z "$PEERNAME" ]] && PEERNAME="unknown"
         OS=$(echo "$PEER" | jq -r '.OS // "unknown"')
         RELAY=$(echo "$PEER" | jq -r '.Relay // ""')
         CURADDR=$(echo "$PEER" | jq -r '.CurAddr // ""')
@@ -94,49 +97,49 @@
 
         # Online
         if [[ "$ONLINE" == "true" ]]; then
-          echo "tailscale_peer_online{peer=\"$HOSTNAME\"} 1" >> "$METRICS_TMP"
+          echo "tailscale_peer_online{peer=\"$PEERNAME\"} 1" >> "$METRICS_TMP"
         else
-          echo "tailscale_peer_online{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
+          echo "tailscale_peer_online{peer=\"$PEERNAME\"} 0" >> "$METRICS_TMP"
         fi
 
         # Direct vs Relay (CurAddr non-empty = direct connection)
         if [[ -n "$CURADDR" && "$CURADDR" != "null" ]]; then
-          echo "tailscale_peer_direct{peer=\"$HOSTNAME\"} 1" >> "$METRICS_TMP"
+          echo "tailscale_peer_direct{peer=\"$PEERNAME\"} 1" >> "$METRICS_TMP"
         else
-          echo "tailscale_peer_direct{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
+          echo "tailscale_peer_direct{peer=\"$PEERNAME\"} 0" >> "$METRICS_TMP"
         fi
 
         # Active
         if [[ "$ACTIVE" == "true" ]]; then
-          echo "tailscale_peer_active{peer=\"$HOSTNAME\"} 1" >> "$METRICS_TMP"
+          echo "tailscale_peer_active{peer=\"$PEERNAME\"} 1" >> "$METRICS_TMP"
         else
-          echo "tailscale_peer_active{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
+          echo "tailscale_peer_active{peer=\"$PEERNAME\"} 0" >> "$METRICS_TMP"
         fi
 
         # Exit node
         if [[ "$EXIT_NODE" == "true" ]]; then
-          echo "tailscale_peer_exit_node{peer=\"$HOSTNAME\"} 1" >> "$METRICS_TMP"
+          echo "tailscale_peer_exit_node{peer=\"$PEERNAME\"} 1" >> "$METRICS_TMP"
         else
-          echo "tailscale_peer_exit_node{peer=\"$HOSTNAME\"} 0" >> "$METRICS_TMP"
+          echo "tailscale_peer_exit_node{peer=\"$PEERNAME\"} 0" >> "$METRICS_TMP"
         fi
 
         # Bytes counters
-        echo "tailscale_peer_rx_bytes_total{peer=\"$HOSTNAME\"} $RX" >> "$METRICS_TMP"
-        echo "tailscale_peer_tx_bytes_total{peer=\"$HOSTNAME\"} $TX" >> "$METRICS_TMP"
+        echo "tailscale_peer_rx_bytes_total{peer=\"$PEERNAME\"} $RX" >> "$METRICS_TMP"
+        echo "tailscale_peer_tx_bytes_total{peer=\"$PEERNAME\"} $TX" >> "$METRICS_TMP"
 
         # Last handshake (seconds ago)
         if [[ "$LAST_HS" != "0001-01-01T00:00:00Z" && "$LAST_HS" != "null" ]]; then
           HS_EPOCH=$(date -d "$LAST_HS" +%s 2>/dev/null || echo 0)
           if [[ "$HS_EPOCH" -gt 0 ]]; then
             HS_AGO=$((NOW - HS_EPOCH))
-            echo "tailscale_peer_last_handshake_seconds_ago{peer=\"$HOSTNAME\"} $HS_AGO" >> "$METRICS_TMP"
+            echo "tailscale_peer_last_handshake_seconds_ago{peer=\"$PEERNAME\"} $HS_AGO" >> "$METRICS_TMP"
           fi
         fi
 
         # Info label metric (for joining metadata in queries)
         # Escape quotes in curaddr
         CURADDR_SAFE=''${CURADDR//\"/\\\"}
-        echo "tailscale_peer_info{peer=\"$HOSTNAME\",os=\"$OS\",relay=\"$RELAY\",curaddr=\"$CURADDR_SAFE\"} 1" >> "$METRICS_TMP"
+        echo "tailscale_peer_info{peer=\"$PEERNAME\",os=\"$OS\",relay=\"$RELAY\",curaddr=\"$CURADDR_SAFE\"} 1" >> "$METRICS_TMP"
       done
 
       # Atomic replace with world-readable permissions for Alloy
