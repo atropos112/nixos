@@ -54,7 +54,7 @@
       };
       filters = [
         {
-          enabled = true;
+          enabled = false; # This blocks fc.yahoo.com, it is yahoo's ad server but things lik yfinance stop working when this is enabled.
           url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_24.txt";
           name = "1Hosts (Lite)";
           id = 1766475041;

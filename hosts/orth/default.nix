@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     ../../profiles/common/basic.nix
     ../../profiles/common/server.nix
@@ -9,6 +13,9 @@
     ./hardware.nix
     ../../profiles/networking/dns/stoke.nix
   ];
+
+  # orth is behind a GNAT so everything to it is via relay, no point restarting so no point for watchdog.
+  atro.tailscale.watchdog.enable = lib.mkForce false;
 
   services = {
     # Is outside of my main location.
