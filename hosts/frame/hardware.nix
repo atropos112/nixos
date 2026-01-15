@@ -8,6 +8,8 @@
     ../../profiles/impermanence/desktop.nix
   ];
 
+  services.fwupd.enable = true;
+
   # lib.mkDefault won't work here as nixos-hardware also does lib.mkDefault
   # so have to hard set it here.
   boot.kernelPackages = pkgs.linuxPackages_6_17;

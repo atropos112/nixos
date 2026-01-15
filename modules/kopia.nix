@@ -19,13 +19,14 @@
     name = "kopia-before-snapshot";
     runtimeInputs = with pkgs; [networkmanager coreutils];
     text = ''
-      if [ -z "${cfg.networkInterface}" ]; then
+      INTERFACE="${cfg.networkInterface}"
+      if [ -z "$INTERFACE" ]; then
         # No interface specified, always proceed
         exit 0
       fi
 
       # IS_METERED will be "yes", "no" or "unknown"
-      IS_METERED=$(nmcli -t -f GENERAL.METERED dev show ${cfg.networkInterface} | cut -d: -f2 | cut -d' ' -f1)
+      IS_METERED=$(nmcli -t -f GENERAL.METERED dev show "$INTERFACE" | cut -d: -f2 | cut -d' ' -f1)
 
       if [ "$IS_METERED" = "yes" ]; then
         echo "On a metered connection, skipping backup"
