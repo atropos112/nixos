@@ -41,6 +41,7 @@ in {
     ../../pkgs/nixSearchTV.nix
     ../../pkgs/clipse.nix
     ../../pkgs/claude.nix
+    ../../pkgs/opencode.nix
   ];
 
   stylix = {
