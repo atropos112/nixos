@@ -258,6 +258,8 @@ in {
     #     libgcc # sqlalchemy
     #   ];
     # };
+
+    adb.enable = true;
   };
 
   # Allowing for "sshfs rzr:/mnt/media /mnt/media -o allow_other" so that docker can use the mount as well not just the user.
