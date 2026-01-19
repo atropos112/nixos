@@ -39,7 +39,7 @@ in {
     mcpServers = {
       tempo = {
         type = "http";
-        url = "http://tempo-query:3200/api/mcp";
+        url = "https://tempo.atro.xyz/api/mcp";
       };
       victoriametrics = {
         type = "stdio";
@@ -55,7 +55,7 @@ in {
           "ghcr.io/victoriametrics-community/mcp-victoriametrics"
         ];
         env = {
-          VM_INSTANCE_ENTRYPOINT = "http://vmselect:8481";
+          VM_INSTANCE_ENTRYPOINT = "https://vmselect.atro.xyz";
           VM_INSTANCE_TYPE = "cluster";
         };
       };
@@ -67,7 +67,7 @@ in {
           "simple-loki-mcp"
         ];
         env = {
-          LOKI_ADDR = "http://loki-read:3100";
+          LOKI_ADDR = "https://loki.atro.xyz";
         };
       };
     };
