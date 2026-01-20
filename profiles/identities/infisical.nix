@@ -37,7 +37,7 @@ in {
     infisical
   ];
   environment.sessionVariables = {
-    INFISICAL_API_URL = "http://creds";
+    INFISICAL_API_URL = "http://infisical.atro.xyz";
     ATRO_INFISICAL_PROJECT_ID_PATH = projectIdPath;
     ATRO_INFISICAL_TOKEN_PATH = tokenPath;
   };
