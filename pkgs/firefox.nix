@@ -58,6 +58,9 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${x}/latest.xpi";
           installation_mode = "force_installed";
         }) [
+          # Adaptive Tab Bar Color
+          "ATBC@EasonWong"
+
           # Consent-O-Matic
           "gdpr@cavi.au.dk"
 
