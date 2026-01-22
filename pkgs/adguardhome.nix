@@ -234,7 +234,7 @@
           id = 1766475070;
         }
         {
-          enabled = true;
+          enabled = false; # Blocks backoffice.bsport.io which breaks functionality of my 12x3gym.co.uk
           url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt";
           name = "HaGeZi's Gambling Blocklist";
           id = 1766475071;
