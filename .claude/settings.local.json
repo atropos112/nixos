@@ -8,7 +8,13 @@
       "WebFetch",
       "Bash(prek:*)",
       "Bash(markdownlint:*)",
-      "Bash(./validate.py:*)"
+      "Bash(./validate.py:*)",
+      "Bash(resolvectl status:*)",
+      "Bash(dig:*)",
+      "Bash(curl:*)",
+      "Bash(getent hosts:*)",
+      "Bash(ping:*)",
+      "Bash(host:*)"
     ],
     "additionalDirectories": [
       "/home/atropos/projects/infra/k3s",
