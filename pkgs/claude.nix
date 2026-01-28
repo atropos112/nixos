@@ -1,4 +1,6 @@
 {pkgs-master, ...}: {
+  environment.sessionVariables.CLAUDE_CONFIG_DIR = "/persistent/home/atropos/projects/claude";
+
   # For mkOutOfStoreSymlink have to use home-manager's config.lib
   home-manager.users.atropos = {config, ...}: {
     home.file = {

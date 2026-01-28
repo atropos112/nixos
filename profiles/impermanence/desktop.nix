@@ -23,7 +23,6 @@ _: {
 
         ".mozilla" # Firefox config
         ".ollama" # Ollama cache
-        ".claude" # Claude config
         ".wakatime" # Wakatime downloads some cache (some bins etc)
 
         ".cache/ZapZap" # Whatsapp for linux cache.
