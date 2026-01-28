@@ -1,5 +1,7 @@
 {pkgs-master, ...}: {
-  environment.sessionVariables.CLAUDE_CONFIG_DIR = "/persistent/home/atropos/projects/claude";
+  # WARN: Using this env var doesn't always work, things like LSP plugins do not respect it and complain
+  # there is no ~/.claude dir.
+  # environment.sessionVariables.CLAUDE_CONFIG_DIR = "/persistent/home/atropos/projects/claude";
 
   # For mkOutOfStoreSymlink have to use home-manager's config.lib
   home-manager.users.atropos = {config, ...}: {
@@ -11,6 +13,11 @@
       ".claude.json.backup" = {
         source = config.lib.file.mkOutOfStoreSymlink "/persistent/home/atropos/.claude.json.backup";
         force = true;
+      };
+      ".claude" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/persistent/home/atropos/projects/claude";
+        force = true;
+        recursive = true;
       };
     };
 

@@ -240,7 +240,7 @@
           id = 1766475071;
         }
         {
-          enabled = true;
+          enabled = false; # Blocks a lot of useful services like webhooks.fyi,
           url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_56.txt";
           name = "HaGeZi's The World's Most Abused TLDs";
           id = 1766475072;
